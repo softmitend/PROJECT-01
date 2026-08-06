@@ -1,0 +1,57 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - ..:/workspaces/PROJECT-01:cached
+
+    command: sleep infinity
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.4
+
+    restart: unless-stopped
+
+    environment:
+      MYSQL_DATABASE: project-01
+      MYSQL_USER: softmitend
+      MYSQL_PASSWORD: project01
+      MYSQL_ROOT_PASSWORD: project01
+
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+
+    restart: unless-stopped
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+
+    ports:
+      - "8080:80"
+
+volumes:
+  mysql-data:
