@@ -56,6 +56,23 @@ DB_CONNECTION=pgsql
 DB_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require
 ```
 
+Jika tetap menggunakan MySQL/phpMyAdmin, database MySQL harus berada pada
+hosting eksternal yang memiliki alamat publik. Contoh konfigurasi Vercel:
+
+```text
+DB_CONNECTION=mysql
+DB_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
+```
+
+Untuk Railway, gunakan URL koneksi publik/TCP Proxy sebagai `DB_URL`. Entry
+point juga mengenali `MYSQL_PUBLIC_URL` dan `MYSQL_URL`, tetapi hostname private
+seperti `*.railway.internal` tidak dapat diakses dari Vercel.
+
+`127.0.0.1` dan `localhost` tidak dapat dipakai dari Vercel. phpMyAdmin hanya
+antarmuka untuk mengelola MySQL, bukan server database. Jalankan phpMyAdmin pada
+hosting/container terpisah dan arahkan `PMA_HOST` serta `PMA_PORT` ke MySQL
+online yang sama. Jangan menaruh kredensial database di repository.
+
 ### 2. Tambahkan Environment Variables di Vercel
 
 Tambahkan minimal variabel berikut untuk Production, Preview, dan Development sesuai kebutuhan:
@@ -95,6 +112,12 @@ $env:DB_URL='postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require'
 php artisan migrate --force
 php artisan db:seed --force
 ```
+
+Untuk database MySQL baru, schema juga dapat di-import langsung melalui
+phpMyAdmin menggunakan `database/schema/mysql-schema.sql`. Pilih database yang
+masih kosong sebelum import karena script tersebut menghapus tabel dengan nama
+yang sama. Setelah import berhasil, jalankan `php artisan db:seed --force` jika
+data awal dan akun admin demo diperlukan.
 
 Seeder membuat akun demo. Ganti password admin dan hapus data demo sebelum website production digunakan secara publik.
 

@@ -17,6 +17,12 @@ $setDefaultEnvironment = static function (string $key, string $value): void {
     $_SERVER[$key] = $value;
 };
 
+$forceEnvironment = static function (string $key, string $value): void {
+    putenv($key.'='.$value);
+    $_ENV[$key] = $value;
+    $_SERVER[$key] = $value;
+};
+
 $temporaryStorage = '/tmp/oceanpaws-storage';
 
 foreach ([
@@ -51,6 +57,25 @@ $setDefaultEnvironment('APP_PACKAGES_CACHE', '/tmp/oceanpaws-cache/packages.php'
 $setDefaultEnvironment('APP_ROUTES_CACHE', '/tmp/oceanpaws-cache/routes.php');
 $setDefaultEnvironment('APP_SERVICES_CACHE', '/tmp/oceanpaws-cache/services.php');
 
+// Values copied from a local .env must not make a Vercel function depend on
+// local database-backed sessions, cache, queues, or expose debug traces.
+if (getenv('VERCEL') !== false) {
+    foreach ([
+        'APP_ENV' => 'production',
+        'APP_DEBUG' => 'false',
+        'LOG_CHANNEL' => 'stderr',
+        'LOG_STACK' => 'stderr',
+        'CACHE_STORE' => 'array',
+        'SESSION_DRIVER' => 'cookie',
+        'SESSION_ENCRYPT' => 'true',
+        'SESSION_SECURE_COOKIE' => 'true',
+        'QUEUE_CONNECTION' => 'sync',
+        'FILESYSTEM_DISK' => 'local',
+    ] as $key => $value) {
+        $forceEnvironment($key, $value);
+    }
+}
+
 if (getenv('APP_URL') === false) {
     $vercelHost = getenv('VERCEL_PROJECT_PRODUCTION_URL') ?: getenv('VERCEL_URL');
 
@@ -61,6 +86,8 @@ if (getenv('APP_URL') === false) {
 
 if (getenv('DB_URL') === false) {
     $databaseUrl = getenv('DATABASE_URL')
+        ?: getenv('MYSQL_PUBLIC_URL')
+        ?: getenv('MYSQL_URL')
         ?: getenv('POSTGRES_URL')
         ?: getenv('POSTGRES_PRISMA_URL');
 
