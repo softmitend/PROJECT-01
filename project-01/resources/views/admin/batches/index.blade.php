@@ -1,23 +1,32 @@
 <x-layouts.app title="Batch">
-    <x-page-heading title="Batch" description="Kelola nomor batch, status batch, dan member yang ikut batch.">
-        <x-slot:action><a class="rounded-md bg-zinc-900 px-4 py-2 text-sm text-white" href="{{ route('admin.batches.create', [], false) }}">Tambah Batch</a></x-slot:action>
+    <x-page-heading title="Batch" description="Kelola periode pembelian dan pantau progres setiap batch.">
+        <x-slot:action><a class="admin-primary-action" href="{{ route('admin.batches.create', [], false) }}">+ Tambah batch</a></x-slot:action>
     </x-page-heading>
-    <form class="mb-4 grid gap-2 sm:grid-cols-[1fr_220px_auto]">
-        <input class="rounded-md border border-zinc-300 px-3 py-2 text-sm" name="q" value="{{ request('q') }}" placeholder="Cari nomor atau nama batch">
-        <select name="status_id" class="rounded-md border border-zinc-300 px-3 py-2 text-sm"><option value="">Semua status</option>@foreach($statuses as $status)<option value="{{ $status->id }}" @selected(request('status_id') == $status->id)>{{ $status->name }}</option>@endforeach</select>
-        <button class="rounded-md border border-zinc-300 px-4 py-2 text-sm">Filter</button>
-    </form>
-    <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
-        <table class="min-w-full divide-y divide-zinc-200 text-sm">
-            <thead class="bg-zinc-100 text-left text-xs uppercase text-zinc-500"><tr><th class="px-4 py-3">Batch</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Pesanan</th><th class="px-4 py-3">Item</th><th class="px-4 py-3">Arsip</th><th class="px-4 py-3"></th></tr></thead>
-            <tbody class="divide-y divide-zinc-100">
-                @forelse ($batches as $batch)
-                    <tr><td class="px-4 py-3"><div class="font-medium">{{ $batch->batch_number }}</div><div class="text-zinc-500">{{ $batch->batch_name }}</div></td><td class="px-4 py-3"><x-status-badge :status="$batch->currentStatus" /></td><td class="px-4 py-3">{{ $batch->orders_count }}</td><td class="px-4 py-3">{{ $batch->items_count }}</td><td class="px-4 py-3">{{ $batch->is_archived ? 'Ya' : 'Tidak' }}</td><td class="px-4 py-3 text-right"><a href="{{ route('admin.batches.show', $batch, false) }}">Detail</a></td></tr>
-                @empty
-                    <tr><td colspan="6" class="px-4 py-8 text-center text-zinc-500">Belum ada batch.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+    <div class="order-table-card">
+        <form class="order-table-toolbar">
+            <input class="min-w-0 flex-1" name="q" value="{{ request('q') }}" placeholder="Cari nomor atau nama batch...">
+            <select name="status_id" class="sm:max-w-56"><option value="">Semua status</option>@foreach($statuses as $status)<option value="{{ $status->id }}" @selected(request('status_id') == $status->id)>{{ $status->name }}</option>@endforeach</select>
+            <button class="order-table-toolbar-button" type="submit"><svg viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h14l-5.5 6v5l-3 1v-6L3 4Z"/></svg>Filter</button>
+        </form>
+        <div class="order-table-scroll">
+            <table class="order-table">
+                <thead><tr><th>Batch</th><th>Status</th><th>Pesanan</th><th>Item</th><th>Arsip</th><th><span class="sr-only">Aksi</span></th></tr></thead>
+                <tbody>
+                    @forelse ($batches as $batch)
+                        <tr>
+                            <td><div class="order-table-primary">{{ $batch->batch_number }}</div><div class="order-table-secondary">{{ $batch->batch_name ?: 'Tanpa nama batch' }}</div></td>
+                            <td><x-status-badge :status="$batch->currentStatus" /></td>
+                            <td class="font-semibold text-zinc-700">{{ $batch->orders_count }}</td>
+                            <td class="text-zinc-600">{{ $batch->items_count }}</td>
+                            <td><span class="rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $batch->is_archived ? 'bg-amber-50 text-amber-700' : 'bg-blue-50 text-blue-700' }}">{{ $batch->is_archived ? 'Diarsipkan' : 'Aktif' }}</span></td>
+                            <td class="text-right"><a class="order-table-action" href="{{ route('admin.batches.show', $batch, false) }}">Detail</a></td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="6" class="py-12 text-center text-zinc-400">Belum ada batch.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div class="order-table-footer"><span>Menampilkan {{ $batches->firstItem() ?? 0 }}–{{ $batches->lastItem() ?? 0 }} dari {{ $batches->total() }} batch</span><div>{{ $batches->links() }}</div></div>
     </div>
-    <div class="mt-4">{{ $batches->links() }}</div>
 </x-layouts.app>

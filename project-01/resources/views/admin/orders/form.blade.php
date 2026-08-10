@@ -1,36 +1,135 @@
 <x-layouts.app title="{{ $order->exists ? 'Edit Pesanan' : 'Tambah Pesanan' }}">
-    <x-page-heading title="{{ $order->exists ? 'Edit Pesanan' : 'Tambah Pesanan' }}" />
-    <form method="POST" action="{{ $order->exists ? route('admin.member-orders.update', $order, false) : route('admin.member-orders.store', [], false) }}" class="space-y-5">
-        @csrf
-        @if($order->exists) @method('PUT') @endif
-        <section class="grid gap-4 rounded-lg border border-zinc-200 bg-white p-5 shadow-sm md:grid-cols-2">
-            <x-text-input label="Kode order" name="order_code" :value="$order->order_code ?: 'ORD-'.now()->format('YmdHis')" required />
-            <label class="block"><span class="text-sm font-medium">Member</span><select name="member_id" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm">@foreach($members as $member)<option value="{{ $member->id }}" @selected(old('member_id', $order->member_id) == $member->id)>{{ $member->display_name }} · {{ $member->member_code }}</option>@endforeach</select></label>
-            <label class="block"><span class="text-sm font-medium">Batch</span><select name="batch_id" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm">@foreach($batches as $batch)<option value="{{ $batch->id }}" @selected(old('batch_id', $order->batch_id) == $batch->id)>{{ $batch->batch_number }}</option>@endforeach</select></label>
-            <label class="block"><span class="text-sm font-medium">Override status pesanan</span><select name="override_status_id" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm"><option value="">Ikuti status batch</option>@foreach($orderStatuses as $status)<option value="{{ $status->id }}" @selected(old('override_status_id', $order->override_status_id) == $status->id)>{{ $status->name }}</option>@endforeach</select></label>
-            <x-text-input label="Status pembayaran" name="payment_status" :value="$order->payment_status" />
-            <label class="block md:col-span-2"><span class="text-sm font-medium">Catatan</span><textarea name="notes" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm">{{ old('notes', $order->notes) }}</textarea></label>
-        </section>
+    <x-admin-form-shell
+        title="{{ $order->exists ? 'Edit Pesanan' : 'Tambah Pesanan' }}"
+        eyebrow="Pesanan Customer"
+        description="Pilih customer dan batch, lalu tambahkan produk dari katalog pembelian."
+        max-width="max-w-6xl"
+    >
+        <form method="POST" action="{{ $order->exists ? route('admin.member-orders.update', $order, false) : route('admin.member-orders.store', [], false) }}">
+            @csrf
+            @if($order->exists) @method('PUT') @endif
 
-        <section class="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
-            <div class="mb-3 font-semibold">Item Jajanan</div>
-            @php($rows = old('items', $order->items?->toArray() ?: [['quantity' => 1], ['quantity' => 1], ['quantity' => 1]]))
-            <div class="space-y-3">
-                @foreach($rows as $i => $item)
-                    <div class="grid gap-3 rounded-md border border-zinc-200 p-3 md:grid-cols-6">
-                        <input type="hidden" name="items[{{ $i }}][id]" value="{{ $item['id'] ?? '' }}">
-                        <label class="block md:col-span-2"><span class="text-xs font-medium text-zinc-600">Nama item</span><input name="items[{{ $i }}][item_name]" value="{{ $item['item_name'] ?? '' }}" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm" {{ $i === 0 ? 'required' : '' }}></label>
-                        <label class="block"><span class="text-xs font-medium text-zinc-600">Varian</span><input name="items[{{ $i }}][variant]" value="{{ $item['variant'] ?? '' }}" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm"></label>
-                        <label class="block"><span class="text-xs font-medium text-zinc-600">Qty</span><input name="items[{{ $i }}][quantity]" type="number" min="1" value="{{ $item['quantity'] ?? 1 }}" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm"></label>
-                        <label class="block"><span class="text-xs font-medium text-zinc-600">Harga</span><input name="items[{{ $i }}][unit_price]" type="number" min="0" step="0.01" value="{{ $item['unit_price'] ?? '' }}" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm"></label>
-                        <label class="block"><span class="text-xs font-medium text-zinc-600">Status item</span><select name="items[{{ $i }}][override_status_id]" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm"><option value="">Ikuti pesanan</option>@foreach($itemStatuses as $status)<option value="{{ $status->id }}" @selected(($item['override_status_id'] ?? null) == $status->id)>{{ $status->name }}</option>@endforeach</select></label>
-                        <label class="block md:col-span-6"><span class="text-xs font-medium text-zinc-600">Catatan item</span><input name="items[{{ $i }}][notes]" value="{{ $item['notes'] ?? '' }}" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm"></label>
+            <div class="admin-form-body">
+                <x-admin-form-intro
+                    title="Panduan Pencatatan Pesanan"
+                    description="Pastikan customer, batch, dan produk sudah benar. Kode pesanan digunakan customer untuk memeriksa progress secara langsung."
+                />
+
+                <x-admin-form-section title="Identitas Pesanan">
+                    <div class="grid gap-4 md:grid-cols-2">
+            <x-text-input label="Kode pesanan / tracking" name="order_code" :value="$order->order_code ?: 'ORD-'.now()->format('YmdHis')" required />
+            <label class="block">
+                <span class="text-sm font-medium">Customer</span>
+                <select name="member_id" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm" required>
+                    <option value="">Pilih customer</option>
+                    @foreach($members as $member)
+                        <option value="{{ $member->id }}" @selected(old('member_id', $order->member_id) == $member->id)>{{ $member->display_name }} · {{ $member->email ?: $member->member_code }}</option>
+                    @endforeach
+                </select>
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium">Batch pembelian</span>
+                <select name="batch_id" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm" required>
+                    <option value="">Pilih batch</option>
+                    @foreach($batches as $batch)
+                        <option value="{{ $batch->id }}" @selected(old('batch_id', $order->batch_id) == $batch->id)>{{ $batch->batch_number }}{{ $batch->batch_name ? ' · '.$batch->batch_name : '' }}</option>
+                    @endforeach
+                </select>
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium">Status khusus pesanan</span>
+                <select name="override_status_id" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm">
+                    <option value="">Ikuti status batch</option>
+                    @foreach($orderStatuses as $status)
+                        <option value="{{ $status->id }}" @selected(old('override_status_id', $order->override_status_id) == $status->id)>{{ $status->name }}</option>
+                    @endforeach
+                </select>
+                <span class="mt-1 block text-xs text-zinc-500">Biarkan kosong jika progress sama dengan batch.</span>
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium">Status pembayaran</span>
+                <select name="payment_status_id" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm">
+                    <option value="">Pilih status pembayaran</option>
+                    @foreach($paymentStatuses as $status)
+                        <option value="{{ $status->id }}" @selected(old('payment_status_id', $order->payment_status_id) == $status->id)>{{ $status->name }}</option>
+                    @endforeach
+                </select>
+                @if($order->payment_status && !$order->payment_status_id)
+                    <span class="admin-form-help">Data lama: {{ $order->payment_status }}. Pilih status baru untuk menghubungkannya ke Manajemen Status.</span>
+                @else
+                    <span class="admin-form-help">Pilihan berasal dari status dengan cakupan Pembayaran.</span>
+                @endif
+            </label>
+            <label class="block md:col-span-2"><span class="text-sm font-medium">Catatan pesanan</span><textarea name="notes" rows="3" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm">{{ old('notes', $order->notes) }}</textarea></label>
                     </div>
-                @endforeach
-            </div>
-            <p class="mt-3 text-xs text-zinc-500">Untuk menambah lebih banyak item, simpan dulu lalu edit pesanan dan isi baris kosong berikutnya.</p>
-        </section>
+                </x-admin-form-section>
 
-        <button class="rounded-md bg-zinc-900 px-4 py-2 text-sm text-white">Simpan Pesanan</button>
-    </form>
+                <x-admin-form-section title="Produk yang Dibeli">
+                    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+                        <p class="text-sm text-zinc-500">Nama, varian, dan harga awal diambil otomatis dari katalog produk.</p>
+                        <button type="button" data-add-item class="admin-form-inline-action">+ Tambah Produk</button>
+                    </div>
+
+                    @php($rows = old('items', $order->items?->toArray() ?: [['quantity' => 1]]))
+                    <div data-items class="space-y-3">
+                        @foreach($rows as $i => $item)
+                            @include('admin.orders.partials.item-row', ['index' => $i, 'item' => $item])
+                        @endforeach
+                    </div>
+
+                    <template data-item-template>
+                        @include('admin.orders.partials.item-row', ['index' => '__INDEX__', 'item' => ['quantity' => 1]])
+                    </template>
+                </x-admin-form-section>
+            </div>
+
+            <footer class="admin-form-footer">
+                <p class="admin-form-footer-note">Produk dan status dapat diperbarui kembali selama pesanan masih berjalan.</p>
+                <div class="admin-form-actions">
+                    <a class="admin-form-secondary" href="{{ route('admin.member-orders.index', [], false) }}">Batal</a>
+                    <button type="submit" class="admin-form-primary">Simpan Pesanan</button>
+                </div>
+            </footer>
+        </form>
+    </x-admin-form-shell>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.querySelector('[data-items]');
+            const template = document.querySelector('[data-item-template]');
+            const addButton = document.querySelector('[data-add-item]');
+            let nextIndex = {{ count($rows) }};
+
+            const applyProduct = (select) => {
+                const option = select.options[select.selectedIndex];
+                const row = select.closest('[data-item-row]');
+                row.querySelector('[data-item-name]').value = option.dataset.name || '';
+                row.querySelector('[data-item-variant]').value = option.dataset.variant || '';
+                if (!row.querySelector('[data-item-price]').value || row.dataset.productId !== select.value) {
+                    row.querySelector('[data-item-price]').value = option.dataset.price || '';
+                }
+                row.dataset.productId = select.value;
+            };
+
+            container.addEventListener('change', (event) => {
+                if (event.target.matches('[data-product-select]')) applyProduct(event.target);
+            });
+
+            container.addEventListener('click', (event) => {
+                const button = event.target.closest('[data-remove-item]');
+                if (!button) return;
+                if (container.querySelectorAll('[data-item-row]').length === 1) {
+                    const row = button.closest('[data-item-row]');
+                    row.querySelectorAll('input').forEach(input => input.value = input.matches('[data-item-qty]') ? 1 : '');
+                    row.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+                    return;
+                }
+                button.closest('[data-item-row]').remove();
+            });
+
+            addButton.addEventListener('click', () => {
+                container.insertAdjacentHTML('beforeend', template.innerHTML.replaceAll('__INDEX__', nextIndex++));
+            });
+        });
+    </script>
 </x-layouts.app>

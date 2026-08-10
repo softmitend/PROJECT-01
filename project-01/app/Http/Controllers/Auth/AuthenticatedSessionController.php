@@ -29,6 +29,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         $request->session()->regenerate();
+        $request->session()->put('login_at', now()->timestamp);
 
         return new RedirectResponse('/admin', 303);
     }

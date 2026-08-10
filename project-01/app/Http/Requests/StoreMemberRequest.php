@@ -7,6 +7,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMemberRequest extends FormRequest
 {
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'email' => mb_strtolower(trim((string) $this->input('email'))),
+            'phone' => trim((string) $this->input('phone')),
+        ]);
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,11 +33,10 @@ class StoreMemberRequest extends FormRequest
         $memberId = $this->route('member')?->id;
 
         return [
-            'member_code' => ['required', 'string', 'max:255', 'unique:members,member_code,'.$memberId],
             'display_name' => ['required', 'string', 'max:255'],
-            'username' => ['nullable', 'string', 'max:255'],
-            'access_code' => ['nullable', 'string', 'max:255'],
-            'group_name' => ['nullable', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:members,email,'.$memberId],
+            'phone' => ['required', 'string', 'max:30'],
+            'address' => ['required', 'string', 'max:2000'],
             'notes' => ['nullable', 'string'],
             'is_active' => ['sometimes', 'boolean'],
         ];

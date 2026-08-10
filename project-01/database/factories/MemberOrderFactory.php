@@ -24,6 +24,7 @@ class MemberOrderFactory extends Factory
             'member_id' => Member::factory(),
             'batch_id' => Batch::factory(),
             'override_status_id' => null,
+            'payment_status_id' => null,
             'total_amount' => null,
             'payment_status' => null,
             'notes' => null,

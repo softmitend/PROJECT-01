@@ -15,9 +15,9 @@ class Member extends Model
     protected $fillable = [
         'member_code',
         'display_name',
-        'username',
-        'access_code',
-        'group_name',
+        'email',
+        'phone',
+        'address',
         'notes',
         'is_active',
     ];
@@ -32,5 +32,10 @@ class Member extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(MemberOrder::class);
+    }
+
+    public function setEmailAttribute(?string $value): void
+    {
+        $this->attributes['email'] = $value ? mb_strtolower(trim($value)) : null;
     }
 }

@@ -1,31 +1,34 @@
-<x-layouts.app title="Member">
-    <x-page-heading title="Member" description="Kelola data member tanpa memakai nama sebagai identifier utama.">
-        <x-slot:action><a class="rounded-md bg-zinc-900 px-4 py-2 text-sm text-white" href="{{ route('admin.members.create', [], false) }}">Tambah Member</a></x-slot:action>
+<x-layouts.app title="Pelanggan">
+    <x-page-heading title="Pelanggan" description="Kelola data kontak pembeli yang tersedia pada form pesanan.">
+        <x-slot:action><a class="admin-primary-action" href="{{ route('admin.members.create', [], false) }}">+ Tambah pelanggan</a></x-slot:action>
     </x-page-heading>
 
-    <form class="mb-4 flex gap-2">
-        <input class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm" name="q" value="{{ request('q') }}" placeholder="Cari nama, kode, username, grup">
-        <button class="rounded-md border border-zinc-300 px-4 py-2 text-sm">Cari</button>
-    </form>
-
-    <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
-        <table class="min-w-full divide-y divide-zinc-200 text-sm">
-            <thead class="bg-zinc-100 text-left text-xs uppercase text-zinc-500"><tr><th class="px-4 py-3">Member</th><th class="px-4 py-3">Username</th><th class="px-4 py-3">Grup</th><th class="px-4 py-3">Pesanan</th><th class="px-4 py-3">Status</th><th class="px-4 py-3"></th></tr></thead>
-            <tbody class="divide-y divide-zinc-100">
-                @forelse ($members as $member)
-                    <tr>
-                        <td class="px-4 py-3"><div class="font-medium">{{ $member->display_name }}</div><div class="text-zinc-500">{{ $member->member_code }}</div></td>
-                        <td class="px-4 py-3">{{ $member->username ?: '-' }}</td>
-                        <td class="px-4 py-3">{{ $member->group_name ?: '-' }}</td>
-                        <td class="px-4 py-3">{{ $member->orders_count }}</td>
-                        <td class="px-4 py-3">{{ $member->is_active ? 'Aktif' : 'Nonaktif' }}</td>
-                        <td class="px-4 py-3 text-right"><a class="rounded-md border border-zinc-300 px-3 py-2" href="{{ route('admin.members.show', $member, false) }}">Detail</a></td>
-                    </tr>
-                @empty
-                    <tr><td colspan="6" class="px-4 py-8 text-center text-zinc-500">Belum ada member.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+    <div class="order-table-card">
+        <form class="order-table-toolbar">
+            <input class="min-w-0 flex-1" name="q" value="{{ request('q') }}" placeholder="Cari nama, email, telepon, atau kode...">
+            <button class="order-table-toolbar-button" type="submit">
+                <svg viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="5.5"/><path d="m13 13 4 4"/></svg>
+                Cari
+            </button>
+        </form>
+        <div class="order-table-scroll">
+            <table class="order-table">
+                <thead><tr><th>Pelanggan</th><th>Kontak</th><th>Pesanan</th><th>Status</th><th><span class="sr-only">Aksi</span></th></tr></thead>
+                <tbody>
+                    @forelse ($members as $member)
+                        <tr>
+                            <td><div class="order-table-primary">{{ $member->display_name }}</div><div class="order-table-secondary">#{{ $member->member_code }}</div></td>
+                            <td><div class="text-zinc-700">{{ $member->email ?: '-' }}</div><div class="order-table-secondary">{{ $member->phone ?: '-' }}</div></td>
+                            <td><span class="font-semibold text-zinc-700">{{ $member->orders_count }}</span></td>
+                            <td><span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $member->is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-zinc-100 text-zinc-500' }}"><span class="h-1.5 w-1.5 rounded-full {{ $member->is_active ? 'bg-emerald-500' : 'bg-zinc-400' }}"></span>{{ $member->is_active ? 'Aktif' : 'Nonaktif' }}</span></td>
+                            <td class="text-right"><a class="order-table-action" href="{{ route('admin.members.show', $member, false) }}">Detail</a></td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="5" class="py-12 text-center text-zinc-400">Belum ada pelanggan.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div class="order-table-footer"><span>Menampilkan {{ $members->firstItem() ?? 0 }}–{{ $members->lastItem() ?? 0 }} dari {{ $members->total() }} pelanggan</span><div>{{ $members->links() }}</div></div>
     </div>
-    <div class="mt-4">{{ $members->links() }}</div>
 </x-layouts.app>

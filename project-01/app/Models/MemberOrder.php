@@ -19,6 +19,7 @@ class MemberOrder extends Model
         'member_id',
         'batch_id',
         'override_status_id',
+        'payment_status_id',
         'total_amount',
         'payment_status',
         'notes',
@@ -44,6 +45,11 @@ class MemberOrder extends Model
     public function overrideStatus(): BelongsTo
     {
         return $this->belongsTo(OrderStatus::class, 'override_status_id');
+    }
+
+    public function paymentStatus(): BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class, 'payment_status_id');
     }
 
     public function items(): HasMany

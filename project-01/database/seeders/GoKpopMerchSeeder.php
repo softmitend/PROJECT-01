@@ -22,13 +22,14 @@ class GoKpopMerchSeeder extends Seeder
 
         $statuses = OrderStatus::whereIn('code', [
             'secured',
-            'on-hand-korea',
-            'ems-korea-id',
+            'arrived-wh-korea',
+            'flight-to-indonesia',
             'customs-clearance',
-            'ready-pickup',
+            'siap-distribusi',
             'selesai',
             'menunggu-dp',
             'menunggu-pelunasan',
+            'lunas',
             'barang-kurang',
         ])->get()->keyBy('code');
 
@@ -40,13 +41,14 @@ class GoKpopMerchSeeder extends Seeder
             ['name' => 'NewJeans Get Up Album', 'variant' => 'Bunny Beach Bag Ver.', 'default_price' => 295000],
             ['name' => 'Stray Kids SKZOO Plush', 'variant' => 'Mini Original', 'default_price' => 410000],
             ['name' => 'LE SSERAFIM Photocard Binder', 'variant' => 'Official MD', 'default_price' => 220000],
+            ['name' => 'BTS Proof Collector Edition', 'variant' => 'Collector Set', 'default_price' => 2850000, 'is_active' => false],
         ])->mapWithKeys(function (array $product) {
             $model = Product::updateOrCreate(
                 ['name' => $product['name'], 'variant' => $product['variant']],
                 [
                     'description' => 'Data contoh GO Kpop Merch.',
                     'default_price' => $product['default_price'],
-                    'is_active' => true,
+                    'is_active' => $product['is_active'] ?? true,
                 ],
             );
 
@@ -54,15 +56,16 @@ class GoKpopMerchSeeder extends Seeder
         });
 
         $members = collect([
-            ['member_code' => 'GO-0001', 'display_name' => 'Mira Carat', 'username' => 'mira_carat', 'access_code' => 'carat-mira-1811', 'group_name' => 'CARAT'],
-            ['member_code' => 'GO-0002', 'display_name' => 'Dinda Czennie', 'username' => 'dinda_nct', 'access_code' => 'czennie-dinda', 'group_name' => 'NCTzen'],
-            ['member_code' => 'GO-0003', 'display_name' => 'Rara MY ✨', 'username' => 'rara_my', 'access_code' => 'my-rara-aespa', 'group_name' => 'MY'],
-            ['member_code' => 'GO-0004', 'display_name' => 'Nay WIZ*ONE', 'username' => 'nay_ive', 'access_code' => 'ive-nay', 'group_name' => 'DIVE'],
-            ['member_code' => 'GO-0005', 'display_name' => 'Kevin Stay', 'username' => 'kevin_stay', 'access_code' => 'stay-kevin', 'group_name' => 'STAY'],
+            ['member_code' => 'GO-0001', 'display_name' => 'Mira Carat', 'email' => 'mira@example.com', 'phone' => '081234560001', 'address' => 'Jl. Melati No. 1, Jakarta Selatan', 'notes' => 'Pengiriman reguler, packing kayu untuk album.', 'is_active' => true],
+            ['member_code' => 'GO-0002', 'display_name' => 'Dinda Czennie', 'email' => 'dinda@example.com', 'phone' => '081234560002', 'address' => 'Jl. Anggrek No. 2, Bandung', 'notes' => 'Prioritas member Mark dan Jeno.', 'is_active' => true],
+            ['member_code' => 'GO-0003', 'display_name' => 'Rara MY', 'email' => 'rara@example.com', 'phone' => '081234560003', 'address' => 'Jl. Kenanga No. 3, Surabaya', 'notes' => 'Hubungi melalui WhatsApp sebelum pengiriman.', 'is_active' => true],
+            ['member_code' => 'GO-0004', 'display_name' => 'Nay WIZ*ONE', 'email' => 'nay@example.com', 'phone' => '081234560004', 'address' => 'Jl. Mawar No. 4, Yogyakarta', 'notes' => 'Bisa pickup saat event.', 'is_active' => true],
+            ['member_code' => 'GO-0005', 'display_name' => 'Kevin Stay', 'email' => 'kevin@example.com', 'phone' => '081234560005', 'address' => 'Jl. Tulip No. 5, Semarang', 'notes' => 'Konfirmasi DP melalui email.', 'is_active' => true],
+            ['member_code' => 'GO-0006', 'display_name' => 'Sasa MOA', 'email' => 'sasa@example.com', 'phone' => '081234560006', 'address' => 'Jl. Flamboyan No. 6, Malang', 'notes' => 'Pelanggan lama yang sedang dinonaktifkan.', 'is_active' => false],
         ])->mapWithKeys(function (array $member) {
             $model = Member::updateOrCreate(
                 ['member_code' => $member['member_code']],
-                $member + ['notes' => 'Buyer contoh untuk GO Kpop Merch.', 'is_active' => true],
+                $member,
             );
 
             return [$member['member_code'] => $model];
@@ -72,7 +75,7 @@ class GoKpopMerchSeeder extends Seeder
             [
                 'batch_number' => 'GO-SVT-2508',
                 'batch_name' => 'GO SEVENTEEN Album Weverse POB',
-                'status' => 'on-hand-korea',
+                'status' => 'arrived-wh-korea',
                 'description' => 'Group order album SEVENTEEN dengan benefit Weverse.',
                 'notes' => 'ETA Indonesia sekitar 2-3 minggu setelah EMS.',
                 'started_at' => now()->subDays(16),
@@ -80,7 +83,7 @@ class GoKpopMerchSeeder extends Seeder
             [
                 'batch_number' => 'GO-NCT-2508',
                 'batch_name' => 'GO NCT DREAM Photocard Claim',
-                'status' => 'ems-korea-id',
+                'status' => 'flight-to-indonesia',
                 'description' => 'Group order photocard NCT DREAM random/member claim.',
                 'notes' => 'EMS sudah dibuat, menunggu update customs.',
                 'started_at' => now()->subDays(11),
@@ -96,11 +99,21 @@ class GoKpopMerchSeeder extends Seeder
             [
                 'batch_number' => 'GO-MIX-2506',
                 'batch_name' => 'GO Mixed Ready Stock Merch',
-                'status' => 'ready-pickup',
+                'status' => 'siap-distribusi',
                 'description' => 'Ready stock merch campuran untuk pickup atau kirim lokal.',
                 'notes' => 'Buyer bisa pilih pickup atau ekspedisi lokal.',
                 'started_at' => now()->subDays(38),
                 'completed_at' => null,
+            ],
+            [
+                'batch_number' => 'GO-ARCHIVE-2505',
+                'batch_name' => 'GO Arsip Mei 2025',
+                'status' => 'selesai',
+                'description' => 'Contoh batch yang sudah selesai dan diarsipkan.',
+                'notes' => 'Seluruh pesanan telah diterima customer.',
+                'started_at' => now()->subDays(75),
+                'completed_at' => now()->subDays(45),
+                'is_archived' => true,
             ],
         ])->mapWithKeys(function (array $batch) use ($statuses, $admin) {
             $model = Batch::updateOrCreate(
@@ -112,7 +125,7 @@ class GoKpopMerchSeeder extends Seeder
                     'notes' => $batch['notes'],
                     'started_at' => $batch['started_at'],
                     'completed_at' => $batch['completed_at'] ?? null,
-                    'is_archived' => false,
+                    'is_archived' => $batch['is_archived'] ?? false,
                 ],
             );
 
@@ -135,8 +148,7 @@ class GoKpopMerchSeeder extends Seeder
                 ['product' => $products['SEVENTEEN 12th Mini Album'], 'quantity' => 2],
                 ['product' => $products['LE SSERAFIM Photocard Binder'], 'quantity' => 1],
             ],
-            overrideStatus: $statuses['menunggu-pelunasan'],
-            paymentStatus: 'DP lunas, menunggu pelunasan EMS',
+            paymentStatus: $statuses['menunggu-pelunasan'],
             note: 'Buyer minta ship bareng binder.',
             admin: $admin,
         );
@@ -149,7 +161,7 @@ class GoKpopMerchSeeder extends Seeder
                 ['product' => $products['NCT DREAM Official Photocard'], 'quantity' => 4, 'notes' => 'Prefer Mark/Jeno jika available.'],
             ],
             overrideStatus: $statuses['secured'],
-            paymentStatus: 'Lunas',
+            paymentStatus: $statuses['lunas'],
             note: 'Claim secured dari seller Korea.',
             admin: $admin,
         );
@@ -162,7 +174,7 @@ class GoKpopMerchSeeder extends Seeder
                 ['product' => $products['aespa Lightstick'], 'quantity' => 1],
                 ['product' => $products['NewJeans Get Up Album'], 'quantity' => 1, 'status' => $statuses['barang-kurang'], 'notes' => 'POB belum ikut dalam paket utama.'],
             ],
-            paymentStatus: 'Lunas',
+            paymentStatus: $statuses['lunas'],
             note: 'Lightstick ikut batch official MD.',
             admin: $admin,
         );
@@ -175,8 +187,8 @@ class GoKpopMerchSeeder extends Seeder
                 ['product' => $products['IVE Season Greetings 2027'], 'quantity' => 1],
                 ['product' => $products['LE SSERAFIM Photocard Binder'], 'quantity' => 2],
             ],
-            overrideStatus: $statuses['ready-pickup'],
-            paymentStatus: 'Lunas',
+            overrideStatus: $statuses['siap-distribusi'],
+            paymentStatus: $statuses['lunas'],
             note: 'Siap pickup di event cupsleeve.',
             admin: $admin,
         );
@@ -189,8 +201,7 @@ class GoKpopMerchSeeder extends Seeder
                 ['product' => $products['Stray Kids SKZOO Plush'], 'quantity' => 1],
                 ['product' => $products['NCT DREAM Official Photocard'], 'quantity' => 2],
             ],
-            overrideStatus: $statuses['menunggu-dp'],
-            paymentStatus: 'Menunggu DP',
+            paymentStatus: $statuses['menunggu-dp'],
             note: 'Slot ditahan maksimal 24 jam.',
             admin: $admin,
         );
@@ -202,16 +213,18 @@ class GoKpopMerchSeeder extends Seeder
         Batch $batch,
         array $items,
         ?OrderStatus $overrideStatus = null,
-        ?string $paymentStatus = null,
+        ?OrderStatus $paymentStatus = null,
         ?string $note = null,
         ?User $admin = null,
     ): void {
         $order = MemberOrder::updateOrCreate(
-            ['member_id' => $member->id, 'batch_id' => $batch->id],
+            ['order_code' => $orderCode],
             [
-                'order_code' => $orderCode,
+                'member_id' => $member->id,
+                'batch_id' => $batch->id,
                 'override_status_id' => $overrideStatus?->id,
-                'payment_status' => $paymentStatus,
+                'payment_status_id' => $paymentStatus?->id,
+                'payment_status' => null,
                 'notes' => $note,
             ],
         );
@@ -241,6 +254,16 @@ class GoKpopMerchSeeder extends Seeder
             );
 
             $keptItemIds[] = $orderItem->id;
+
+            if ($item['status'] ?? null) {
+                $orderItem->statusHistories()->firstOrCreate([
+                    'new_status_id' => $item['status']->id,
+                    'note' => $item['notes'] ?? 'Status khusus item dari seeder GO Kpop Merch.',
+                ], [
+                    'old_status_id' => $overrideStatus?->id ?? $batch->current_status_id,
+                    'changed_by' => $admin?->id,
+                ]);
+            }
         }
 
         $order->items()->whereNotIn('id', $keptItemIds)->delete();

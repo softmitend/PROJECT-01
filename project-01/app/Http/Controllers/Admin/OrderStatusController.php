@@ -15,10 +15,19 @@ class OrderStatusController extends Controller
     public function index()
     {
         $statuses = OrderStatus::query()
-            ->withCount(['batches', 'memberOrders', 'orderItems', 'oldHistories', 'newHistories'])
+            ->withCount(['batches', 'memberOrders', 'orderItems', 'paymentMemberOrders', 'oldHistories', 'newHistories'])
+            ->when(request('q'), function ($query, $term) {
+                $query->where(fn ($query) => $query
+                    ->where('name', 'like', "%{$term}%")
+                    ->orWhere('code', 'like', "%{$term}%")
+                    ->orWhere('description', 'like', "%{$term}%"));
+            })
+            ->when(request()->filled('scope'), fn ($query) => $query->where('scope', request('scope')))
+            ->when(request('active') === '1', fn ($query) => $query->where('is_active', true))
+            ->when(request('active') === '0', fn ($query) => $query->where('is_active', false))
             ->orderBy('sequence')
             ->orderBy('name')
-            ->paginate(20);
+            ->get();
 
         return view('admin.statuses.index', compact('statuses'));
     }

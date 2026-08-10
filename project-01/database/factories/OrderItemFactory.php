@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\MemberOrder;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,13 +20,13 @@ class OrderItemFactory extends Factory
     public function definition(): array
     {
         $quantity = $this->faker->numberBetween(1, 5);
-        $unitPrice = $this->faker->numberBetween(5000, 25000);
+        $unitPrice = $this->faker->numberBetween(75000, 1200000);
 
         return [
             'member_order_id' => MemberOrder::factory(),
-            'product_id' => null,
-            'item_name' => $this->faker->randomElement(['Cireng', 'Basreng', 'Keripik']),
-            'variant' => $this->faker->randomElement(['Original', 'Pedas', null]),
+            'product_id' => Product::factory(),
+            'item_name' => $this->faker->randomElement(['K-pop Album', 'Official Photocard', 'Lightstick']),
+            'variant' => $this->faker->randomElement(['Weverse POB', 'Random Member', 'Official MD', null]),
             'quantity' => $quantity,
             'unit_price' => $unitPrice,
             'subtotal' => $quantity * $unitPrice,

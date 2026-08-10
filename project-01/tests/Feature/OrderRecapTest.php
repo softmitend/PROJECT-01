@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\MemberOrder;
 use App\Models\OrderItem;
 use App\Models\OrderStatus;
+use App\Models\Product;
 use App\Models\User;
 use App\Services\LegacySpreadsheetImportService;
 use App\Services\StatusTransitionService;
@@ -57,6 +58,60 @@ class OrderRecapTest extends TestCase
             ->assertOk()
             ->assertSee('Status Aktif')
             ->assertDontSee('Status Nonaktif');
+    }
+
+    public function test_admin_can_select_managed_payment_status_for_order(): void
+    {
+        $admin = User::factory()->create();
+        $member = Member::factory()->create();
+        $batch = Batch::factory()->create();
+        $product = Product::factory()->create();
+        $paymentStatus = OrderStatus::factory()->create([
+            'name' => 'Lunas',
+            'scope' => 'payment',
+            'is_active' => true,
+        ]);
+
+        $this->actingAs($admin)->post(route('admin.member-orders.store'), [
+            'order_code' => 'ORD-PAYMENT-001',
+            'member_id' => $member->id,
+            'batch_id' => $batch->id,
+            'payment_status_id' => $paymentStatus->id,
+            'items' => [[
+                'product_id' => $product->id,
+                'quantity' => 1,
+            ]],
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('member_orders', [
+            'order_code' => 'ORD-PAYMENT-001',
+            'payment_status_id' => $paymentStatus->id,
+        ]);
+    }
+
+    public function test_progress_status_cannot_be_used_as_payment_status(): void
+    {
+        $admin = User::factory()->create();
+        $member = Member::factory()->create();
+        $batch = Batch::factory()->create();
+        $product = Product::factory()->create();
+        $progressStatus = OrderStatus::factory()->create([
+            'scope' => 'member_order',
+            'is_active' => true,
+        ]);
+
+        $this->actingAs($admin)->post(route('admin.member-orders.store'), [
+            'order_code' => 'ORD-PAYMENT-INVALID',
+            'member_id' => $member->id,
+            'batch_id' => $batch->id,
+            'payment_status_id' => $progressStatus->id,
+            'items' => [[
+                'product_id' => $product->id,
+                'quantity' => 1,
+            ]],
+        ])->assertSessionHasErrors('payment_status_id');
+
+        $this->assertDatabaseMissing('member_orders', ['order_code' => 'ORD-PAYMENT-INVALID']);
     }
 
     public function test_status_transition_creates_history(): void
@@ -137,6 +192,100 @@ class OrderRecapTest extends TestCase
         $orderB = MemberOrder::factory()->create(['member_id' => $memberB->id]);
 
         $this->get(route('tracking.order', [$memberA->member_code, $orderB]))->assertForbidden();
+    }
+
+    public function test_public_can_track_one_order_with_order_code(): void
+    {
+        $order = MemberOrder::factory()->create(['order_code' => 'ORD-PUBLIC-001']);
+        OrderItem::factory()->create(['member_order_id' => $order->id, 'item_name' => 'NCT Wish Album']);
+
+        $this->post(route('tracking.lookup'), ['lookup' => 'ORD-PUBLIC-001'])
+            ->assertRedirect(route('tracking.progress', 'ORD-PUBLIC-001'));
+
+        $this->get(route('tracking.progress', 'ORD-PUBLIC-001'))
+            ->assertOk()
+            ->assertSee('ORD-PUBLIC-001')
+            ->assertSee('NCT Wish Album')
+            ->assertDontSee($order->member->email);
+    }
+
+    public function test_customer_can_find_all_order_history_with_registered_email(): void
+    {
+        $member = Member::factory()->create(['email' => 'buyer@example.com']);
+        $order = MemberOrder::factory()->create([
+            'member_id' => $member->id,
+            'order_code' => 'ORD-HISTORY-001',
+        ]);
+
+        $this->post(route('tracking.history.lookup'), ['email' => ' Buyer@Example.com '])
+            ->assertRedirect(route('tracking.member', $member->member_code));
+
+        $this->get(route('tracking.member', $member->member_code))
+            ->assertOk()
+            ->assertSee('Riwayat Pembelian')
+            ->assertSee($order->order_code);
+    }
+
+    public function test_unregistered_email_does_not_show_history(): void
+    {
+        $this->from(route('tracking.index'))
+            ->post(route('tracking.history.lookup'), ['email' => 'missing@example.com'])
+            ->assertRedirect(route('tracking.index'))
+            ->assertSessionHasErrors('email');
+    }
+
+    public function test_admin_can_create_customer_contact_data(): void
+    {
+        $admin = User::factory()->create();
+
+        $this->actingAs($admin)->post(route('admin.members.store'), [
+            'display_name' => 'Kim Buyer',
+            'email' => 'KIM@EXAMPLE.COM',
+            'phone' => '081234567890',
+            'address' => 'Jl. Kpop No. 7, Jakarta',
+            'is_active' => '1',
+        ])->assertRedirect(route('admin.members.index'));
+
+        $this->assertDatabaseHas('members', [
+            'display_name' => 'Kim Buyer',
+            'email' => 'kim@example.com',
+            'phone' => '081234567890',
+            'address' => 'Jl. Kpop No. 7, Jakarta',
+        ]);
+
+        $this->assertNotNull(Member::where('email', 'kim@example.com')->value('member_code'));
+    }
+
+    public function test_order_form_hydrates_item_from_selected_product(): void
+    {
+        $admin = User::factory()->create();
+        $member = Member::factory()->create();
+        $batch = Batch::factory()->create();
+        $product = Product::factory()->create([
+            'name' => 'Wish Bakery Plush',
+            'variant' => 'Sakuya',
+            'default_price' => 395000,
+        ]);
+
+        $this->actingAs($admin)->post(route('admin.member-orders.store'), [
+            'order_code' => 'ORD-PRODUCT-001',
+            'member_id' => $member->id,
+            'batch_id' => $batch->id,
+            'items' => [[
+                'product_id' => $product->id,
+                'quantity' => 2,
+                'unit_price' => '',
+            ]],
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('order_items', [
+            'product_id' => $product->id,
+            'item_name' => 'Wish Bakery Plush',
+            'variant' => 'Sakuya',
+            'quantity' => 2,
+            'unit_price' => 395000,
+            'subtotal' => 790000,
+        ]);
     }
 
     public function test_member_and_batch_combination_cannot_duplicate(): void

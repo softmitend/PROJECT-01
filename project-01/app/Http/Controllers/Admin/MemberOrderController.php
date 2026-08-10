@@ -21,11 +21,11 @@ class MemberOrderController extends Controller
     public function index()
     {
         $orders = MemberOrder::query()
-            ->with(['member', 'batch.currentStatus', 'overrideStatus'])
+            ->with(['member', 'batch.currentStatus', 'overrideStatus', 'paymentStatus'])
             ->withCount('items')
             ->when(request('q'), function ($query, $q) {
                 $query->where('order_code', 'like', "%{$q}%")
-                    ->orWhereHas('member', fn ($query) => $query->where('display_name', 'like', "%{$q}%")->orWhere('member_code', 'like', "%{$q}%"))
+                    ->orWhereHas('member', fn ($query) => $query->where('display_name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%"))
                     ->orWhereHas('batch', fn ($query) => $query->where('batch_number', 'like', "%{$q}%"));
             })
             ->latest()
@@ -70,7 +70,7 @@ class MemberOrderController extends Controller
      */
     public function show(MemberOrder $memberOrder)
     {
-        $memberOrder->load(['member', 'batch.currentStatus', 'overrideStatus', 'items.product', 'items.overrideStatus', 'statusHistories.oldStatus', 'statusHistories.newStatus', 'statusHistories.changedBy']);
+        $memberOrder->load(['member', 'batch.currentStatus', 'overrideStatus', 'paymentStatus', 'items.product', 'items.overrideStatus', 'statusHistories.oldStatus', 'statusHistories.newStatus', 'statusHistories.changedBy']);
 
         return view('admin.orders.show', ['order' => $memberOrder]);
     }
@@ -123,13 +123,27 @@ class MemberOrderController extends Controller
 
     private function formData(MemberOrder $order): array
     {
+        $existingProductIds = $order->exists ? $order->items()->pluck('product_id')->filter() : collect();
+
         return [
             'order' => $order,
             'members' => Member::where('is_active', true)->orderBy('display_name')->get(),
             'batches' => Batch::where('is_archived', false)->orderByDesc('created_at')->get(),
-            'products' => Product::where('is_active', true)->orderBy('name')->get(),
+            'products' => Product::query()
+                ->where(fn ($query) => $query->where('is_active', true)->orWhereIn('id', $existingProductIds))
+                ->orderBy('name')
+                ->orderBy('variant')
+                ->get(),
             'orderStatuses' => OrderStatus::activeFor('member_order')->get(),
             'itemStatuses' => OrderStatus::activeFor('order_item')->get(),
+            'paymentStatuses' => OrderStatus::query()
+                ->where('scope', 'payment')
+                ->where(fn ($query) => $query
+                    ->where('is_active', true)
+                    ->when($order->payment_status_id, fn ($query, $statusId) => $query->orWhereKey($statusId)))
+                ->orderBy('sequence')
+                ->orderBy('name')
+                ->get(),
         ];
     }
 

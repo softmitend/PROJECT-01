@@ -14,7 +14,7 @@ class OrderStatus extends Model
 
     public const TYPES = ['process', 'success', 'failed', 'cancelled'];
 
-    public const SCOPES = ['batch', 'member_order', 'order_item', 'all'];
+    public const SCOPES = ['batch', 'member_order', 'order_item', 'payment', 'all'];
 
     protected $fillable = [
         'name',
@@ -54,6 +54,11 @@ class OrderStatus extends Model
         return $this->hasMany(OrderItem::class, 'override_status_id');
     }
 
+    public function paymentMemberOrders(): HasMany
+    {
+        return $this->hasMany(MemberOrder::class, 'payment_status_id');
+    }
+
     public function oldHistories(): HasMany
     {
         return $this->hasMany(StatusHistory::class, 'old_status_id');
@@ -82,6 +87,7 @@ class OrderStatus extends Model
         return $this->batches()->count()
             + $this->memberOrders()->count()
             + $this->orderItems()->count()
+            + $this->paymentMemberOrders()->count()
             + $this->oldHistories()->count()
             + $this->newHistories()->count();
     }

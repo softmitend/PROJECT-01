@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMemberRequest;
 use App\Models\Member;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 
 class MemberController extends Controller
 {
@@ -20,8 +21,8 @@ class MemberController extends Controller
                 $query->where(function ($query) use ($q) {
                     $query->where('display_name', 'like', "%{$q}%")
                         ->orWhere('member_code', 'like', "%{$q}%")
-                        ->orWhere('username', 'like', "%{$q}%")
-                        ->orWhere('group_name', 'like', "%{$q}%");
+                        ->orWhere('email', 'like', "%{$q}%")
+                        ->orWhere('phone', 'like', "%{$q}%");
                 });
             })
             ->latest()
@@ -44,9 +45,12 @@ class MemberController extends Controller
      */
     public function store(StoreMemberRequest $request)
     {
-        Member::create($request->validated() + ['is_active' => $request->boolean('is_active', true)]);
+        Member::create($request->validated() + [
+            'member_code' => $this->generateMemberCode(),
+            'is_active' => $request->boolean('is_active', true),
+        ]);
 
-        session()->flash('status', 'Member berhasil ditambahkan.');
+        session()->flash('status', 'Pelanggan berhasil ditambahkan.');
 
         return new RedirectResponse('/admin/members', 303);
     }
@@ -76,7 +80,7 @@ class MemberController extends Controller
     {
         $member->update($request->validated() + ['is_active' => $request->boolean('is_active')]);
 
-        session()->flash('status', 'Member berhasil diperbarui.');
+        session()->flash('status', 'Pelanggan berhasil diperbarui.');
 
         return new RedirectResponse('/admin/members', 303);
     }
@@ -88,6 +92,15 @@ class MemberController extends Controller
     {
         $member->update(['is_active' => false]);
 
-        return back()->with('status', 'Member dinonaktifkan.');
+        return back()->with('status', 'Pelanggan dinonaktifkan.');
+    }
+
+    private function generateMemberCode(): string
+    {
+        do {
+            $code = 'CUS-'.Str::upper(Str::random(8));
+        } while (Member::where('member_code', $code)->exists());
+
+        return $code;
     }
 }

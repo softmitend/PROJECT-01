@@ -18,10 +18,10 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(['Cireng', 'Basreng', 'Keripik', 'Seblak']),
-            'variant' => $this->faker->randomElement(['Original', 'Pedas', 'Keju', null]),
-            'description' => null,
-            'default_price' => $this->faker->numberBetween(5000, 30000),
+            'name' => $this->faker->randomElement(['K-pop Album', 'Official Photocard', 'Lightstick', 'Season Greetings', 'Plush Doll']),
+            'variant' => $this->faker->randomElement(['Weverse POB', 'Random Member', 'Official MD', 'Limited Edition', null]),
+            'description' => $this->faker->sentence(),
+            'default_price' => $this->faker->numberBetween(75000, 1200000),
             'is_active' => true,
         ];
     }

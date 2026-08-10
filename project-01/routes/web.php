@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MemberTrackingController::class, 'index'])->name('tracking.index');
 Route::post('/tracking', [MemberTrackingController::class, 'lookup'])->middleware('throttle:10,1')->name('tracking.lookup');
-Route::get('/tracking/{memberCode}', [MemberTrackingController::class, 'member'])->name('tracking.member');
-Route::get('/tracking/{memberCode}/orders/{memberOrder}', [MemberTrackingController::class, 'order'])->name('tracking.order');
+Route::get('/tracking/order/{orderCode}', [MemberTrackingController::class, 'progress'])->name('tracking.progress');
+Route::post('/history', [MemberTrackingController::class, 'historyLookup'])->middleware('throttle:10,1')->name('tracking.history.lookup');
+Route::get('/history/{memberCode}', [MemberTrackingController::class, 'member'])->name('tracking.member');
+Route::get('/history/{memberCode}/orders/{memberOrder}', [MemberTrackingController::class, 'order'])->name('tracking.order');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');

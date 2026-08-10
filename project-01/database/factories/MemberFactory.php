@@ -20,9 +20,9 @@ class MemberFactory extends Factory
         return [
             'member_code' => 'MBR-'.$this->faker->unique()->numerify('####'),
             'display_name' => $this->faker->name(),
-            'username' => $this->faker->unique()->userName(),
-            'access_code' => $this->faker->bothify('AC-####'),
-            'group_name' => $this->faker->randomElement(['A-E', 'F-J', 'K-O', 'P-T', 'U-Z']),
+            'email' => $this->faker->unique()->safeEmail(),
+            'phone' => $this->faker->numerify('08##########'),
+            'address' => $this->faker->address(),
             'notes' => null,
             'is_active' => true,
         ];
