@@ -43,7 +43,7 @@ npm run build
 
 ## Deployment ke Vercel
 
-Project sudah dilengkapi dengan `vercel.json`, entrypoint `api/index.php`, dan konfigurasi filesystem serverless. Runtime yang digunakan adalah `vercel-php@0.7.4` agar sesuai dengan PHP 8.3 pada `composer.json`.
+Project sudah dilengkapi dengan `vercel.json`, entrypoint `api/index.php`, dan konfigurasi filesystem serverless. Runtime yang digunakan adalah `vercel-php@0.8.0` (PHP 8.4) agar sesuai dengan dependency Laravel dan Symfony pada `composer.lock`.
 
 ### 1. Siapkan database production
 
