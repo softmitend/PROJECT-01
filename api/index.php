@@ -111,7 +111,7 @@ $requestPath = rawurldecode((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', P
 $publicPath = realpath(__DIR__.'/../public');
 $relativeRequestPath = ltrim($requestPath, '/');
 
-if ($publicPath && preg_match('#^(build/|favicon\.ico$|robots\.txt$)#', $relativeRequestPath) === 1) {
+if ($publicPath && preg_match('#^(build/|img/|favicon\.ico$|robots\.txt$)#', $relativeRequestPath) === 1) {
     $assetPath = realpath($publicPath.'/'.$relativeRequestPath);
     $publicPrefix = rtrim($publicPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 
