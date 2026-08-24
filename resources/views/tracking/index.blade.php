@@ -47,7 +47,7 @@
                         <span class="text-[#2f8fd0]">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5" stroke-width="1.8" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.15a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
                         </span>
-                        <input id="query" name="query" value="{{ old('query', $searchQuery ?? '') }}" placeholder="Contoh: ORD-GO-0002 atau nama@email.com" required autocomplete="off" class="min-w-0 flex-1 bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-400 sm:text-base">
+                        <input id="query" name="query" value="{{ old('query', $searchQuery ?? '') }}" placeholder="Tempelkan kode atau email" required autocomplete="off" class="min-w-0 flex-1 bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-400 sm:text-base">
                         <button type="submit" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#123c5a] px-5 text-sm font-bold text-white transition hover:bg-[#176fa9] focus:outline-none focus:ring-4 focus:ring-sky-200">
                             Cari pesanan
                             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" class="h-4 w-4" stroke-width="1.8" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
