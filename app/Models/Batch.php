@@ -6,6 +6,7 @@ use Database\Factories\BatchFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -44,6 +45,11 @@ class Batch extends Model
         return $this->hasMany(MemberOrder::class);
     }
 
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
     public function statusHistories(): MorphMany
     {
         return $this->morphMany(StatusHistory::class, 'trackable')->latest();
@@ -52,5 +58,23 @@ class Batch extends Model
     public function getEffectiveStatusAttribute(): ?OrderStatus
     {
         return $this->currentStatus;
+    }
+
+    public function getOrdersLockedAttribute(): bool
+    {
+        $status = $this->relationLoaded('currentStatus')
+            ? $this->currentStatus
+            : $this->currentStatus()->first();
+
+        return (bool) $status?->locks_order_editing;
+    }
+
+    public function getProgressLockedAttribute(): bool
+    {
+        $status = $this->relationLoaded('currentStatus')
+            ? $this->currentStatus
+            : $this->currentStatus()->first();
+
+        return (bool) $status?->is_final;
     }
 }

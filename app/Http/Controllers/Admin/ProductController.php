@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::query()
-            ->when(request('q'), fn ($query, $q) => $query->where('name', 'like', "%{$q}%")->orWhere('variant', 'like', "%{$q}%"))
+            ->when(request('q'), fn ($query, $q) => $query->where(fn ($query) => $query
+                ->where('name', 'like', "%{$q}%")
+                ->orWhere('variant', 'like', "%{$q}%")))
             ->latest()
             ->paginate(15)
             ->withQueryString();
@@ -36,7 +39,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        Product::create($request->validated() + ['is_active' => $request->boolean('is_active', true)]);
+        Product::create($request->validated() + ['is_active' => true]);
 
         session()->flash('status', 'Produk berhasil ditambahkan.');
 
@@ -48,7 +51,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return new RedirectResponse('/admin/products/'.$product->id.'/edit', 303);
+        $product->loadCount(['batches', 'orderItems']);
+
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -64,11 +69,11 @@ class ProductController extends Controller
      */
     public function update(StoreProductRequest $request, Product $product)
     {
-        $product->update($request->validated() + ['is_active' => $request->boolean('is_active')]);
+        $product->update($request->validated());
 
         session()->flash('status', 'Produk berhasil diperbarui.');
 
-        return new RedirectResponse('/admin/products', 303);
+        return new RedirectResponse('/admin/products/'.$product->id, 303);
     }
 
     /**
@@ -79,5 +84,20 @@ class ProductController extends Controller
         $product->update(['is_active' => false]);
 
         return back()->with('status', 'Produk dinonaktifkan.');
+    }
+
+    public function updateStatus(Request $request, Product $product)
+    {
+        abort_unless($request->user()?->can('access-admin'), 403);
+
+        $data = $request->validate([
+            'is_active' => ['required', 'boolean'],
+        ]);
+
+        $product->update(['is_active' => (bool) $data['is_active']]);
+
+        return back()->with('status', $product->is_active
+            ? 'Produk berhasil diaktifkan.'
+            : 'Produk berhasil dinonaktifkan.');
     }
 }

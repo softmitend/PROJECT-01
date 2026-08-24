@@ -1,93 +1,129 @@
 <x-layouts.app title="Kelola Status">
-    <x-page-heading title="Kelola Status" description="Susun tahapan progress batch, pesanan, item produk, dan pembayaran customer.">
+    <x-page-heading title="Kelola Status" description="Susun tahapan progress batch, pesanan pelanggan, item produk, dan pembayaran.">
         <x-slot:action><a class="admin-primary-action" href="{{ route('admin.order-statuses.create', [], false) }}">+ Tambah status</a></x-slot:action>
     </x-page-heading>
 
     <section class="mb-6 rounded-2xl border border-violet-100 bg-gradient-to-r from-violet-50 via-blue-50 to-cyan-50 p-5">
-        <div class="text-sm font-bold text-violet-800">Alur operasional dari spreadsheet</div>
+        <div class="text-sm font-bold text-violet-800">Alur utama batch pembelian</div>
         <div class="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold text-violet-900">
-            @foreach(['Menunggu Pemesanan', 'Ordered', 'Arrived Warehouse', 'Flight / Sea to INA', 'Arrived Admin', 'Siap Distribusi', 'Selesai'] as $step)
+            @foreach(['Menunggu Pemesanan', 'Sudah Dipesan', 'Tiba di Gudang Luar Negeri', 'Dikirim ke Indonesia', 'Tiba di Gudang Admin', 'Siap Distribusi', 'Selesai'] as $step)
                 <span class="rounded-full border border-violet-200 bg-white px-3 py-1.5">{{ $step }}</span>
                 @if(!$loop->last)<span class="text-violet-400">→</span>@endif
             @endforeach
         </div>
-        <p class="mt-3 text-sm text-violet-800">Status batch menjadi status default seluruh pesanan di dalamnya. Gunakan override hanya jika satu pesanan atau satu item punya kondisi berbeda.</p>
+        <p class="mt-3 text-sm text-violet-800">Status batch menjadi status dasar seluruh pesanan di dalamnya. Status pesanan dan item hanya dipakai jika ada kondisi khusus yang berbeda dari batch.</p>
     </section>
 
-    <form class="admin-filter mb-6 grid gap-3 sm:grid-cols-[1fr_180px_180px_auto]">
-        <input class="rounded-md border border-zinc-300 px-3 py-2 text-sm" name="q" value="{{ request('q') }}" placeholder="Cari nama atau code status">
-        <select name="scope" class="rounded-md border border-zinc-300 px-3 py-2 text-sm">
-            <option value="">Semua cakupan</option>
-            <option value="batch" @selected(request('scope') === 'batch')>Batch</option>
-            <option value="member_order" @selected(request('scope') === 'member_order')>Pesanan</option>
-            <option value="order_item" @selected(request('scope') === 'order_item')>Item</option>
-            <option value="payment" @selected(request('scope') === 'payment')>Pembayaran</option>
-            <option value="all" @selected(request('scope') === 'all')>Semua</option>
-        </select>
-        <select name="active" class="rounded-md border border-zinc-300 px-3 py-2 text-sm">
-            <option value="">Aktif & nonaktif</option>
-            <option value="1" @selected(request('active') === '1')>Aktif saja</option>
-            <option value="0" @selected(request('active') === '0')>Nonaktif saja</option>
-        </select>
-        <button class="rounded-xl bg-zinc-950 px-4 py-2 text-sm font-semibold text-white">Filter</button>
-    </form>
-
     @php
-        $scopeLabels = ['all' => 'Berlaku untuk Semua Progress', 'batch' => 'Progress Batch', 'member_order' => 'Kondisi Pesanan', 'order_item' => 'Kondisi Item', 'payment' => 'Status Pembayaran'];
-        $scopeDescriptions = [
-            'all' => 'Dapat dipilih pada batch, pesanan, maupun item.',
-            'batch' => 'Perubahan di sini otomatis diikuti pesanan tanpa override.',
-            'member_order' => 'Khusus kondisi progress satu pesanan customer.',
-            'order_item' => 'Khusus satu produk, misalnya barang kurang atau rusak.',
-            'payment' => 'Pilihan status pembayaran pada form tambah dan edit pesanan.',
-        ];
+        $scopeDefinitions = \App\Models\OrderStatus::scopeDefinitions();
+        $groupedStatuses = $statuses->groupBy('scope');
+        $requestedScope = request('scope');
+        $activeScope = is_string($requestedScope) && array_key_exists($requestedScope, $scopeDefinitions) ? $requestedScope : 'batch';
     @endphp
 
-    <div class="space-y-6">
-        @forelse($statuses->groupBy('scope') as $scope => $scopeStatuses)
-            <section class="order-table-card">
-                <div class="border-b border-zinc-200 bg-zinc-50 px-3 py-3">
-                    <h2 class="font-bold">{{ $scopeLabels[$scope] ?? $scope }}</h2>
-                    <p class="mt-1 text-sm text-zinc-500">{{ $scopeDescriptions[$scope] ?? '' }}</p>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="order-table">
-                        <thead>
-                            <tr><th>Urutan</th><th>Status</th><th>Keterangan</th><th>Sifat</th><th>Dipakai</th><th></th></tr>
-                        </thead>
-                        <tbody>
-                            @foreach($scopeStatuses as $status)
-                                @php($usage = $status->batches_count + $status->member_orders_count + $status->order_items_count + $status->payment_member_orders_count + $status->old_histories_count + $status->new_histories_count)
-                                <tr class="{{ $status->is_active ? '' : 'bg-zinc-50 opacity-60' }}">
-                                    <td><span class="grid h-7 w-7 place-items-center rounded-md bg-zinc-100">{{ $status->sequence }}</span></td>
-                                    <td><x-status-badge :status="$status" /><div class="mt-1 text-zinc-400">{{ $status->code }}</div></td>
-                                    <td class="max-w-md text-zinc-600">{{ $status->description ?: 'Belum ada keterangan untuk customer.' }}</td>
-                                    <td>
-                                        <div class="flex flex-wrap gap-1">
-                                            @if($status->is_initial)<span class="rounded bg-blue-50 px-2 py-1 text-xs text-blue-700">Awal</span>@endif
-                                            @if($status->is_final)<span class="rounded bg-emerald-50 px-2 py-1 text-xs text-emerald-700">Final</span>@endif
-                                            <span class="rounded bg-zinc-100 px-2 py-1 text-xs">{{ $status->status_type }}</span>
-                                            @unless($status->is_active)<span class="rounded bg-red-50 px-2 py-1 text-xs text-red-700">Nonaktif</span>@endunless
-                                        </div>
-                                    </td>
-                                    <td>{{ $usage }}×</td>
-                                    <td class="text-right">
-                                        <div class="flex justify-end gap-2">
-                                            <a class="order-table-action" href="{{ route('admin.order-statuses.edit', $status, false) }}">Edit</a>
-                                            <form method="POST" action="{{ route('admin.order-statuses.destroy', $status, false) }}" onsubmit="return confirm('Hapus atau nonaktifkan status ini?')">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" class="order-table-action order-table-action-danger">{{ $usage ? 'Nonaktifkan' : 'Hapus' }}</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        @empty
-            <div class="rounded-xl border border-dashed border-zinc-300 bg-white py-12 text-center text-zinc-500">Tidak ada status yang cocok dengan filter.</div>
-        @endforelse
+    <div class="status-manager-card status-folder-map" data-status-folder-map>
+        <form class="order-table-toolbar status-manager-toolbar" data-auto-filter>
+            <input type="hidden" name="scope" value="{{ $activeScope }}" data-status-folder-input>
+            <input class="min-w-0 flex-1" name="q" value="{{ request('q') }}" placeholder="Cari nama atau kode status...">
+            <select name="active">
+                <option value="">Aktif & nonaktif</option>
+                <option value="1" @selected(request('active') === '1')>Aktif saja</option>
+                <option value="0" @selected(request('active') === '0')>Nonaktif saja</option>
+            </select>
+            <button class="order-table-toolbar-button" type="submit"><svg viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="5.5"/><path d="m13 13 4 4"/></svg>Cari</button>
+        </form>
+
+        <div class="status-folder-tabs" role="tablist" aria-label="Kategori status">
+            @foreach($scopeDefinitions as $scope => $definition)
+                <button
+                    type="button"
+                    role="tab"
+                    class="status-folder-tab {{ $activeScope === $scope ? 'is-active' : '' }}"
+                    data-status-folder-tab="{{ $scope }}"
+                    aria-controls="status-folder-{{ $scope }}"
+                    aria-selected="{{ $activeScope === $scope ? 'true' : 'false' }}"
+                    tabindex="{{ $activeScope === $scope ? '0' : '-1' }}"
+                >
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.75A1.75 1.75 0 0 1 4.75 5h4.1l1.8 2h8.6A1.75 1.75 0 0 1 21 8.75v8.5A1.75 1.75 0 0 1 19.25 19H4.75A1.75 1.75 0 0 1 3 17.25V6.75Z"/></svg>
+                    <span>{{ $definition['label'] }}</span>
+                    <small>{{ $groupedStatuses->get($scope, collect())->count() }}</small>
+                </button>
+            @endforeach
+        </div>
+
+        <div class="status-folder-content">
+            @foreach($scopeDefinitions as $scope => $definition)
+                @php($scopeStatuses = $groupedStatuses->get($scope, collect()))
+                <section
+                    id="status-folder-{{ $scope }}"
+                    role="tabpanel"
+                    class="status-folder-panel"
+                    data-status-folder-panel="{{ $scope }}"
+                    @if($activeScope !== $scope) hidden @endif
+                >
+                    <div class="status-folder-heading">
+                        <div>
+                            <h2>{{ $definition['title'] }}</h2>
+                            <p>{{ $definition['description'] }}</p>
+                        </div>
+                        <span>{{ $scopeStatuses->count() }} status</span>
+                    </div>
+
+                    <div class="status-folder-application">
+                        <span class="status-folder-application-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5"/><path d="M10 8.5v5M10 6.25h.01"/></svg>
+                        </span>
+                        <div>
+                            <strong>Diterapkan pada: {{ $definition['applies_to'] }}</strong>
+                            <p>{{ $definition['application'] }}</p>
+                        </div>
+                    </div>
+
+                    <div class="status-table-frame">
+                        <div class="order-table-scroll">
+                        <table class="order-table status-table">
+                            <colgroup>
+                                <col class="status-table-col-number">
+                                <col class="status-table-col-status">
+                                <col class="status-table-col-description">
+                                <col class="status-table-col-properties">
+                                <col class="status-table-col-usage">
+                                <col class="status-table-col-actions">
+                            </colgroup>
+                            <thead><tr><th>No.</th><th>Status</th><th>Keterangan</th><th>Sifat</th><th>Dipakai</th><th><span class="sr-only">Aksi</span></th></tr></thead>
+                            <tbody>
+                                @forelse($scopeStatuses as $status)
+                                    @php($usage = $status->batches_count + $status->member_orders_count + $status->order_items_count + $status->payment_member_orders_count + $status->old_histories_count + $status->new_histories_count)
+                                    <tr class="{{ $status->is_active ? '' : 'bg-zinc-50 opacity-60' }}">
+                                        <td><span class="grid h-7 w-7 place-items-center rounded-md bg-zinc-100">{{ $loop->iteration }}</span></td>
+                                        <td><x-status-badge :status="$status" /><div class="mt-1 text-zinc-400">{{ $status->code }}</div></td>
+                                        <td class="max-w-md text-zinc-600">{{ $status->description ?: 'Belum ada keterangan untuk pelanggan.' }}</td>
+                                        <td>
+                                            <div class="flex flex-wrap gap-1">
+                                                @if($status->is_initial)<span class="rounded bg-blue-50 px-2 py-1 text-xs text-blue-700">Awal</span>@endif
+                                                @if($status->is_final)<span class="rounded bg-emerald-50 px-2 py-1 text-xs text-emerald-700">Final</span>@endif
+                                                @if($status->locks_order_editing)<span class="rounded bg-amber-50 px-2 py-1 text-xs text-amber-700">Kunci edit pesanan</span>@endif
+                                                <span class="rounded bg-zinc-100 px-2 py-1 text-xs">{{ $status->status_type }}</span>
+                                                @unless($status->is_active)<span class="rounded bg-red-50 px-2 py-1 text-xs text-red-700">Nonaktif</span>@endunless
+                                            </div>
+                                        </td>
+                                        <td>{{ $usage }}×</td>
+                                        <td class="text-right">
+                                            <div class="status-table-actions">
+                                                <a class="order-table-action" href="{{ route('admin.order-statuses.show', $status, false) }}">Detail</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="6" class="py-12 text-center text-zinc-400">Tidak ada status pada folder {{ strtolower($definition['label']) }} yang cocok dengan pencarian atau filter.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </section>
+            @endforeach
+        </div>
     </div>
+
 </x-layouts.app>

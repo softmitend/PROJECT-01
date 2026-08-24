@@ -56,6 +56,12 @@ class OrderItem extends Model
 
     public function getEffectiveStatusAttribute(): ?OrderStatus
     {
-        return $this->overrideStatus ?: $this->order?->effective_status;
+        $orderStatus = $this->order?->effective_status;
+
+        if ($orderStatus?->code === 'refunded') {
+            return $orderStatus;
+        }
+
+        return $this->overrideStatus ?: $orderStatus;
     }
 }

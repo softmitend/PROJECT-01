@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderStatusRequest;
 use App\Models\OrderStatus;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 
 class OrderStatusController extends Controller
 {
@@ -22,7 +23,6 @@ class OrderStatusController extends Controller
                     ->orWhere('code', 'like', "%{$term}%")
                     ->orWhere('description', 'like', "%{$term}%"));
             })
-            ->when(request()->filled('scope'), fn ($query) => $query->where('scope', request('scope')))
             ->when(request('active') === '1', fn ($query) => $query->where('is_active', true))
             ->when(request('active') === '0', fn ($query) => $query->where('is_active', false))
             ->orderBy('sequence')
@@ -45,15 +45,19 @@ class OrderStatusController extends Controller
      */
     public function store(StoreOrderStatusRequest $request)
     {
-        OrderStatus::create($request->validated() + [
-            'is_initial' => $request->boolean('is_initial'),
-            'is_final' => $request->boolean('is_final'),
-            'is_active' => $request->boolean('is_active', true),
-        ]);
+        $data = $request->validated();
+        $data['code'] = $this->generateCode($data['name']);
+        $data['sequence'] = $this->nextSequence($data['scope']);
+        $data['is_initial'] = $request->boolean('is_initial');
+        $data['is_final'] = $request->boolean('is_final');
+        $data['is_active'] = $request->boolean('is_active', true);
+        $data['locks_order_editing'] = $this->locksOrderEditing($request);
+
+        $orderStatus = OrderStatus::create($data);
 
         session()->flash('status', 'Status berhasil ditambahkan.');
 
-        return new RedirectResponse('/admin/order-statuses', 303);
+        return new RedirectResponse('/admin/order-statuses/'.$orderStatus->id, 303);
     }
 
     /**
@@ -61,7 +65,9 @@ class OrderStatusController extends Controller
      */
     public function show(OrderStatus $orderStatus)
     {
-        return new RedirectResponse('/admin/order-statuses/'.$orderStatus->id.'/edit', 303);
+        $orderStatus->loadCount(['batches', 'memberOrders', 'orderItems', 'paymentMemberOrders', 'oldHistories', 'newHistories']);
+
+        return view('admin.statuses.show', compact('orderStatus'));
     }
 
     /**
@@ -77,15 +83,20 @@ class OrderStatusController extends Controller
      */
     public function update(StoreOrderStatusRequest $request, OrderStatus $orderStatus)
     {
-        $orderStatus->update($request->validated() + [
-            'is_initial' => $request->boolean('is_initial'),
-            'is_final' => $request->boolean('is_final'),
-            'is_active' => $request->boolean('is_active'),
-        ]);
+        $data = $request->validated();
+        $data['sequence'] = $orderStatus->scope === $data['scope']
+            ? $orderStatus->sequence
+            : $this->nextSequence($data['scope']);
+        $data['is_initial'] = $request->boolean('is_initial');
+        $data['is_final'] = $request->boolean('is_final');
+        $data['is_active'] = $request->boolean('is_active');
+        $data['locks_order_editing'] = $this->locksOrderEditing($request);
+
+        $orderStatus->update($data);
 
         session()->flash('status', 'Status berhasil diperbarui.');
 
-        return new RedirectResponse('/admin/order-statuses', 303);
+        return new RedirectResponse('/admin/order-statuses/'.$orderStatus->id, 303);
     }
 
     /**
@@ -100,7 +111,45 @@ class OrderStatusController extends Controller
         }
 
         $orderStatus->delete();
+        session()->flash('status', 'Status dihapus.');
 
-        return back()->with('status', 'Status dihapus.');
+        return new RedirectResponse('/admin/order-statuses?scope='.urlencode($orderStatus->scope), 303);
+    }
+
+    private function nextSequence(string $scope): int
+    {
+        // Status terminal bawaan tidak menentukan posisi status operasional baru.
+        $query = OrderStatus::query()->whereNotIn('code', ['refunded', 'selesai']);
+
+        if ($scope === 'all') {
+            $query->whereIn('scope', ['batch', 'member_order', 'order_item', 'all']);
+        } elseif ($scope === 'payment') {
+            $query->where('scope', 'payment');
+        } else {
+            $query->whereIn('scope', [$scope, 'all']);
+        }
+
+        $currentMaximum = (int) ($query->max('sequence') ?? 0);
+
+        return ((int) floor($currentMaximum / 10) + 1) * 10;
+    }
+
+    private function generateCode(string $name): string
+    {
+        $baseCode = Str::slug(Str::limit($name, 220, '')) ?: 'status';
+        $code = $baseCode;
+        $suffix = 2;
+
+        while (OrderStatus::where('code', $code)->exists()) {
+            $code = $baseCode.'-'.$suffix++;
+        }
+
+        return $code;
+    }
+
+    private function locksOrderEditing(StoreOrderStatusRequest $request): bool
+    {
+        return in_array($request->string('scope')->toString(), ['batch', 'all'], true)
+            && $request->boolean('locks_order_editing');
     }
 }

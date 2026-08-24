@@ -21,9 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('access-admin', fn ($user) => $user !== null);
+        Gate::define('access-admin', fn ($user) => $user->isAdmin());
 
-        if (env('VERCEL')) {
+        if (config('app.force_https')) {
             URL::forceScheme('https');
         }
     }

@@ -17,7 +17,7 @@
                             <td class="text-zinc-600">{{ $product->variant ?: '-' }}</td>
                             <td class="font-semibold text-zinc-700">{{ $product->default_price ? 'Rp '.number_format($product->default_price, 0, ',', '.') : '-' }}</td>
                             <td><span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $product->is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-zinc-100 text-zinc-500' }}"><span class="h-1.5 w-1.5 rounded-full {{ $product->is_active ? 'bg-emerald-500' : 'bg-zinc-400' }}"></span>{{ $product->is_active ? 'Aktif' : 'Nonaktif' }}</span></td>
-                            <td class="text-right"><a class="order-table-action" href="{{ route('admin.products.edit', $product, false) }}">Edit</a></td>
+                            <td class="text-right"><a class="order-table-action" href="{{ route('admin.products.show', $product, false) }}">Detail</a></td>
                         </tr>
                     @empty
                         <tr><td colspan="5" class="py-12 text-center text-zinc-400">Belum ada produk.</td></tr>

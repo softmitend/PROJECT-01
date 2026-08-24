@@ -20,7 +20,7 @@ class StoreMemberRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('access-admin') === true;
     }
 
     /**
@@ -38,7 +38,7 @@ class StoreMemberRequest extends FormRequest
             'phone' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:2000'],
             'notes' => ['nullable', 'string'],
-            'is_active' => ['sometimes', 'boolean'],
+            'is_active' => $this->route('member') ? ['sometimes', 'boolean'] : ['prohibited'],
         ];
     }
 }

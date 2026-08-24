@@ -7,12 +7,82 @@ use App\Http\Requests\TrackingLookupRequest;
 use App\Models\Member;
 use App\Models\MemberOrder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class MemberTrackingController extends Controller
 {
     public function index()
     {
         return view('tracking.index');
+    }
+
+    public function smartLookup(Request $request)
+    {
+        $validated = $request->validate([
+            'query' => ['required', 'string', 'max:255'],
+        ], [
+            'query.required' => 'Masukkan kode tracking atau email pelanggan.',
+        ]);
+
+        $query = trim($validated['query']);
+
+        if (filter_var($query, FILTER_VALIDATE_EMAIL)) {
+            $query = mb_strtolower($query);
+            $member = Member::query()
+                ->where('email', $query)
+                ->where('is_active', true)
+                ->with([
+                    'orders' => fn ($orders) => $orders->latest(),
+                    'orders.batch.currentStatus',
+                    'orders.overrideStatus',
+                    'orders.paymentStatus',
+                    'orders.items.overrideStatus',
+                ])
+                ->first();
+
+            if (! $member) {
+                return back()
+                    ->withErrors(['query' => 'Email tidak ditemukan pada data pelanggan.'])
+                    ->onlyInput('query');
+            }
+
+            return view('tracking.index', [
+                'searchType' => 'email',
+                'searchQuery' => $query,
+                'memberResult' => $member,
+            ]);
+        }
+
+        $query = mb_strtoupper($query);
+        $order = MemberOrder::query()
+            ->where('order_code', $query)
+            ->whereHas('member', fn ($member) => $member->where('is_active', true))
+            ->with([
+                'member',
+                'batch.currentStatus',
+                'batch.statusHistories.oldStatus',
+                'batch.statusHistories.newStatus',
+                'overrideStatus',
+                'paymentStatus',
+                'items.overrideStatus',
+                'statusHistories.oldStatus',
+                'statusHistories.newStatus',
+            ])
+            ->first();
+
+        if (! $order) {
+            return back()
+                ->withErrors(['query' => 'Kode tracking tidak ditemukan. Periksa kembali kode dari admin.'])
+                ->onlyInput('query');
+        }
+
+        return view('tracking.index', [
+            'searchType' => 'tracking',
+            'searchQuery' => $query,
+            'orderResult' => $order,
+            'timeline' => $this->timelineFor($order),
+        ]);
     }
 
     public function lookup(TrackingLookupRequest $request)
@@ -28,7 +98,11 @@ class MemberTrackingController extends Controller
             return back()->withErrors(['lookup' => 'Kode pesanan tidak ditemukan. Periksa kembali kode dari admin.'])->onlyInput('lookup');
         }
 
-        return new RedirectResponse(route('tracking.progress', $order->order_code), 303);
+        return new RedirectResponse(URL::temporarySignedRoute(
+            'tracking.progress',
+            now()->addMinutes(15),
+            ['orderCode' => $order->order_code]
+        ), 303);
     }
 
     public function progress(string $orderCode)
@@ -42,6 +116,7 @@ class MemberTrackingController extends Controller
                 'batch.statusHistories.oldStatus',
                 'batch.statusHistories.newStatus',
                 'overrideStatus',
+                'paymentStatus',
                 'items.overrideStatus',
                 'statusHistories.oldStatus',
                 'statusHistories.newStatus',
@@ -67,14 +142,18 @@ class MemberTrackingController extends Controller
                 ->onlyInput('email');
         }
 
-        return new RedirectResponse(route('tracking.member', $member->member_code), 303);
+        return new RedirectResponse(URL::temporarySignedRoute(
+            'tracking.member',
+            now()->addMinutes(15),
+            ['memberCode' => $member->member_code]
+        ), 303);
     }
 
     public function member(string $memberCode)
     {
         $member = Member::where('member_code', $memberCode)
             ->where('is_active', true)
-            ->with(['orders' => fn ($query) => $query->latest(), 'orders.batch.currentStatus', 'orders.overrideStatus', 'orders.items'])
+            ->with(['orders' => fn ($query) => $query->latest(), 'orders.batch.currentStatus', 'orders.overrideStatus', 'orders.paymentStatus', 'orders.items'])
             ->firstOrFail();
 
         return view('tracking.member', compact('member'));
@@ -92,6 +171,7 @@ class MemberTrackingController extends Controller
             'batch.statusHistories.oldStatus',
             'batch.statusHistories.newStatus',
             'overrideStatus',
+            'paymentStatus',
             'items.overrideStatus',
             'statusHistories.oldStatus',
             'statusHistories.newStatus',
@@ -106,9 +186,25 @@ class MemberTrackingController extends Controller
 
     private function timelineFor(MemberOrder $order)
     {
-        return $order->batch->statusHistories
+        $refundHistory = $order->statusHistories
+            ->first(fn ($history) => $history->newStatus?->code === 'refunded');
+
+        $batchHistories = $order->batch->statusHistories;
+        if ($refundHistory) {
+            $batchHistories = $batchHistories
+                ->filter(fn ($history) => $history->created_at->lt($refundHistory->created_at)
+                    || ($history->created_at->equalTo($refundHistory->created_at) && $history->id < $refundHistory->id));
+        }
+
+        $timeline = $batchHistories
             ->concat($order->statusHistories)
             ->sortByDesc('created_at')
             ->values();
+
+        if ($refundHistory) {
+            $refundHistory->setRelation('newStatus', $order->tracking_status);
+        }
+
+        return $timeline;
     }
 }

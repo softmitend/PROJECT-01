@@ -1,11 +1,13 @@
 <x-layouts.app title="Riwayat Status">
     <x-page-heading title="Riwayat Status" description="Audit trail perubahan status batch, pesanan, dan item produk." />
     <div class="order-table-card">
-        <form class="order-table-toolbar">
-            <input class="sm:max-w-52" name="date_from" type="date" value="{{ request('date_from') }}" aria-label="Tanggal mulai">
-            <span class="hidden text-xs font-medium text-zinc-400 sm:inline">sampai</span>
-            <input class="sm:max-w-52" name="date_to" type="date" value="{{ request('date_to') }}" aria-label="Tanggal akhir">
-            <button class="order-table-toolbar-button" type="submit"><svg viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h14l-5.5 6v5l-3 1v-6L3 4Z"/></svg>Filter tanggal</button>
+        <form class="order-table-toolbar" data-auto-filter>
+            <div class="date-range-filter">
+                <label><span>Dari</span><input name="date_from" type="date" value="{{ request('date_from') }}" aria-label="Tanggal mulai"></label>
+                <i aria-hidden="true">—</i>
+                <label><span>Sampai</span><input name="date_to" type="date" value="{{ request('date_to') }}" aria-label="Tanggal akhir"></label>
+            </div>
+            @if(request('date_from') || request('date_to'))<a class="date-range-reset" href="{{ route('admin.status-histories.index', [], false) }}">Reset</a>@endif
         </form>
         <div class="order-table-scroll">
             <table class="order-table">

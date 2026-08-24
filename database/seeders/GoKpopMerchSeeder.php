@@ -234,6 +234,7 @@ class GoKpopMerchSeeder extends Seeder
         foreach ($items as $item) {
             /** @var Product $product */
             $product = $item['product'];
+            $batch->products()->syncWithoutDetaching([$product->id]);
             $quantity = $item['quantity'];
             $unitPrice = $product->default_price;
 

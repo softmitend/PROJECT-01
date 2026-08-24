@@ -25,7 +25,10 @@
                         <x-text-input label="Email" name="email" type="email" :value="$member->email" placeholder="nama@email.com" required />
                         <x-text-input label="Nomor telepon" name="phone" type="tel" :value="$member->phone" placeholder="08xxxxxxxxxx" required />
                         @if ($member->exists)
-                            <div class="admin-form-readonly"><span>Kode internal</span>{{ $member->member_code }}</div>
+                            <label class="block">
+                                <span class="text-sm font-semibold text-zinc-800">Kode pelanggan</span>
+                                <input type="text" value="{{ $member->member_code }}" readonly aria-readonly="true" class="mt-2 w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-600 shadow-sm outline-none">
+                            </label>
                         @endif
                     </div>
                 </x-admin-form-section>
@@ -45,18 +48,21 @@
                     </div>
                 </x-admin-form-section>
 
-                <x-admin-form-section title="Ketersediaan">
-                    <label class="admin-form-choice">
-                        <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $member->is_active ?? true))>
-                        <span><strong>Pelanggan aktif</strong><small>Pelanggan tersedia pada dropdown form penambahan pesanan.</small></span>
-                    </label>
-                </x-admin-form-section>
+                @if($member->exists)
+                    <x-admin-form-section title="Ketersediaan">
+                        <label class="admin-form-choice">
+                            <input type="hidden" name="is_active" value="0">
+                            <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $member->is_active))>
+                            <span><strong>Pelanggan aktif</strong><small>Pelanggan tersedia pada dropdown form penambahan pesanan.</small></span>
+                        </label>
+                    </x-admin-form-section>
+                @endif
             </div>
 
             <footer class="admin-form-footer">
                 <p class="admin-form-footer-note">Periksa kembali email, nomor telepon, dan alamat sebelum data disimpan.</p>
                 <div class="admin-form-actions">
-                    <a class="admin-form-secondary" href="{{ route('admin.members.index', [], false) }}">Batal</a>
+                    <a class="admin-form-secondary" href="{{ $member->exists ? route('admin.members.show', $member, false) : route('admin.members.index', [], false) }}">Batal</a>
                     <button type="submit" class="admin-form-primary">Simpan Pelanggan</button>
                 </div>
             </footer>

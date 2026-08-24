@@ -4,12 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ $title ?? config('app.name', 'Rekap Jajanan') }}</title>
-        <meta name="design-version" content="tidy-form-select2-v14">
+        <meta name="design-version" content="landing-order-status-v15">
         @fonts
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     @php
         $isAdmin = auth()->check() && request()->routeIs('admin.*');
+        $isTrackingLanding = request()->routeIs(['tracking.index', 'tracking.search']);
         $adminNav = [
             ['route' => 'admin.dashboard', 'match' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
             ['route' => 'admin.members.index', 'match' => 'admin.members.*', 'label' => 'Pelanggan', 'icon' => 'users'],
@@ -19,6 +20,16 @@
             ['route' => 'admin.order-statuses.index', 'match' => 'admin.order-statuses.*', 'label' => 'Status', 'icon' => 'route'],
             ['route' => 'admin.status-histories.index', 'match' => 'admin.status-histories.*', 'label' => 'Log Status', 'icon' => 'history'],
         ];
+        $isAdminFormRoute = request()->routeIs([
+            'admin.members.create', 'admin.members.edit',
+            'admin.batches.create', 'admin.batches.edit',
+            'admin.member-orders.create', 'admin.member-orders.edit',
+            'admin.products.create', 'admin.products.edit',
+            'admin.order-statuses.create', 'admin.order-statuses.edit',
+        ]);
+        $adminBackItem = $isAdminFormRoute
+            ? null
+            : collect($adminNav)->first(fn ($item) => request()->routeIs($item['match']) && ! request()->routeIs($item['route']));
         $loginAt = session('login_at');
         if ($isAdmin && ! $loginAt) {
             $loginAt = now()->timestamp;
@@ -31,8 +42,8 @@
                 <aside class="admin-sidebar border-b border-zinc-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:flex lg:w-72 lg:flex-col lg:border-b-0 lg:border-r">
                     <div class="flex h-20 items-center justify-between px-5 lg:h-24 lg:px-7">
                         <a href="{{ route('admin.dashboard') }}" class="group flex items-center gap-3 font-bold tracking-tight">
-                            <span class="grid h-10 w-10 place-items-center rounded-2xl bg-zinc-950 text-white shadow-lg shadow-zinc-950/15 transition-transform group-hover:rotate-6">
-                                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m12 3 1.4 4.1a5.5 5.5 0 0 0 3.5 3.5L21 12l-4.1 1.4a5.5 5.5 0 0 0-3.5 3.5L12 21l-1.4-4.1a5.5 5.5 0 0 0-3.5-3.5L3 12l4.1-1.4a5.5 5.5 0 0 0 3.5-3.5L12 3Z"/></svg>
+                            <span class="grid h-12 w-12 shrink-0 place-items-center transition-transform group-hover:-rotate-3 group-hover:scale-105">
+                                <img src="{{ asset('img/Picsart_26-08-23_02-05-04-834.png') }}" alt="Logo Ocean Paws" class="h-12 w-12 object-contain drop-shadow-sm">
                             </span>
                             <span><span class="block text-base">OceanPaws</span><span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-violet-600">Admin Studio</span></span>
                         </a>
@@ -64,7 +75,15 @@
                 </aside>
 
                 <div class="admin-workspace lg:pl-72">
-                    <header class="sticky top-0 z-40 flex h-16 items-center justify-end border-b border-zinc-200/80 bg-white/90 px-4 backdrop-blur-xl sm:px-6 lg:h-20 xl:px-10">
+                    <header class="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-zinc-200/80 bg-white/90 px-4 backdrop-blur-xl sm:px-6 lg:h-20 xl:px-10">
+                        <div>
+                            @if($adminBackItem)
+                                <a href="{{ route($adminBackItem['route']) }}" class="admin-navbar-back">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+                                    <span>Kembali ke {{ $adminBackItem['label'] }}</span>
+                                </a>
+                            @endif
+                        </div>
                         <div class="flex items-center gap-5">
                             <div class="text-right leading-none" aria-label="Waktu sekarang">
                                 <div class="text-sm font-bold tracking-tight text-zinc-800" data-realtime-clock>--:--:--</div>
@@ -113,13 +132,13 @@
             <div class="min-h-screen">
                 <header class="sticky top-0 z-50 border-b border-zinc-200/70 bg-white/80 backdrop-blur-xl">
                     <div class="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-                        <a href="/" class="group flex items-center gap-2.5 font-bold tracking-tight">
-                            <span class="grid h-8 w-8 place-items-center rounded-full bg-zinc-950 text-white transition-transform group-hover:rotate-6"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 1.4 4.1a5.5 5.5 0 0 0 3.5 3.5L21 12l-4.1 1.4a5.5 5.5 0 0 0-3.5 3.5L12 21l-1.4-4.1a5.5 5.5 0 0 0-3.5-3.5L3 12l4.1-1.4a5.5 5.5 0 0 0 3.5-3.5L12 3Z"/></svg></span>
-                            <span>OceanPaws</span>
+                        <a href="/" class="group flex items-center gap-2.5 font-bold tracking-tight text-[#123c5a]">
+                            <img src="{{ asset('img/Picsart_26-08-23_02-05-04-834.png') }}" alt="Logo Ocean Paws" class="h-11 w-11 object-contain drop-shadow-sm transition-transform group-hover:-rotate-3 group-hover:scale-105">
+                            <span>Ocean Paws</span>
                         </a>
                         <nav class="flex items-center gap-1 text-sm font-medium">
-                            <a class="hidden rounded-full px-3 py-2 text-zinc-600 transition hover:bg-zinc-100 sm:block" href="{{ route('tracking.index') }}#track-code">Cek Status</a>
-                            <a class="hidden rounded-full px-3 py-2 text-zinc-600 transition hover:bg-zinc-100 sm:block" href="{{ route('tracking.index') }}#history-search">Riwayat</a>
+                            <a class="hidden rounded-full px-3 py-2 text-zinc-600 transition hover:bg-sky-50 hover:text-[#176fa9] sm:block" href="{{ route('tracking.index') }}#smart-search">Cek Status</a>
+                            <a class="hidden rounded-full px-3 py-2 text-zinc-600 transition hover:bg-sky-50 hover:text-[#176fa9] sm:block" href="{{ route('tracking.index') }}#smart-search">Riwayat</a>
                             @auth
                                 <a class="rounded-full bg-zinc-950 px-4 py-2 text-white" href="/admin">Dashboard</a>
                             @else
@@ -128,7 +147,7 @@
                         </nav>
                     </div>
                 </header>
-                <main class="{{ request()->routeIs('tracking.index') ? '' : 'mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8' }}">
+                <main class="{{ $isTrackingLanding ? 'public-landing-main' : 'mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8' }}">
                     @if (session('status'))
                         <div class="mx-auto mb-5 max-w-7xl rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">{{ session('status') }}</div>
                     @endif

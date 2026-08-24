@@ -35,18 +35,22 @@
                     </label>
                 </x-admin-form-section>
 
-                <x-admin-form-section title="Ketersediaan">
-                    <label class="admin-form-choice">
-                        <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $product->is_active ?? true))>
-                        <span><strong>Produk aktif</strong><small>Produk tersedia pada dropdown form pembelian.</small></span>
-                    </label>
-                </x-admin-form-section>
+                @if($product->exists)
+                    <x-admin-form-section title="Ketersediaan Produk">
+                        <label class="admin-form-choice">
+                            <input type="hidden" name="is_active" value="0">
+                            <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $product->is_active))>
+                            <span><strong>Produk aktif</strong><small>Produk aktif dapat dipilih ketika admin menyusun produk di dalam batch.</small></span>
+                        </label>
+                    </x-admin-form-section>
+                @endif
+
             </div>
 
             <footer class="admin-form-footer">
                 <p class="admin-form-footer-note">Harga default dapat disesuaikan kembali pada setiap item pesanan.</p>
                 <div class="admin-form-actions">
-                    <a class="admin-form-secondary" href="{{ route('admin.products.index', [], false) }}">Batal</a>
+                    <a class="admin-form-secondary" href="{{ $product->exists ? route('admin.products.show', $product, false) : route('admin.products.index', [], false) }}">Batal</a>
                     <button type="submit" class="admin-form-primary">Simpan Produk</button>
                 </div>
             </footer>

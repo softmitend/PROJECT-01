@@ -14,7 +14,7 @@ class StoreOrderStatusRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('access-admin') === true;
     }
 
     /**
@@ -24,19 +24,17 @@ class StoreOrderStatusRequest extends FormRequest
      */
     public function rules(): array
     {
-        $statusId = $this->route('order_status')?->id;
-
         return [
             'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:255', 'alpha_dash:ascii', 'unique:order_statuses,code,'.$statusId],
+            'code' => ['prohibited'],
             'description' => ['nullable', 'string'],
             'color' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
-            'sequence' => ['required', 'integer', 'min:0'],
             'status_type' => ['required', Rule::in(OrderStatus::TYPES)],
             'scope' => ['required', Rule::in(OrderStatus::SCOPES)],
             'is_initial' => ['sometimes', 'boolean'],
             'is_final' => ['sometimes', 'boolean'],
             'is_active' => ['sometimes', 'boolean'],
+            'locks_order_editing' => ['sometimes', 'boolean'],
         ];
     }
 

@@ -3,8 +3,13 @@
         <x-slot:action><a class="admin-primary-action" href="{{ route('admin.member-orders.create', [], false) }}">+ Tambah pesanan</a></x-slot:action>
     </x-page-heading>
     <div class="order-table-card">
-        <form class="order-table-toolbar">
+        <form class="order-table-toolbar" data-auto-filter>
             <input class="min-w-0 flex-1" name="q" value="{{ request('q') }}" placeholder="Cari kode pesanan, pelanggan, atau batch...">
+            <div class="date-range-filter">
+                <label><span>Dari</span><input name="date_from" type="date" value="{{ request('date_from') }}" aria-label="Tanggal pesanan mulai"></label>
+                <i aria-hidden="true">—</i>
+                <label><span>Sampai</span><input name="date_to" type="date" value="{{ request('date_to') }}" aria-label="Tanggal pesanan akhir"></label>
+            </div>
             <button class="order-table-toolbar-button" type="submit"><svg viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="5.5"/><path d="m13 13 4 4"/></svg>Cari</button>
         </form>
         <div class="order-table-scroll">

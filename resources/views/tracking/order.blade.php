@@ -1,54 +1,60 @@
 <x-layouts.app title="Detail Pesanan {{ $order->order_code }}">
-    <x-page-heading title="Batch {{ $order->batch->batch_number }}" description="{{ $member->display_name }} · {{ $order->order_code }}">
-        <x-slot:action><a class="inline-flex rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold shadow-sm transition hover:border-zinc-400" href="{{ route('tracking.member', $member->member_code, false) }}">Kembali ke riwayat</a></x-slot:action>
+    <x-page-heading title="Detail Pesanan" description="Seluruh informasi batch, item, dan timeline pesanan dalam satu tampilan.">
+        <x-slot:action><a class="inline-flex rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold shadow-sm transition hover:border-zinc-400" href="{{ URL::temporarySignedRoute('tracking.member', now()->addMinutes(15), ['memberCode' => $member->member_code]) }}">Kembali ke riwayat</a></x-slot:action>
     </x-page-heading>
 
-    <div class="mb-6 rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 to-white p-6 shadow-xl shadow-violet-100/30">
-        <div class="text-xs font-bold uppercase tracking-wider text-zinc-400">Status pesanan</div>
-        <div class="mt-3"><x-status-badge :status="$order->effective_status" /></div>
-        @if ($order->notes)
-            <p class="mt-4 text-sm leading-6 text-zinc-600">{{ $order->notes }}</p>
-        @endif
-    </div>
-
-    <div class="order-table-card">
-        <div class="order-table-scroll">
-            <table class="order-table">
-                <thead>
-                    <tr>
-                        <th>Jajanan</th>
-                        <th>Qty</th>
-                        <th>Harga</th>
-                        <th>Status item</th>
-                        <th>Catatan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($order->items as $item)
-                        <tr>
-                            <td><div class="order-table-primary">{{ $item->item_name }}</div><div class="order-table-secondary">{{ $item->variant ?: 'Tanpa varian' }}</div></td>
-                            <td class="font-semibold text-zinc-700">{{ $item->quantity }}</td>
-                            <td class="font-semibold text-zinc-700">{{ $item->unit_price ? 'Rp '.number_format($item->unit_price, 0, ',', '.') : '-' }}</td>
-                            <td><x-status-badge :status="$item->effective_status" /></td>
-                            <td class="text-zinc-600">{{ $item->notes ?: '-' }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <section class="soft-card mt-6 rounded-3xl p-6">
-        <h2 class="font-bold">Timeline status</h2>
-        <div class="mt-5 space-y-4">
-            @forelse ($timeline as $history)
-                <div class="border-l border-violet-200 pl-5 text-sm">
-                    <div><x-status-badge :status="$history->oldStatus" /> <span class="mx-1 text-zinc-400">ke</span> <x-status-badge :status="$history->newStatus" /></div>
-                    <div class="mt-2 text-zinc-500">{{ $history->note ?: 'Tanpa catatan' }} &middot; {{ $history->created_at->format('d M Y H:i') }}</div>
+    <article class="detail-record-card">
+        <header class="detail-record-hero">
+            <div class="min-w-0">
+                <p class="detail-record-kicker">Pesanan {{ $member->display_name }}</p>
+                <div class="mt-2 flex flex-wrap items-center gap-3">
+                    <h2 class="detail-record-title">{{ $order->order_code }}</h2>
+                    <x-status-badge :status="$order->tracking_status" />
                 </div>
-            @empty
-                <p class="text-sm text-zinc-500">Belum ada riwayat status untuk pesanan ini.</p>
-            @endforelse
-        </div>
-    </section>
+                <p class="detail-record-description">Batch {{ $order->batch->batch_number }} · {{ $order->batch->batch_name ?: 'K-pop merchandise' }}</p>
+            </div>
+            <div class="detail-record-id">{{ $order->items->sum('quantity') }} item</div>
+        </header>
+
+        @if ($order->notes)
+            <section class="detail-record-section"><div class="detail-record-note mt-0"><span>Catatan pesanan</span><p>{{ $order->notes }}</p></div></section>
+        @endif
+
+        <section class="detail-record-section detail-record-table-section">
+            <div class="detail-record-section-heading detail-record-table-heading"><div><h3>Item Pesanan</h3><p>Rincian produk, harga, dan progres tiap item.</p></div></div>
+            <div class="order-table-scroll">
+                <table class="order-table">
+                    <thead><tr><th>Jajanan</th><th>Qty</th><th>Harga</th><th>Status item</th><th>Catatan</th></tr></thead>
+                    <tbody>
+                        @forelse ($order->items as $item)
+                            <tr>
+                                <td><div class="order-table-primary">{{ $item->item_name }}</div><div class="order-table-secondary">{{ $item->variant ?: 'Tanpa varian' }}</div></td>
+                                <td class="font-semibold text-zinc-700">{{ $item->quantity }}</td>
+                                <td class="font-semibold text-zinc-700">{{ $item->unit_price ? 'Rp '.number_format($item->unit_price, 0, ',', '.') : '-' }}</td>
+                                <td><x-status-badge :status="$order->is_refunded ? $order->tracking_status : $item->effective_status" /></td>
+                                <td class="text-zinc-600">{{ $item->notes ?: '-' }}</td>
+                            </tr>
+                        @empty
+                            <tr><td colspan="5" class="py-10 text-center text-zinc-500">Belum ada item yang tercatat.</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="detail-record-section">
+            <div class="detail-record-section-heading"><div><h3>Timeline Status</h3><p>Pembaruan terbaru ditampilkan terlebih dahulu.</p></div></div>
+            <div class="detail-record-timeline">
+                @forelse ($timeline as $history)
+                    <div class="detail-record-timeline-item">
+                        <span class="detail-record-timeline-dot"></span>
+                        <div class="flex flex-wrap items-center gap-2"><x-status-badge :status="$history->oldStatus" /><span class="text-zinc-400">menjadi</span><x-status-badge :status="$history->newStatus" /></div>
+                        <p>{{ $history->note ?: 'Tanpa catatan' }} · {{ $history->created_at->format('d M Y, H:i') }}</p>
+                    </div>
+                @empty
+                    <p class="text-sm text-zinc-500">Belum ada riwayat status untuk pesanan ini.</p>
+                @endforelse
+            </div>
+        </section>
+    </article>
 </x-layouts.app>

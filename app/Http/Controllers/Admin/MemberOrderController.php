@@ -8,26 +8,36 @@ use App\Models\Batch;
 use App\Models\Member;
 use App\Models\MemberOrder;
 use App\Models\OrderStatus;
-use App\Models\Product;
 use App\Services\StatusTransitionService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class MemberOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $filters = $request->validate([
+            'q' => ['nullable', 'string', 'max:255'],
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
+        ]);
+
         $orders = MemberOrder::query()
             ->with(['member', 'batch.currentStatus', 'overrideStatus', 'paymentStatus'])
             ->withCount('items')
-            ->when(request('q'), function ($query, $q) {
-                $query->where('order_code', 'like', "%{$q}%")
+            ->when($filters['q'] ?? null, function ($query, $q) {
+                $query->where(fn ($query) => $query->where('order_code', 'like', "%{$q}%")
                     ->orWhereHas('member', fn ($query) => $query->where('display_name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%"))
-                    ->orWhereHas('batch', fn ($query) => $query->where('batch_number', 'like', "%{$q}%"));
+                    ->orWhereHas('batch', fn ($query) => $query->where('batch_number', 'like', "%{$q}%")));
             })
+            ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('created_at', '>=', $date))
+            ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('created_at', '<=', $date))
             ->latest()
             ->paginate(15)
             ->withQueryString();
@@ -49,13 +59,12 @@ class MemberOrderController extends Controller
     public function store(StoreMemberOrderRequest $request, StatusTransitionService $statuses)
     {
         $order = DB::transaction(function () use ($request, $statuses) {
-            $order = MemberOrder::create($request->safe()->except(['override_status_id', 'items']));
+            $order = MemberOrder::create($request->safe()->except(['order_code', 'override_status_id', 'items']) + [
+                'order_code' => 'TMP-'.Str::uuid(),
+            ]);
+            $order->forceFill(['order_code' => $this->generateOrderCode($order)])->save();
             $this->syncItems($order, $request->validated('items'), $statuses, $request->user());
             $order->update(['total_amount' => $order->items()->sum('subtotal')]);
-
-            if ($request->filled('override_status_id')) {
-                $statuses->transition($order, OrderStatus::findOrFail($request->integer('override_status_id')), $request->user(), 'Override status pesanan.');
-            }
 
             return $order;
         });
@@ -71,8 +80,20 @@ class MemberOrderController extends Controller
     public function show(MemberOrder $memberOrder)
     {
         $memberOrder->load(['member', 'batch.currentStatus', 'overrideStatus', 'paymentStatus', 'items.product', 'items.overrideStatus', 'statusHistories.oldStatus', 'statusHistories.newStatus', 'statusHistories.changedBy']);
+        $orderStatuses = OrderStatus::query()
+            ->whereIn('scope', ['member_order', 'all'])
+            ->where('code', '!=', 'refunded')
+            ->where(fn ($query) => $query
+                ->where('is_active', true)
+                ->when($memberOrder->override_status_id, fn ($query, $statusId) => $query->orWhere('id', $statusId)))
+            ->orderBy('sequence')
+            ->orderBy('name')
+            ->get();
 
-        return view('admin.orders.show', ['order' => $memberOrder]);
+        return view('admin.orders.show', [
+            'order' => $memberOrder,
+            'orderStatuses' => $orderStatuses,
+        ]);
     }
 
     /**
@@ -80,7 +101,7 @@ class MemberOrderController extends Controller
      */
     public function edit(MemberOrder $memberOrder)
     {
-        $memberOrder->load('items');
+        $memberOrder->load(['items', 'batch.currentStatus', 'overrideStatus']);
 
         return view('admin.orders.form', $this->formData($memberOrder));
     }
@@ -91,16 +112,38 @@ class MemberOrderController extends Controller
     public function update(StoreMemberOrderRequest $request, MemberOrder $memberOrder, StatusTransitionService $statuses)
     {
         DB::transaction(function () use ($request, $memberOrder, $statuses) {
-            $memberOrder->update($request->safe()->except(['override_status_id', 'items']));
-            $this->syncItems($memberOrder, $request->validated('items'), $statuses, $request->user());
-            $memberOrder->update(['total_amount' => $memberOrder->items()->sum('subtotal')]);
+            $memberOrder->loadMissing(['batch.currentStatus', 'overrideStatus', 'paymentStatus']);
+            $itemsAreLocked = $memberOrder->batch->orders_locked || $memberOrder->is_refunded;
+            $memberOrder->update($request->safe()->except(['order_code', 'override_status_id', 'items']));
 
-            $newStatusId = $request->integer('override_status_id') ?: null;
+            if (! $itemsAreLocked) {
+                $this->syncItems($memberOrder, $request->validated('items'), $statuses, $request->user());
+                $memberOrder->update(['total_amount' => $memberOrder->items()->sum('subtotal')]);
+            }
 
-            if ($newStatusId && $newStatusId !== $memberOrder->override_status_id) {
-                $statuses->transition($memberOrder, OrderStatus::findOrFail($newStatusId), $request->user(), 'Override status pesanan diperbarui.');
-            } elseif (! $newStatusId && $memberOrder->override_status_id) {
-                $statuses->clearOverride($memberOrder, $request->user());
+            $paymentStatus = $request->filled('payment_status_id')
+                ? OrderStatus::find($request->integer('payment_status_id'))
+                : null;
+
+            if ($paymentStatus?->code === 'refund' && $memberOrder->overrideStatus?->code !== 'refunded') {
+                $refundedStatus = OrderStatus::query()
+                    ->where('code', 'refunded')
+                    ->where('scope', 'member_order')
+                    ->where('is_active', true)
+                    ->first();
+
+                if (! $refundedStatus) {
+                    throw ValidationException::withMessages([
+                        'payment_status_id' => 'Status terminal Refunded belum tersedia pada Manajemen Status.',
+                    ]);
+                }
+
+                $statuses->transition(
+                    $memberOrder,
+                    $refundedStatus,
+                    $request->user(),
+                    'Progress pesanan dihentikan otomatis karena pembayaran diubah menjadi refund.'
+                );
             }
         });
 
@@ -121,26 +164,69 @@ class MemberOrderController extends Controller
         return new RedirectResponse('/admin/member-orders', 303);
     }
 
+    public function transition(Request $request, MemberOrder $memberOrder, StatusTransitionService $statuses)
+    {
+        abort_unless($request->user()?->can('access-admin'), 403);
+
+        $memberOrder->loadMissing(['overrideStatus', 'paymentStatus']);
+        if ($memberOrder->is_refunded) {
+            return back()->withErrors([
+                'status_id' => 'Pesanan refund sudah selesai dan tidak dapat diberi status khusus maupun status lainnya.',
+            ]);
+        }
+
+        $data = $request->validate([
+            'status_id' => ['nullable', 'integer', 'exists:order_statuses,id'],
+            'note' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        if (filled($data['status_id'] ?? null)) {
+            $statuses->transition(
+                $memberOrder,
+                OrderStatus::findOrFail($data['status_id']),
+                $request->user(),
+                $data['note'] ?? 'Status khusus pesanan diperbarui.'
+            );
+
+            return back()->with('status', 'Status khusus pesanan diperbarui.');
+        }
+
+        if ($memberOrder->override_status_id) {
+            $statuses->clearOverride($memberOrder, $request->user(), $data['note'] ?? 'Pesanan kembali mengikuti status batch.');
+        }
+
+        return back()->with('status', 'Pesanan sekarang mengikuti status batch.');
+    }
+
     private function formData(MemberOrder $order): array
     {
-        $existingProductIds = $order->exists ? $order->items()->pluck('product_id')->filter() : collect();
+        $order->loadMissing(['member', 'items', 'batch.currentStatus', 'overrideStatus', 'paymentStatus']);
+        $batches = Batch::query()
+            ->with(['currentStatus', 'products' => fn ($query) => $query->orderBy('name')->orderBy('variant')])
+            ->where(fn ($query) => $query
+                ->where(fn ($query) => $query->where('is_archived', false)->whereHas('products'))
+                ->when($order->batch_id, fn ($query, $batchId) => $query->orWhere('id', $batchId)))
+            ->orderByDesc('created_at')
+            ->get();
+        $members = Member::where('is_active', true)->orderBy('display_name')->get();
+        $selectedMemberId = (int) old('member_id', request('member_id'));
+        $selectedMember = $order->exists
+            ? $order->member
+            : $members->firstWhere('id', $selectedMemberId);
 
         return [
             'order' => $order,
-            'members' => Member::where('is_active', true)->orderBy('display_name')->get(),
-            'batches' => Batch::where('is_archived', false)->orderByDesc('created_at')->get(),
-            'products' => Product::query()
-                ->where(fn ($query) => $query->where('is_active', true)->orWhereIn('id', $existingProductIds))
-                ->orderBy('name')
-                ->orderBy('variant')
-                ->get(),
-            'orderStatuses' => OrderStatus::activeFor('member_order')->get(),
+            'members' => $members,
+            'selectedMember' => $selectedMember,
+            'batches' => $batches,
+            'productsByBatch' => $batches->mapWithKeys(fn (Batch $batch) => [$batch->id => $batch->products]),
             'itemStatuses' => OrderStatus::activeFor('order_item')->get(),
             'paymentStatuses' => OrderStatus::query()
                 ->where('scope', 'payment')
+                ->when(! $order->exists, fn ($query) => $query->where('code', '!=', 'refund'))
                 ->where(fn ($query) => $query
                     ->where('is_active', true)
-                    ->when($order->payment_status_id, fn ($query, $statusId) => $query->orWhereKey($statusId)))
+                    ->when($order->payment_status_id, fn ($query, $statusId) => $query->orWhere('id', $statusId)))
                 ->orderBy('sequence')
                 ->orderBy('name')
                 ->get(),
@@ -174,5 +260,10 @@ class MemberOrderController extends Controller
         }
 
         $order->items()->whereNotIn('id', $keptIds)->delete();
+    }
+
+    private function generateOrderCode(MemberOrder $order): string
+    {
+        return 'ORD-'.now()->format('ym').'-'.str_pad((string) $order->getKey(), 6, '0', STR_PAD_LEFT);
     }
 }

@@ -16,6 +16,54 @@ class OrderStatus extends Model
 
     public const SCOPES = ['batch', 'member_order', 'order_item', 'payment', 'all'];
 
+    public const SCOPE_DEFINITIONS = [
+        'batch' => [
+            'label' => 'Batch Pembelian',
+            'title' => 'Progress Batch Pembelian',
+            'description' => 'Tahapan operasional pembelian kolektif dari pemesanan supplier hingga distribusi.',
+            'applies_to' => 'Manajemen Batch → tambah, edit, dan detail batch',
+            'application' => 'Menjadi progress utama batch. Seluruh pesanan tanpa status khusus otomatis mengikuti status batch ini.',
+            'form_hint' => 'progress utama seluruh pesanan dalam satu batch',
+        ],
+        'member_order' => [
+            'label' => 'Pesanan Pelanggan',
+            'title' => 'Status Khusus Pesanan Pelanggan',
+            'description' => 'Kondisi satu pesanan pelanggan yang berbeda dari progress batch.',
+            'applies_to' => 'Detail Pesanan → Kelola Status Khusus',
+            'application' => 'Hanya mengubah pesanan yang dipilih dan tidak memengaruhi batch maupun pesanan pelanggan lainnya.',
+            'form_hint' => 'override khusus untuk satu pesanan pelanggan',
+        ],
+        'order_item' => [
+            'label' => 'Item Pesanan',
+            'title' => 'Status Khusus Item Pesanan',
+            'description' => 'Kondisi khusus satu produk di dalam pesanan pelanggan.',
+            'applies_to' => 'Edit Pesanan → Status Item',
+            'application' => 'Dipakai untuk kondisi seperti item kurang atau rusak tanpa mengubah status produk lain dalam pesanan.',
+            'form_hint' => 'override khusus untuk satu produk dalam pesanan',
+        ],
+        'payment' => [
+            'label' => 'Pembayaran Pesanan',
+            'title' => 'Status Pembayaran Pesanan',
+            'description' => 'Tahap pembayaran pelanggan yang berjalan terpisah dari progress barang.',
+            'applies_to' => 'Form Tambah/Edit Pesanan → Status Pembayaran',
+            'application' => 'Ditampilkan pada form dan detail pesanan untuk mencatat DP, pelunasan, atau pengembalian dana.',
+            'form_hint' => 'status transaksi pembayaran pelanggan',
+        ],
+        'all' => [
+            'label' => 'Lintas Fitur',
+            'title' => 'Status Umum Lintas Fitur',
+            'description' => 'Status generik dengan arti yang sama pada batch, pesanan, dan item.',
+            'applies_to' => 'Batch Pembelian, Status Khusus Pesanan, dan Status Item',
+            'application' => 'Gunakan hanya untuk kondisi umum seperti Siap Distribusi, Selesai, atau Dibatalkan.',
+            'form_hint' => 'dapat digunakan pada batch, pesanan, dan item',
+        ],
+    ];
+
+    public static function scopeDefinitions(): array
+    {
+        return self::SCOPE_DEFINITIONS;
+    }
+
     protected $fillable = [
         'name',
         'code',
@@ -27,6 +75,7 @@ class OrderStatus extends Model
         'is_initial',
         'is_final',
         'is_active',
+        'locks_order_editing',
     ];
 
     protected function casts(): array
@@ -36,6 +85,7 @@ class OrderStatus extends Model
             'is_initial' => 'boolean',
             'is_final' => 'boolean',
             'is_active' => 'boolean',
+            'locks_order_editing' => 'boolean',
         ];
     }
 

@@ -27,7 +27,7 @@
         </div>
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             @foreach ($summaryCards as $card)
-                <article class="admin-panel dashboard-card p-5">
+                <article class="admin-panel dashboard-card dashboard-stat-card p-5">
                     <div class="flex items-start justify-between gap-4">
                         <span class="{{ $card['tone'] }} grid h-11 w-11 place-items-center rounded-2xl">
                             @if($card['icon'] === 'users')

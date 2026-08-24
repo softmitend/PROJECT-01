@@ -66,4 +66,26 @@ class MemberOrder extends Model
     {
         return $this->overrideStatus ?: $this->batch?->effective_status;
     }
+
+    public function getIsRefundedAttribute(): bool
+    {
+        return $this->overrideStatus?->code === 'refunded'
+            || $this->paymentStatus?->code === 'refund';
+    }
+
+    public function getTrackingStatusAttribute(): ?OrderStatus
+    {
+        if (! $this->is_refunded) {
+            return $this->effective_status;
+        }
+
+        if (! $this->relationLoaded('trackingStatus')) {
+            $this->setRelation(
+                'trackingStatus',
+                OrderStatus::query()->where('code', 'selesai')->first() ?: $this->effective_status
+            );
+        }
+
+        return $this->getRelation('trackingStatus');
+    }
 }

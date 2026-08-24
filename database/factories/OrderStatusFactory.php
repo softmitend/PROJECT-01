@@ -28,6 +28,7 @@ class OrderStatusFactory extends Factory
             'is_initial' => false,
             'is_final' => false,
             'is_active' => true,
+            'locks_order_editing' => false,
         ];
     }
 }

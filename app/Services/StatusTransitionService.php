@@ -17,6 +17,24 @@ class StatusTransitionService
     {
         $scope = $this->scopeFor($trackable);
 
+        if ($trackable instanceof MemberOrder) {
+            $trackable->loadMissing(['overrideStatus', 'paymentStatus']);
+            if ($trackable->is_refunded && $newStatus->code !== 'refunded') {
+                throw ValidationException::withMessages([
+                    'status_id' => 'Pesanan refund sudah selesai dan tidak dapat diberi status lain.',
+                ]);
+            }
+        }
+
+        if ($trackable instanceof OrderItem) {
+            $trackable->loadMissing(['order.overrideStatus', 'order.paymentStatus']);
+            if ($trackable->order?->is_refunded) {
+                throw ValidationException::withMessages([
+                    'status_id' => 'Item dari pesanan refund sudah selesai dan tidak dapat diberi status lain.',
+                ]);
+            }
+        }
+
         if (! $newStatus->isUsableFor($scope)) {
             throw ValidationException::withMessages([
                 'status_id' => 'Status tidak aktif atau scope status tidak sesuai.',
@@ -42,6 +60,25 @@ class StatusTransitionService
 
     public function clearOverride(MemberOrder|OrderItem $trackable, ?User $changedBy = null, ?string $note = null): Model
     {
+        if ($trackable instanceof MemberOrder) {
+            $trackable->loadMissing(['overrideStatus', 'paymentStatus']);
+            if ($trackable->is_refunded) {
+                throw ValidationException::withMessages([
+                    'status_id' => 'Pesanan refund sudah selesai dan status terminalnya tidak dapat dihapus.',
+                ]);
+            }
+        }
+
+
+        if ($trackable instanceof OrderItem) {
+            $trackable->loadMissing(['order.overrideStatus', 'order.paymentStatus']);
+            if ($trackable->order?->is_refunded) {
+                throw ValidationException::withMessages([
+                    'status_id' => 'Item dari pesanan refund sudah selesai dan statusnya tidak dapat diubah.',
+                ]);
+            }
+        }
+
         return DB::transaction(function () use ($trackable, $changedBy, $note) {
             $oldStatusId = $trackable->override_status_id;
 

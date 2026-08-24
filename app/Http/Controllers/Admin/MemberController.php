@@ -47,7 +47,7 @@ class MemberController extends Controller
     {
         Member::create($request->validated() + [
             'member_code' => $this->generateMemberCode(),
-            'is_active' => $request->boolean('is_active', true),
+            'is_active' => true,
         ]);
 
         session()->flash('status', 'Pelanggan berhasil ditambahkan.');
@@ -82,7 +82,7 @@ class MemberController extends Controller
 
         session()->flash('status', 'Pelanggan berhasil diperbarui.');
 
-        return new RedirectResponse('/admin/members', 303);
+        return new RedirectResponse('/admin/members/'.$member->id, 303);
     }
 
     /**

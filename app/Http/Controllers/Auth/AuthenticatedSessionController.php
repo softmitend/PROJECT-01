@@ -22,7 +22,7 @@ class AuthenticatedSessionController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (! Auth::attempt($credentials + ['role' => 'admin'], $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => 'Email atau password tidak sesuai.',
             ]);

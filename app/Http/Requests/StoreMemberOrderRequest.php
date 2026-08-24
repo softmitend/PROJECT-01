@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Batch;
 use App\Models\Product;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class StoreMemberOrderRequest extends FormRequest
 {
@@ -44,7 +46,7 @@ class StoreMemberOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('access-admin') === true;
     }
 
     /**
@@ -54,32 +56,77 @@ class StoreMemberOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        $orderId = $this->route('member_order')?->id;
+        $order = $this->route('member_order');
         $currentPaymentStatusId = $this->route('member_order')?->payment_status_id;
+        $isExistingOrder = $order !== null;
+        $itemsAreLocked = $order
+            ? ($order->loadMissing(['batch.currentStatus', 'overrideStatus', 'paymentStatus'])->batch?->orders_locked
+                || $order->is_refunded)
+            : false;
 
         return [
-            'order_code' => ['required', 'string', 'max:255', 'unique:member_orders,order_code,'.$orderId],
-            'member_id' => ['required', 'exists:members,id'],
-            'batch_id' => ['required', 'exists:batches,id'],
-            'override_status_id' => ['nullable', 'exists:order_statuses,id'],
+            'order_code' => ['prohibited'],
+            'member_id' => $isExistingOrder
+                ? ['required', Rule::in([$order->member_id])]
+                : ['required', 'exists:members,id'],
+            'batch_id' => $itemsAreLocked
+                ? ['required', Rule::in([$order->batch_id])]
+                : ['required', 'exists:batches,id'],
+            'override_status_id' => ['prohibited'],
             'payment_status_id' => [
                 'nullable',
                 Rule::exists('order_statuses', 'id')->where(fn ($query) => $query
                     ->where('scope', 'payment')
                     ->where(fn ($query) => $query
                         ->where('is_active', true)
+                        ->when(! $isExistingOrder, fn ($query) => $query->where('code', '!=', 'refund'))
                         ->when($currentPaymentStatusId, fn ($query, $statusId) => $query->orWhere('id', $statusId)))),
             ],
             'notes' => ['nullable', 'string'],
-            'items' => ['required', 'array', 'min:1'],
+            'items' => $itemsAreLocked ? ['prohibited'] : ['required', 'array', 'min:1'],
             'items.*.id' => ['nullable', 'exists:order_items,id'],
-            'items.*.product_id' => ['required', 'exists:products,id'],
+            'items.*.product_id' => [
+                'required',
+                'distinct',
+                Rule::exists('batch_product', 'product_id')
+                    ->where(fn ($query) => $query->where('batch_id', $this->integer('batch_id'))),
+            ],
             'items.*.item_name' => ['required', 'string', 'max:255'],
             'items.*.variant' => ['nullable', 'string', 'max:255'],
             'items.*.quantity' => ['required', 'integer', 'min:1'],
             'items.*.unit_price' => ['nullable', 'numeric', 'min:0'],
-            'items.*.override_status_id' => ['nullable', 'exists:order_statuses,id'],
+            'items.*.override_status_id' => $isExistingOrder
+                ? ['nullable', 'exists:order_statuses,id']
+                : ['prohibited'],
             'items.*.notes' => ['nullable', 'string'],
         ];
+    }
+
+    /**
+     * @return array<int, callable(Validator): void>
+     */
+    public function after(): array
+    {
+        return [function (Validator $validator): void {
+            $order = $this->route('member_order');
+            if ($order && ($order->loadMissing(['batch.currentStatus', 'overrideStatus', 'paymentStatus'])->batch?->orders_locked
+                || $order->is_refunded)) {
+                return;
+            }
+
+            if ($validator->errors()->has('batch_id') || $validator->errors()->has('items')) {
+                return;
+            }
+
+            $batch = Batch::with('products:id')->find($this->integer('batch_id'));
+            if (! $batch || $batch->products->count() !== 1) {
+                return;
+            }
+
+            $submittedProductIds = collect($this->input('items', []))->pluck('product_id')->filter()->map(fn ($id) => (int) $id);
+            if ($submittedProductIds->count() !== 1 || $submittedProductIds->first() !== $batch->products->first()->id) {
+                $validator->errors()->add('items', 'Batch dengan satu produk harus menggunakan produk tersebut dan tidak dapat ditambah produk lain.');
+            }
+        }];
     }
 }

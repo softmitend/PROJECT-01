@@ -116,8 +116,9 @@ php artisan db:seed --force
 Untuk database MySQL baru, schema juga dapat di-import langsung melalui
 phpMyAdmin menggunakan `database/schema/mysql-schema.sql`. Pilih database yang
 masih kosong sebelum import karena script tersebut menghapus tabel dengan nama
-yang sama. Setelah import berhasil, jalankan `php artisan db:seed --force` jika
-data awal dan akun admin demo diperlukan.
+yang sama. Setelah schema berhasil, import `database/schema/mysql-seed.sql`
+untuk memasukkan data awal dan akun admin demo. Alternatifnya, jalankan
+`php artisan db:seed --force` menggunakan koneksi database production.
 
 Seeder membuat akun demo. Ganti password admin dan hapus data demo sebelum website production digunakan secara publik.
 

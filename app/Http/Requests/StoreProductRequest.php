@@ -12,7 +12,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('access-admin') === true;
     }
 
     /**
@@ -27,7 +27,7 @@ class StoreProductRequest extends FormRequest
             'variant' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'default_price' => ['nullable', 'numeric', 'min:0'],
-            'is_active' => ['sometimes', 'boolean'],
+            'is_active' => $this->route('product') ? ['sometimes', 'boolean'] : ['prohibited'],
         ];
     }
 }
