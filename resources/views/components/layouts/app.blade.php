@@ -137,8 +137,6 @@
                             <span>Ocean Paws</span>
                         </a>
                         <nav class="flex items-center gap-1 text-sm font-medium">
-                            <a class="hidden rounded-full px-3 py-2 text-zinc-600 transition hover:bg-sky-50 hover:text-[#176fa9] sm:block" href="{{ route('tracking.index') }}#smart-search">Cek Status</a>
-                            <a class="hidden rounded-full px-3 py-2 text-zinc-600 transition hover:bg-sky-50 hover:text-[#176fa9] sm:block" href="{{ route('tracking.index') }}#smart-search">Riwayat</a>
                             @auth
                                 <a class="rounded-full bg-zinc-950 px-4 py-2 text-white" href="/admin">Dashboard</a>
                             @else
