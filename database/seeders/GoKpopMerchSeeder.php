@@ -56,12 +56,12 @@ class GoKpopMerchSeeder extends Seeder
         });
 
         $members = collect([
-            ['member_code' => 'GO-0001', 'display_name' => 'Mira Carat', 'email' => 'mira@example.com', 'phone' => '081234560001', 'address' => 'Jl. Melati No. 1, Jakarta Selatan', 'notes' => 'Pengiriman reguler, packing kayu untuk album.', 'is_active' => true],
-            ['member_code' => 'GO-0002', 'display_name' => 'Dinda Czennie', 'email' => 'dinda@example.com', 'phone' => '081234560002', 'address' => 'Jl. Anggrek No. 2, Bandung', 'notes' => 'Prioritas member Mark dan Jeno.', 'is_active' => true],
-            ['member_code' => 'GO-0003', 'display_name' => 'Rara MY', 'email' => 'rara@example.com', 'phone' => '081234560003', 'address' => 'Jl. Kenanga No. 3, Surabaya', 'notes' => 'Hubungi melalui WhatsApp sebelum pengiriman.', 'is_active' => true],
-            ['member_code' => 'GO-0004', 'display_name' => 'Nay WIZ*ONE', 'email' => 'nay@example.com', 'phone' => '081234560004', 'address' => 'Jl. Mawar No. 4, Yogyakarta', 'notes' => 'Bisa pickup saat event.', 'is_active' => true],
-            ['member_code' => 'GO-0005', 'display_name' => 'Kevin Stay', 'email' => 'kevin@example.com', 'phone' => '081234560005', 'address' => 'Jl. Tulip No. 5, Semarang', 'notes' => 'Konfirmasi DP melalui email.', 'is_active' => true],
-            ['member_code' => 'GO-0006', 'display_name' => 'Sasa MOA', 'email' => 'sasa@example.com', 'phone' => '081234560006', 'address' => 'Jl. Flamboyan No. 6, Malang', 'notes' => 'Pelanggan lama yang sedang dinonaktifkan.', 'is_active' => false],
+            ['member_code' => 'GO-0001', 'display_name' => 'Mira Carat', 'username' => 'mira.carat', 'email' => null, 'phone' => '081234560001', 'address' => 'Jl. Melati No. 1, Jakarta Selatan', 'notes' => 'Pengiriman reguler, packing kayu untuk album.', 'is_active' => true],
+            ['member_code' => 'GO-0002', 'display_name' => 'Dinda Czennie', 'username' => 'dinda.czennie', 'email' => null, 'phone' => '081234560002', 'address' => 'Jl. Anggrek No. 2, Bandung', 'notes' => 'Prioritas member Mark dan Jeno.', 'is_active' => true],
+            ['member_code' => 'GO-0003', 'display_name' => 'Rara MY', 'username' => 'rara.my', 'email' => null, 'phone' => '081234560003', 'address' => 'Jl. Kenanga No. 3, Surabaya', 'notes' => 'Hubungi melalui LINE sebelum pengiriman.', 'is_active' => true],
+            ['member_code' => 'GO-0004', 'display_name' => 'Nay WIZ*ONE', 'username' => 'nay.wizone', 'email' => null, 'phone' => '081234560004', 'address' => 'Jl. Mawar No. 4, Yogyakarta', 'notes' => 'Bisa pickup saat event.', 'is_active' => true],
+            ['member_code' => 'GO-0005', 'display_name' => 'Kevin Stay', 'username' => 'kevin.stay', 'email' => null, 'phone' => '081234560005', 'address' => 'Jl. Tulip No. 5, Semarang', 'notes' => 'Konfirmasi DP melalui LINE.', 'is_active' => true],
+            ['member_code' => 'GO-0006', 'display_name' => 'Sasa MOA', 'username' => 'sasa.moa', 'email' => null, 'phone' => '081234560006', 'address' => 'Jl. Flamboyan No. 6, Malang', 'notes' => 'Pelanggan lama yang sedang dinonaktifkan.', 'is_active' => false],
         ])->mapWithKeys(function (array $member) {
             $model = Member::updateOrCreate(
                 ['member_code' => $member['member_code']],

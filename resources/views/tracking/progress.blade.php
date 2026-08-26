@@ -60,7 +60,7 @@
             </section>
 
             <footer class="detail-record-section bg-zinc-950 text-center text-sm text-white">
-                Punya pesanan lain? <a class="font-semibold underline decoration-white/40 underline-offset-4 hover:decoration-white" href="{{ route('tracking.index') }}#history-search">Cari seluruh riwayat dengan email</a>
+                Punya pesanan lain? <a class="font-semibold underline decoration-white/40 underline-offset-4 hover:decoration-white" href="{{ route('tracking.index') }}#smart-search">Cari seluruh riwayat dengan username LINE</a>
             </footer>
         </article>
     </div>

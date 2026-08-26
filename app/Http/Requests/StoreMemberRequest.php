@@ -10,7 +10,7 @@ class StoreMemberRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'email' => mb_strtolower(trim((string) $this->input('email'))),
+            'username' => mb_strtolower(trim((string) $this->input('username'))),
             'phone' => trim((string) $this->input('phone')),
         ]);
     }
@@ -34,7 +34,7 @@ class StoreMemberRequest extends FormRequest
 
         return [
             'display_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:members,email,'.$memberId],
+            'username' => ['required', 'string', 'max:255', 'unique:members,username,'.$memberId],
             'phone' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:2000'],
             'notes' => ['nullable', 'string'],

@@ -57,7 +57,7 @@
                                     <select name="member_id" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm" required>
                                         <option value="">Pilih customer</option>
                                         @foreach($members as $member)
-                                            <option value="{{ $member->id }}" @selected(old('member_id', request('member_id')) == $member->id)>{{ $member->display_name }} · {{ $member->email ?: $member->member_code }}</option>
+                                            <option value="{{ $member->id }}" @selected(old('member_id', request('member_id')) == $member->id)>{{ $member->display_name }} · {{ $member->username ?: $member->member_code }}</option>
                                         @endforeach
                                     </select>
                                 </label>

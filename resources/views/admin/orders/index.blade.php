@@ -19,7 +19,7 @@
                     @forelse ($orders as $order)
                         <tr>
                             <td><div class="order-table-primary text-violet-700">{{ $order->order_code }}</div><div class="order-table-secondary">Diperbarui {{ $order->updated_at->format('d M Y, H:i') }}</div></td>
-                            <td><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">{{ $order->member->email ?: '-' }}</div></td>
+                            <td><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">{{ $order->member->username ?: '-' }}</div></td>
                             <td class="text-zinc-600">{{ $order->batch->batch_number }}</td>
                             <td><x-status-badge :status="$order->effective_status" /></td>
                             <td class="font-semibold text-zinc-700">{{ $order->items_count }}</td>

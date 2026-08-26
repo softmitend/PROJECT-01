@@ -10,7 +10,7 @@ class MemberHistoryLookupRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'email' => mb_strtolower(trim((string) $this->input('email'))),
+            'username' => mb_strtolower(trim((string) $this->input('username'))),
         ]);
     }
 
@@ -25,7 +25,7 @@ class MemberHistoryLookupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
         ];
     }
 }

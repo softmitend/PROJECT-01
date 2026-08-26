@@ -22,41 +22,16 @@ class MemberTrackingController extends Controller
         $validated = $request->validate([
             'query' => ['required', 'string', 'max:255'],
         ], [
-            'query.required' => 'Masukkan kode tracking atau email pelanggan.',
+            'query.required' => 'Masukkan kode tracking atau username LINE pelanggan.',
         ]);
 
-        $query = trim($validated['query']);
+        $rawQuery = trim($validated['query']);
+        $orderCode = mb_strtoupper($rawQuery);
 
-        if (filter_var($query, FILTER_VALIDATE_EMAIL)) {
-            $query = mb_strtolower($query);
-            $member = Member::query()
-                ->where('email', $query)
-                ->where('is_active', true)
-                ->with([
-                    'orders' => fn ($orders) => $orders->latest(),
-                    'orders.batch.currentStatus',
-                    'orders.overrideStatus',
-                    'orders.paymentStatus',
-                    'orders.items.overrideStatus',
-                ])
-                ->first();
-
-            if (! $member) {
-                return back()
-                    ->withErrors(['query' => 'Email tidak ditemukan pada data pelanggan.'])
-                    ->onlyInput('query');
-            }
-
-            return view('tracking.index', [
-                'searchType' => 'email',
-                'searchQuery' => $query,
-                'memberResult' => $member,
-            ]);
-        }
-
-        $query = mb_strtoupper($query);
+        // Coba sebagai kode tracking terlebih dahulu. Ini menghindari tebakan format
+        // karena kode tracking dan username LINE sama-sama berupa teks.
         $order = MemberOrder::query()
-            ->where('order_code', $query)
+            ->where('order_code', $orderCode)
             ->whereHas('member', fn ($member) => $member->where('is_active', true))
             ->with([
                 'member',
@@ -71,18 +46,39 @@ class MemberTrackingController extends Controller
             ])
             ->first();
 
-        if (! $order) {
-            return back()
-                ->withErrors(['query' => 'Kode tracking tidak ditemukan. Periksa kembali kode dari admin.'])
-                ->onlyInput('query');
+        if ($order) {
+            return view('tracking.index', [
+                'searchType' => 'tracking',
+                'searchQuery' => $orderCode,
+                'orderResult' => $order,
+                'timeline' => $this->timelineFor($order),
+            ]);
         }
 
-        return view('tracking.index', [
-            'searchType' => 'tracking',
-            'searchQuery' => $query,
-            'orderResult' => $order,
-            'timeline' => $this->timelineFor($order),
-        ]);
+        $username = mb_strtolower($rawQuery);
+        $member = Member::query()
+            ->where('username', $username)
+            ->where('is_active', true)
+            ->with([
+                'orders' => fn ($orders) => $orders->latest(),
+                'orders.batch.currentStatus',
+                'orders.overrideStatus',
+                'orders.paymentStatus',
+                'orders.items.overrideStatus',
+            ])
+            ->first();
+
+        if ($member) {
+            return view('tracking.index', [
+                'searchType' => 'username',
+                'searchQuery' => $username,
+                'memberResult' => $member,
+            ]);
+        }
+
+        return back()
+            ->withErrors(['query' => 'Kode tracking atau username LINE tidak ditemukan. Periksa kembali data dari admin.'])
+            ->onlyInput('query');
     }
 
     public function lookup(TrackingLookupRequest $request)
@@ -132,14 +128,14 @@ class MemberTrackingController extends Controller
     public function historyLookup(MemberHistoryLookupRequest $request)
     {
         $member = Member::query()
-            ->where('email', $request->validated('email'))
+            ->where('username', $request->validated('username'))
             ->where('is_active', true)
             ->first();
 
         if (! $member) {
             return back()
-                ->withErrors(['email' => 'Email tidak ditemukan pada data pelanggan.'])
-                ->onlyInput('email');
+                ->withErrors(['username' => 'Username LINE tidak ditemukan pada data pelanggan.'])
+                ->onlyInput('username');
         }
 
         return new RedirectResponse(URL::temporarySignedRoute(

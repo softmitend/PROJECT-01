@@ -5,7 +5,7 @@ Sistem pengelolaan pesanan Kpop merchandise berdasarkan customer, batch pembelia
 ## Alur utama
 
 - Customer dapat mengecek satu pesanan tanpa login melalui kode pesanan.
-- Customer dapat mencari email yang didaftarkan admin untuk melihat seluruh riwayat pembeliannya tanpa login.
+- Customer dapat mencari username LINE yang didaftarkan admin untuk melihat seluruh riwayat pembeliannya tanpa login.
 - Status pesanan mengikuti status batch secara default. Admin dapat memberi override pada satu pesanan atau satu item jika kondisinya berbeda.
 - Admin mengelola nama, email, telepon, alamat customer, katalog produk, batch, pesanan, status, dan log perubahan status.
 - Produk aktif muncul pada dropdown form pesanan dan otomatis mengisi nama, varian, serta harga awal.

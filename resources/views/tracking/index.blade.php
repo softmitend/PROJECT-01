@@ -12,7 +12,7 @@
                 Semua pesananmu,<br><span class="gradient-title">jelas progresnya.</span>
             </h1>
             <p class="mx-auto mt-7 max-w-2xl text-base leading-7 text-zinc-500 sm:text-xl sm:leading-8">
-                Cek perjalanan satu pesanan dengan kode, atau temukan seluruh riwayat pembelian lewat email. Cepat, transparan, tanpa akun customer.
+                Cek perjalanan satu pesanan dengan kode, atau temukan seluruh riwayat pembelian lewat username LINE. Cepat, transparan, tanpa akun customer.
             </p>
             <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
                 <a href="#smart-search" class="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#123c5a] px-7 text-sm font-semibold text-white shadow-lg shadow-sky-950/15 transition hover:-translate-y-0.5 hover:bg-[#176fa9]">
@@ -37,17 +37,17 @@
                         <div>
                             <span class="text-xs font-bold uppercase tracking-[0.18em] text-[#176fa9]">Tracking & riwayat pesanan</span>
                             <h2 class="mt-2 text-2xl font-bold tracking-tight text-[#123c5a] sm:text-3xl">Cari pesananmu di satu tempat</h2>
-                            <p class="mt-2 text-sm leading-6 text-zinc-500">Masukkan kode tracking untuk melihat satu pesanan, atau email untuk membuka seluruh riwayat.</p>
+                            <p class="mt-2 text-sm leading-6 text-zinc-500">Masukkan kode tracking untuk melihat satu pesanan, atau username LINE untuk membuka seluruh riwayat.</p>
                         </div>
                         <img src="{{ asset('img/Picsart_26-08-23_02-05-04-834.png') }}" alt="" class="hidden h-20 w-20 shrink-0 object-contain sm:block">
                     </div>
 
-                    <label for="query" class="mt-7 block text-sm font-bold text-[#123c5a]">Kode tracking atau email</label>
+                    <label for="query" class="mt-7 block text-sm font-bold text-[#123c5a]">Kode tracking atau username LINE</label>
                     <div class="ocean-search-row mt-2">
                         <span class="text-[#2f8fd0]">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5" stroke-width="1.8" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.15a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
                         </span>
-                        <input id="query" name="query" value="{{ old('query', $searchQuery ?? '') }}" placeholder="Tempelkan kode atau email" required autocomplete="off" class="min-w-0 flex-1 bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-400 sm:text-base">
+                        <input id="query" name="query" value="{{ old('query', $searchQuery ?? '') }}" placeholder="Masukkan kode atau username LINE" required autocomplete="off" class="min-w-0 flex-1 bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-400 sm:text-base">
                         <button type="submit" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#123c5a] px-5 text-sm font-bold text-white transition hover:bg-[#176fa9] focus:outline-none focus:ring-4 focus:ring-sky-200">
                             Cari pesanan
                             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" class="h-4 w-4" stroke-width="1.8" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
@@ -154,7 +154,7 @@
                                     </div>
                                 </details>
                             @empty
-                                <p class="rounded-2xl bg-sky-50 p-4 text-sm text-zinc-500">Belum ada riwayat pesanan untuk email ini.</p>
+                                <p class="rounded-2xl bg-sky-50 p-4 text-sm text-zinc-500">Belum ada riwayat pesanan untuk username LINE ini.</p>
                             @endforelse
                         </div>
                     </details>
@@ -205,8 +205,8 @@
                 </article>
                 <article class="bg-white p-7 sm:p-9">
                     <span class="font-mono text-sm text-cyan-700">02</span>
-                    <h3 class="mt-8 text-xl font-bold">Cari email</h3>
-                    <p class="mt-3 text-sm leading-6 text-zinc-500">Masukkan email yang terdaftar untuk membuka daftar dan riwayat seluruh pembelian.</p>
+                    <h3 class="mt-8 text-xl font-bold">Cari username LINE</h3>
+                    <p class="mt-3 text-sm leading-6 text-zinc-500">Masukkan username LINE yang terdaftar untuk membuka daftar dan riwayat seluruh pembelian.</p>
                 </article>
                 <article class="bg-white p-7 sm:p-9">
                     <span class="font-mono text-sm text-emerald-700">03</span>

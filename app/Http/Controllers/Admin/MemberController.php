@@ -21,7 +21,7 @@ class MemberController extends Controller
                 $query->where(function ($query) use ($q) {
                     $query->where('display_name', 'like', "%{$q}%")
                         ->orWhere('member_code', 'like', "%{$q}%")
-                        ->orWhere('email', 'like', "%{$q}%")
+                        ->orWhere('username', 'like', "%{$q}%")
                         ->orWhere('phone', 'like', "%{$q}%");
                 });
             })

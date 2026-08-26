@@ -16,13 +16,13 @@
             <div class="admin-form-body">
                 <x-admin-form-intro
                     title="Panduan Data Pelanggan"
-                    description="Pastikan email dan nomor telepon aktif karena data ini menjadi identitas pencarian riwayat customer."
+                    description="Pastikan username LINE dan nomor telepon benar karena username LINE menjadi identitas pencarian riwayat customer."
                 />
 
                 <x-admin-form-section title="Identitas Pelanggan">
                     <div class="grid gap-4 {{ $member->exists ? 'sm:grid-cols-2' : 'lg:grid-cols-3' }}">
                         <x-text-input label="Nama pelanggan" name="display_name" :value="$member->display_name" placeholder="Nama lengkap atau nama penerima" required />
-                        <x-text-input label="Email" name="email" type="email" :value="$member->email" placeholder="nama@email.com" required />
+                        <x-text-input label="Username LINE" name="username" :value="$member->username" placeholder="username_line" required />
                         <x-text-input label="Nomor telepon" name="phone" type="tel" :value="$member->phone" placeholder="08xxxxxxxxxx" required />
                         @if ($member->exists)
                             <label class="block">
@@ -60,7 +60,7 @@
             </div>
 
             <footer class="admin-form-footer">
-                <p class="admin-form-footer-note">Periksa kembali email, nomor telepon, dan alamat sebelum data disimpan.</p>
+                <p class="admin-form-footer-note">Periksa kembali username LINE, nomor telepon, dan alamat sebelum data disimpan.</p>
                 <div class="admin-form-actions">
                     <a class="admin-form-secondary" href="{{ $member->exists ? route('admin.members.show', $member, false) : route('admin.members.index', [], false) }}">Batal</a>
                     <button type="submit" class="admin-form-primary">Simpan Pelanggan</button>

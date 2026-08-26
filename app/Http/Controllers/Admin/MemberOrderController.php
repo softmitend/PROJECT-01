@@ -33,7 +33,7 @@ class MemberOrderController extends Controller
             ->withCount('items')
             ->when($filters['q'] ?? null, function ($query, $q) {
                 $query->where(fn ($query) => $query->where('order_code', 'like', "%{$q}%")
-                    ->orWhereHas('member', fn ($query) => $query->where('display_name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%"))
+                    ->orWhereHas('member', fn ($query) => $query->where('display_name', 'like', "%{$q}%")->orWhere('username', 'like', "%{$q}%"))
                     ->orWhereHas('batch', fn ($query) => $query->where('batch_number', 'like', "%{$q}%")));
             })
             ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('created_at', '>=', $date))

@@ -21,7 +21,7 @@
                 <div><h3>Biodata Pelanggan</h3><p>Identitas, kontak, dan informasi pendukung pelanggan.</p></div>
             </div>
             <div class="member-biodata-grid">
-                <div class="member-biodata-item"><span>Email</span><p>{{ $member->email ?: 'Belum diisi' }}</p></div>
+                <div class="member-biodata-item"><span>Username LINE</span><p>{{ $member->username ?: 'Belum diisi' }}</p></div>
                 <div class="member-biodata-item"><span>Nomor telepon</span><p>{{ $member->phone ?: 'Belum diisi' }}</p></div>
                 <div class="member-biodata-item"><span>Terdaftar sejak</span><p>{{ $member->created_at->format('d M Y') }}</p></div>
                 <div class="member-biodata-item"><span>Alamat</span><p class="whitespace-pre-line">{{ $member->address ?: 'Belum ada alamat.' }}</p></div>

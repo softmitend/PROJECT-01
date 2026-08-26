@@ -558,15 +558,15 @@ class OrderRecapTest extends TestCase
             ->assertSee('Ocean Lightstick');
     }
 
-    public function test_customer_can_find_all_order_history_with_registered_email(): void
+    public function test_customer_can_find_all_order_history_with_registered_line_username(): void
     {
-        $member = Member::factory()->create(['email' => 'buyer@example.com']);
+        $member = Member::factory()->create(['username' => 'buyer.line']);
         $order = MemberOrder::factory()->create([
             'member_id' => $member->id,
             'order_code' => 'ORD-HISTORY-001',
         ]);
 
-        $response = $this->post(route('tracking.history.lookup'), ['email' => ' Buyer@Example.com '])
+        $response = $this->post(route('tracking.history.lookup'), ['username' => ' Buyer.Line '])
             ->assertRedirect();
         $signedUrl = $response->headers->get('Location');
         $this->assertStringContainsString('signature=', $signedUrl);
@@ -577,18 +577,18 @@ class OrderRecapTest extends TestCase
             ->assertSee($order->order_code);
     }
 
-    public function test_smart_search_shows_order_history_inline_for_email(): void
+    public function test_smart_search_shows_order_history_inline_for_line_username(): void
     {
         $member = Member::factory()->create([
             'display_name' => 'Ocean Buyer',
-            'email' => 'ocean@example.com',
+            'username' => 'ocean.line',
         ]);
         MemberOrder::factory()->create([
             'member_id' => $member->id,
             'order_code' => 'ORD-OCEAN-001',
         ]);
 
-        $this->post(route('tracking.search'), ['query' => ' Ocean@Example.com '])
+        $this->post(route('tracking.search'), ['query' => ' Ocean.Line '])
             ->assertOk()
             ->assertSee('public-landing-main', false)
             ->assertSee('data-smart-search-result="history"', false)
@@ -596,12 +596,12 @@ class OrderRecapTest extends TestCase
             ->assertSee('ORD-OCEAN-001');
     }
 
-    public function test_unregistered_email_does_not_show_history(): void
+    public function test_unregistered_line_username_does_not_show_history(): void
     {
         $this->from(route('tracking.index'))
-            ->post(route('tracking.history.lookup'), ['email' => 'missing@example.com'])
+            ->post(route('tracking.history.lookup'), ['username' => 'missing.line'])
             ->assertRedirect(route('tracking.index'))
-            ->assertSessionHasErrors('email');
+            ->assertSessionHasErrors('username');
     }
 
     public function test_admin_can_create_customer_contact_data(): void
@@ -610,19 +610,19 @@ class OrderRecapTest extends TestCase
 
         $this->actingAs($admin)->post(route('admin.members.store'), [
             'display_name' => 'Kim Buyer',
-            'email' => 'KIM@EXAMPLE.COM',
+            'username' => 'Kim.Line',
             'phone' => '081234567890',
             'address' => 'Jl. Kpop No. 7, Jakarta',
         ])->assertRedirect(route('admin.members.index'));
 
         $this->assertDatabaseHas('members', [
             'display_name' => 'Kim Buyer',
-            'email' => 'kim@example.com',
+            'username' => 'kim.line',
             'phone' => '081234567890',
             'address' => 'Jl. Kpop No. 7, Jakarta',
         ]);
 
-        $member = Member::where('email', 'kim@example.com')->sole();
+        $member = Member::where('username', 'kim.line')->sole();
         $this->assertNotNull($member->member_code);
 
         $this->actingAs($admin)->get(route('admin.members.edit', $member))
@@ -1045,12 +1045,12 @@ class OrderRecapTest extends TestCase
 
         $this->actingAs($admin)->post(route('admin.members.store'), [
             'display_name' => 'Pelanggan Otomatis Aktif',
-            'email' => 'aktif@example.com',
+            'username' => 'Aktif.Line',
             'phone' => '081234567890',
             'address' => 'Semarang',
         ])->assertRedirect(route('admin.members.index'));
 
-        $member = Member::where('email', 'aktif@example.com')->sole();
+        $member = Member::where('username', 'aktif.line')->sole();
         $this->assertTrue($member->is_active);
 
         $this->actingAs($admin)->get(route('admin.members.edit', $member))

@@ -20,6 +20,7 @@ class MemberFactory extends Factory
         return [
             'member_code' => 'MBR-'.$this->faker->unique()->numerify('####'),
             'display_name' => $this->faker->name(),
+            'username' => mb_strtolower($this->faker->unique()->userName()),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->numerify('08##########'),
             'address' => $this->faker->address(),

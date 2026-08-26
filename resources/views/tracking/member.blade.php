@@ -1,6 +1,6 @@
 <x-layouts.app title="Rekap {{ $member->display_name }}">
     <x-page-heading title="Riwayat Pembelian {{ $member->display_name }}" description="{{ $member->orders->count() }} pembelian ditemukan">
-        <x-slot:action><a class="inline-flex rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold shadow-sm transition hover:border-zinc-400" href="{{ route('tracking.index') }}#smart-search">Cari email lain</a></x-slot:action>
+        <x-slot:action><a class="inline-flex rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold shadow-sm transition hover:border-zinc-400" href="{{ route('tracking.index') }}#smart-search">Cari username LINE lain</a></x-slot:action>
     </x-page-heading>
 
     <div class="order-table-card">
@@ -30,7 +30,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="5" class="px-4 py-8 text-center text-zinc-500">Belum ada pembelian yang tercatat untuk email ini.</td></tr>
+                        <tr><td colspan="5" class="px-4 py-8 text-center text-zinc-500">Belum ada pembelian yang tercatat untuk username LINE ini.</td></tr>
                     @endforelse
                 </tbody>
             </table>
