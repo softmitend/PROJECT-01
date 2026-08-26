@@ -32,10 +32,10 @@
 
             <section class="detail-record-section">
                 <div class="detail-record-section-heading"><div><h3>Isi Pesanan</h3><p>Rincian produk beserta status masing-masing item.</p></div></div>
-                <div class="divide-y divide-zinc-100">
+                <div class="tracking-product-list divide-y divide-zinc-100">
                     @forelse($order->items as $item)
-                        <div class="flex items-start justify-between gap-4 py-4 first:pt-0 last:pb-0">
-                            <div><div class="font-semibold">{{ $item->item_name }}</div><div class="mt-1 text-sm text-zinc-500">{{ $item->variant ?: 'Tanpa varian' }} · Qty {{ $item->quantity }}</div></div>
+                        <div class="tracking-product-row flex items-start justify-between gap-4 py-4 first:pt-0 last:pb-0">
+                            <div class="tracking-product-copy min-w-0"><div class="font-semibold">{{ $item->item_name }}</div><div class="mt-1 text-sm text-zinc-500">{{ $item->variant ?: 'Tanpa varian' }} · Qty {{ $item->quantity }}</div></div>
                             <x-status-badge :status="$order->is_refunded ? $order->tracking_status : $item->effective_status" />
                         </div>
                     @empty

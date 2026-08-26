@@ -2580,6 +2580,112 @@ details[open] > summary .ocean-chevron {
     background: #f0f9ff;
 }
 
+.ocean-result-panel > summary:focus-visible,
+.ocean-order-toggle > summary:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: -2px;
+}
+
+.tracking-history-table,
+.tracking-product-table {
+    width: 100%;
+}
+
+.tracking-history-table td > .inline-flex {
+    gap: .3rem;
+    padding: .25rem .5rem;
+    font-size: .625rem;
+    line-height: 1.2;
+}
+
+.tracking-history-table td > .inline-flex > span {
+    width: .3rem;
+    height: .3rem;
+    flex: 0 0 .3rem;
+}
+
+.ocean-history-items-scroll {
+    overflow-x: auto;
+    border: 1px solid #e0f2fe;
+    border-radius: .75rem;
+    background: #fff;
+}
+
+.ocean-history-items-table {
+    width: 100%;
+    min-width: 32rem;
+    border-collapse: collapse;
+    font-size: .6875rem;
+    line-height: 1.4;
+}
+
+.ocean-history-items-table th {
+    background: #f8fcff;
+    padding: .55rem .7rem;
+    color: #64748b;
+    font-size: .5625rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.ocean-history-items-table td {
+    border-top: 1px solid #f0f9ff;
+    padding: .65rem .7rem;
+    color: #475569;
+    vertical-align: middle;
+}
+
+.ocean-history-items-table th:first-child,
+.ocean-history-items-table td:first-child {
+    min-width: 14rem;
+}
+
+.ocean-history-items-table th:nth-child(2),
+.ocean-history-items-table td:nth-child(2) {
+    width: 3.5rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.ocean-history-items-table th:last-child,
+.ocean-history-items-table td:last-child {
+    min-width: 10rem;
+    white-space: nowrap;
+}
+
+.ocean-history-items-table td:first-child strong,
+.ocean-history-items-table td:first-child span {
+    display: block;
+}
+
+.ocean-history-items-table td:first-child strong {
+    color: #123c5a;
+    font-size: .6875rem;
+    font-weight: 600;
+}
+
+.ocean-history-items-table td:first-child span {
+    margin-top: .15rem;
+    color: #94a3b8;
+    font-size: .6rem;
+}
+
+.ocean-history-items-table td > .inline-flex {
+    gap: .3rem;
+    padding: .25rem .5rem;
+    font-size: .625rem;
+    line-height: 1.2;
+}
+
+.ocean-history-items-table td > .inline-flex > span {
+    width: .3rem;
+    height: .3rem;
+    flex: 0 0 .3rem;
+}
+
 @media (max-width: 640px) {
     .ocean-search-card {
         padding: 20px;
@@ -2941,5 +3047,55 @@ details[open] > summary .ocean-chevron {
     .detail-record-table-section .order-table td {
         font-size: .62rem !important;
         line-height: 1.35;
+    }
+}
+
+@media (max-width: 640px) {
+    .tracking-product-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .tracking-product-heading > a {
+        font-size: .72rem;
+    }
+
+    .tracking-product-row {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr);
+        gap: .55rem !important;
+        align-items: start !important;
+    }
+
+    .tracking-product-copy {
+        width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .tracking-product-row > .inline-flex {
+        justify-self: start;
+        max-width: 100% !important;
+    }
+
+    .ocean-result-panel[data-smart-search-result='history'] > .ocean-result-summary {
+        grid-template-columns: 38px minmax(0, 1fr) auto 18px;
+    }
+
+    .ocean-result-panel[data-smart-search-result='history'] > .ocean-result-summary > .ocean-result-copy {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+    }
+
+    .ocean-result-panel[data-smart-search-result='history'] > .ocean-result-summary > .ocean-result-badge {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        align-self: center;
+        justify-self: end;
+        white-space: nowrap;
+    }
+
+    .ocean-result-panel[data-smart-search-result='history'] > .ocean-result-summary > .ocean-chevron {
+        grid-column: 4;
+        grid-row: 1 / span 2;
     }
 }

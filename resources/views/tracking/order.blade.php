@@ -23,19 +23,19 @@
         <section class="detail-record-section detail-record-table-section">
             <div class="detail-record-section-heading detail-record-table-heading"><div><h3>Item Pesanan</h3><p>Rincian produk, harga, dan progres tiap item.</p></div></div>
             <div class="order-table-scroll">
-                <table class="order-table">
-                    <thead><tr><th>Jajanan</th><th>Qty</th><th>Harga</th><th>Status item</th><th>Catatan</th></tr></thead>
+                <table class="order-table tracking-product-table">
+                    <thead><tr><th>Produk</th><th>Qty</th><th>Harga</th><th>Status item</th><th>Catatan</th></tr></thead>
                     <tbody>
                         @forelse ($order->items as $item)
                             <tr>
-                                <td><div class="order-table-primary">{{ $item->item_name }}</div><div class="order-table-secondary">{{ $item->variant ?: 'Tanpa varian' }}</div></td>
-                                <td class="font-semibold text-zinc-700">{{ $item->quantity }}</td>
-                                <td class="font-semibold text-zinc-700">{{ $item->unit_price ? 'Rp '.number_format($item->unit_price, 0, ',', '.') : '-' }}</td>
-                                <td><x-status-badge :status="$order->is_refunded ? $order->tracking_status : $item->effective_status" /></td>
-                                <td class="text-zinc-600">{{ $item->notes ?: '-' }}</td>
+                                <td data-label="Produk"><div class="order-table-primary">{{ $item->item_name }}</div><div class="order-table-secondary">{{ $item->variant ?: 'Tanpa varian' }}</div></td>
+                                <td data-label="Qty" class="font-semibold text-zinc-700">{{ $item->quantity }}</td>
+                                <td data-label="Harga" class="font-semibold text-zinc-700">{{ $item->unit_price ? 'Rp '.number_format($item->unit_price, 0, ',', '.') : '-' }}</td>
+                                <td data-label="Status item"><x-status-badge :status="$order->is_refunded ? $order->tracking_status : $item->effective_status" /></td>
+                                <td data-label="Catatan" class="text-zinc-600">{{ $item->notes ?: '-' }}</td>
                             </tr>
                         @empty
-                            <tr><td colspan="5" class="py-10 text-center text-zinc-500">Belum ada item yang tercatat.</td></tr>
+                            <tr class="tracking-table-empty"><td colspan="5" class="py-10 text-center text-zinc-500">Belum ada item yang tercatat.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -48,7 +48,7 @@
                 @forelse ($timeline as $history)
                     <div class="detail-record-timeline-item">
                         <span class="detail-record-timeline-dot"></span>
-                        <div class="flex flex-wrap items-center gap-2"><x-status-badge :status="$history->oldStatus" /><span class="text-zinc-400">menjadi</span><x-status-badge :status="$history->newStatus" /></div>
+                        <div class="flex flex-wrap items-center gap-2"><x-status-badge :status="$history->oldStatus" /><span class="text-zinc-400 text-xs">menjadi</span><x-status-badge :status="$history->newStatus" /></div>
                         <p>{{ $history->note ?: 'Tanpa catatan' }} · {{ $history->created_at->format('d M Y, H:i') }}</p>
                     </div>
                 @empty

@@ -102,14 +102,14 @@
                                 </div>
                             </div>
 
-                            <div class="mt-7 flex items-center justify-between gap-3">
+                            <div class="tracking-product-heading mt-7 flex items-center justify-between gap-3">
                                 <div><p class="ocean-section-label">Produk dalam pesanan</p><p class="mt-1 text-xs text-zinc-500">Status setiap produk dapat berbeda dari status utama.</p></div>
                                 <a href="{{ URL::temporarySignedRoute('tracking.progress', now()->addMinutes(15), ['orderCode' => $orderResult->order_code]) }}" class="text-sm font-bold text-[#176fa9] hover:underline">Buka detail lengkap</a>
                             </div>
-                            <div class="mt-3 divide-y divide-sky-100 rounded-2xl border border-sky-100 bg-white px-4">
+                            <div class="tracking-product-list mt-3 divide-y divide-sky-100 rounded-2xl border border-sky-100 bg-white px-4">
                                 @forelse ($orderResult->items as $item)
-                                    <div class="flex items-center justify-between gap-4 py-4">
-                                        <div><strong class="block text-sm text-[#123c5a]">{{ $item->item_name }}</strong><span class="mt-1 block text-xs text-zinc-500">{{ $item->variant ?: 'Tanpa varian' }} · Qty {{ $item->quantity }}</span></div>
+                                    <div class="tracking-product-row flex items-center justify-between gap-4 py-4">
+                                        <div class="tracking-product-copy min-w-0"><strong class="block text-sm text-[#123c5a]">{{ $item->item_name }}</strong><span class="mt-1 block text-xs text-zinc-500">{{ $item->variant ?: 'Tanpa varian' }} · Qty {{ $item->quantity }}</span></div>
                                         <x-status-badge :status="$orderResult->is_refunded ? $orderResult->tracking_status : ($item->overrideStatus ?: $orderResult->effective_status)" />
                                     </div>
                                 @empty
@@ -143,14 +143,29 @@
                                     </summary>
                                     <div class="border-t border-sky-100 px-4 pb-4 pt-3">
                                         <div class="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-500"><span>Diperbarui {{ $order->updated_at->format('d M Y, H:i') }}</span><span>Pembayaran: <strong class="text-zinc-700">{{ $order->paymentStatus?->name ?: 'Belum ditentukan' }}</strong></span></div>
-                                        <div class="divide-y divide-sky-50">
-                                            @forelse ($order->items as $item)
-                                                <div class="flex items-center justify-between gap-4 py-2.5"><span class="text-sm text-[#123c5a]">{{ $item->item_name }} <small class="text-zinc-400">× {{ $item->quantity }}</small></span><x-status-badge :status="$order->is_refunded ? $order->tracking_status : ($item->overrideStatus ?: $order->effective_status)" /></div>
-                                            @empty
-                                                <p class="py-2 text-sm text-zinc-500">Belum ada produk yang tercatat.</p>
-                                            @endforelse
+                                        <div class="ocean-history-items-scroll">
+                                            <table class="ocean-history-items-table" aria-label="Daftar item pesanan {{ $order->order_code }}">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Produk</th>
+                                                        <th>Qty</th>
+                                                        <th>Status item</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse ($order->items as $item)
+                                                        <tr>
+                                                            <td><strong>{{ $item->item_name }}</strong><span>{{ $item->variant ?: 'Tanpa varian' }}</span></td>
+                                                            <td>{{ $item->quantity }}</td>
+                                                            <td><x-status-badge :status="$order->is_refunded ? $order->tracking_status : ($item->overrideStatus ?: $order->effective_status)" /></td>
+                                                        </tr>
+                                                    @empty
+                                                        <tr><td colspan="3" class="text-zinc-500">Belum ada produk yang tercatat.</td></tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
                                         </div>
-                                        <a href="{{ URL::temporarySignedRoute('tracking.order', now()->addMinutes(15), ['memberCode' => $memberResult->member_code, 'memberOrder' => $order]) }}" class="mt-3 inline-flex text-sm font-bold text-[#176fa9] hover:underline">Lihat tracking lengkap</a>
+                                        <a href="{{ URL::temporarySignedRoute('tracking.order', now()->addMinutes(15), ['memberCode' => $memberResult->member_code, 'memberOrder' => $order]) }}" class="mt-3 inline-flex text-xs font-bold text-[#176fa9] hover:underline">Lihat tracking lengkap</a>
                                     </div>
                                 </details>
                             @empty
