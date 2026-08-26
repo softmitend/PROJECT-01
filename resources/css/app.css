@@ -2600,7 +2600,60 @@ details[open] > summary .ocean-chevron {
     }
 
     .ocean-result-summary {
-        gap: 10px;
-        padding: 15px;
+        display: grid;
+        grid-template-columns: 38px minmax(0, 1fr) auto;
+        align-items: center;
+        column-gap: 10px;
+        row-gap: 7px;
+        padding: 14px;
+    }
+
+    .ocean-result-icon {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        width: 38px;
+        height: 38px;
+        border-radius: 14px;
+    }
+
+    .ocean-result-copy {
+        grid-column: 2;
+        grid-row: 1;
+        min-width: 0;
+        align-self: center;
+    }
+
+    .ocean-result-kicker {
+        white-space: nowrap;
+        font-size: 10px;
+        line-height: 1.2;
+        letter-spacing: .11em;
+    }
+
+    .ocean-result-title {
+        margin-top: 3px;
+        font-size: 16px;
+        line-height: 1.25;
+    }
+
+    .ocean-result-badge {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: start;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .ocean-result-badge > span {
+        max-width: 100%;
+        white-space: nowrap;
+        font-size: 11px;
+        line-height: 1.2;
+    }
+
+    .ocean-result-summary > .ocean-chevron {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        align-self: center;
     }
 }

@@ -65,14 +65,14 @@
                     @endphp
                     <details open class="ocean-result-panel mt-5" data-smart-search-result="tracking">
                         <summary class="ocean-result-summary">
-                            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-sky-100 text-[#176fa9]">
+                            <span class="ocean-result-icon grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-sky-100 text-[#176fa9]">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5" stroke-width="1.8" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
                             </span>
-                            <span class="min-w-0 flex-1">
-                                <span class="block text-xs font-bold uppercase tracking-[0.16em] text-[#2f8fd0]">Hasil tracking</span>
-                                <span class="mt-1 block truncate text-lg font-bold text-[#123c5a]">{{ $orderResult->order_code }}</span>
+                            <span class="ocean-result-copy min-w-0 flex-1">
+                                <span class="ocean-result-kicker block text-xs font-bold uppercase tracking-[0.16em] text-[#2f8fd0]">Hasil tracking</span>
+                                <span class="ocean-result-title mt-1 block truncate text-lg font-bold text-[#123c5a]">{{ $orderResult->order_code }}</span>
                             </span>
-                            <x-status-badge :status="$orderResult->tracking_status" />
+                            <span class="ocean-result-badge"><x-status-badge :status="$orderResult->tracking_status" /></span>
                             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" class="ocean-chevron h-5 w-5 shrink-0 text-zinc-400" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg>
                         </summary>
                         <div class="border-t border-sky-100 p-5 sm:p-7">
@@ -123,14 +123,14 @@
                 @isset($memberResult)
                     <details open class="ocean-result-panel mt-5" data-smart-search-result="history">
                         <summary class="ocean-result-summary">
-                            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-amber-100 text-amber-700">
+                            <span class="ocean-result-icon grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-amber-100 text-amber-700">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5" stroke-width="1.8" aria-hidden="true"><path d="M3 6.5h18v11H3z"/><path d="m3 7 9 6 9-6"/></svg>
                             </span>
-                            <span class="min-w-0 flex-1">
-                                <span class="block text-xs font-bold uppercase tracking-[0.16em] text-amber-700">Riwayat pembelian</span>
-                                <span class="mt-1 block truncate text-lg font-bold text-[#123c5a]">{{ $memberResult->display_name }}</span>
+                            <span class="ocean-result-copy min-w-0 flex-1">
+                                <span class="ocean-result-kicker block text-xs font-bold uppercase tracking-[0.16em] text-amber-700">Riwayat pembelian</span>
+                                <span class="ocean-result-title mt-1 block truncate text-lg font-bold text-[#123c5a]">{{ $memberResult->display_name }}</span>
                             </span>
-                            <span class="rounded-full bg-sky-50 px-3 py-1 text-xs font-bold text-[#176fa9]">{{ $memberResult->orders->count() }} pesanan</span>
+                            <span class="ocean-result-badge"><span class="rounded-full bg-sky-50 px-3 py-1 text-xs font-bold text-[#176fa9]">{{ $memberResult->orders->count() }} pesanan</span></span>
                             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" class="ocean-chevron h-5 w-5 shrink-0 text-zinc-400" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg>
                         </summary>
                         <div class="space-y-3 border-t border-sky-100 p-5 sm:p-7">
