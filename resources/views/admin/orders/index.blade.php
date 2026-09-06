@@ -14,7 +14,7 @@
         </form>
         <div class="order-table-scroll">
             <table class="order-table">
-                <thead><tr><th>Pesanan</th><th>Pelanggan</th><th>Batch</th><th>Status</th><th>Item</th><th>Total</th><th><span class="sr-only">Aksi</span></th></tr></thead>
+                <thead><tr><th>Pesanan</th><th>Pelanggan</th><th>Batch</th><th>Status</th><th>Item</th><th>Total</th><th>Pajak / EMS</th><th><span class="sr-only">Aksi</span></th></tr></thead>
                 <tbody>
                     @forelse ($orders as $order)
                         <tr>
@@ -24,10 +24,18 @@
                             <td><x-status-badge :status="$order->effective_status" /></td>
                             <td class="font-semibold text-zinc-700">{{ $order->items_count }}</td>
                             <td class="font-semibold text-zinc-700">{{ $order->total_amount ? 'Rp '.number_format($order->total_amount, 0, ',', '.') : '-' }}</td>
+                            <td>
+                                @if($order->has_ems_tax_bill)
+                                    <div class="order-table-primary">Rp {{ number_format((float) $order->ems_tax_amount, 0, ',', '.') }}</div>
+                                    <div class="order-table-secondary">{{ $order->ems_tax_status_label }}</div>
+                                @else
+                                    <span class="text-xs text-zinc-400">Belum ditagihkan</span>
+                                @endif
+                            </td>
                             <td class="text-right"><a class="order-table-action" href="{{ route('admin.member-orders.show', $order, false) }}">Detail</a></td>
                         </tr>
                     @empty
-                        <tr><td colspan="7" class="py-12 text-center text-zinc-400">Belum ada pesanan.</td></tr>
+                        <tr><td colspan="8" class="py-12 text-center text-zinc-400">Belum ada pesanan.</td></tr>
                     @endforelse
                 </tbody>
             </table>

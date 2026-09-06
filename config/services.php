@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'line' => [
+        'channel_id' => env('LINE_CHANNEL_ID'),
+        'channel_secret' => env('LINE_CHANNEL_SECRET'),
+        'redirect' => env('LINE_REDIRECT_URI', rtrim((string) env('APP_URL'), '/').'/auth/line/callback'),
+    ],
+
 ];

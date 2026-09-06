@@ -36,11 +36,13 @@ class AuthenticatedSessionController extends Controller
 
     public function destroy(Request $request)
     {
+        $redirectTo = $request->user()?->isAdmin() ? '/login' : '/profile';
+
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return new RedirectResponse('/login', 303);
+        return new RedirectResponse($redirectTo, 303);
     }
 }

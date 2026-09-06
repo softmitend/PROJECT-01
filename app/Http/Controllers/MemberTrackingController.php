@@ -6,15 +6,44 @@ use App\Http\Requests\MemberHistoryLookupRequest;
 use App\Http\Requests\TrackingLookupRequest;
 use App\Models\Member;
 use App\Models\MemberOrder;
+use App\Models\Testimonial;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
 class MemberTrackingController extends Controller
 {
+    public function home()
+    {
+        $testimonialSlides = Testimonial::query()
+            ->where('is_published', true)
+            ->with(['member', 'orderItem.order.batch'])
+            ->latest()
+            ->take(9)
+            ->get()
+            ->map(fn (Testimonial $testimonial) => [
+                'image' => $testimonial->photo_url
+                    ?: $testimonial->orderItem?->order?->batch?->catalog_image_url
+                    ?: '/assets/testimonial-1.png',
+                'content' => $testimonial->content,
+                'name' => $testimonial->member?->display_name ?: 'Customer Ocean Paws',
+                'rating' => $testimonial->rating,
+            ]);
+
+        if ($testimonialSlides->isEmpty()) {
+            $testimonialSlides = collect([
+                ['image' => '/assets/testimonial-1.png', 'content' => 'DEMI APASIH AKHIRNYA WU WONTI KU PULANG HUHUHU MAKASIH CHONAAA...', 'name' => 'chae [채린]', 'rating' => 5],
+                ['image' => '/assets/testimonial-2.png', 'content' => 'Rajin post jajanan yang bikin jari mencoret secara tidak sadar. Chona C nya Murce~', 'name' => 'M.J Akwar D. || Rhuy', 'rating' => 5],
+                ['image' => '/assets/testimonial-3.png', 'content' => 'Jujur ga ekspek warnanya ini secepet ini ges kalo mw cari go yang cepet same-day.', 'name' => 'naej', 'rating' => 5],
+            ]);
+        }
+
+        return view('tracking.index', compact('testimonialSlides'));
+    }
+
     public function index()
     {
-        return view('tracking.index');
+        return view('tracking.search');
     }
 
     public function smartLookup(Request $request)
@@ -47,7 +76,7 @@ class MemberTrackingController extends Controller
             ->first();
 
         if ($order) {
-            return view('tracking.index', [
+            return view('tracking.search', [
                 'searchType' => 'tracking',
                 'searchQuery' => $orderCode,
                 'orderResult' => $order,
@@ -55,7 +84,7 @@ class MemberTrackingController extends Controller
             ]);
         }
 
-        $username = mb_strtolower($rawQuery);
+        $username = mb_strtolower(ltrim($rawQuery, '@'));
         $member = Member::query()
             ->where('username', $username)
             ->where('is_active', true)
@@ -69,7 +98,7 @@ class MemberTrackingController extends Controller
             ->first();
 
         if ($member) {
-            return view('tracking.index', [
+            return view('tracking.search', [
                 'searchType' => 'username',
                 'searchQuery' => $username,
                 'memberResult' => $member,

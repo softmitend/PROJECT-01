@@ -2,12 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Batch;
 use App\Models\Product;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
 
 class StoreMemberOrderRequest extends FormRequest
 {
@@ -39,6 +37,14 @@ class StoreMemberOrderRequest extends FormRequest
             ->all();
 
         $this->merge(['items' => $items]);
+
+        if ($this->filled('customer_username')) {
+            $this->merge(['customer_username' => mb_strtolower(trim((string) $this->input('customer_username')))]);
+        }
+
+        if ($this->filled('ems_tax_amount') && $this->input('ems_tax_status', 'not_billed') === 'not_billed') {
+            $this->merge(['ems_tax_status' => 'unpaid']);
+        }
     }
 
     /**
@@ -66,9 +72,9 @@ class StoreMemberOrderRequest extends FormRequest
 
         return [
             'order_code' => ['prohibited'],
-            'member_id' => $isExistingOrder
-                ? ['required', Rule::in([$order->member_id])]
-                : ['required', 'exists:members,id'],
+            'member_id' => ['nullable', 'exists:members,id'],
+            'customer_name' => ['required_without:member_id', 'nullable', 'string', 'max:255'],
+            'customer_username' => ['required_without:member_id', 'nullable', 'string', 'max:100'],
             'batch_id' => $itemsAreLocked
                 ? ['required', Rule::in([$order->batch_id])]
                 : ['required', 'exists:batches,id'],
@@ -83,13 +89,15 @@ class StoreMemberOrderRequest extends FormRequest
                         ->when($currentPaymentStatusId, fn ($query, $statusId) => $query->orWhere('id', $statusId)))),
             ],
             'notes' => ['nullable', 'string'],
+            'ems_tax_amount' => ['nullable', 'required_if:ems_tax_status,unpaid,paid', 'numeric', 'min:1'],
+            'ems_tax_status' => ['nullable', Rule::in(['not_billed', 'unpaid', 'paid'])],
+            'ems_tax_due_date' => ['nullable', 'date'],
+            'ems_tax_notes' => ['nullable', 'string', 'max:1000'],
             'items' => $itemsAreLocked ? ['prohibited'] : ['required', 'array', 'min:1'],
             'items.*.id' => ['nullable', 'exists:order_items,id'],
             'items.*.product_id' => [
-                'required',
-                'distinct',
-                Rule::exists('batch_product', 'product_id')
-                    ->where(fn ($query) => $query->where('batch_id', $this->integer('batch_id'))),
+                'nullable',
+                'exists:products,id',
             ],
             'items.*.item_name' => ['required', 'string', 'max:255'],
             'items.*.variant' => ['nullable', 'string', 'max:255'],
@@ -102,31 +110,8 @@ class StoreMemberOrderRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array<int, callable(Validator): void>
-     */
     public function after(): array
     {
-        return [function (Validator $validator): void {
-            $order = $this->route('member_order');
-            if ($order && ($order->loadMissing(['batch.currentStatus', 'overrideStatus', 'paymentStatus'])->batch?->orders_locked
-                || $order->is_refunded)) {
-                return;
-            }
-
-            if ($validator->errors()->has('batch_id') || $validator->errors()->has('items')) {
-                return;
-            }
-
-            $batch = Batch::with('products:id')->find($this->integer('batch_id'));
-            if (! $batch || $batch->products->count() !== 1) {
-                return;
-            }
-
-            $submittedProductIds = collect($this->input('items', []))->pluck('product_id')->filter()->map(fn ($id) => (int) $id);
-            if ($submittedProductIds->count() !== 1 || $submittedProductIds->first() !== $batch->products->first()->id) {
-                $validator->errors()->add('items', 'Batch dengan satu produk harus menggunakan produk tersebut dan tidak dapat ditambah produk lain.');
-            }
-        }];
+        return [];
     }
 }

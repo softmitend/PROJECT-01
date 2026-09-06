@@ -1,12 +1,9 @@
 <x-layouts.app title="Progress {{ $order->order_code }}">
-    <div class="mx-auto max-w-4xl">
-        <div class="mb-7">
-            <p class="text-xs font-bold uppercase tracking-[0.2em] text-violet-600">Tracking pesanan</p>
-            <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-5xl">Detail Perjalanan Pesanan</h1>
-            <p class="mt-3 text-zinc-500">Informasi pesanan dan seluruh progresnya dirangkum dalam satu tampilan.</p>
-        </div>
+    <main class="page customer-detail-page"><div class="page-mid">
+        <div class="detail-topbar"><a class="top-back" href="{{ route('tracking.index') }}" aria-label="Kembali"><x-public-icon name="arrow-left" :size="18" /></a><strong>Tracking Pesanan</strong></div>
+        <header class="customer-detail-heading"><span>DETAIL PERJALANAN</span><h1>{{ $order->order_code }}</h1><p>Informasi pesanan dan seluruh progresnya dirangkum dalam satu tampilan.</p></header>
 
-        <article class="detail-record-card">
+        <article class="detail-record-card customer-tracking-card">
             <header class="detail-record-hero">
                 <div class="min-w-0">
                     <p class="detail-record-kicker">Kode Tracking</p>
@@ -28,6 +25,7 @@
                 @if($order->batch->notes)
                     <div class="detail-record-note"><span>Informasi dari admin</span><p>{{ $order->batch->notes }}</p></div>
                 @endif
+                <x-order-ems-bill :order="$order" />
             </section>
 
             <section class="detail-record-section">
@@ -60,8 +58,8 @@
             </section>
 
             <footer class="detail-record-section bg-zinc-950 text-center text-sm text-white">
-                Punya pesanan lain? <a class="font-semibold underline decoration-white/40 underline-offset-4 hover:decoration-white" href="{{ route('tracking.index') }}#smart-search">Cari seluruh riwayat dengan username LINE</a>
+                Punya pesanan lain? <a class="font-semibold underline decoration-white/40 underline-offset-4 hover:decoration-white" href="{{ route('tracking.index') }}">Cari seluruh riwayat dengan username LINE</a>
             </footer>
         </article>
-    </div>
+    </div></main>
 </x-layouts.app>

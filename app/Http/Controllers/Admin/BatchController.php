@@ -10,7 +10,12 @@ use App\Models\Product;
 use App\Services\StatusTransitionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use RuntimeException;
+use Throwable;
 
 class BatchController extends Controller
 {
@@ -54,11 +59,7 @@ class BatchController extends Controller
      */
     public function create()
     {
-        return view('admin.batches.form', [
-            'batch' => new Batch,
-            'statuses' => OrderStatus::activeFor('batch')->get(),
-            'products' => Product::where('is_active', true)->orderBy('name')->orderBy('variant')->get(),
-        ]);
+        return view('admin.batches.form', $this->formData(new Batch));
     }
 
     /**
@@ -66,19 +67,46 @@ class BatchController extends Controller
      */
     public function store(StoreBatchRequest $request, StatusTransitionService $statuses)
     {
-        $batch = DB::transaction(function () use ($request, $statuses) {
-            $batch = Batch::create($request->safe()->except(['current_status_id', 'product_ids', 'status_note', 'is_archived']) + [
-                'batch_number' => $this->generateBatchNumber(),
-                'is_archived' => false,
-            ]);
-            $batch->products()->sync($request->validated('product_ids'));
+        $catalogImageDisk = $this->catalogUploadDisk();
+        $newCatalogImagePath = $request->hasFile('catalog_image')
+            ? $this->storeVerifiedCatalogImage($request->file('catalog_image'), $catalogImageDisk)
+            : null;
 
-            if ($request->filled('current_status_id')) {
-                $statuses->transition($batch, OrderStatus::findOrFail($request->integer('current_status_id')), $request->user(), 'Status awal batch.');
+        try {
+            $batch = DB::transaction(function () use ($request, $statuses, $newCatalogImagePath, $catalogImageDisk) {
+                $data = $request->safe()->except([
+                    'current_status_id', 'status_note', 'is_archived', 'catalog_image', 'remove_catalog_image', 'qris_image', 'variants',
+                ]);
+
+                if ($newCatalogImagePath) {
+                    $data['catalog_image_path'] = $newCatalogImagePath;
+                    $data['catalog_image_disk'] = $catalogImageDisk;
+                }
+                if ($request->hasFile('qris_image')) {
+                    $data['qris_image_path'] = $request->file('qris_image')->store('catalog/qris', 'public');
+                }
+
+                $batch = Batch::create($data + [
+                    'batch_number' => $this->generateBatchNumber(),
+                    'is_catalog_visible' => $request->boolean('is_catalog_visible'),
+                    'is_archived' => false,
+                ]);
+
+                $this->syncCatalogVariants($batch, $request->validated('variants', []));
+
+                if ($request->filled('current_status_id')) {
+                    $statuses->transition($batch, OrderStatus::findOrFail($request->integer('current_status_id')), $request->user(), 'Status awal batch.');
+                }
+
+                return $batch;
+            });
+        } catch (Throwable $exception) {
+            if ($newCatalogImagePath) {
+                Storage::disk($catalogImageDisk)->delete($newCatalogImagePath);
             }
 
-            return $batch;
-        });
+            throw $exception;
+        }
 
         session()->flash('status', 'Batch berhasil ditambahkan.');
 
@@ -92,10 +120,11 @@ class BatchController extends Controller
     {
         $batch->load([
             'currentStatus',
-            'products',
             'orders.member',
             'orders.overrideStatus',
+            'orders.paymentStatus',
             'orders.items.overrideStatus',
+            'products',
             'statusHistories.oldStatus',
             'statusHistories.newStatus',
             'statusHistories.changedBy',
@@ -116,18 +145,7 @@ class BatchController extends Controller
             ]);
         }
 
-        $batch->load(['products', 'currentStatus']);
-        $existingProductIds = $batch->products->pluck('id');
-
-        return view('admin.batches.form', [
-            'batch' => $batch,
-            'statuses' => OrderStatus::activeFor('batch')->get(),
-            'products' => Product::query()
-                ->where(fn ($query) => $query->where('is_active', true)->orWhereIn('id', $existingProductIds))
-                ->orderBy('name')
-                ->orderBy('variant')
-                ->get(),
-        ]);
+        return view('admin.batches.form', $this->formData($batch));
     }
 
     /**
@@ -149,19 +167,53 @@ class BatchController extends Controller
         }
 
         $oldStatusId = $batch->current_status_id;
-        DB::transaction(function () use ($request, $batch, $statuses, $oldStatusId) {
-            $batch->update($request->safe()->except(['current_status_id', 'product_ids', 'status_note']) + [
-                'is_archived' => $request->boolean('is_archived'),
-            ]);
+        $oldCatalogImagePath = $batch->catalog_image_path;
+        $oldCatalogImageDisk = $batch->catalog_image_disk ?: 'public';
+        $catalogImageDisk = $this->catalogUploadDisk();
+        $newCatalogImagePath = $request->hasFile('catalog_image')
+            ? $this->storeVerifiedCatalogImage($request->file('catalog_image'), $catalogImageDisk)
+            : null;
+        $removeCatalogImage = $request->boolean('remove_catalog_image');
 
-            if (! $batch->orders()->exists()) {
-                $batch->products()->sync($request->validated('product_ids'));
+        try {
+            DB::transaction(function () use ($request, $batch, $statuses, $oldStatusId, $newCatalogImagePath, $removeCatalogImage, $catalogImageDisk) {
+                $data = $request->safe()->except([
+                    'current_status_id', 'status_note', 'catalog_image', 'remove_catalog_image', 'qris_image', 'variants',
+                ]);
+
+                if ($newCatalogImagePath) {
+                    $data['catalog_image_path'] = $newCatalogImagePath;
+                    $data['catalog_image_disk'] = $catalogImageDisk;
+                } elseif ($removeCatalogImage) {
+                    $data['catalog_image_path'] = null;
+                    $data['catalog_image_disk'] = null;
+                }
+                if ($request->hasFile('qris_image')) {
+                    $data['qris_image_path'] = $request->file('qris_image')->store('catalog/qris', 'public');
+                }
+
+                $batch->update($data + [
+                    'is_catalog_visible' => $request->boolean('is_catalog_visible'),
+                    'is_archived' => $request->boolean('is_archived'),
+                ]);
+
+                $this->syncCatalogVariants($batch, $request->validated('variants', []));
+
+                if ($request->integer('current_status_id') && $request->integer('current_status_id') !== $oldStatusId) {
+                    $statuses->transition($batch, OrderStatus::findOrFail($request->integer('current_status_id')), $request->user(), $request->input('status_note'));
+                }
+            });
+        } catch (Throwable $exception) {
+            if ($newCatalogImagePath) {
+                Storage::disk($catalogImageDisk)->delete($newCatalogImagePath);
             }
 
-            if ($request->integer('current_status_id') && $request->integer('current_status_id') !== $oldStatusId) {
-                $statuses->transition($batch, OrderStatus::findOrFail($request->integer('current_status_id')), $request->user(), $request->input('status_note'));
-            }
-        });
+            throw $exception;
+        }
+
+        if ($oldCatalogImagePath && ($newCatalogImagePath || $removeCatalogImage)) {
+            Storage::disk($oldCatalogImageDisk)->delete($oldCatalogImagePath);
+        }
 
         session()->flash('status', 'Batch berhasil diperbarui.');
 
@@ -222,5 +274,91 @@ class BatchController extends Controller
         } while (Batch::where('batch_number', $batchNumber)->exists());
 
         return $batchNumber;
+    }
+
+    private function formData(Batch $batch): array
+    {
+        $batch->loadMissing(['currentStatus', 'products']);
+
+        return [
+            'batch' => $batch,
+            'statuses' => OrderStatus::activeFor('batch')->get(),
+        ];
+    }
+
+    private function syncCatalogVariants(Batch $batch, array $variants): void
+    {
+        $existingProductIds = $batch->products()->pluck('products.id')->map(fn ($id) => (int) $id)->all();
+        $sync = [];
+
+        foreach (array_values($variants) as $index => $variant) {
+            $product = null;
+
+            if (! empty($variant['product_id']) && in_array((int) $variant['product_id'], $existingProductIds, true)) {
+                $product = Product::find((int) $variant['product_id']);
+            }
+
+            $product ??= new Product;
+            $product->fill([
+                'name' => $batch->batch_name ?: $batch->batch_number,
+                'variant' => trim($variant['name']),
+                'default_price' => $variant['full_price'],
+                'description' => $batch->description,
+                'is_active' => true,
+            ])->save();
+
+            $sync[$product->id] = [
+                'dp_price' => $variant['dp_price'],
+                'full_price' => $variant['full_price'],
+                'sort_order' => $index,
+                'is_available' => filter_var($variant['is_available'] ?? true, FILTER_VALIDATE_BOOL),
+            ];
+        }
+
+        $batch->products()->sync($sync);
+    }
+
+    private function storeVerifiedCatalogImage(UploadedFile $file, string $disk): string
+    {
+        $mime = strtolower((string) ($file->getMimeType() ?: ''));
+        $extension = match ($mime) {
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/webp' => 'webp',
+            default => throw new RuntimeException('Format foto batch tidak didukung.'),
+        };
+        $path = 'catalog/batches/'.now()->format('Y/m').'/'.Str::uuid().'.'.$extension;
+        $storage = Storage::disk($disk);
+        $stream = fopen($file->getRealPath(), 'rb');
+
+        if (! is_resource($stream)) {
+            throw new RuntimeException('File foto batch tidak dapat dibaca.');
+        }
+
+        try {
+            $written = $storage->put($path, $stream, ['visibility' => 'public']);
+        } finally {
+            fclose($stream);
+        }
+
+        $storedSize = $written && $storage->exists($path) ? (int) $storage->size($path) : 0;
+        if (! $written || $storedSize !== (int) $file->getSize()) {
+            $storage->delete($path);
+
+            throw new RuntimeException('Foto batch gagal diverifikasi setelah upload.');
+        }
+
+        return $path;
+    }
+
+    private function catalogUploadDisk(): string
+    {
+        $disk = (string) config('filesystems.catalog_upload_disk', 'public');
+
+        if (! config("filesystems.disks.{$disk}")) {
+            throw new RuntimeException("Disk upload foto katalog [{$disk}] tidak tersedia.");
+        }
+
+        return $disk;
     }
 }

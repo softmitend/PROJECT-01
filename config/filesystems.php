@@ -1,5 +1,8 @@
 <?php
 
+$catalogS3Endpoint = (string) env('CATALOG_S3_ENDPOINT', '');
+$catalogS3IsR2 = str_contains($catalogS3Endpoint, '.r2.cloudflarestorage.com');
+
 return [
 
     /*
@@ -14,6 +17,12 @@ return [
     */
 
     'default' => env('FILESYSTEM_DISK', 'local'),
+
+    /*
+    | Foto katalog batch. Local development dapat memakai `public`, sedangkan
+    | production memakai object storage S3-compatible seperti Cloudflare R2.
+    */
+    'catalog_upload_disk' => env('CATALOG_UPLOAD_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -58,6 +67,19 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
+        ],
+
+        'catalog_cloud' => [
+            'driver' => 's3',
+            'key' => env('CATALOG_S3_KEY'),
+            'secret' => env('CATALOG_S3_SECRET'),
+            'region' => env('CATALOG_S3_REGION', 'auto'),
+            'bucket' => env('CATALOG_S3_BUCKET'),
+            'url' => env('CATALOG_S3_URL'),
+            'endpoint' => $catalogS3Endpoint,
+            'use_path_style_endpoint' => $catalogS3IsR2 ? true : env('CATALOG_S3_PATH_STYLE', false),
+            'throw' => true,
+            'report' => true,
         ],
 
     ],

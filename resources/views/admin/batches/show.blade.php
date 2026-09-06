@@ -3,6 +3,7 @@
         <x-slot:action>
             <div class="flex flex-wrap gap-2">
                 @unless($batch->is_archived)
+                    <a class="admin-form-primary" href="{{ route('admin.member-orders.create', ['batch_id' => $batch->id], false) }}">+ Tambah Pesanan</a>
                     <a class="admin-form-secondary" href="{{ route('admin.batches.edit', $batch, false) }}">Edit Batch</a>
                 @endunless
             </div>
@@ -12,7 +13,7 @@
     <article class="detail-record-card">
         <header class="detail-record-hero">
             <div class="min-w-0">
-                <p class="detail-record-kicker">Master Batch Pembelian</p>
+                <p class="detail-record-kicker">Batch Pembelian</p>
                 <div class="mt-2 flex flex-wrap items-center gap-3">
                     <h2 class="detail-record-title">{{ $batch->batch_number }}</h2>
                     <x-status-badge :status="$batch->currentStatus" />
@@ -49,41 +50,52 @@
         <section class="detail-record-section">
             <div class="detail-record-section-heading">
                 <div>
+                    <h3>Katalog Pre-Order</h3>
+                    <p>Gambar, periode pemesanan, QRIS, dan variasi yang tampil pada landing page.</p>
+                </div>
+                <span class="detail-record-state {{ $batch->is_catalog_visible ? 'detail-record-state-active' : 'detail-record-state-muted' }}">{{ $batch->is_catalog_visible ? 'Tampil di katalog' : 'Disembunyikan' }}</span>
+            </div>
+
+            <div class="batch-catalog-admin-summary">
+                <div class="batch-catalog-admin-image">
+                    @if($batch->catalog_image_path)<img src="{{ $batch->catalog_image_url }}" alt="{{ $batch->batch_name }}">@else<i class="bi bi-image" aria-hidden="true"></i><span>Belum ada gambar katalog</span>@endif
+                </div>
+                <div class="detail-record-field detail-record-field-blue">
+                    <span>Batas pemesanan</span>
+                    <strong>{{ $batch->ordering_deadline?->format('d M Y, H:i') ?: 'TBA' }}</strong>
+                    <small>{{ $batch->catalog_is_open ? 'Katalog masih menerima pesanan' : 'Katalog belum dibuka atau sudah ditutup' }}</small>
+                </div>
+                <div class="detail-record-field detail-record-field-cyan">
+                    <span>QRIS pembayaran</span>
+                    <strong>{{ $batch->qris_image_path ? 'Sudah tersedia' : 'Belum diunggah' }}</strong>
+                    <small>{{ $batch->qris_image_path ? 'Checkout pelanggan dapat digunakan' : 'Pembayaran katalog akan dinonaktifkan' }}</small>
+                </div>
+            </div>
+
+            <div class="order-table-scroll mt-4">
+                <table class="order-table">
+                    <thead><tr><th>Variasi</th><th>Harga DP</th><th>Harga Lunas</th><th>Ketersediaan</th></tr></thead>
+                    <tbody>
+                        @forelse($batch->products as $product)
+                            <tr><td><div class="order-table-primary">{{ $product->variant ?: $product->name }}</div></td><td>Rp {{ number_format($product->pivot->dp_price, 0, ',', '.') }}</td><td>Rp {{ number_format($product->pivot->full_price, 0, ',', '.') }}</td><td>{{ $product->pivot->is_available ? 'Tersedia' : 'Tidak tersedia' }}</td></tr>
+                        @empty
+                            <tr><td colspan="4" class="px-4 py-8 text-center text-zinc-500">Belum ada variasi katalog.</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="detail-record-section">
+            <div class="detail-record-section-heading">
+                <div>
                     <h3>Informasi Batch</h3>
-                    <p>Batch berfungsi sebagai master periode yang dipilih ketika admin membuat pesanan.</p>
+                    <p>Batch menjadi pusat progress untuk seluruh pesanan di dalamnya.</p>
                 </div>
             </div>
             <div class="detail-record-field detail-record-field-plain">
                 <span>Catatan batch</span>
                 <p>{{ $batch->notes ?: ($batch->description ?: 'Belum ada catatan batch.') }}</p>
-            </div>
-        </section>
-
-        <section class="detail-record-section detail-record-table-section">
-            <div class="detail-record-section-heading detail-record-table-heading">
-                <div>
-                    <h3>Produk dalam Batch</h3>
-                    <p>Daftar master produk yang dapat dipilih ketika membuat pesanan menggunakan batch ini.</p>
-                </div>
-                <span class="detail-record-id">{{ $batch->products->count() }} produk</span>
-            </div>
-            <div class="order-table-scroll">
-                <table class="order-table">
-                    <thead><tr><th>Produk</th><th>Varian</th><th>Harga default</th><th>Status</th><th><span class="sr-only">Aksi</span></th></tr></thead>
-                    <tbody>
-                        @forelse($batch->products as $product)
-                            <tr>
-                                <td><div class="order-table-primary">{{ $product->name }}</div></td>
-                                <td class="text-zinc-600">{{ $product->variant ?: 'Tanpa varian' }}</td>
-                                <td class="font-semibold text-zinc-700">{{ $product->default_price ? 'Rp '.number_format($product->default_price, 0, ',', '.') : '-' }}</td>
-                                <td><span class="detail-record-state {{ $product->is_active ? 'detail-record-state-active' : 'detail-record-state-muted' }}">{{ $product->is_active ? 'Aktif' : 'Nonaktif' }}</span></td>
-                                <td class="text-right"><a class="order-table-action" href="{{ route('admin.products.show', $product, false) }}">Detail</a></td>
-                            </tr>
-                        @empty
-                            <tr><td colspan="5" class="px-4 py-10 text-center text-zinc-500">Belum ada produk yang ditetapkan pada batch ini.</td></tr>
-                        @endforelse
-                    </tbody>
-                </table>
             </div>
         </section>
 
@@ -148,19 +160,20 @@
             </div>
             <div class="order-table-scroll">
                 <table class="order-table">
-                    <thead><tr><th>Pesanan</th><th>Pelanggan</th><th>Item</th><th>Status efektif</th><th>Update terakhir</th><th><span class="sr-only">Aksi</span></th></tr></thead>
+                    <thead><tr><th>Pesanan</th><th>Pelanggan</th><th>Item</th><th>Pembayaran</th><th>Status efektif</th><th>Update terakhir</th><th><span class="sr-only">Aksi</span></th></tr></thead>
                     <tbody>
                         @forelse($batch->orders as $order)
                             <tr>
                                 <td><div class="order-table-primary text-violet-700">{{ $order->order_code }}</div></td>
-                                <td><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">#{{ $order->member->member_code }}</div></td>
+                                <td><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">LINE: {{ $order->member->username }}</div></td>
                                 <td class="font-semibold text-zinc-700">{{ $order->items->sum('quantity') }}</td>
+                                <td><div class="order-table-primary">{{ $order->payment_type_label }}</div><div class="order-table-secondary">{{ $order->payment_amount ? 'Rp '.number_format($order->payment_amount, 0, ',', '.') : 'Belum ada pembayaran' }}</div></td>
                                 <td><x-status-badge :status="$order->effective_status" /></td>
                                 <td><div class="text-zinc-700">{{ $order->updated_at->format('d M Y') }}</div><div class="order-table-secondary">{{ $order->updated_at->format('H:i') }}</div></td>
                                 <td class="text-right"><a class="order-table-action" href="{{ route('admin.member-orders.show', $order, false) }}">Detail</a></td>
                             </tr>
                         @empty
-                            <tr><td colspan="6" class="px-4 py-10 text-center text-zinc-500">Belum ada pesanan yang menggunakan batch ini.</td></tr>
+                            <tr><td colspan="7" class="px-4 py-10 text-center text-zinc-500">Belum ada pesanan yang menggunakan batch ini.</td></tr>
                         @endforelse
                     </tbody>
                 </table>

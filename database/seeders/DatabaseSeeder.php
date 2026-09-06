@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             OrderStatusSeeder::class,
             GoKpopMerchSeeder::class,
+            CustomerCatalogSeeder::class,
+            CustomerMemberSeeder::class,
+            CustomerOrderSeeder::class,
         ]);
     }
 }

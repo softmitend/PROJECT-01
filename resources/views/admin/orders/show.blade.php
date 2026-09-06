@@ -19,11 +19,11 @@
 
         <section class="detail-record-section">
             <div class="detail-record-summary sm:grid-cols-2 xl:grid-cols-4">
-                <a class="detail-record-field detail-record-field-link detail-record-field-violet" href="{{ route('admin.members.show', $order->member, false) }}">
+                <div class="detail-record-field detail-record-field-violet">
                     <span>Pelanggan</span>
                     <strong>{{ $order->member->display_name }}</strong>
-                    <small>#{{ $order->member->member_code }}</small>
-                </a>
+                    <small>LINE: {{ $order->member->username }}</small>
+                </div>
                 <a class="detail-record-field detail-record-field-link detail-record-field-blue" href="{{ route('admin.batches.show', $order->batch, false) }}">
                     <span>Batch</span>
                     <strong>{{ $order->batch->batch_number }}</strong>
@@ -41,7 +41,23 @@
             @if($order->notes)
                 <div class="detail-record-note"><span>Catatan pesanan</span><p>{{ $order->notes }}</p></div>
             @endif
+            <x-order-ems-bill :order="$order" show-empty />
         </section>
+
+        @if($order->order_source === 'catalog' || $order->payment_proof_path)
+            <section class="detail-record-section detail-record-section-tinted">
+                <div class="detail-record-section-heading">
+                    <div><h3>Pembayaran dari Katalog</h3><p>Data yang dikirim pelanggan melalui checkout batch.</p></div>
+                    @if($order->payment_proof_path)<a class="admin-form-inline-action" href="{{ route('admin.member-orders.payment-proof', $order, false) }}" target="_blank" rel="noopener">Buka Bukti Bayar</a>@endif
+                </div>
+                <div class="detail-record-summary sm:grid-cols-2 xl:grid-cols-4">
+                    <div class="detail-record-field detail-record-field-blue"><span>Jenis pembayaran</span><strong>{{ $order->payment_type_label }}</strong><small>{{ $order->payment_type === 'dp' ? 'Masih memiliki sisa pelunasan' : 'Tidak ada sisa pembayaran barang' }}</small></div>
+                    <div class="detail-record-field detail-record-field-cyan"><span>Nominal dikirim</span><strong>{{ $order->payment_amount ? 'Rp '.number_format($order->payment_amount, 0, ',', '.') : '-' }}</strong><small>Dari total barang Rp {{ number_format($order->total_amount, 0, ',', '.') }}</small></div>
+                    <div class="detail-record-field detail-record-field-violet"><span>Waktu submit</span><strong>{{ $order->payment_submitted_at?->format('d M Y, H:i') ?: '-' }}</strong><small>Sumber: katalog landing page</small></div>
+                    <div class="detail-record-field detail-record-field-amber"><span>Status pembayaran</span><div class="detail-record-stat-badge mt-2">@if($order->paymentStatus)<x-status-badge :status="$order->paymentStatus" />@else<strong>{{ $order->payment_type_label }}</strong>@endif</div></div>
+                </div>
+            </section>
+        @endif
 
         <section class="detail-record-section detail-record-section-tinted">
             <div class="detail-record-section-heading">

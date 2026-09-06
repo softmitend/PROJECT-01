@@ -112,6 +112,10 @@ CREATE TABLE `member_orders` (
   `payment_status_id` bigint unsigned DEFAULT NULL,
   `total_amount` decimal(12,2) DEFAULT NULL,
   `payment_status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ems_tax_amount` decimal(14,2) DEFAULT NULL,
+  `ems_tax_status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'not_billed',
+  `ems_tax_due_date` date DEFAULT NULL,
+  `ems_tax_notes` text COLLATE utf8mb4_unicode_ci,
   `notes` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -121,6 +125,7 @@ CREATE TABLE `member_orders` (
   KEY `member_orders_batch_id_foreign` (`batch_id`),
   KEY `member_orders_override_status_id_foreign` (`override_status_id`),
   KEY `member_orders_payment_status_index` (`payment_status`),
+  KEY `member_orders_ems_tax_status_index` (`ems_tax_status`),
   KEY `member_orders_payment_status_id_foreign` (`payment_status_id`),
   CONSTRAINT `member_orders_batch_id_foreign` FOREIGN KEY (`batch_id`) REFERENCES `batches` (`id`) ON DELETE CASCADE,
   CONSTRAINT `member_orders_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE,
@@ -320,3 +325,4 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (10,'2026_08_06_171
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (11,'2026_08_06_172033_add_current_status_foreign_key_to_batches_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (12,'2026_08_10_220000_add_contact_fields_to_members_table',2);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (13,'2026_08_11_000001_add_payment_status_id_to_member_orders_table',3);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (14,'2026_08_26_170000_simplify_orders_and_add_ems_tax_billing',4);

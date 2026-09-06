@@ -3,14 +3,14 @@
         <div>
             <div class="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-bold text-violet-700"><span class="h-1.5 w-1.5 rounded-full bg-violet-500"></span> Ringkasan hari ini</div>
             <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Selamat datang, {{ auth()->user()->name }}.</h1>
-            <p class="dashboard-welcome-subtitle mt-2 text-sm leading-6 text-zinc-500">Pantau pelanggan, batch, dan perjalanan pesanan OceanPaws.</p>
+            <p class="dashboard-welcome-subtitle mt-2 text-sm leading-6 text-zinc-500">Pantau batch, perjalanan pesanan, dan tagihan EMS OceanPaws.</p>
         </div>
     </div>
 
     @php
         $summaryCards = [
             ['label' => 'Total pesanan', 'value' => $ordersCount, 'note' => 'Semua pesanan tercatat', 'tone' => 'bg-violet-100 text-violet-700', 'dot' => 'bg-violet-500', 'icon' => 'bag'],
-            ['label' => 'Pelanggan aktif', 'value' => $activeMembers, 'note' => 'Siap dipilih saat input', 'tone' => 'bg-cyan-100 text-cyan-700', 'dot' => 'bg-cyan-500', 'icon' => 'users'],
+            ['label' => 'Tagihan EMS', 'value' => $unpaidEmsBills, 'note' => 'Masih menunggu pembayaran', 'tone' => 'bg-cyan-100 text-cyan-700', 'dot' => 'bg-cyan-500', 'icon' => 'bill'],
             ['label' => 'Batch aktif', 'value' => $activeBatches, 'note' => 'Sedang berjalan', 'tone' => 'bg-blue-100 text-blue-700', 'dot' => 'bg-blue-500', 'icon' => 'layers'],
             ['label' => 'Pesanan selesai', 'value' => $completedOrders, 'note' => 'Proses telah tuntas', 'tone' => 'bg-emerald-100 text-emerald-700', 'dot' => 'bg-emerald-500', 'icon' => 'check'],
         ];
@@ -30,8 +30,8 @@
                 <article class="admin-panel dashboard-card dashboard-stat-card p-5">
                     <div class="flex items-start justify-between gap-4">
                         <span class="{{ $card['tone'] }} grid h-11 w-11 place-items-center rounded-2xl">
-                            @if($card['icon'] === 'users')
-                                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+                            @if($card['icon'] === 'bill')
+                                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6"/></svg>
                             @elseif($card['icon'] === 'layers')
                                 <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg>
                             @elseif($card['icon'] === 'check')

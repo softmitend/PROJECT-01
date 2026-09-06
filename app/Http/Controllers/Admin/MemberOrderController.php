@@ -12,6 +12,7 @@ use App\Services\StatusTransitionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -59,7 +60,11 @@ class MemberOrderController extends Controller
     public function store(StoreMemberOrderRequest $request, StatusTransitionService $statuses)
     {
         $order = DB::transaction(function () use ($request, $statuses) {
-            $order = MemberOrder::create($request->safe()->except(['order_code', 'override_status_id', 'items']) + [
+            $member = $this->resolveMember($request);
+            $order = MemberOrder::create($request->safe()->except([
+                'order_code', 'override_status_id', 'items', 'member_id', 'customer_name', 'customer_username',
+            ]) + [
+                'member_id' => $member->id,
                 'order_code' => 'TMP-'.Str::uuid(),
             ]);
             $order->forceFill(['order_code' => $this->generateOrderCode($order)])->save();
@@ -114,7 +119,10 @@ class MemberOrderController extends Controller
         DB::transaction(function () use ($request, $memberOrder, $statuses) {
             $memberOrder->loadMissing(['batch.currentStatus', 'overrideStatus', 'paymentStatus']);
             $itemsAreLocked = $memberOrder->batch->orders_locked || $memberOrder->is_refunded;
-            $memberOrder->update($request->safe()->except(['order_code', 'override_status_id', 'items']));
+            $member = $this->resolveMember($request, $memberOrder);
+            $memberOrder->update($request->safe()->except([
+                'order_code', 'override_status_id', 'items', 'member_id', 'customer_name', 'customer_username',
+            ]) + ['member_id' => $member->id]);
 
             if (! $itemsAreLocked) {
                 $this->syncItems($memberOrder, $request->validated('items'), $statuses, $request->user());
@@ -198,28 +206,27 @@ class MemberOrderController extends Controller
         return back()->with('status', 'Pesanan sekarang mengikuti status batch.');
     }
 
+    public function paymentProof(MemberOrder $memberOrder)
+    {
+        abort_unless($memberOrder->payment_proof_path && Storage::disk('local')->exists($memberOrder->payment_proof_path), 404);
+
+        return Storage::disk('local')->response($memberOrder->payment_proof_path);
+    }
+
     private function formData(MemberOrder $order): array
     {
         $order->loadMissing(['member', 'items', 'batch.currentStatus', 'overrideStatus', 'paymentStatus']);
         $batches = Batch::query()
-            ->with(['currentStatus', 'products' => fn ($query) => $query->orderBy('name')->orderBy('variant')])
+            ->with('currentStatus')
             ->where(fn ($query) => $query
-                ->where(fn ($query) => $query->where('is_archived', false)->whereHas('products'))
+                ->where('is_archived', false)
                 ->when($order->batch_id, fn ($query, $batchId) => $query->orWhere('id', $batchId)))
             ->orderByDesc('created_at')
             ->get();
-        $members = Member::where('is_active', true)->orderBy('display_name')->get();
-        $selectedMemberId = (int) old('member_id', request('member_id'));
-        $selectedMember = $order->exists
-            ? $order->member
-            : $members->firstWhere('id', $selectedMemberId);
 
         return [
             'order' => $order,
-            'members' => $members,
-            'selectedMember' => $selectedMember,
             'batches' => $batches,
-            'productsByBatch' => $batches->mapWithKeys(fn (Batch $batch) => [$batch->id => $batch->products]),
             'itemStatuses' => OrderStatus::activeFor('order_item')->get(),
             'paymentStatuses' => OrderStatus::query()
                 ->where('scope', 'payment')
@@ -265,5 +272,34 @@ class MemberOrderController extends Controller
     private function generateOrderCode(MemberOrder $order): string
     {
         return 'ORD-'.now()->format('ym').'-'.str_pad((string) $order->getKey(), 6, '0', STR_PAD_LEFT);
+    }
+
+    private function resolveMember(StoreMemberOrderRequest $request, ?MemberOrder $order = null): Member
+    {
+        if (! $request->filled('customer_username') && $request->filled('member_id')) {
+            return Member::findOrFail($request->integer('member_id'));
+        }
+
+        $username = mb_strtolower(trim((string) $request->validated('customer_username')));
+        $member = Member::query()->where('username', $username)->first();
+
+        if (! $member && $order?->member?->username === $username) {
+            $member = $order->member;
+        }
+
+        if (! $member) {
+            $member = new Member([
+                'member_code' => 'CUS-'.Str::upper(Str::random(12)),
+                'username' => $username,
+            ]);
+        }
+
+        $member->fill([
+            'display_name' => trim((string) $request->validated('customer_name')),
+            'username' => $username,
+            'is_active' => true,
+        ])->save();
+
+        return $member;
     }
 }

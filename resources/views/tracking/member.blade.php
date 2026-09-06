@@ -1,9 +1,9 @@
 <x-layouts.app title="Rekap {{ $member->display_name }}">
-    <x-page-heading title="Riwayat Pembelian {{ $member->display_name }}" description="{{ $member->orders->count() }} pembelian ditemukan">
-        <x-slot:action><a class="inline-flex rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold shadow-sm transition hover:border-zinc-400" href="{{ route('tracking.index') }}#smart-search">Cari username LINE lain</a></x-slot:action>
-    </x-page-heading>
+    <main class="page customer-detail-page"><div class="page-mid">
+    <div class="detail-topbar"><a class="top-back" href="{{ route('tracking.index') }}" aria-label="Kembali"><x-public-icon name="arrow-left" :size="18" /></a><strong>Riwayat Pembelian</strong></div>
+    <header class="customer-detail-heading"><span>RIWAYAT MEMBER</span><h1>{{ $member->display_name }}</h1><p>{{ $member->orders->count() }} pembelian ditemukan</p></header>
 
-    <div class="order-table-card">
+    <div class="order-table-card customer-tracking-card">
         <div class="order-table-scroll">
             <table class="order-table tracking-history-table">
                 <thead>
@@ -11,6 +11,7 @@
                         <th>Pesanan & Batch</th>
                         <th>Status</th>
                         <th>Jumlah item</th>
+                        <th>Pajak/EMS</th>
                         <th>Update terakhir</th>
                         <th><span class="sr-only">Aksi</span></th>
                     </tr>
@@ -24,16 +25,25 @@
                             </td>
                             <td data-label="Status"><x-status-badge :status="$order->tracking_status" /></td>
                             <td data-label="Jumlah item" class="font-semibold text-zinc-700">{{ $order->items->sum('quantity') }}</td>
+                            <td data-label="Pajak/EMS">
+                                @if($order->ems_tax_is_published)
+                                    <div class="order-table-primary">Rp {{ number_format($order->ems_tax_amount, 0, ',', '.') }}</div>
+                                    <div class="order-table-secondary">{{ $order->ems_tax_status_label }}</div>
+                                @else
+                                    <span class="text-zinc-400">Belum ada</span>
+                                @endif
+                            </td>
                             <td data-label="Update terakhir" class="text-zinc-500">{{ $order->updated_at->format('d M Y H:i') }}</td>
                             <td data-label="Aksi" class="text-right">
                                 <a class="order-table-action" href="{{ URL::temporarySignedRoute('tracking.order', now()->addMinutes(15), ['memberCode' => $member->member_code, 'memberOrder' => $order]) }}">Lihat detail</a>
                             </td>
                         </tr>
                     @empty
-                        <tr class="tracking-table-empty"><td colspan="5" class="px-4 py-8 text-center text-zinc-500">Belum ada pembelian yang tercatat untuk username LINE ini.</td></tr>
+                        <tr class="tracking-table-empty"><td colspan="6" class="px-4 py-8 text-center text-zinc-500">Belum ada pembelian yang tercatat untuk username LINE ini.</td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
+    </div></main>
 </x-layouts.app>

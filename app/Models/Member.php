@@ -6,6 +6,7 @@ use Database\Factories\MemberFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Member extends Model
 {
@@ -16,6 +17,8 @@ class Member extends Model
         'member_code',
         'display_name',
         'username',
+        'line_user_id',
+        'avatar_url',
         'email',
         'phone',
         'address',
@@ -33,6 +36,16 @@ class Member extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(MemberOrder::class);
+    }
+
+    public function testimonials(): HasMany
+    {
+        return $this->hasMany(Testimonial::class);
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class);
     }
 
     public function setUsernameAttribute(?string $value): void

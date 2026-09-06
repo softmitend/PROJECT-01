@@ -4,27 +4,31 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ $title ?? config('app.name', 'Rekap Jajanan') }}</title>
-        <meta name="design-version" content="landing-order-status-v15">
+        <meta name="design-version" content="landing-logo-palette-v20">
+        <script>
+            try {
+                document.documentElement.dataset.customerTheme = localStorage.getItem('ocean-paws-theme') || 'light';
+                document.documentElement.lang = localStorage.getItem('ocean-paws-language') || 'id';
+            } catch (error) {
+                document.documentElement.dataset.customerTheme = 'light';
+            }
+        </script>
         @fonts
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     @php
         $isAdmin = auth()->check() && request()->routeIs('admin.*');
-        $isTrackingLanding = request()->routeIs(['tracking.index', 'tracking.search']);
+        $isTrackingLanding = request()->routeIs(['home', 'tracking.*', 'catalog.*', 'profile.*', 'billing.*', 'services.*', 'testimonials.*', 'orders.*']);
+        $hasPublicDock = request()->routeIs(['home', 'tracking.index', 'tracking.search', 'profile.*', 'billing.*', 'services.*', 'testimonials.*', 'orders.*']);
         $adminNav = [
             ['route' => 'admin.dashboard', 'match' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
-            ['route' => 'admin.members.index', 'match' => 'admin.members.*', 'label' => 'Pelanggan', 'icon' => 'users'],
             ['route' => 'admin.batches.index', 'match' => 'admin.batches.*', 'label' => 'Batch', 'icon' => 'layers'],
             ['route' => 'admin.member-orders.index', 'match' => 'admin.member-orders.*', 'label' => 'Pesanan', 'icon' => 'bag'],
-            ['route' => 'admin.products.index', 'match' => 'admin.products.*', 'label' => 'Produk', 'icon' => 'box'],
             ['route' => 'admin.order-statuses.index', 'match' => 'admin.order-statuses.*', 'label' => 'Status', 'icon' => 'route'],
-            ['route' => 'admin.status-histories.index', 'match' => 'admin.status-histories.*', 'label' => 'Log Status', 'icon' => 'history'],
         ];
         $isAdminFormRoute = request()->routeIs([
-            'admin.members.create', 'admin.members.edit',
             'admin.batches.create', 'admin.batches.edit',
             'admin.member-orders.create', 'admin.member-orders.edit',
-            'admin.products.create', 'admin.products.edit',
             'admin.order-statuses.create', 'admin.order-statuses.edit',
         ]);
         $adminBackItem = $isAdminFormRoute
@@ -36,7 +40,7 @@
             session()->put('login_at', $loginAt);
         }
     @endphp
-    <body class="{{ $isAdmin ? 'bg-[#f6f7fb]' : 'bg-zinc-50' }} text-zinc-950 antialiased">
+    <body class="{{ $isAdmin ? 'bg-[#f6f7fb]' : 'customer-theme' }} text-zinc-950 antialiased">
         @if ($isAdmin)
             <div class="admin-shell min-h-screen">
                 <aside class="admin-sidebar border-b border-zinc-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:flex lg:w-72 lg:flex-col lg:border-b-0 lg:border-r">
@@ -130,6 +134,7 @@
             </div>
         @else
             <div class="min-h-screen">
+                @unless($isTrackingLanding)
                 <header class="sticky top-0 z-50 border-b border-zinc-200/70 bg-white/80 backdrop-blur-xl">
                     <div class="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
                         <a href="/" class="group flex items-center gap-2.5 font-bold tracking-tight text-[#123c5a]">
@@ -145,15 +150,19 @@
                         </nav>
                     </div>
                 </header>
+                @endunless
                 <main class="{{ $isTrackingLanding ? 'public-landing-main' : 'mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8' }}">
-                    @if (session('status'))
+                    @if (!$isTrackingLanding && session('status'))
                         <div class="mx-auto mb-5 max-w-7xl rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">{{ session('status') }}</div>
                     @endif
-                    @if ($errors->any())
+                    @if (!$isTrackingLanding && $errors->any())
                         <div class="mx-auto mb-5 max-w-7xl rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">{{ $errors->first() }}</div>
                     @endif
                     {{ $slot }}
                 </main>
+                @if($hasPublicDock)
+                    <x-public-mobile-dock />
+                @endif
             </div>
         @endif
     </body>

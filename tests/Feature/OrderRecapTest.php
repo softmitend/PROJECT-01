@@ -588,7 +588,7 @@ class OrderRecapTest extends TestCase
             'order_code' => 'ORD-OCEAN-001',
         ]);
 
-        $this->post(route('tracking.search'), ['query' => ' Ocean.Line '])
+        $this->post(route('tracking.search'), ['query' => ' @Ocean.Line '])
             ->assertOk()
             ->assertSee('public-landing-main', false)
             ->assertSee('data-smart-search-result="history"', false)

@@ -34,6 +34,20 @@ Konfigurasi bawaan menggunakan SQLite. Pastikan ekstensi `pdo_sqlite` dan `sqlit
 
 Ganti seluruh kredensial demo sebelum digunakan di production.
 
+## LINE Login untuk member
+
+1. Buat LINE Login channel dengan tipe aplikasi Web app di LINE Developers Console.
+2. Daftarkan callback URL yang sama persis dengan URL aplikasi, misalnya `https://domain-kamu.com/auth/line/callback`.
+3. Isi konfigurasi berikut di `.env` lokal dan Environment Variables hosting:
+
+```text
+LINE_CHANNEL_ID=1234567890
+LINE_CHANNEL_SECRET=channel-secret-dari-line
+LINE_REDIRECT_URI=https://domain-kamu.com/auth/line/callback
+```
+
+Setelah mengubah konfigurasi pada server yang memakai cache, jalankan `php artisan config:clear`. Login member tersedia melalui menu **Profil** pada navigasi publik; `/login` tetap khusus admin.
+
 ## Pengujian
 
 ```bash

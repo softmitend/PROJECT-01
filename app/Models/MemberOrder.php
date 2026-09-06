@@ -20,7 +20,16 @@ class MemberOrder extends Model
         'batch_id',
         'override_status_id',
         'payment_status_id',
+        'order_source',
+        'payment_type',
+        'payment_amount',
+        'payment_proof_path',
+        'payment_submitted_at',
         'total_amount',
+        'ems_tax_amount',
+        'ems_tax_status',
+        'ems_tax_due_date',
+        'ems_tax_notes',
         'payment_status',
         'notes',
     ];
@@ -29,7 +38,39 @@ class MemberOrder extends Model
     {
         return [
             'total_amount' => 'decimal:2',
+            'payment_amount' => 'decimal:2',
+            'payment_submitted_at' => 'datetime',
+            'ems_tax_amount' => 'decimal:2',
+            'ems_tax_due_date' => 'date',
         ];
+    }
+
+    public function getEmsTaxStatusLabelAttribute(): string
+    {
+        return match ($this->ems_tax_status) {
+            'unpaid' => 'Menunggu pembayaran',
+            'paid' => 'Lunas',
+            default => 'Belum ditagihkan',
+        };
+    }
+
+    public function getPaymentTypeLabelAttribute(): string
+    {
+        return match ($this->payment_type) {
+            'dp' => 'DP · Belum lunas',
+            'full' => 'Lunas',
+            default => 'Belum ditentukan',
+        };
+    }
+
+    public function getHasEmsTaxBillAttribute(): bool
+    {
+        return $this->ems_tax_amount !== null && (float) $this->ems_tax_amount > 0;
+    }
+
+    public function getEmsTaxIsPublishedAttribute(): bool
+    {
+        return $this->has_ems_tax_bill && in_array($this->ems_tax_status, ['unpaid', 'paid'], true);
     }
 
     public function member(): BelongsTo
