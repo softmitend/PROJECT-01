@@ -1,8 +1,11 @@
 <x-layouts.app :title="$title.' — Ocean Paws'">
     <main class="page billing-list-page">
         <div class="billing-list-shell">
+            <div class="detail-topbar">
+                <a class="top-back" href="{{ route('billing.index') }}" aria-label="Kembali ke tagihan"><x-public-icon name="arrow-left" :size="18" /></a>
+            </div>
+
             <header class="billing-list-header">
-                <a href="{{ route('billing.index') }}" class="billing-back"><x-public-icon name="arrow-left" :size="17" /> Kembali ke tagihan</a>
                 <span>{{ $scope === 'ems' ? 'EMS & PAJAK' : 'PEMBAYARAN PESANAN' }}</span>
                 <h1>{{ $title }}</h1>
                 <p>{{ $description }}</p>
