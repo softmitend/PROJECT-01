@@ -3,7 +3,13 @@
 <svg {{ $attributes->merge(['class' => 'public-icon']) }} width="{{ $size }}" height="{{ $size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     @switch($name)
         @case('home')<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/>@break
-        @case('bag')<path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>@break
+        @case('bag')
+            @if(request()->routeIs('home'))
+                <image href="{{ asset('img/ocean-paws-mascot.jpg') }}" x="3.5" y="1" width="17" height="22" preserveAspectRatio="xMidYMid meet" />
+            @else
+                <path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+            @endif
+            @break
         @case('card')<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/>@break
         @case('grid')<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>@break
         @case('user')<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>@break
