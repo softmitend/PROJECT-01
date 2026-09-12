@@ -22,7 +22,7 @@
                             <div class="art-album-bottom"><span>YOUR NEXT FAVORITE</span><span>♡</span></div>
                         </div>
                         <div class="art-note"><span><x-public-icon name="bag" :size="18" /></span><div>Little things.<br><strong>Big happiness.</strong></div></div>
-                        <div class="art-photocard"><div class="art-photo-sky"><span>♡</span></div><small>stay in your orbit.</small></div>
+                        <div class="art-photocard"><div class="art-photo-sky" style="overflow:hidden;"><img src="{{ asset('img/ocean-paws-photocard.jpg') }}" alt="Ocean Paws" style="display:block;width:100%;height:100%;object-fit:cover;"></div><small>stay in your orbit.</small></div>
                         <span class="art-sticker"><x-public-icon name="sparkle" :size="15" /> ALBUM · PHOTOCARD · MERCH</span>
                     </div>
                 </div>
