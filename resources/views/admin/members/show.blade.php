@@ -34,17 +34,17 @@
                 <div><h3>Daftar Pembelian</h3><p>Pesanan pelanggan diurutkan berdasarkan pembaruan terakhir.</p></div>
             </div>
             <div class="order-table-scroll">
-                <table class="order-table">
+                <table class="order-table responsive-card-table">
                     <thead><tr><th>Pesanan</th><th>Batch</th><th>Status</th><th>Jumlah item</th><th>Update terakhir</th><th><span class="sr-only">Aksi</span></th></tr></thead>
                     <tbody>
                         @forelse ($member->orders as $order)
                             <tr>
-                                <td><div class="order-table-primary text-violet-700">{{ $order->order_code }}</div></td>
-                                <td><div class="order-table-primary">{{ $order->batch->batch_number }}</div><div class="order-table-secondary">{{ $order->batch->batch_name ?: 'Tanpa nama batch' }}</div></td>
-                                <td><x-status-badge :status="$order->effective_status" /></td>
-                                <td class="font-semibold text-zinc-700">{{ $order->items->sum('quantity') }} item</td>
-                                <td><div class="text-zinc-700">{{ $order->updated_at->format('d M Y') }}</div><div class="order-table-secondary">{{ $order->updated_at->format('H:i') }}</div></td>
-                                <td class="text-right"><a class="order-table-action" href="{{ route('admin.member-orders.show', $order, false) }}">Detail</a></td>
+                                <td data-label="Pesanan"><div class="order-table-primary text-violet-700">{{ $order->order_code }}</div></td>
+                                <td data-label="Batch"><div class="order-table-primary">{{ $order->batch->batch_number }}</div><div class="order-table-secondary">{{ $order->batch->batch_name ?: 'Tanpa nama batch' }}</div></td>
+                                <td data-label="Status"><x-status-badge :status="$order->effective_status" /></td>
+                                <td data-label="Jumlah item" class="font-semibold text-zinc-700">{{ $order->items->sum('quantity') }} item</td>
+                                <td data-label="Update terakhir"><div class="text-zinc-700">{{ $order->updated_at->format('d M Y') }}</div><div class="order-table-secondary">{{ $order->updated_at->format('H:i') }}</div></td>
+                                <td data-card-action class="text-right"><a class="order-table-action" href="{{ route('admin.member-orders.show', $order, false) }}">Detail</a></td>
                             </tr>
                         @empty
                             <tr><td colspan="6" class="py-10 text-center text-zinc-500">Belum ada pembelian untuk pelanggan ini.</td></tr>

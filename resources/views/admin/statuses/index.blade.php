@@ -3,7 +3,7 @@
         <x-slot:action><a class="admin-primary-action" href="{{ route('admin.order-statuses.create', [], false) }}">+ Tambah status</a></x-slot:action>
     </x-page-heading>
 
-    <section class="mb-6 rounded-2xl border border-violet-100 bg-gradient-to-r from-violet-50 via-blue-50 to-cyan-50 p-5">
+    <section class="admin-status-flow mb-6 rounded-2xl border border-violet-100 bg-gradient-to-r from-violet-50 via-blue-50 to-cyan-50 p-5">
         <div class="text-sm font-bold text-violet-800">Alur utama batch pembelian</div>
         <div class="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold text-violet-900">
             @foreach(['Menunggu Pemesanan', 'Sudah Dipesan', 'Tiba di Gudang Luar Negeri', 'Dikirim ke Indonesia', 'Tiba di Gudang Admin', 'Siap Distribusi', 'Selesai'] as $step)
@@ -81,7 +81,7 @@
 
                     <div class="status-table-frame">
                         <div class="order-table-scroll">
-                        <table class="order-table status-table">
+                        <table class="order-table status-table responsive-card-table">
                             <colgroup>
                                 <col class="status-table-col-number">
                                 <col class="status-table-col-status">
@@ -95,10 +95,10 @@
                                 @forelse($scopeStatuses as $status)
                                     @php($usage = $status->batches_count + $status->member_orders_count + $status->order_items_count + $status->payment_member_orders_count + $status->old_histories_count + $status->new_histories_count)
                                     <tr class="{{ $status->is_active ? '' : 'bg-zinc-50 opacity-60' }}">
-                                        <td><span class="grid h-7 w-7 place-items-center rounded-md bg-zinc-100">{{ $loop->iteration }}</span></td>
-                                        <td><x-status-badge :status="$status" /><div class="mt-1 text-zinc-400">{{ $status->code }}</div></td>
-                                        <td class="max-w-md text-zinc-600">{{ $status->description ?: 'Belum ada keterangan untuk pelanggan.' }}</td>
-                                        <td>
+                                        <td data-label="No."><span class="grid h-7 w-7 place-items-center rounded-md bg-zinc-100">{{ $loop->iteration }}</span></td>
+                                        <td data-label="Status"><x-status-badge :status="$status" /><div class="mt-1 text-zinc-400">{{ $status->code }}</div></td>
+                                        <td data-label="Keterangan" class="max-w-md text-zinc-600">{{ $status->description ?: 'Belum ada keterangan untuk pelanggan.' }}</td>
+                                        <td data-label="Sifat">
                                             <div class="flex flex-wrap gap-1">
                                                 @if($status->is_initial)<span class="rounded bg-blue-50 px-2 py-1 text-xs text-blue-700">Awal</span>@endif
                                                 @if($status->is_final)<span class="rounded bg-emerald-50 px-2 py-1 text-xs text-emerald-700">Final</span>@endif
@@ -107,8 +107,8 @@
                                                 @unless($status->is_active)<span class="rounded bg-red-50 px-2 py-1 text-xs text-red-700">Nonaktif</span>@endunless
                                             </div>
                                         </td>
-                                        <td>{{ $usage }}×</td>
-                                        <td class="text-right">
+                                        <td data-label="Dipakai">{{ $usage }}×</td>
+                                        <td data-card-action class="text-right">
                                             <div class="status-table-actions">
                                                 <a class="order-table-action" href="{{ route('admin.order-statuses.show', $status, false) }}">Detail</a>
                                             </div>

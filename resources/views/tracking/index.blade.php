@@ -8,7 +8,7 @@
                         <h1 class="hero-title">Girl group<br>& artis Modhaus,<br><span class="accent">lebih dekat ke kamu.</span></h1>
                         <p class="hero-copy">Titip photocard, album, dan merch favoritmu. Jajan bareng dengan biaya yang jelas, lalu pantau perjalanan pesananmu di sini.</p>
                         <div class="landing-hero-actions">
-                            <a href="{{ route('catalog.index') }}" class="landing-primary-link">Temukan jajananmu <x-public-icon name="arrow-right" :size="17" /></a>
+                            <a href="{{ route('services.index') }}" class="landing-primary-link">Lihat layanan kami <x-public-icon name="arrow-right" :size="17" /></a>
                             <a href="{{ route('tracking.index') }}" class="landing-catalog-link">Lacak pesanan <x-public-icon name="arrow-right" :size="17" /></a>
                         </div>
                     </div>
@@ -44,27 +44,30 @@
                 <div class="section-kicker">Tentang kami</div>
                 <h2 class="section-title max-w-[680px]">Group order untuk girl group underrated dan tripleS.</h2>
                 <p class="section-copy">Kami jalan sejak 2023 dan sudah menemani pembeli lewat lebih dari 5.000 transaksi. Kami juga jadi GO pertama yang punya web dengan data real-time, jadi kamu bisa cek sendiri posisi photocard, merch, dan album kamu tanpa perlu chat admin dulu.</p>
-                <div class="social-row">
-                    <a class="social-btn social-x" href="#" aria-label="X (sebelumnya Twitter)" title="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
-                    <a class="social-btn social-line" href="#" aria-label="LINE" title="LINE"><i class="bi bi-line" aria-hidden="true"></i></a>
-                    <a class="social-btn social-whatsapp" href="#" aria-label="WhatsApp" title="WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
-                </div>
-
-                <div class="mt-7 text-[10px] font-bold text-[#6084aa] lg:text-[12px]">Tim admin</div>
-                <div class="admin-grid">
-                    @foreach([
-                        ['Juna', 'Admin All Negara', 'Aku siap bantu wujudin wishlist kalian dengan harga ramah di kantong! drop jajan 24/7.'],
-                        ['Pucel', 'Admin China', 'Paling jago nyelem jajanan girlgroup di china yang termurah! DM pucel~'],
-                        ['Amrina', 'Admin Korea', 'Hallo!! Aku admin Korea yang siap sedia layanin kamu 24/7~ Mau persod? Reqshare?'],
-                        ['Choa', 'Admin Rekap', 'Siap untuk rekap order, cek data, dan ngerapiin laporan kamu!'],
-                        ['Alesha', 'Admin Pack', 'Memastikan semua paket sampai dengan aman dan tepat waktu.'],
-                    ] as [$name, $role, $description])
-                        <article class="admin-card">
-                            <div class="admin-head"><div class="avatar">{{ mb_substr($name, 0, 1) }}</div><div><strong class="text-[11px] lg:text-[14px]">{{ $name }}</strong><div class="text-[9px] text-[#5980a7] lg:text-[11px]">{{ $role }}</div></div></div>
-                            <p>{{ $description }}</p>
-                            <span class="contact-link"><x-public-icon name="message" :size="10" /> Hubungi</span>
-                        </article>
-                    @endforeach
+                <div class="about-info-rail">
+                    <div class="social-row" aria-label="Media sosial Ocean Paws">
+                        <a class="social-btn social-x" href="#" aria-label="X (sebelumnya Twitter)" title="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
+                        <a class="social-btn social-line" href="#" aria-label="LINE" title="LINE"><i class="bi bi-line" aria-hidden="true"></i></a>
+                        <a class="social-btn social-whatsapp" href="#" aria-label="WhatsApp" title="WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="about-stat-grid" aria-label="Statistik Ocean Paws">
+                        <div class="about-stat">
+                            <span class="about-stat-icon"><x-public-icon name="box" :size="16" /></span>
+                            <div class="about-stat-copy"><strong>6.000+</strong><span>Pesanan selesai</span></div>
+                        </div>
+                        <div class="about-stat">
+                            <span class="about-stat-icon"><x-public-icon name="message" :size="16" /></span>
+                            <div class="about-stat-copy"><strong>4.500+</strong><span>Testimoni pembeli</span></div>
+                        </div>
+                        <div class="about-stat">
+                            <span class="about-stat-icon"><x-public-icon name="calendar" :size="16" /></span>
+                            <div class="about-stat-copy"><strong>2023</strong><span>Berdiri sejak</span></div>
+                        </div>
+                        <div class="about-stat">
+                            <span class="about-stat-icon"><x-public-icon name="sparkle" :size="16" /></span>
+                            <div class="about-stat-copy"><strong>5.0</strong><span>Rating pembeli</span></div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -77,8 +80,24 @@
                 <div class="testi-track" data-testimonial-track aria-label="Testimoni pembeli">
                     @foreach($testimonialSlides as $testimonial)
                         <article class="testi-card" data-testimonial-card>
-                            <img src="{{ $testimonial['image'] }}" alt="Testimoni {{ $testimonial['name'] }}">
-                            <div class="testi-copy"><p>{{ $testimonial['content'] }}</p><div class="testi-user"><i>{{ mb_substr($testimonial['name'], 0, 1) }}</i><span>{{ $testimonial['name'] }}</span></div></div>
+                            <div class="testi-media">
+                                <img src="{{ $testimonial['image'] }}" alt="Foto testimoni dari {{ $testimonial['name'] }}">
+                                <span class="testi-quote-mark" aria-hidden="true">“</span>
+                                <span class="testi-rating" aria-label="Rating {{ $testimonial['rating'] ?? 5 }} dari 5">
+                                    <span aria-hidden="true">★</span>
+                                    {{ number_format((float) ($testimonial['rating'] ?? 5), 1) }}
+                                </span>
+                            </div>
+                            <div class="testi-copy">
+                                <p>{{ $testimonial['content'] }}</p>
+                                <div class="testi-user">
+                                    <i>{{ mb_substr($testimonial['name'], 0, 1) }}</i>
+                                    <div>
+                                        <strong>{{ $testimonial['name'] }}</strong>
+                                        <span>Pembeli Ocean Paws</span>
+                                    </div>
+                                </div>
+                            </div>
                         </article>
                     @endforeach
                 </div>

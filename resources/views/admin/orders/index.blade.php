@@ -13,18 +13,18 @@
             <button class="order-table-toolbar-button" type="submit"><svg viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="5.5"/><path d="m13 13 4 4"/></svg>Cari</button>
         </form>
         <div class="order-table-scroll">
-            <table class="order-table">
+            <table class="order-table responsive-card-table">
                 <thead><tr><th>Pesanan</th><th>Pelanggan</th><th>Batch</th><th>Status</th><th>Item</th><th>Total</th><th>Pajak / EMS</th><th><span class="sr-only">Aksi</span></th></tr></thead>
                 <tbody>
                     @forelse ($orders as $order)
                         <tr>
-                            <td><div class="order-table-primary text-violet-700">{{ $order->order_code }}</div><div class="order-table-secondary">Diperbarui {{ $order->updated_at->format('d M Y, H:i') }}</div></td>
-                            <td><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">{{ $order->member->username ?: '-' }}</div></td>
-                            <td class="text-zinc-600">{{ $order->batch->batch_number }}</td>
-                            <td><x-status-badge :status="$order->effective_status" /></td>
-                            <td class="font-semibold text-zinc-700">{{ $order->items_count }}</td>
-                            <td class="font-semibold text-zinc-700">{{ $order->total_amount ? 'Rp '.number_format($order->total_amount, 0, ',', '.') : '-' }}</td>
-                            <td>
+                            <td data-label="Pesanan"><div class="order-table-primary text-violet-700">{{ $order->order_code }}</div><div class="order-table-secondary">Diperbarui {{ $order->updated_at->format('d M Y, H:i') }}</div></td>
+                            <td data-label="Pelanggan"><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">{{ $order->member->username ?: '-' }}</div></td>
+                            <td data-label="Batch" class="text-zinc-600">{{ $order->batch->batch_number }}</td>
+                            <td data-label="Status"><x-status-badge :status="$order->effective_status" /></td>
+                            <td data-label="Item" class="font-semibold text-zinc-700">{{ $order->items_count }}</td>
+                            <td data-label="Total" class="font-semibold text-zinc-700">{{ $order->total_amount ? 'Rp '.number_format($order->total_amount, 0, ',', '.') : '-' }}</td>
+                            <td data-label="Pajak / EMS">
                                 @if($order->has_ems_tax_bill)
                                     <div class="order-table-primary">Rp {{ number_format((float) $order->ems_tax_amount, 0, ',', '.') }}</div>
                                     <div class="order-table-secondary">{{ $order->ems_tax_status_label }}</div>
@@ -32,7 +32,7 @@
                                     <span class="text-xs text-zinc-400">Belum ditagihkan</span>
                                 @endif
                             </td>
-                            <td class="text-right"><a class="order-table-action" href="{{ route('admin.member-orders.show', $order, false) }}">Detail</a></td>
+                            <td data-card-action class="text-right"><a class="order-table-action" href="{{ route('admin.member-orders.show', $order, false) }}">Detail</a></td>
                         </tr>
                     @empty
                         <tr><td colspan="8" class="py-12 text-center text-zinc-400">Belum ada pesanan.</td></tr>

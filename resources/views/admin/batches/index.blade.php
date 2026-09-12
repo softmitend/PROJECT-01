@@ -55,16 +55,16 @@
 
                 <div class="status-table-frame">
                     <div class="order-table-scroll">
-                        <table class="order-table">
+                        <table class="order-table responsive-card-table">
                             <thead><tr><th>Batch</th><th>Status</th><th>Pesanan</th><th>Item</th><th><span class="sr-only">Aksi</span></th></tr></thead>
                             <tbody>
                                 @forelse ($batches as $batch)
                                     <tr>
-                                        <td><div class="order-table-primary">{{ $batch->batch_number }}</div><div class="order-table-secondary">{{ $batch->batch_name ?: 'Tanpa nama batch' }}</div></td>
-                                        <td><x-status-badge :status="$batch->currentStatus" /></td>
-                                        <td class="font-semibold text-zinc-700">{{ $batch->orders_count }}</td>
-                                        <td class="text-zinc-600">{{ $batch->items_count }}</td>
-                                        <td class="text-right"><a class="order-table-action" href="{{ route('admin.batches.show', $batch, false) }}">Detail</a></td>
+                                        <td data-label="Batch"><div class="order-table-primary">{{ $batch->batch_number }}</div><div class="order-table-secondary">{{ $batch->batch_name ?: 'Tanpa nama batch' }}</div></td>
+                                        <td data-label="Status"><x-status-badge :status="$batch->currentStatus" /></td>
+                                        <td data-label="Pesanan" class="font-semibold text-zinc-700">{{ $batch->orders_count }}</td>
+                                        <td data-label="Item" class="text-zinc-600">{{ $batch->items_count }}</td>
+                                        <td data-card-action class="text-right"><a class="order-table-action" href="{{ route('admin.batches.show', $batch, false) }}">Detail</a></td>
                                     </tr>
                                 @empty
                                     <tr><td colspan="5" class="py-12 text-center text-zinc-400">{{ $archiveView === 'archived' ? 'Belum ada batch yang diarsipkan.' : 'Tidak ada batch aktif yang cocok dengan pencarian atau filter.' }}</td></tr>

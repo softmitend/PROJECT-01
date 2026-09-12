@@ -1,6 +1,6 @@
 @props(['title', 'description' => null, 'action' => null])
 
-<div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+<div class="admin-page-heading mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
     <div>
         <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{{ $title }}</h1>
         @if ($description)
@@ -8,6 +8,6 @@
         @endif
     </div>
     @if ($action)
-        <div>{{ $action }}</div>
+        <div class="admin-page-heading-action">{{ $action }}</div>
     @endif
 </div>

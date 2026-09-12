@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ $title ?? config('app.name', 'Rekap Jajanan') }}</title>
-        <meta name="design-version" content="landing-logo-palette-v20">
+        <meta name="design-version" content="landing-logo-palette-v21">
         <script>
             try {
                 document.documentElement.dataset.customerTheme = localStorage.getItem('ocean-paws-theme') || 'light';
@@ -18,7 +18,7 @@
     </head>
     @php
         $isAdmin = auth()->check() && request()->routeIs('admin.*');
-        $isTrackingLanding = request()->routeIs(['home', 'tracking.*', 'catalog.*', 'profile.*', 'billing.*', 'services.*', 'testimonials.*', 'orders.*']);
+        $isTrackingLanding = request()->routeIs(['home', 'tracking.*', 'profile.*', 'billing.*', 'services.*', 'testimonials.*', 'orders.*']);
         $hasPublicDock = request()->routeIs(['home', 'tracking.index', 'tracking.search', 'profile.*', 'billing.*', 'services.*', 'testimonials.*', 'orders.*']);
         $adminNav = [
             ['route' => 'admin.dashboard', 'match' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
@@ -44,7 +44,7 @@
         @if ($isAdmin)
             <div class="admin-shell min-h-screen">
                 <aside class="admin-sidebar border-b border-zinc-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:flex lg:w-72 lg:flex-col lg:border-b-0 lg:border-r">
-                    <div class="flex h-20 items-center justify-between px-5 lg:h-24 lg:px-7">
+                    <div class="admin-brand-row flex h-20 items-center justify-between px-5 lg:h-24 lg:px-7">
                         <a href="{{ route('admin.dashboard') }}" class="group flex items-center gap-3 font-bold tracking-tight">
                             <span class="grid h-12 w-12 shrink-0 place-items-center transition-transform group-hover:-rotate-3 group-hover:scale-105">
                                 <img src="{{ asset('img/Picsart_26-08-23_02-05-04-834.png') }}" alt="Logo Ocean Paws" class="h-12 w-12 object-contain drop-shadow-sm">
@@ -56,7 +56,7 @@
                         </a>
                     </div>
 
-                    <nav class="flex gap-1 overflow-x-auto px-4 pb-4 text-sm lg:block lg:flex-1 lg:space-y-1 lg:overflow-y-auto lg:px-5 lg:pb-6">
+                    <nav class="admin-navigation flex gap-1 overflow-x-auto px-4 pb-4 text-sm lg:block lg:flex-1 lg:space-y-1 lg:overflow-y-auto lg:px-5 lg:pb-6" aria-label="Navigasi admin">
                         <p class="mb-3 hidden px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 lg:block">Workspace</p>
                         @foreach ($adminNav as $item)
                             <a href="{{ route($item['route']) }}" class="{{ request()->routeIs($item['match']) ? 'bg-zinc-950 text-white shadow-lg shadow-zinc-950/10' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950' }} group flex shrink-0 items-center gap-3 rounded-xl px-3 py-2.5 font-semibold transition lg:w-full">
@@ -79,7 +79,7 @@
                 </aside>
 
                 <div class="admin-workspace lg:pl-72">
-                    <header class="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-zinc-200/80 bg-white/90 px-4 backdrop-blur-xl sm:px-6 lg:h-20 xl:px-10">
+                    <header class="admin-topbar sticky top-0 z-40 flex h-16 items-center justify-between border-b border-zinc-200/80 bg-white/90 px-4 backdrop-blur-xl sm:px-6 lg:h-20 xl:px-10">
                         <div>
                             @if($adminBackItem)
                                 <a href="{{ route($adminBackItem['route']) }}" class="admin-navbar-back">

@@ -107,17 +107,17 @@
                 <div><h3>Item Pesanan</h3><p>{{ $order->items->sum('quantity') }} item dari {{ $order->items->count() }} produk tercatat.</p></div>
             </div>
             <div class="order-table-scroll">
-                <table class="order-table">
+                <table class="order-table responsive-card-table">
                     <thead><tr><th>Item</th><th>Qty</th><th>Harga</th><th>Subtotal</th><th>Status item</th><th>Catatan</th></tr></thead>
                     <tbody>
                         @forelse($order->items as $item)
                             <tr>
-                                <td><div class="order-table-primary">{{ $item->item_name }}</div><div class="order-table-secondary">{{ $item->variant ?: 'Tanpa varian' }}</div></td>
-                                <td class="font-semibold text-zinc-700">{{ $item->quantity }}</td>
-                                <td class="text-zinc-600">{{ $item->unit_price ? 'Rp '.number_format($item->unit_price, 0, ',', '.') : '-' }}</td>
-                                <td class="font-semibold text-zinc-700">{{ $item->subtotal ? 'Rp '.number_format($item->subtotal, 0, ',', '.') : '-' }}</td>
-                                <td><x-status-badge :status="$item->effective_status" /></td>
-                                <td class="max-w-xs text-zinc-600">{{ $item->notes ?: '-' }}</td>
+                                <td data-label="Item"><div class="order-table-primary">{{ $item->item_name }}</div><div class="order-table-secondary">{{ $item->variant ?: 'Tanpa varian' }}</div></td>
+                                <td data-label="Qty" class="font-semibold text-zinc-700">{{ $item->quantity }}</td>
+                                <td data-label="Harga" class="text-zinc-600">{{ $item->unit_price ? 'Rp '.number_format($item->unit_price, 0, ',', '.') : '-' }}</td>
+                                <td data-label="Subtotal" class="font-semibold text-zinc-700">{{ $item->subtotal ? 'Rp '.number_format($item->subtotal, 0, ',', '.') : '-' }}</td>
+                                <td data-label="Status item"><x-status-badge :status="$item->effective_status" /></td>
+                                <td data-label="Catatan" class="max-w-xs text-zinc-600">{{ $item->notes ?: '-' }}</td>
                             </tr>
                         @empty
                             <tr><td colspan="6" class="px-4 py-10 text-center text-zinc-500">Belum ada item pada pesanan ini.</td></tr>

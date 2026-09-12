@@ -264,6 +264,28 @@ CREATE TABLE `sessions` (
   KEY `sessions_last_activity_index` (`last_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `testimonials`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `testimonials` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `member_id` bigint unsigned NOT NULL,
+  `order_item_id` bigint unsigned NOT NULL,
+  `rating` tinyint unsigned NOT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `photo_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo_disk` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'public',
+  `is_published` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `testimonials_order_item_id_unique` (`order_item_id`),
+  KEY `testimonials_member_id_foreign` (`member_id`),
+  KEY `testimonials_is_published_index` (`is_published`),
+  CONSTRAINT `testimonials_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `testimonials_order_item_id_foreign` FOREIGN KEY (`order_item_id`) REFERENCES `order_items` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `status_histories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -326,3 +348,4 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (11,'2026_08_06_172
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (12,'2026_08_10_220000_add_contact_fields_to_members_table',2);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (13,'2026_08_11_000001_add_payment_status_id_to_member_orders_table',3);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (14,'2026_08_26_170000_simplify_orders_and_add_ems_tax_billing',4);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (15,'2026_09_06_000000_create_testimonials_table',5);

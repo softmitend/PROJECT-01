@@ -15,8 +15,9 @@
 html:has(body.customer-theme) { background: var(--bg); }
 body.customer-theme {
   margin: 0;
-  min-width: 320px;
+  min-width: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   color: var(--navy);
   background:
     radial-gradient(circle at 50% -7%, rgba(255,255,255,.54), transparent 26rem),
@@ -833,7 +834,7 @@ html[data-customer-theme="dark"] .nav-item.active { background:#315f79; color:#f
 .portal-overview-header > span { color:#3978ae; font-size:10px; font-weight:900; letter-spacing:.14em; }
 .portal-overview-header h1 { margin-top:10px; color:#062b52; font-family:"Bricolage Grotesque","Nunito Sans",sans-serif; font-size:clamp(42px,4.6vw,60px); font-weight:700; letter-spacing:-.05em; line-height:.98; }
 .portal-overview-header p { max-width:650px; margin-top:14px; color:#557da2; font-size:14px; line-height:1.7; }
-.portal-overview-grid { margin-top:38px; gap:22px; }
+.portal-overview-grid { margin-top:38px; gap:22px; grid-template-columns:repeat(2,minmax(0,1fr)); }
 .portal-overview-grid.is-billing { grid-template-columns:repeat(2,minmax(0,1fr)); }
 .portal-overview-card { min-height:260px; border:1px solid rgba(255,255,255,.82); border-radius:22px; padding:28px; box-shadow:0 14px 32px rgba(37,92,146,.13); }
 .portal-overview-card .icon-chip { width:50px; height:50px; border-radius:15px; }
@@ -851,6 +852,7 @@ html[data-customer-theme="dark"] .nav-item.active { background:#315f79; color:#f
   .catalog-listing-shell .preorder-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
   .portal-overview-page { padding-top:34px; }
   .portal-overview-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .portal-overview-grid.is-services { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
 
 @media (max-width:640px) {
@@ -876,6 +878,7 @@ html[data-customer-theme="dark"] .nav-item.active { background:#315f79; color:#f
   .portal-overview-header p { margin-top:10px; font-size:11px; line-height:1.55; }
   .portal-overview-grid { margin-top:24px; grid-template-columns:1fr; gap:12px; }
   .portal-overview-grid.is-billing { grid-template-columns:1fr; }
+  .portal-overview-grid.is-services { grid-template-columns:1fr; }
   .portal-overview-card { min-height:190px; border-radius:17px; padding:19px; }
   .portal-overview-card .icon-chip { width:43px; height:43px; border-radius:13px; }
   .portal-overview-card h2 { margin-top:17px; font-size:16px; }
@@ -1096,13 +1099,26 @@ html[data-customer-theme="dark"] .nav-item.active { background:#315f79; color:#f
   .metric-card { min-height:70px; padding:10px; }
   .orders-icons { gap:4px; }
   .order-link .order-bubble { width:38px; height:38px; }
-  .bottom-nav { bottom:9px; }
-  .nav-item { min-width:55px; padding-inline:9px; }
+  .bottom-nav { bottom:calc(9px + env(safe-area-inset-bottom)); }
+  .nav-item { min-width:0; flex:1 1 0; padding-inline:7px; }
   .sticky-select { padding-inline:16px; }
   .sheet-head { padding-inline:16px; }
   .sheet-options, .sheet-cta { padding-left:16px; padding-right:16px; }
   .sheet-thumb { width:72px; height:72px; }
   .sheet-summary strong { font-size:23px; }
+}
+
+@media (max-width: 640px) {
+  .order-search-form input,
+  .tracking-lookup-form input,
+  .checkout-input,
+  .testimonial-field textarea {
+    font-size:16px;
+  }
+
+  .bottom-nav {
+    max-width:calc(100vw - 20px);
+  }
 }
 
 /* Landing order search card */

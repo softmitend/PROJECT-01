@@ -61,13 +61,6 @@ class CustomerPortalController extends Controller
             'description' => 'Pilih layanan yang kamu butuhkan untuk mulai jajan atau memantau pesanan.',
             'items' => [
                 [
-                    'icon' => 'bag',
-                    'title' => 'Katalog',
-                    'description' => 'Lihat batch yang tersedia, pilih variasi, dan lanjutkan pemesanan.',
-                    'note' => 'Batch aktif',
-                    'url' => route('catalog.index'),
-                ],
-                [
                     'icon' => 'search',
                     'title' => 'Lacak Pesanan',
                     'description' => 'Cari status terkini menggunakan kode pesanan atau username LINE.',

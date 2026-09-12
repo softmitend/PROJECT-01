@@ -10,17 +10,17 @@
             @if(request('date_from') || request('date_to'))<a class="date-range-reset" href="{{ route('admin.status-histories.index', [], false) }}">Reset</a>@endif
         </form>
         <div class="order-table-scroll">
-            <table class="order-table">
+            <table class="order-table responsive-card-table">
                 <thead><tr><th>Objek</th><th>Status lama</th><th>Status baru</th><th>Catatan</th><th>Admin</th><th>Waktu</th></tr></thead>
                 <tbody>
                     @forelse($histories as $history)
                         <tr>
-                            <td><div class="order-table-primary">{{ class_basename($history->trackable_type) }}</div><div class="order-table-secondary">#{{ $history->trackable_id }}</div></td>
-                            <td><x-status-badge :status="$history->oldStatus" /></td>
-                            <td><x-status-badge :status="$history->newStatus" /></td>
-                            <td class="max-w-xs text-zinc-600">{{ $history->note ?: '-' }}</td>
-                            <td class="text-zinc-600">{{ $history->changedBy?->name ?: 'Sistem' }}</td>
-                            <td class="whitespace-nowrap"><div class="text-zinc-700">{{ $history->created_at->format('d M Y') }}</div><div class="order-table-secondary">{{ $history->created_at->format('H:i') }}</div></td>
+                            <td data-label="Objek"><div class="order-table-primary">{{ class_basename($history->trackable_type) }}</div><div class="order-table-secondary">#{{ $history->trackable_id }}</div></td>
+                            <td data-label="Status lama"><x-status-badge :status="$history->oldStatus" /></td>
+                            <td data-label="Status baru"><x-status-badge :status="$history->newStatus" /></td>
+                            <td data-label="Catatan" class="max-w-xs text-zinc-600">{{ $history->note ?: '-' }}</td>
+                            <td data-label="Admin" class="text-zinc-600">{{ $history->changedBy?->name ?: 'Sistem' }}</td>
+                            <td data-label="Waktu" class="whitespace-nowrap"><div class="text-zinc-700">{{ $history->created_at->format('d M Y') }}</div><div class="order-table-secondary">{{ $history->created_at->format('H:i') }}</div></td>
                         </tr>
                     @empty
                         <tr><td colspan="6" class="py-12 text-center text-zinc-400">Belum ada riwayat.</td></tr>

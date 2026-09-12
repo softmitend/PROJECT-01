@@ -73,11 +73,11 @@
             </div>
 
             <div class="order-table-scroll mt-4">
-                <table class="order-table">
+                <table class="order-table responsive-card-table">
                     <thead><tr><th>Variasi</th><th>Harga DP</th><th>Harga Lunas</th><th>Ketersediaan</th></tr></thead>
                     <tbody>
                         @forelse($batch->products as $product)
-                            <tr><td><div class="order-table-primary">{{ $product->variant ?: $product->name }}</div></td><td>Rp {{ number_format($product->pivot->dp_price, 0, ',', '.') }}</td><td>Rp {{ number_format($product->pivot->full_price, 0, ',', '.') }}</td><td>{{ $product->pivot->is_available ? 'Tersedia' : 'Tidak tersedia' }}</td></tr>
+                            <tr><td data-label="Variasi"><div class="order-table-primary">{{ $product->variant ?: $product->name }}</div></td><td data-label="Harga DP">Rp {{ number_format($product->pivot->dp_price, 0, ',', '.') }}</td><td data-label="Harga lunas">Rp {{ number_format($product->pivot->full_price, 0, ',', '.') }}</td><td data-label="Ketersediaan">{{ $product->pivot->is_available ? 'Tersedia' : 'Tidak tersedia' }}</td></tr>
                         @empty
                             <tr><td colspan="4" class="px-4 py-8 text-center text-zinc-500">Belum ada variasi katalog.</td></tr>
                         @endforelse
@@ -159,18 +159,18 @@
                 </div>
             </div>
             <div class="order-table-scroll">
-                <table class="order-table">
+                <table class="order-table responsive-card-table">
                     <thead><tr><th>Pesanan</th><th>Pelanggan</th><th>Item</th><th>Pembayaran</th><th>Status efektif</th><th>Update terakhir</th><th><span class="sr-only">Aksi</span></th></tr></thead>
                     <tbody>
                         @forelse($batch->orders as $order)
                             <tr>
-                                <td><div class="order-table-primary text-violet-700">{{ $order->order_code }}</div></td>
-                                <td><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">LINE: {{ $order->member->username }}</div></td>
-                                <td class="font-semibold text-zinc-700">{{ $order->items->sum('quantity') }}</td>
-                                <td><div class="order-table-primary">{{ $order->payment_type_label }}</div><div class="order-table-secondary">{{ $order->payment_amount ? 'Rp '.number_format($order->payment_amount, 0, ',', '.') : 'Belum ada pembayaran' }}</div></td>
-                                <td><x-status-badge :status="$order->effective_status" /></td>
-                                <td><div class="text-zinc-700">{{ $order->updated_at->format('d M Y') }}</div><div class="order-table-secondary">{{ $order->updated_at->format('H:i') }}</div></td>
-                                <td class="text-right"><a class="order-table-action" href="{{ route('admin.member-orders.show', $order, false) }}">Detail</a></td>
+                                <td data-label="Pesanan"><div class="order-table-primary text-violet-700">{{ $order->order_code }}</div></td>
+                                <td data-label="Pelanggan"><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">LINE: {{ $order->member->username }}</div></td>
+                                <td data-label="Item" class="font-semibold text-zinc-700">{{ $order->items->sum('quantity') }}</td>
+                                <td data-label="Pembayaran"><div class="order-table-primary">{{ $order->payment_type_label }}</div><div class="order-table-secondary">{{ $order->payment_amount ? 'Rp '.number_format($order->payment_amount, 0, ',', '.') : 'Belum ada pembayaran' }}</div></td>
+                                <td data-label="Status efektif"><x-status-badge :status="$order->effective_status" /></td>
+                                <td data-label="Update terakhir"><div class="text-zinc-700">{{ $order->updated_at->format('d M Y') }}</div><div class="order-table-secondary">{{ $order->updated_at->format('H:i') }}</div></td>
+                                <td data-card-action class="text-right"><a class="order-table-action" href="{{ route('admin.member-orders.show', $order, false) }}">Detail</a></td>
                             </tr>
                         @empty
                             <tr><td colspan="7" class="px-4 py-10 text-center text-zinc-500">Belum ada pesanan yang menggunakan batch ini.</td></tr>

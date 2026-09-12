@@ -3,7 +3,7 @@
         ? 'profile'
         : (request()->routeIs('billing.*')
             ? 'tagihan'
-            : (request()->routeIs(['services.*', 'catalog.*', 'tracking.*', 'orders.*']) ? 'layanan' : 'home'));
+            : (request()->routeIs(['services.*', 'tracking.*', 'orders.*']) ? 'layanan' : 'home'));
 @endphp
 
 <nav class="bottom-nav" aria-label="Navigasi utama">
