@@ -1,8 +1,11 @@
 <x-layouts.app title="Riwayat Pesanan — Ocean Paws">
     <main class="page billing-list-page">
         <div class="billing-list-shell">
+            <div class="detail-topbar">
+                <a class="top-back" href="{{ route('services.index') }}" aria-label="Kembali ke layanan"><x-public-icon name="arrow-left" :size="18" /></a>
+            </div>
+
             <header class="billing-list-header">
-                <a href="{{ route('services.index') }}" class="billing-back" aria-label="Kembali ke layanan"><x-public-icon name="arrow-left" :size="17" /> Kembali</a>
                 <span>DATA MILIKMU</span>
                 <h1>Riwayat pesanan</h1>
                 <p>Seluruh jajanan, pembayaran, dan perjalanan paketmu tersimpan di sini.</p>
