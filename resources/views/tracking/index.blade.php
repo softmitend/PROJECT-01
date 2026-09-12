@@ -4,9 +4,9 @@
             <section class="editorial-opening">
                 <div class="landing-hero">
                     <div class="landing-hero-copy">
-                        <p class="editorial-eyebrow"><span></span> JAJAN BARENG, SEJAK 2023</p>
-                        <h1 class="hero-title">Girl group<br>& artis Modhaus,<br><span class="accent">lebih dekat ke kamu.</span></h1>
-                        <p class="hero-copy">Titip photocard, album, dan merch favoritmu. Jajan bareng dengan biaya yang jelas, lalu pantau perjalanan pesananmu di sini.</p>
+                        <p class="editorial-eyebrow"><span></span> OCEANPAWS, SINCE 2025</p>
+                        <h1 class="hero-title">Where every WISH<br><span class="accent">comes a little closer.</span></h1>
+                        <p class="hero-copy">Shop your NCT WISH favorites with us and make every WISH a little more special ♡</p>
                         <div class="landing-hero-actions">
                             <a href="{{ route('services.index') }}" class="landing-primary-link">Lihat layanan kami <x-public-icon name="arrow-right" :size="17" /></a>
                             <a href="{{ route('tracking.index') }}" class="landing-catalog-link">Lacak pesanan <x-public-icon name="arrow-right" :size="17" /></a>
@@ -22,7 +22,13 @@
                             <div class="art-album-bottom"><span>YOUR NEXT FAVORITE</span><span>♡</span></div>
                         </div>
                         <div class="art-note"><span><x-public-icon name="bag" :size="18" /></span><div>Little things.<br><strong>Big happiness.</strong></div></div>
-                        <div class="art-photocard"><div class="art-photo-sky" style="overflow:hidden;"><img src="{{ asset('img/ocean-paws-photocard.jpg') }}" alt="Ocean Paws" style="display:block;width:100%;height:100%;object-fit:cover;"></div><small>stay in your orbit.</small></div>
+                        <div class="art-photocard">
+                        <div class="art-photo-sky">
+                            <img src="{{ asset('img/ocean-paws-photocard.png') }}" alt="Ocean Paws" class="art-photo-image">
+                        </div>
+                        
+                        <small>stay in your orbit.</small>
+                        </div>
                         <span class="art-sticker"><x-public-icon name="sparkle" :size="15" /> ALBUM · PHOTOCARD · MERCH</span>
                     </div>
                 </div>
@@ -41,9 +47,9 @@
             </section>
 
             <section class="about-section" id="tentang">
-                <div class="section-kicker">Tentang kami</div>
-                <h2 class="section-title max-w-[680px]">Group order untuk girl group underrated dan tripleS.</h2>
-                <p class="section-copy">Kami jalan sejak 2023 dan sudah menemani pembeli lewat lebih dari 5.000 transaksi. Kami juga jadi GO pertama yang punya web dengan data real-time, jadi kamu bisa cek sendiri posisi photocard, merch, dan album kamu tanpa perlu chat admin dulu.</p>
+                <div class="section-kicker">About Us</div>
+                <h2 class="section-title max-w-[680px]">Made for every WISH, since 2025 ♡</h2>
+                <p class="section-copy">Founded in June 2025, GO Oceanpaws is a group order dedicated to NCT WISH. Since then, we've grown into a litte community pf 2000+ members and successfully handled thousands of batches together. From albums and photocards to merch and all the little WISH things you love, we're here to make every GO experiece easier, clearer, and more enjoyable </p>
                 <div class="about-info-rail">
                     <div class="social-row" aria-label="Media sosial Ocean Paws">
                         <a class="social-btn social-x" href="#" aria-label="X (sebelumnya Twitter)" title="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
