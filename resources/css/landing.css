@@ -897,8 +897,7 @@
   font-weight: 800;
 }
 
-.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}.ocean-editorial .testi-dots {
-  margin-top: 17px;
+.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}.ocean-editorial .testi-dots {  margin-top: 17px;
   gap: 6px;
 }
 
@@ -1797,8 +1796,7 @@
   }}
 @media (prefers-reduced-motion:reduce) {
   .editorial-marquee-track {    animation-duration: 60s;
-  }
-}
+  }}
 
 @media (max-width:900px) {
 
@@ -2697,8 +2695,7 @@
 }
 .tracking-lookup-copy > p {
   max-width: 580px;
-  margin-top: 24px;
-  color: var(--muted);
+  margin-top: 24px;  color: var(--muted);
   font-size: 14px;
   line-height: 1.75;
 }
@@ -3311,4 +3308,9 @@
 .landing-page.ocean-editorial .landing-primary-link:hover,
 .landing-page.ocean-editorial .landing-primary-link:focus-visible {
   transform: translateY(-4px);
+}
+
+/* Semi-bold landing hero description */
+.landing-page.ocean-editorial .hero-copy {
+  font-weight: 600;
 }
