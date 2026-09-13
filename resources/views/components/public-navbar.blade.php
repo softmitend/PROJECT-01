@@ -7,11 +7,6 @@
 
 <header class="public-topbar">
     <div class="public-topbar-inner">
-        <a href="{{ route('home') }}" class="public-brand" aria-label="Ocean Paws Home">
-            <img src="{{ asset('img/Picsart_26-08-23_02-05-04-834.png') }}" alt="">
-            <span><strong>Ocean Paws</strong><small>GROUP ORDER STUDIO</small></span>
-        </a>
-
         <nav class="public-desktop-nav" aria-label="Navigasi utama">
             <a href="{{ route('home') }}" class="{{ $homeActive ? 'active' : '' }}">
                 <x-public-icon name="home" :size="16" /><span>Home</span>
