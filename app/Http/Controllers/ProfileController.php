@@ -37,7 +37,7 @@ class ProfileController extends Controller
 
         $stats = [
             'unpaid' => $orders->filter(fn ($order) => in_array($order->paymentStatus?->code, ['menunggu-dp', 'menunggu-pelunasan'], true))->count(),
-            'active' => $orders->reject(fn ($order) => $order->effective_status?->is_final || $order->is_refunded)->count(),
+            'ems' => $orders->filter(fn ($order) => $order->ems_tax_is_published && $order->ems_tax_status === 'unpaid')->count(),
             'history' => $orders->filter(fn ($order) => $order->effective_status?->code === 'selesai')->count(),
             'shipping' => $orders->filter(fn ($order) => $order->effective_status?->code === 'dikirim-ke-customer')->count(),
             'refund' => $orders->filter(fn ($order) => $order->is_refunded)->count(),
