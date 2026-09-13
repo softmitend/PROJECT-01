@@ -3104,3 +3104,29 @@
     padding-bottom: 44px;
   }
 }
+
+
+/* Remove the leftover lower tracking band */
+.tracking-search-page.ocean-home.ocean-editorial {
+  min-height: calc(100svh - 74px);
+  padding-bottom: 0 !important;
+  background: var(--cream) !important;
+}
+
+.tracking-search-page .tracking-search-shell {
+  min-height: calc(100svh - 74px);
+  background: var(--cream);
+}
+
+.tracking-search-page .tracking-lookup-hero {
+  min-height: calc(100svh - 74px);
+  background: var(--cream);
+}
+
+@media (max-width: 720px) {
+  .tracking-search-page.ocean-home.ocean-editorial,
+  .tracking-search-page .tracking-search-shell,
+  .tracking-search-page .tracking-lookup-hero {
+    min-height: calc(100svh - 92px);
+  }
+}
