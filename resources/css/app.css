@@ -6048,3 +6048,19 @@ body.customer-theme,
         grid-auto-columns: minmax(0, 1fr);
     }
 }
+
+
+/* Brandless left-aligned public navigation */
+.public-topbar-inner {
+    justify-content: space-between;
+}
+
+.public-desktop-nav {
+    margin-right: auto;
+}
+
+@media (max-width: 720px) {
+    .public-topbar {
+        display: none;
+    }
+}
