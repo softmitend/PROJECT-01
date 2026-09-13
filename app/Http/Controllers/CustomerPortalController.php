@@ -78,6 +78,21 @@ class CustomerPortalController extends Controller
         ]);
     }
 
+    public function unpaid(Request $request)
+    {
+        return $this->orderList($request, 'unpaid');
+    }
+
+    public function shipping(Request $request)
+    {
+        return $this->orderList($request, 'shipping');
+    }
+
+    public function refunds(Request $request)
+    {
+        return $this->orderList($request, 'refund');
+    }
+
     public function history(Request $request)
     {
         $user = $request->user();
@@ -119,6 +134,70 @@ class CustomerPortalController extends Controller
             'orders' => $filteredOrders,
             'allOrderCount' => $orders->count(),
             'filter' => $filter,
+        ]);
+    }
+
+    private function orderList(Request $request, string $scope)
+    {
+        $user = $request->user();
+        $member = $user?->member;
+        $orders = collect();
+
+        if ($member) {
+            $orders = $member->orders()
+                ->with([
+                    'batch.currentStatus',
+                    'overrideStatus',
+                    'paymentStatus',
+                    'items.overrideStatus',
+                ])
+                ->latest()
+                ->get()
+                ->filter(fn ($order) => in_array($scope, $this->orderGroups($order), true))
+                ->values();
+
+            $orders->each(function ($order) use ($member): void {
+                $order->setAttribute('portal_tracking_url', URL::temporarySignedRoute(
+                    'tracking.order',
+                    now()->addMinutes(30),
+                    ['memberCode' => $member->member_code, 'memberOrder' => $order]
+                ));
+            });
+        }
+
+        $page = match ($scope) {
+            'unpaid' => [
+                'eyebrow' => 'PEMBAYARAN PESANAN',
+                'title' => 'Pesanan belum dibayar',
+                'description' => 'Daftar pesanan dengan DP atau pelunasan yang masih perlu diselesaikan.',
+                'icon' => 'wallet',
+                'emptyTitle' => 'Tidak ada pesanan yang belum dibayar.',
+                'emptyDescription' => 'Semua pembayaran pesananmu sudah aman untuk saat ini.',
+            ],
+            'shipping' => [
+                'eyebrow' => 'PENGIRIMAN',
+                'title' => 'Pesanan sedang dikirim',
+                'description' => 'Pantau paket yang sedang dikirim dan buka rincian tracking setiap pesanan.',
+                'icon' => 'truck',
+                'emptyTitle' => 'Belum ada pesanan dalam pengiriman.',
+                'emptyDescription' => 'Pesanan yang mulai dikirim akan muncul otomatis di halaman ini.',
+            ],
+            'refund' => [
+                'eyebrow' => 'REFUND',
+                'title' => 'Pesanan direfund',
+                'description' => 'Daftar pesanan yang pembayaran atau proses pesanannya telah direfund.',
+                'icon' => 'swap',
+                'emptyTitle' => 'Tidak ada pesanan yang direfund.',
+                'emptyDescription' => 'Pesanan refund akan tercatat dan tetap dapat dilihat di sini.',
+            ],
+        };
+
+        return view('portal.order-list', [
+            'user' => $user,
+            'member' => $member,
+            'orders' => $orders,
+            'scope' => $scope,
+            ...$page,
         ]);
     }
 
