@@ -19,20 +19,11 @@
             @enderror
         </div>
 
-        <aside class="tracking-guide-card" aria-label="Tahapan tracking pesanan">
-            <span class="tracking-guide-star">✦</span>
-            <div class="tracking-guide-label">LIVE ORDER JOURNEY</div>
-            <h2>Satu pencarian,<br>semua jadi jelas.</h2>
-            <div class="tracking-guide-flow">
-                <div><i><x-public-icon name="bag" :size="16" /></i><span><strong>Pesanan tercatat</strong><small>Item dan pembayaran</small></span></div>
-                <div><i><x-public-icon name="box" :size="16" /></i><span><strong>Proses diperbarui</strong><small>Warehouse hingga EMS</small></span></div>
-                <div><i><x-public-icon name="truck" :size="16" /></i><span><strong>Paket dikirim</strong><small>Tracking sampai tujuan</small></span></div>
-            </div>
-            <p>Tidak perlu menghubungi admin hanya untuk menanyakan update terakhir.</p>
-        </aside>
+
     </div>
 </section>
 
+@if(isset($orderResult) || isset($memberResult))
 <section class="tracking-result-section" aria-live="polite">
     <div class="tracking-result-shell">
         @isset($orderResult)
@@ -127,19 +118,7 @@
             </article>
         @endisset
 
-        @if(!isset($orderResult) && !isset($memberResult))
-            <article class="tracking-lookup-empty">
-                <span class="tracking-empty-icon"><x-public-icon name="search" :size="22" /></span>
-                <div class="tracking-empty-copy">
-                    <small>SIAP MEMBANTU</small>
-                    <h2>Cari pesanan kapan saja.</h2>
-                    <p>Gunakan salah satu format di bawah. Kamu tidak perlu login untuk melihat progres terbaru.</p>
-                    <div class="tracking-empty-examples" aria-label="Contoh pencarian">
-                        <span><b>Kode pesanan</b> ORD-GO-001</span>
-                        <span><b>Username LINE</b> @namakamu</span>
-                    </div>
-                </div>
-            </article>
-        @endif
+
     </div>
 </section>
+@endif
