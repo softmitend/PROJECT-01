@@ -149,11 +149,11 @@
 .ocean-editorial .hero-title .wish-highlight::before {
   content: '';
   position: absolute;
-  inset: -.04em -.12em;
+  inset: .04em -.12em;
   z-index: -1;
   border-radius: 0;
   background: #174a73;
-  transform: rotate(-2deg);
+  transform: translateX(.06em) rotate(-2deg);
   transform-origin: center;
 }
 
