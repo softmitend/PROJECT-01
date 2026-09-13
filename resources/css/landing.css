@@ -3063,3 +3063,44 @@
     padding: 19px;
   }
 }
+
+
+/* Simplified tracking composition */
+.tracking-lookup-hero {
+  padding-top: 54px;
+  padding-bottom: 64px;
+}
+
+.tracking-lookup-hero-inner {
+  display: block;
+  width: min(100%, 980px);
+}
+
+.tracking-lookup-copy {
+  width: 100%;
+}
+
+.tracking-lookup-copy > p {
+  max-width: 620px;
+}
+
+.tracking-lookup-form {
+  max-width: 820px;
+}
+
+.tracking-guide-card,
+.tracking-lookup-empty {
+  display: none !important;
+}
+
+.tracking-result-section {
+  padding-top: 0;
+  background: transparent;
+}
+
+@media (max-width: 720px) {
+  .tracking-lookup-hero {
+    padding-top: 34px;
+    padding-bottom: 44px;
+  }
+}
