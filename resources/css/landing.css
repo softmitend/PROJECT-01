@@ -898,7 +898,6 @@
 }
 
 .ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}.ocean-editorial .testi-dots {  margin-top: 17px;  gap: 6px;}
-
 .ocean-editorial .testi-dots span {
   width: 7px;
   height: 7px;
@@ -1797,8 +1796,7 @@
   }}
 @media (max-width:900px) {
   .tracking-result-banner,
-  .tracking-result-layout {
-    grid-template-columns: 1fr;
+  .tracking-result-layout {    grid-template-columns: 1fr;
   }
 
   .tracking-result-side {
@@ -2697,8 +2695,7 @@
 
 .tracking-lookup-form {  width: 100%;
   max-width: 760px;
-  min-height: 72px;
-  margin-top: 30px;
+  min-height: 72px;  margin-top: 30px;
   border: 1px solid rgba(79,96,53,.2);
   border-radius: 22px;
   padding: 8px;
@@ -3330,4 +3327,34 @@
 .landing-page.ocean-editorial .landing-catalog-link:hover,
 .landing-page.ocean-editorial .landing-catalog-link:focus-visible {
   background: #F9D1D9;
+}
+
+/* Press-and-hold login alarm motion */
+.landing-page.ocean-editorial .landing-primary-link,
+.landing-page.ocean-editorial .landing-primary-link:hover,
+.landing-page.ocean-editorial .landing-primary-link:focus-visible {
+  box-shadow: none;
+}
+
+.landing-page.ocean-editorial .landing-primary-link:active {
+  box-shadow: none;
+  animation: loginAlarmWiggle .18s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes loginAlarmWiggle {
+  0% {
+    transform: translateY(-4px) rotate(-1.4deg);
+  }
+
+  100% {
+    transform: translateY(-4px) rotate(1.4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page.ocean-editorial .landing-primary-link:active {
+    animation: none;
+    transform: translateY(-4px);
+  }
 }
