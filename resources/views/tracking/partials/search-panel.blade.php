@@ -1,21 +1,35 @@
 <section class="tracking-lookup-hero" aria-labelledby="order-search-title">
     <div class="tracking-lookup-hero-inner">
-        <span class="tracking-lookup-kicker">TRACK YOUR ORDER</span>
-        <h1 id="order-search-title">Lacak pesananmu.<br><span>Tanpa harus menunggu.</span></h1>
-        <p>Kode pesanan untuk melihat satu perjalanan, username LINE untuk membuka seluruh riwayat.</p>
+        <div class="tracking-lookup-copy">
+            <span class="tracking-lookup-kicker">TRACK YOUR ORDER · TANPA LOGIN</span>
+            <h1 id="order-search-title">Pesananmu,<br><span>selalu terlacak.</span></h1>
+            <p>Masukkan kode pesanan untuk melihat satu perjalanan, atau username LINE untuk membuka seluruh riwayatmu.</p>
 
-        <form method="POST" action="{{ route('tracking.search') }}" class="tracking-lookup-form" role="search" aria-label="Cari tracking dan riwayat pesanan">
-            @csrf
-            <label for="tracking-query" class="sr-only">Kode pesanan atau username LINE</label>
-            <span class="tracking-lookup-search-icon"><x-public-icon name="search" :size="20" /></span>
-            <input id="tracking-query" type="search" name="query" value="{{ old('query', $searchQuery ?? '') }}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="255" placeholder="Kode pesanan atau username LINE" aria-describedby="tracking-query-hint{{ $errors->has('query') ? ' tracking-query-error' : '' }}" @if($errors->has('query')) aria-invalid="true" autofocus @endif required>
-            <button type="submit">Lacak pesanan <x-public-icon name="arrow-right" :size="16" /></button>
-        </form>
-        <p id="tracking-query-hint" class="tracking-lookup-hint">Data mengikuti pembaruan terakhir dari admin.</p>
+            <form method="POST" action="{{ route('tracking.search') }}" class="tracking-lookup-form" role="search" aria-label="Cari tracking dan riwayat pesanan">
+                @csrf
+                <label for="tracking-query" class="sr-only">Kode pesanan atau username LINE</label>
+                <span class="tracking-lookup-search-icon"><x-public-icon name="search" :size="20" /></span>
+                <input id="tracking-query" type="search" name="query" value="{{ old('query', $searchQuery ?? '') }}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="255" placeholder="Contoh: ORD-001 atau @username" aria-describedby="tracking-query-hint{{ $errors->has('query') ? ' tracking-query-error' : '' }}" @if($errors->has('query')) aria-invalid="true" autofocus @endif required>
+                <button type="submit"><span>Lacak pesanan</span><x-public-icon name="arrow-right" :size="16" /></button>
+            </form>
+            <p id="tracking-query-hint" class="tracking-lookup-hint"><x-public-icon name="sparkle" :size="13" /> Data mengikuti pembaruan terakhir dari admin.</p>
 
-        @error('query')
-            <div id="tracking-query-error" class="tracking-lookup-error" role="alert"><x-public-icon name="search" :size="18" /><span>{{ $message }}</span></div>
-        @enderror
+            @error('query')
+                <div id="tracking-query-error" class="tracking-lookup-error" role="alert"><x-public-icon name="search" :size="18" /><span>{{ $message }}</span></div>
+            @enderror
+        </div>
+
+        <aside class="tracking-guide-card" aria-label="Tahapan tracking pesanan">
+            <span class="tracking-guide-star">✦</span>
+            <div class="tracking-guide-label">LIVE ORDER JOURNEY</div>
+            <h2>Satu pencarian,<br>semua jadi jelas.</h2>
+            <div class="tracking-guide-flow">
+                <div><i><x-public-icon name="bag" :size="16" /></i><span><strong>Pesanan tercatat</strong><small>Item dan pembayaran</small></span></div>
+                <div><i><x-public-icon name="box" :size="16" /></i><span><strong>Proses diperbarui</strong><small>Warehouse hingga EMS</small></span></div>
+                <div><i><x-public-icon name="truck" :size="16" /></i><span><strong>Paket dikirim</strong><small>Tracking sampai tujuan</small></span></div>
+            </div>
+            <p>Tidak perlu menghubungi admin hanya untuk menanyakan update terakhir.</p>
+        </aside>
     </div>
 </section>
 
