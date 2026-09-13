@@ -5381,7 +5381,7 @@ canvas {
         display: grid !important;
         width: 100%;
         align-items: stretch;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1.05fr 0.95fr;
         gap: .65rem !important;
     }
 

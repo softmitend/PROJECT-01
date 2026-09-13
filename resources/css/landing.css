@@ -1546,12 +1546,12 @@
   }
 
   .ocean-editorial .hero-title {
-    font-size: clamp(34px, 8.3vw, 52px);
+    font-size: 40px;
     line-height: 1.06;
   }
 
   .ocean-editorial .hero-copy {
-    font-size: 15px;
+    font-size: 13px;
     margin-top: 18px;
   }
 
