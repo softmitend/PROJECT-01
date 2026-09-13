@@ -3594,18 +3594,18 @@
 /* Tracking panel entrance animation */
 .tracking-search-page .tracking-lookup-hero {
   transform-origin: center bottom;
-  animation: trackingPanelPop .72s cubic-bezier(.2,.9,.24,1.08) both;
+  animation: trackingPanelPop .9s cubic-bezier(.22,1,.36,1) both;
 }
 
 @keyframes trackingPanelPop {
   0% {
     opacity: 0;
-    transform: translateY(54px) scale(.965);
+    transform: translateY(32px) scale(.98);
   }
 
   68% {
     opacity: 1;
-    transform: translateY(-4px) scale(1.006);
+    transform: translateY(0) scale(1);
   }
 
   100% {
@@ -3628,41 +3628,41 @@
 .landing-page.ocean-editorial .landing-hero-copy > .landing-hero-actions,
 .landing-page.ocean-editorial .editorial-art {
   opacity: 0;
-  translate: 0 42px;
-  animation: landingHeroRise .7s cubic-bezier(.2,.9,.24,1.06) forwards;
+  translate: 0 28px;
+  animation: landingHeroRise .9s cubic-bezier(.22,1,.36,1) forwards;
 }
 
 .landing-page.ocean-editorial .landing-hero-copy > .editorial-eyebrow {
-  animation-delay: .04s;
+  animation-delay: 0s;
 }
 
 .landing-page.ocean-editorial .landing-hero-copy > .hero-title {
-  animation-delay: .12s;
+  animation-delay: .07s;
 }
 
 .landing-page.ocean-editorial .landing-hero-copy > .hero-copy {
-  animation-delay: .2s;
+  animation-delay: .14s;
 }
 
 .landing-page.ocean-editorial .landing-hero-copy > .landing-hero-actions {
-  animation-delay: .28s;
+  animation-delay: .21s;
 }
 
 .landing-page.ocean-editorial .editorial-art {
-  translate: 0 54px;
-  animation-delay: .18s;
-  animation-duration: .82s;
+  translate: 0 36px;
+  animation-delay: .1s;
+  animation-duration: 1s;
 }
 
 @keyframes landingHeroRise {
   0% {
     opacity: 0;
-    translate: 0 42px;
+    translate: 0 28px;
   }
 
   70% {
     opacity: 1;
-    translate: 0 -4px;
+    translate: 0 0;
   }
 
   100% {
