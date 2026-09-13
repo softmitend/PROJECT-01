@@ -2422,3 +2422,32 @@
   transform: none;
   pointer-events: none;
 }
+
+
+/* Smooth about-to-testimonial transition */
+.landing-page.ocean-editorial .about-section {
+  padding-bottom: 72px;
+}
+
+.landing-page.ocean-editorial .testi-section {
+  border-top: 0 !important;
+  padding-top: 68px;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(223,229,189,.42), transparent 20rem),
+    linear-gradient(180deg, #f8eadf 0%, #f9d1d9 38%, #fce8df 100%);
+}
+
+.landing-page.ocean-editorial .testi-section::before {
+  content: none;
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .landing-page.ocean-editorial .about-section {
+    padding-bottom: 48px;
+  }
+
+  .landing-page.ocean-editorial .testi-section {
+    padding-top: 48px;
+  }
+}
