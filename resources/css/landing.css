@@ -3389,3 +3389,23 @@
   font-synthesis: none;
   letter-spacing: -.015em;
 }
+
+
+/* Balanced larger Gloock hero title */
+.landing-page.ocean-editorial .hero-title,
+.landing-page.ocean-editorial .hero-title .wish-highlight,
+.landing-page.ocean-editorial .hero-title .accent {
+  letter-spacing: 1px;
+}
+
+@media (min-width: 1024px) {
+  .landing-page.ocean-editorial .hero-title {
+    font-size: 92px !important;
+  }
+}
+
+@media (min-width: 821px) and (max-width: 1023px) {
+  .landing-page.ocean-editorial .hero-title {
+    font-size: 86px !important;
+  }
+}
