@@ -133,7 +133,10 @@
                 </div>
             </div>
         @else
-            <div class="min-h-screen">
+            <div class="min-h-screen customer-public-shell">
+                @if($hasPublicDock)
+                    <x-public-navbar />
+                @endif
                 @unless($isTrackingLanding)
                 <header class="sticky top-0 z-50 border-b border-zinc-200/70 bg-white/80 backdrop-blur-xl">
                     <div class="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
