@@ -129,10 +129,15 @@
 
         @if(!isset($orderResult) && !isset($memberResult))
             <article class="tracking-lookup-empty">
-                <span><x-public-icon name="search" :size="20" /></span>
-                <div>
-                    <h2>Belum ada pesanan yang dicari.</h2>
-                    <p>Masukkan kode atau username LINE. Tidak perlu login.</p>
+                <span class="tracking-empty-icon"><x-public-icon name="search" :size="22" /></span>
+                <div class="tracking-empty-copy">
+                    <small>SIAP MEMBANTU</small>
+                    <h2>Cari pesanan kapan saja.</h2>
+                    <p>Gunakan salah satu format di bawah. Kamu tidak perlu login untuk melihat progres terbaru.</p>
+                    <div class="tracking-empty-examples" aria-label="Contoh pencarian">
+                        <span><b>Kode pesanan</b> ORD-GO-001</span>
+                        <span><b>Username LINE</b> @namakamu</span>
+                    </div>
                 </div>
             </article>
         @endif
