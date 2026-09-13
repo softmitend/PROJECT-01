@@ -532,12 +532,13 @@
 .ocean-editorial .section-kicker {
   color: #6187a3;
   font-size: 13px;
+  font-size: 13px;
   letter-spacing: .06em;
 }
 
 .ocean-editorial .section-copy {
-  max-width: 1000px;
-  font-size: 15px;
+  max-width: 720px;
+  font-size: 20px;
   line-height: 1.8;
 }
 
@@ -1655,7 +1656,7 @@
   }
 
   .ocean-editorial .section-copy {
-    font-size: 12px;
+    font-size: 20px;
   }
 
   .ocean-editorial .about-info-rail {

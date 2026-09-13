@@ -47,9 +47,9 @@
             </section>
 
             <section class="about-section" id="tentang">
-                <div class="section-kicker">About Us</div>
+                <div class="section-kicker" style="font-size: 13px;">About Us</div>
                 <h2 class="section-title max-w-[680px]">Made for every WISH, since 2025 ♡</h2>
-                <p class="section-copy">Founded in June 2025, GO Oceanpaws is a group order dedicated to NCT WISH. Since then, we've grown into a litte community pf 2000+ members and successfully handled thousands of batches together. From albums and photocards to merch and all the little WISH things you love, we're here to make every GO experiece easier, clearer, and more enjoyable </p>
+                <p class="section-copy" style="font-size: 14px;">Founded in June 2025, GO Oceanpaws is a group order dedicated to NCT WISH. Since then, we've grown into a litte community pf 2000+ members and successfully handled thousands of batches together. From albums and photocards to merch and all the little WISH things you love, we're here to make every GO experiece easier, clearer, and more enjoyable </p>
                 <div class="about-info-rail">
                     <div class="social-row" aria-label="Media sosial Ocean Paws">
                         <a class="social-btn social-x" href="#" aria-label="X (sebelumnya Twitter)" title="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
