@@ -897,8 +897,7 @@
   font-weight: 800;
 }
 
-.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;
-  font-weight: 700;
+.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;
   letter-spacing: .02em;
 }
 
@@ -1798,7 +1797,6 @@
   }
   .ocean-editorial .hero-title {    font-size: 35px;
   }
-
   .ocean-editorial .editorial-header-cta svg {
     display: none;
   }
@@ -2698,7 +2696,6 @@
   background: var(--matcha-soft);  padding: 7px 11px;
   color: var(--matcha-deep);
 }
-
 .tracking-lookup-hero h1 {
   max-width: 760px;
   margin-top: 20px;
@@ -3223,6 +3220,51 @@
 @media (max-width: 480px) {
   .landing-page.ocean-editorial .landing-catalog-link {
     margin: -1px -1px -1px 0;
+    padding-left: 10px;
+  }
+}
+
+/* True three-layer split CTA */
+.landing-page.ocean-editorial .landing-hero-actions {
+  overflow: visible;
+  border: 0;
+  border-radius: 13px;
+  background: var(--berry);
+  box-shadow: 7px 7px 0 rgba(131, 143, 88, .28);
+}
+
+.landing-page.ocean-editorial .landing-primary-link {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  border: 1px solid var(--matcha-deep);
+  border-radius: 13px;
+  box-shadow: none;
+}
+
+.landing-page.ocean-editorial .landing-catalog-link {
+  position: relative;
+  z-index: 1;
+  min-height: 43px;
+  margin: 0;
+  border: 0;
+  border-radius: 0 13px 13px 0;
+  background: transparent;
+  padding-left: 18px;
+  box-shadow: none;
+  outline: 0;
+}
+
+.landing-page.ocean-editorial .landing-catalog-link:hover,
+.landing-page.ocean-editorial .landing-catalog-link:focus-visible {
+  background: rgba(190, 67, 98, .08);
+  color: var(--matcha-deep);
+  outline: 0;
+}
+
+@media (max-width: 480px) {
+  .landing-page.ocean-editorial .landing-catalog-link {
+    margin: 0;
     padding-left: 10px;
   }
 }
