@@ -3589,3 +3589,33 @@
     font-size: 2.65rem;
   }
 }
+
+
+/* Tracking panel entrance animation */
+.tracking-search-page .tracking-lookup-hero {
+  transform-origin: center bottom;
+  animation: trackingPanelPop .72s cubic-bezier(.2,.9,.24,1.08) both;
+}
+
+@keyframes trackingPanelPop {
+  0% {
+    opacity: 0;
+    transform: translateY(54px) scale(.965);
+  }
+
+  68% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.006);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tracking-search-page .tracking-lookup-hero {
+    animation: none;
+  }
+}
