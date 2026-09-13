@@ -2146,3 +2146,246 @@
     inset: .08em -.09em;
   }
 }
+
+
+/* Strawberry Matcha editorial landing */
+.landing-page.ocean-editorial,
+.landing-page.ocean-editorial .landing-wrap {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.landing-page.ocean-editorial .editorial-opening {
+  position: relative;
+  background:
+    repeating-linear-gradient(90deg, rgba(249,209,217,.25) 0 54px, rgba(255,253,247,.3) 54px 108px),
+    linear-gradient(180deg, #fbe1e6 0%, var(--cream) 78%);
+}
+
+.landing-page.ocean-editorial .editorial-opening::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 28px;
+   display: block;
+  background: radial-gradient(circle at 28px 0, transparent 27px, var(--cream) 28px) 0 0 / 56px 28px repeat-x;
+  pointer-events: none;
+}
+
+.landing-page.ocean-editorial .editorial-eyebrow {
+  color: var(--berry-deep);
+}
+
+.landing-page.ocean-editorial .editorial-eyebrow > span {
+  background: var(--matcha);
+  box-shadow: 0 0 0 4px rgba(131,143,88,.16);
+}
+
+.landing-page.ocean-editorial .hero-title {
+  color: var(--matcha-deep);
+  text-wrap: balance;
+}
+
+.landing-page.ocean-editorial .hero-title .accent {
+  color: var(--berry-deep);
+}
+
+.landing-page.ocean-editorial .hero-title .wish-highlight::before {
+  background: var(--matcha);
+  box-shadow: 7px 7px 0 rgba(249,209,217,.95);
+}
+
+.landing-page.ocean-editorial .hero-copy {
+   color: #6f775f;
+}
+
+.landing-page.ocean-editorial .hero-copy-heart {
+  fill: var(--berry-deep);
+}
+
+.landing-page.ocean-editorial .landing-primary-link {
+  border: 1px solid var(--matcha-deep);
+  background: var(--matcha);
+  color: #fff;
+  box-shadow: 5px 5px 0 var(--berry);
+}
+
+.landing-page.ocean-editorial .landing-primary-link:hover {
+  background: var(--matcha-deep);
+  transform: translate(-1px,-1px);
+  box-shadow: 7px 7px 0 var(--berry);
+}
+
+.landing-page.ocean-editorial .landing-catalog-link {
+  color: var(--matcha-deep);
+}
+
+.landing-page.ocean-editorial .art-orbit {
+  border-color: rgba(79,96,53,.32);
+}
+
+.landing-page.ocean-editorial .art-record {
+  background: repeating-radial-gradient(circle, #4f6035 0 2px, #697846 3px 4px);
+  box-shadow: 8px 14px 24px rgba(79,96,53,.2);
+}
+
+.landing-page.ocean-editorial .art-record > span {
+  border-color: #aab47b;
+  background: var(--berry);
+}
+
+.landing-page.ocean-editorial .art-album {
+  border-color: rgba(255,255,255,.78);
+  background:
+    radial-gradient(circle at 75% 24%, rgba(249,209,217,.72), transparent 7rem),
+    linear-gradient(150deg, #aab47b 0%, var(--matcha) 48%, var(--matcha-deep) 100%);
+  box-shadow: 8px 22px 0 rgba(249,209,217,.78), 5px 28px 42px rgba(79,96,53,.2);
+}
+
+.landing-page.ocean-editorial .art-flower g {
+  fill: var(--berry);
+}
+
+.landing-page.ocean-editorial .art-flower circle:first-of-type {
+  fill: #fff9ed;
+}
+
+.landing-page.ocean-editorial .art-flower circle:last-of-type {
+  fill: var(--berry-deep);
+}
+
+.landing-page.ocean-editorial .art-note,
+.landing-page.ocean-editorial .art-photocard {
+  border-color: rgba(79,96,53,.13);
+  background: var(--paper);
+  color: var(--matcha-deep);
+  box-shadow: 0 18px 35px rgba(79,96,53,.16);
+}
+
+.landing-page.ocean-editorial .art-photo-sky {
+  background: var(--berry);
+}
+
+.landing-page.ocean-editorial .art-sticker {
+  border-color: var(--matcha);
+  background: var(--cream);
+  color: var(--matcha-deep);
+}
+
+.landing-page.ocean-editorial .editorial-categories {
+  background: var(--matcha);
+  color: #fff9ed;
+}
+
+.landing-page.ocean-editorial .editorial-marquee-group i {
+  color: var(--berry);
+}
+
+.landing-page.ocean-editorial .about-section {
+  position: relative;
+  background: var(--cream);
+}
+
+.landing-page.ocean-editorial .section-kicker {
+  color: var(--berry-deep);
+}
+
+.landing-page.ocean-editorial .section-title {
+  color: var(--matcha-deep);
+}
+
+.landing-page.ocean-editorial .section-copy {
+  color: #747b65;
+}
+
+.landing-page.ocean-editorial .about-info-rail {
+  border: 1px solid rgba(79,96,53,.15);
+  background: linear-gradient(110deg, rgba(223,229,189,.78), rgba(255,253,247,.95));
+  box-shadow: var(--berry-shadow);
+}
+
+.landing-page.ocean-editorial .about-stat-icon,
+.landing-page.ocean-editorial .social-btn {
+  background: var(--matcha);
+  color: #fff;
+}
+
+.landing-page.ocean-editorial .testi-section {
+  position: relative;
+  background:
+    radial-gradient(circle at 12% 15%, rgba(223,229,189,.82), transparent 18rem),
+    linear-gradient(180deg, rgba(249,209,217,.75), #fce9df);
+}
+
+.landing-page.ocean-editorial .testi-section::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 28px;
+  background: radial-gradient(circle at 28px 28px, transparent 27px, var(--cream) 28px) 0 0 / 56px 28px repeat-x;
+  transform: rotate(180deg);
+  pointer-events: none;
+}
+
+.landing-page.ocean-editorial .testi-card,
+.landing-page.ocean-editorial .testi-cta {
+  border-color: rgba(79,96,53,.14);
+  background: rgba(255,253,247,.95);
+  box-shadow: var(--berry-shadow);
+}
+
+.landing-page.ocean-editorial .testi-quote-mark,
+.landing-page.ocean-editorial .testi-user i {
+  background: var(--matcha);
+  color: #fff;
+}
+
+.landing-page.ocean-editorial .testi-rating {
+  background: var(--berry);
+  color: var(--berry-deep);
+}
+
+.landing-page.ocean-editorial .testi-copy > p,
+.landing-page.ocean-editorial .testi-user strong {
+  color: var(--matcha-deep);
+}
+
+.landing-page.ocean-editorial .testi-dots span.active {
+  background: var(--matcha);
+}
+
+.landing-page.ocean-editorial .order-search-card {
+  border: 1px solid rgba(79,96,53,.16);
+  background: rgba(255,253,247,.95);
+  box-shadow: var(--berry-shadow);
+}
+
+.landing-page.ocean-editorial .order-search-form {
+  border-color: rgba(79,96,53,.2);
+  background: #fff;
+}
+
+.landing-page.ocean-editorial .order-search-submit {
+  background: var(--matcha);
+}
+
+.landing-page.ocean-editorial .stat-item .stat-icon {
+  background: linear-gradient(145deg, var(--berry-strong), var(--matcha));
+}
+
+@media (max-width: 720px) {
+  .landing-pageNameFix { display: none; }
+  .landing-page.ocean-editorial .editorial-opening {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .landing-page.ocean-editorial .editorial-opening {
+    padding-right: 1.125rem;
+    padding-left: 1.125rem;
+  }
+}
