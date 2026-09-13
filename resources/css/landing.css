@@ -3388,3 +3388,21 @@
   font-weight: 400;
   letter-spacing: -.025em;
 }
+
+
+/* Black Mango landing hero title */
+@font-face {
+  font-family: "Black Mango";
+  src: url("/fonts/black-mango-regular.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+.landing-page.ocean-editorial .hero-title,
+.landing-page.ocean-editorial .hero-title .wish-highlight,
+.landing-page.ocean-editorial .hero-title .accent {
+  font-family: "Black Mango", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.02em;
+}
