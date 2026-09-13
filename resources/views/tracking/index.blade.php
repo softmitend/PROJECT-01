@@ -130,7 +130,7 @@
                 <div class="journey-grid">
                     <article class="journey-card">
                         <span class="journey-number">01</span>
-                        <span class="journey-icon"><x-public-icon name="bag" :size="22" /></span>
+                        <span class="journey-icon"><x-public-icon name="heart" :size="24" /></span>
                         <h3>Pesan favoritmu</h3>
                         <p>Ikuti group order dan simpan semua item pilihanmu dalam satu riwayat akun LINE.</p>
                         <small>CLAIM · CHECKOUT · BAYAR</small>
