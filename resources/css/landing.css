@@ -2644,3 +2644,18 @@
     justify-content: center;
   }
 }
+
+
+/* Solid heart for the hero note */
+.landing-page.ocean-editorial .art-note > span {
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--berry);
+}
+
+.landing-page.ocean-editorial .art-note-heart {
+  display: block;
+  width: 19px;
+  height: 19px;
+  fill: var(--berry-deep);
+}
