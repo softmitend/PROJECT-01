@@ -827,7 +827,7 @@ body.customer-theme {
   }
 
   .bottom-nav {
-    @apply fixed bottom-4 left-1/2 z-40 flex w-[min(94vw, 450px)] -translate-x-1/2 items-center justify-between rounded-full bg-white p-1.5 shadow-[0_14px_35px_rgba(39, 91, 143, .22)];
+    @apply fixed bottom-4 left-1/2 z-40 flex w-[min(94vw,450px)] -translate-x-1/2 items-center justify-between rounded-full bg-white p-1.5 shadow-[0_14px_35px_rgba(39,91,143,.22)];
     border: 1px solid rgba(255, 255, 255, .75);
   }
 
