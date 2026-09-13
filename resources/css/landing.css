@@ -277,12 +277,22 @@
 
 .art-note>span {
   display: grid;
+  flex: 0 0 42px;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 42px;
+  height: 42px;
+  overflow: hidden;
   color: #2b85bd;
-  border-radius: 9px;
+  border-radius: 10px;
   background: #e5f3ff;
+}
+
+.art-note-image {
+  display: block;
+  width: 34px;
+  height: 34px;
+  max-width: none;
+  object-fit: contain;
 }
 
 .art-note strong {
