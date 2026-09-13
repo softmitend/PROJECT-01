@@ -2957,3 +2957,19 @@
     padding: 21px;
   }
 }
+
+
+/* Remove redundant tracking back strip */
+.tracking-search-page .tracking-search-shell > .detail-topbar {
+  display: none;
+}
+
+.tracking-search-page .tracking-lookup-hero {
+  padding-top: 58px;
+}
+
+@media (max-width: 720px) {
+  .tracking-search-page .tracking-lookup-hero {
+    padding-top: 34px;
+  }
+}
