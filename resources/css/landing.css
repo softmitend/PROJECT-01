@@ -921,7 +921,7 @@
 .ocean-editorial .testi-cta {
   margin-top: 28px;
   background: #fff;
-  box-shadow: 0 12px 28px rgba(36, 94, 135, .08);
+  box-shadow: 0 7px 14px rgba(255, 255, 255, .78), 0 18px 34px -26px rgba(36, 94, 135, .42);
   border-radius: 17px;
 }
 
