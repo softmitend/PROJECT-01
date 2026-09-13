@@ -39,9 +39,15 @@
                             <strong>on<br>repeat.</strong>
                             <div class="art-album-bottom"><span>YOUR NEXT FAVORITE</span><span>♡</span></div>
                         </div>
+                        <div class="art-note">
+                            <span>
+                                <img src="{{ asset('img/icon.png') }}" alt="" class="art-note-image">
+                            </span>
+                            <div>Little things.<br><strong>Big happiness.</strong></div>
+                        </div>
                         <div class="art-photocard">
                             <div class="art-photo-sky">
-                                <img src="{{ asset('img/icon.jpg') }}" alt="Ocean Paws" class="art-photo-image">
+                                <img src="{{ asset('img/photocard.PNG') }}" alt="Ocean Paws" class="art-photo-image">
                             </div>
 
                             <small>stay in your orbit.</small>
