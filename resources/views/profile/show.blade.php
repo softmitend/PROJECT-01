@@ -88,13 +88,13 @@
                 <h2 class="text-[12px] font-black" data-i18n-id="Pesanan Saya" data-i18n-en="My Orders">Pesanan Saya</h2>
                 <div class="orders-icons">
                     @foreach([
-                        ['wallet', 'Belum Bayar', 'Unpaid', $stats['unpaid'], 'unpaid'],
-                        ['bag', 'Jajanan Aktif', 'Active Orders', $stats['active'], 'active'],
-                        ['history', 'History Jajanan', 'Order History', $stats['history'], 'history'],
-                        ['truck', 'Pengiriman', 'Shipping', $stats['shipping'], 'shipping'],
-                        ['swap', 'Refund', 'Refund', $stats['refund'], 'refund'],
-                    ] as [$icon, $label, $englishLabel, $count, $filter])
-                        <a class="order-link" href="{{ $isMember ? route('orders.history', ['filter' => $filter]) : $profileActionUrl }}" data-profile-filter="{{ $filter }}">
+                        ['wallet', 'Belum Bayar', 'Unpaid', $stats['unpaid'], 'unpaid', 'orders.unpaid'],
+                        ['document', 'EMS', 'EMS & Tax', $stats['ems'], 'ems', 'billing.ems'],
+                        ['history', 'History Jajanan', 'Order History', $stats['history'], 'history', 'orders.history'],
+                        ['truck', 'Pengiriman', 'Shipping', $stats['shipping'], 'shipping', 'orders.shipping'],
+                        ['swap', 'Refund', 'Refund', $stats['refund'], 'refund', 'orders.refunds'],
+                    ] as [$icon, $label, $englishLabel, $count, $filter, $routeName])
+                        <a class="order-link" href="{{ $isMember ? route($routeName) : $profileActionUrl }}" data-profile-filter="{{ $filter }}">
                             <span class="order-bubble"><x-public-icon :name="$icon" :size="18" />@if($count)<b>{{ $count }}</b>@endif</span><small data-i18n-id="{{ $label }}" data-i18n-en="{{ $englishLabel }}">{{ $label }}</small>
                         </a>
                     @endforeach
