@@ -2055,7 +2055,8 @@
   }
 
   .landing-page.ocean-editorial .hero-title {
-    font-size: clamp(42px, 7vw, 54px);
+    font-size: clamp(36px, 6vw, 48px);
+    line-height: 1.12;
   }
 
   .landing-page.ocean-editorial .editorial-art {
@@ -2075,7 +2076,8 @@
   }
 
   .landing-page.ocean-editorial .hero-title {
-    font-size: 65px;
+    font-size: clamp(32px, 8vw, 48px);
+    line-height: 1.15;
   }
 
   .landing-page.ocean-editorial .hero-copy {
@@ -2103,8 +2105,8 @@
   }
 
   .landing-page.ocean-editorial .hero-title {
-    font-size: 50px;
-    line-height: 1.12;
+    font-size: clamp(28px, 9vw, 42px);
+    line-height: 1.18;
   }
 
   .landing-page.ocean-editorial .hero-title .accent {
@@ -2128,8 +2130,8 @@
 /* Compact 360px hero title fix. */
 @media (max-width: 360px) {
   .landing-page.ocean-editorial .hero-title {
-    font-size: 36px;
-    line-height: 1.18;
+    font-size: clamp(24px, 10vw, 34px);
+    line-height: 1.2;
   }
 
   .landing-page.ocean-editorial .hero-title .accent {
