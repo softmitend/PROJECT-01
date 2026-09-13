@@ -311,13 +311,13 @@
 
 .art-note>span {
   display: grid;
-  flex: 0 0 42px;
+  flex: 0 0 30px;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  overflow: hidden;
+  width: 30px;
+  height: 30px;
+  overflow: visible;
   color: #2b85bd;
-  border-radius: 10px;
+  border-radius: 9px;
   background: transparent;
 }
 
