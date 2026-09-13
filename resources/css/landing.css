@@ -898,7 +898,6 @@
 }
 
 .ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}
-
 .ocean-editorial .testi-dots {
   margin-top: 17px;
   gap: 6px;
@@ -1797,7 +1796,6 @@
   }
   .ocean-editorial .editorial-header-cta svg {    display: none;
   }}
-
 @media (prefers-reduced-motion:reduce) {
   .editorial-marquee-track {
     animation-duration: 60s;
@@ -2697,8 +2695,7 @@
   color: var(--matcha-deep);
   font-size: clamp(3.8rem,6.5vw,6rem);}
 
-.tracking-lookup-hero h1 > span {
-  color: var(--berry-deep);
+.tracking-lookup-hero h1 > span {  color: var(--berry-deep);
 }
 
 .tracking-lookup-copy > p {
@@ -3277,4 +3274,23 @@
 .landing-page.ocean-editorial .landing-primary-link:hover,
 .landing-page.ocean-editorial .landing-primary-link:focus-visible {
   transform: translateY(-7px);
+}
+
+/* Replace CTA shadows with matching pink bottom borders */
+.landing-page.ocean-editorial .landing-hero-actions {
+  border: 0;
+  border-bottom: 4px solid var(--berry);
+  box-shadow: none;
+}
+
+.landing-page.ocean-editorial .landing-primary-link {
+  border: 1px solid var(--matcha-deep);
+  border-bottom: 4px solid var(--berry);
+  box-shadow: none;
+}
+
+.landing-page.ocean-editorial .landing-primary-link,
+.landing-page.ocean-editorial .landing-primary-link:hover,
+.landing-page.ocean-editorial .landing-primary-link:focus-visible {
+  transform: none;
 }
