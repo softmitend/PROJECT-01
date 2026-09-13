@@ -3365,3 +3365,16 @@
 .landing-page.ocean-editorial .landing-hero-actions {
   border-bottom-color: var(--berry);
 }
+
+
+/* Restore original strawberry CTA colors */
+.landing-page.ocean-editorial .landing-hero-actions {
+  border-bottom-color: var(--berry-strong);
+  background: var(--berry);
+}
+
+.landing-page.ocean-editorial .landing-catalog-link,
+.landing-page.ocean-editorial .landing-catalog-link:hover,
+.landing-page.ocean-editorial .landing-catalog-link:focus-visible {
+  background: transparent;
+}
