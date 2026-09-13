@@ -50,6 +50,12 @@ class MemberTrackingController extends Controller
                     'name' => 'Keisha',
                     'rating' => 5,
                 ],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80',
+                    'content' => 'Prosesnya transparan dari pembayaran sampai pengiriman. Barang juga tiba lebih cepat dari perkiraanku.',
+                    'name' => 'Adeline',
+                    'rating' => 5,
+                ],
             ]);
         }
 
