@@ -2305,8 +2305,8 @@ html[data-customer-theme="dark"] .nav-item.active {
 /* Dedicated customer billing lists */
 .billing-list-page {
   padding-top: 32px;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
   background: #dceaf9;
 }
 
@@ -2776,7 +2776,7 @@ html[data-customer-theme="dark"] .nav-item.active {
   }
 
   .billing-list-page {
-    padding: 22px 1rem 104px;
+    padding: 22px 1.5rem 104px;
   }
 
   .billing-back {
@@ -4153,6 +4153,8 @@ html[data-customer-theme="dark"] .nav-item.active {
 /* Responsive billing and services overview */
 .portal-overview-page {
   padding-top: 42px;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
 }
 
 .portal-overview-shell {
@@ -4357,7 +4359,7 @@ html[data-customer-theme="dark"] .nav-item.active {
   }
 
   .portal-overview-page {
-    padding: 26px 14px 104px;
+    padding: 26px 1.5rem 104px;
   }
 
   .portal-overview-header>span {
