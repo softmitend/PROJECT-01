@@ -5235,3 +5235,211 @@ details[open] > summary .ocean-chevron {
         left: .5rem;
     }
 }
+
+
+/* Global mobile hardening: final cascade for public, portal, auth, and admin pages. */
+html {
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+body {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+}
+
+@media (max-width: 820px) {
+    .landing-wrap,
+    .catalog-index-shell,
+    .member-profile-shell,
+    .tracker-v2-shell,
+    .tracker-storefront-shell,
+    .tracker-chona-shell,
+    .tracker-luna-shell,
+    .portal-shell,
+    .auth-shell,
+    .admin-page {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .landing-page,
+    .catalog-index-page,
+    .member-profile-page,
+    .portal-page,
+    .tracking-page,
+    .auth-page {
+        min-width: 0;
+        overflow-x: clip;
+    }
+
+    .landing-hero,
+    .catalog-index-hero,
+    .member-account-details,
+    .member-profile-summary,
+    .member-order-finance,
+    .tracker-v2-result-facts,
+    .tracker-storefront-result-facts,
+    .tracker-chona-result-facts,
+    .tracker-luna-result-facts {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .landing-hero-copy,
+    .catalog-index-hero > *,
+    .member-account-card > *,
+    .member-recent-order > *,
+    .admin-page-heading > * {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .landing-hero-actions,
+    .admin-page-heading-action,
+    .status-table-actions,
+    .order-table-action {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .landing-primary-link,
+    .landing-catalog-link,
+    .admin-primary-action,
+    .order-table-toolbar-button {
+        min-height: 44px;
+    }
+
+    .catalog-index-page,
+    .member-profile-page {
+        padding-right: .9rem;
+        padding-left: .9rem;
+    }
+
+    .catalog-index-topbar,
+    .member-section-heading,
+    .member-all-orders-heading,
+    .member-recent-orders > header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .go-batch-catalog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .member-orders-overview > div {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 1rem;
+    }
+
+    .member-account-details > .is-address {
+        grid-column: auto;
+    }
+
+    .member-login-card {
+        padding: 1.5rem;
+    }
+
+    .member-login-art {
+        opacity: .34;
+        pointer-events: none;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+        max-width: 100%;
+    }
+
+    dialog,
+    [role='dialog'],
+    .modal-panel,
+    .admin-user-menu {
+        width: calc(100vw - 1.5rem) !important;
+        max-width: calc(100vw - 1.5rem) !important;
+    }
+
+    .order-table-scroll,
+    .table-responsive {
+        max-width: 100%;
+        overscroll-behavior-inline: contain;
+    }
+}
+
+@media (max-width: 480px) {
+    .landing-hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+        gap: .65rem !important;
+    }
+
+    .landing-primary-link,
+    .landing-catalog-link {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .go-batch-catalog-grid,
+    .member-login-benefits > div,
+    .member-orders-overview > div,
+    .member-profile-summary,
+    .member-order-finance {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .member-account-card > header,
+    .member-line-status,
+    .member-recent-order {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .member-account-card header form,
+    .member-line-status > b,
+    .member-recent-order > .bi {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    .responsive-card-table tbody tr {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .responsive-card-table td,
+    .responsive-card-table td:first-child,
+    .responsive-card-table td:last-child,
+    .responsive-card-table td:nth-child(even):not([data-card-action]) {
+        grid-column: 1 !important;
+        border-right: 0;
+    }
+
+    input:not([type='checkbox']):not([type='radio']),
+    select,
+    textarea {
+        width: 100%;
+        font-size: 16px !important;
+    }
+
+    .admin-page {
+        padding-right: .6rem !important;
+        padding-left: .6rem !important;
+    }
+
+    .admin-navigation {
+        right: .4rem;
+        left: .4rem;
+    }
+
+    .admin-navigation > a > span:last-of-type {
+        font-size: .46rem !important;
+    }
+}
