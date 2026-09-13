@@ -116,53 +116,45 @@
                 </div>
             </section>
 
-            <section class="testi-section" data-testimonial-carousel>
-                <div class="testi-heading">
-                    <div class="section-kicker">Testimonials</div>
-                    <h2 class="section-title">Listen to what they<br>have to say about us</h2>
-                    <p class="section-copy !mt-2">Check out reviews from happy buyers who just got their orders
-                        delivered.</p>
-                </div>
-                <div class="testi-track" data-testimonial-track aria-label="Testimoni pembeli">
-                    @foreach($testimonialSlides as $testimonial)
-                        <article class="testi-card" data-testimonial-card>
-                            <div class="testi-media">
-                                <img src="{{ $testimonial['image'] }}" alt="Foto testimoni dari {{ $testimonial['name'] }}">
-                                <span class="testi-quote-mark" aria-hidden="true">“</span>
-                                <span class="testi-rating" aria-label="Rating {{ $testimonial['rating'] ?? 5 }} dari 5">
-                                    <span aria-hidden="true">★</span>
-                                    {{ number_format((float) ($testimonial['rating'] ?? 5), 1) }}
-                                </span>
-                            </div>
-                            <div class="testi-copy">
-                                <p>{{ $testimonial['content'] }}</p>
-                                <div class="testi-user">
-                                    <i>{{ mb_substr($testimonial['name'], 0, 1) }}</i>
-                                    <div>
-                                        <strong>{{ $testimonial['name'] }}</strong>
-                                        <span>Pembeli Ocean Paws</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
-                <div class="testi-dots" aria-hidden="true">
-                    @foreach($testimonialSlides as $testimonial)
-                        <span class="{{ $loop->first ? 'active' : '' }}" data-testimonial-dot></span>
-                    @endforeach
-                </div>
-                <div class="testi-cta">
-                    <div class="flex min-w-0 items-center gap-3"><span class="icon-chip"><x-public-icon name="link"
-                                :size="20" /></span>
-                        <div><strong class="block text-[11px] lg:text-[14px]">Sudah pernah jajan di Ocean
-                                Paws?</strong><span
-                                class="block text-[9px] leading-4 text-[#587ca0] lg:text-[11px] lg:leading-5">Tulis
-                                testimonimu dan ceritamu bisa ikut tampil di halaman ini.</span></div>
+            <section class="journey-section" aria-labelledby="journey-title">
+                <div class="journey-heading">
+                    <div>
+                        <div class="section-kicker">Simple & transparent</div>
+                        <h2 class="section-title" id="journey-title">Dari wishlist sampai<br>ke depan pintumu.</h2>
                     </div>
-                    <a href="{{ route('testimonials.index') }}"
-                        class="btn-primary shrink-0 !px-4 !py-2 !text-[10px] lg:!px-5 lg:!py-2.5 lg:!text-[11px]">Tulis
-                        testimoni</a>
+                    <p class="section-copy">Setiap tahap dibuat jelas supaya kamu tahu pesananmu sedang berada di mana dan apa yang perlu dilakukan selanjutnya.</p>
+                </div>
+
+                <div class="journey-grid">
+                    <article class="journey-card">
+                        <span class="journey-number">01</span>
+                        <span class="journey-icon"><x-public-icon name="bag" :size="22" /></span>
+                        <h3>Pesan favoritmu</h3>
+                        <p>Ikuti group order dan simpan semua item pilihanmu dalam satu riwayat akun LINE.</p>
+                        <small>CLAIM · CHECKOUT · BAYAR</small>
+                    </article>
+                    <article class="journey-card is-featured">
+                        <span class="journey-number">02</span>
+                        <span class="journey-icon"><x-public-icon name="search" :size="22" /></span>
+                        <h3>Pantau perjalanannya</h3>
+                        <p>Cari kode pesanan tanpa login atau buka detail lengkap melalui halaman Pesananku.</p>
+                        <small>UPDATE · EMS · TRACKING</small>
+                    </article>
+                    <article class="journey-card">
+                        <span class="journey-number">03</span>
+                        <span class="journey-icon"><x-public-icon name="truck" :size="22" /></span>
+                        <h3>Terima dengan tenang</h3>
+                        <p>Dapatkan informasi pengiriman hingga paket selesai diterima di alamatmu.</p>
+                        <small>PACKING · KIRIM · SELESAI</small>
+                    </article>
+                </div>
+
+                <div class="journey-cta">
+                    <div>
+                        <span>SUDAH PUNYA PESANAN?</span>
+                        <strong>Cek progresnya dalam beberapa detik.</strong>
+                    </div>
+                    <a href="{{ route('tracking.index') }}">Lacak sekarang <x-public-icon name="arrow-right" :size="16" /></a>
                 </div>
             </section>
         </div>
