@@ -1555,18 +1555,18 @@
   }
 
   .ocean-editorial .hero-title {
-    font-size: 40px;
-    line-height: 1.06;
+    font-size: 70px;
+    line-height: 1.12;
   }
 
   .ocean-editorial .hero-copy {
-    font-size: 13px;
+    font-size: 15px;
     margin-top: 18px;
   }
 
   .ocean-editorial .landing-hero-actions {
     gap: 15px;
-    margin-top: 20px;
+    margin-top: 30px;
   }
 
   .ocean-editorial .landing-primary-link {
@@ -1774,7 +1774,7 @@
   }
 
   .ocean-editorial .hero-title {
-    font-size: 31px;
+    font-size: 35px;
   }
 
   .ocean-editorial .editorial-header-cta svg {
