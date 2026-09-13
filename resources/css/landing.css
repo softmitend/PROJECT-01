@@ -137,20 +137,23 @@
   position: relative;
   z-index: 0;
   display: inline-block;
-  margin-inline: .04em;
-  padding: .02em .16em .06em;
+  margin-inline: .12em;
+  padding: 0;
   color: #fff;
-  line-height: .94;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  transform: none !important;
 }
 
 .ocean-editorial .hero-title .wish-highlight::before {
   content: '';
   position: absolute;
-  inset: -.02em -.03em;
+  inset: -.04em -.12em;
   z-index: -1;
-  border-radius: .08em;
+  border-radius: 0;
   background: #174a73;
-  transform: rotate(-2deg) skewX(-3deg);
+  transform: rotate(-2deg);
   transform-origin: center;
 }
 
