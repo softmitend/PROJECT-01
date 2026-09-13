@@ -1952,17 +1952,3 @@
     flex-direction: column;
   }
 }
-
-/* Continuous landing-page gradient. */
-.landing-page.ocean-home.ocean-editorial {
-  background: linear-gradient(180deg, #dff3ff 0%, #c5e7fa 42%, #91ccec 100%);
-}
-
-.landing-page.ocean-editorial .landing-wrap,
-.landing-page.ocean-editorial .editorial-header,
-.landing-page.ocean-editorial .editorial-opening,
-.landing-page.ocean-editorial .order-search-card,
-.landing-page.ocean-editorial .about-section,
-.landing-page.ocean-editorial .testi-section {
-  background: transparent;
-}
