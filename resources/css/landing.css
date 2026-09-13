@@ -2092,3 +2092,20 @@
     transform: scale(.82);
   }
 }
+
+
+/* Compact 360px hero title fix. */
+@media (max-width: 360px) {
+  .landing-page.ocean-editorial .hero-title {
+    font-size: 31px;
+    line-height: 1.2;
+  }
+
+  .landing-page.ocean-editorial .hero-title .wish-highlight {
+    margin-inline: .08em;
+  }
+
+  .landing-page.ocean-editorial .hero-title .wish-highlight::before {
+    inset: .08em -.09em;
+  }
+}
