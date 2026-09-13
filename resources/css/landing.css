@@ -897,8 +897,7 @@
   font-weight: 800;
 }
 
-.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}.ocean-editorial .testi-dots {  margin-top: 17px;
-  gap: 6px;
+.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}.ocean-editorial .testi-dots {  margin-top: 17px;  gap: 6px;
 }
 
 .ocean-editorial .testi-dots span {
@@ -1797,7 +1796,6 @@
 @media (prefers-reduced-motion:reduce) {
   .editorial-marquee-track {    animation-duration: 60s;
   }}
-
 @media (max-width:900px) {
 
   .tracking-result-banner,
@@ -2697,8 +2695,7 @@
   max-width: 580px;
   margin-top: 24px;  color: var(--muted);
   font-size: 14px;
-  line-height: 1.75;
-}
+  line-height: 1.75;}
 
 .tracking-lookup-form {
   width: 100%;
@@ -3313,4 +3310,16 @@
 /* Semi-bold landing hero description */
 .landing-page.ocean-editorial .hero-copy {
   font-weight: 600;
+}
+
+/* Highlight NCT WISH in hero copy */
+.landing-page.ocean-editorial .hero-copy-highlight {
+  display: inline-block;
+  background: var(--matcha);
+  padding: .02em .28em .08em;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.15;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
