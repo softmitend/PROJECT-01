@@ -8,7 +8,7 @@
                         <h1 class="hero-title">Where every WISH<br><span class="accent">comes a little closer.</span>
                         </h1>
                         <p class="hero-copy">Shop your NCT WISH favorites with us and make every WISH a little more
-                            special ♡</p>
+                            special <svg class="hero-copy-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.2-4.6-9.5-8.8C.5 8.6 2.4 4 6.7 4c2.2 0 4.1 1.3 5.3 3 1.2-1.7 3.1-3 5.3-3 4.3 0 6.2 4.6 4.2 8.2C19.2 16.4 12 21 12 21Z"/></svg></p>
                         <div class="landing-hero-actions">
                             <a href="{{ route('services.index') }}" class="landing-primary-link">Lihat layanan kami
                                 <x-public-icon name="arrow-right" :size="17" /></a>
