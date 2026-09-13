@@ -327,7 +327,7 @@
   height: 38px;
   max-width: none;
   object-fit: contain;
-  transform: scale(1.35);
+  transform: translateY(-2px) scale(1.25);
   transform-origin: center;
 }
 
