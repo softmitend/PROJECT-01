@@ -44,7 +44,9 @@
                         </div>
                         <div class="art-note">
                             <span>
-                                <img src="{{ asset('img/icon.png') }}" alt="" class="art-note-image">
+                                <svg class="art-note-heart" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 21s-8.5-5.1-8.5-11.2A4.8 4.8 0 0 1 12 6.7a4.8 4.8 0 0 1 8.5 3.1C20.5 15.9 12 21 12 21Z"/>
+                                </svg>
                             </span>
                             <div>Little things.<br><strong>Big happiness.</strong></div>
                         </div>
