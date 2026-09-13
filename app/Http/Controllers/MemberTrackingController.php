@@ -32,9 +32,24 @@ class MemberTrackingController extends Controller
 
         if ($testimonialSlides->isEmpty()) {
             $testimonialSlides = collect([
-                ['image' => '/assets/testimonial-1.png', 'content' => 'DEMI APASIH AKHIRNYA WU WONTI KU PULANG HUHUHU MAKASIH CHONAAA...', 'name' => 'chae [채린]', 'rating' => 5],
-                ['image' => '/assets/testimonial-2.png', 'content' => 'Rajin post jajanan yang bikin jari mencoret secara tidak sadar. Chona C nya Murce~', 'name' => 'M.J Akwar D. || Rhuy', 'rating' => 5],
-                ['image' => '/assets/testimonial-3.png', 'content' => 'Jujur ga ekspek warnanya ini secepet ini ges kalo mw cari go yang cepet same-day.', 'name' => 'naej', 'rating' => 5],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80',
+                    'content' => 'Album datang dengan aman dan packing-nya rapi banget. Update selama proses GO juga jelas, jadi nggak perlu khawatir menunggu.',
+                    'name' => 'Alya',
+                    'rating' => 5,
+                ],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
+                    'content' => 'Photocard sampai tanpa lecet dan kondisinya sesuai deskripsi. Bakal ikut group order di Ocean Paws lagi!',
+                    'name' => 'Nadira',
+                    'rating' => 5,
+                ],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80',
+                    'content' => 'Prosesnya transparan dari pembayaran sampai pengiriman. Barang juga tiba lebih cepat dari perkiraanku.',
+                    'name' => 'Keisha',
+                    'rating' => 5,
+                ],
             ]);
         }
 
