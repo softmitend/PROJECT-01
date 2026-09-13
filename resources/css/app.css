@@ -5378,15 +5378,29 @@ canvas {
 
 @media (max-width: 480px) {
     .landing-hero-actions {
-        align-items: stretch;
-        flex-direction: column;
+        display: grid !important;
+        width: 100%;
+        align-items: center;
+        grid-template-columns: minmax(0, 1fr) auto;
         gap: .65rem !important;
     }
 
     .landing-primary-link,
     .landing-catalog-link {
-        width: 100%;
+        width: auto;
+        min-width: 0;
         justify-content: center;
+        white-space: nowrap;
+    }
+
+    .landing-primary-link {
+        padding-right: .85rem !important;
+        padding-left: .85rem !important;
+    }
+
+    .landing-catalog-link {
+        padding-right: .35rem;
+        padding-left: .35rem;
     }
 
     .go-batch-catalog-grid,
