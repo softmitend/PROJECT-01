@@ -148,6 +148,7 @@
 
 .ocean-editorial .landing-primary-link {
   min-height: 43px;
+  gap: 7px;
   border-radius: 12px;
   padding: 11px 18px;
   background: #174a73;
