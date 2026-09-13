@@ -2,7 +2,7 @@
     <main class="page billing-list-page">
         <div class="billing-list-shell">
             <div class="detail-topbar">
-                <a class="top-back" href="{{ route('services.index') }}" aria-label="Kembali ke layanan"><x-public-icon name="arrow-left" :size="18" /></a>
+                <a class="top-back" href="{{ route('orders.index') }}" aria-label="Kembali ke pusat pesanan"><x-public-icon name="arrow-left" :size="18" /></a>
             </div>
 
             <header class="billing-list-header">
