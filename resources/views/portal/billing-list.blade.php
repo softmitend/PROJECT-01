@@ -14,8 +14,8 @@
             <section class="billing-summary" aria-label="Ringkasan tagihan">
                 <span class="billing-summary-icon"><x-public-icon :name="$scope === 'ems' ? 'document' : 'card'" :size="23" /></span>
                 <div>
-                    <small>{{ $tab === 'history' ? 'PEMBAYARAN TERCATAT' : 'PERLU DISELESAIKAN' }}</small>
-                    <strong>{{ $tab === 'history' ? $historyCount : $unpaidCount }} {{ $scope === 'ems' ? 'tagihan' : 'pesanan' }}</strong>
+                    <small>{{ $tab === 'paid' ? 'TRANSAKSI BERHASIL' : ($tab === 'refund' ? 'TRANSAKSI REFUND' : 'PERLU DISELESAIKAN') }}</small>
+                    <strong>{{ $tab === 'paid' ? $paidCount : ($tab === 'refund' ? $refundCount : $unpaidCount) }} {{ $scope === 'ems' ? 'tagihan' : 'transaksi' }}</strong>
                 </div>
             </section>
 
@@ -24,8 +24,11 @@
                     <a class="{{ $tab === 'unpaid' ? 'active' : '' }}" href="{{ request()->routeIs('billing.ems') ? route('billing.ems') : route('billing.orders') }}">
                         <span>Belum dibayar</span><b>{{ $unpaidCount }}</b>
                     </a>
-                    <a class="{{ $tab === 'history' ? 'active' : '' }}" href="{{ (request()->routeIs('billing.ems') ? route('billing.ems') : route('billing.orders')).'?tab=history' }}">
-                        <span>Riwayat pembayaran</span><b>{{ $historyCount }}</b>
+                    <a class="{{ $tab === 'paid' ? 'active' : '' }}" href="{{ (request()->routeIs('billing.ems') ? route('billing.ems') : route('billing.orders')).'?tab=paid' }}">
+                        <span>Berhasil</span><b>{{ $paidCount }}</b>
+                    </a>
+                    <a class="{{ $tab === 'refund' ? 'active' : '' }}" href="{{ (request()->routeIs('billing.ems') ? route('billing.ems') : route('billing.orders')).'?tab=refund' }}">
+                        <span>Refund</span><b>{{ $refundCount }}</b>
                     </a>
                 </nav>
             @endif
@@ -42,10 +45,10 @@
                             $paidAmount = (float) ($order->payment_amount ?: 0);
                             $shownAmount = $scope === 'ems'
                                 ? (float) $order->ems_tax_amount
-                                : ($tab === 'history' ? $paidAmount : max($orderTotal - $paidAmount, 0));
+                                : ($tab === 'paid' ? $paidAmount : ($tab === 'refund' ? $paidAmount : max($orderTotal - $paidAmount, 0)));
                             $amountLabel = $scope === 'ems'
                                 ? 'Tagihan EMS & pajak'
-                                : ($tab === 'history' ? 'Nominal pembayaran' : 'Sisa yang perlu dibayar');
+                                : ($tab === 'paid' ? 'Nominal pembayaran' : ($tab === 'refund' ? 'Nominal refund' : 'Sisa yang perlu dibayar'));
                         @endphp
                         <article class="billing-order-card">
                             <header>
@@ -72,7 +75,7 @@
                             <dl class="billing-order-meta">
                                 @if($scope === 'orders')
                                     <div><dt>Jenis pembayaran</dt><dd>{{ $order->payment_type_label }}</dd></div>
-                                    <div><dt>{{ $tab === 'history' ? 'Dikirim pada' : 'Status' }}</dt><dd>{{ $tab === 'history' ? ($order->payment_submitted_at?->translatedFormat('d M Y, H:i') ?: '-') : ($order->paymentStatus?->name ?: 'Menunggu pembayaran') }}</dd></div>
+                                    <div><dt>{{ $tab === 'paid' ? 'Dibayar pada' : 'Status' }}</dt><dd>{{ $tab === 'paid' ? ($order->payment_submitted_at?->translatedFormat('d M Y, H:i') ?: 'Pembayaran berhasil') : ($tab === 'refund' ? 'Direfund' : ($order->paymentStatus?->name ?: 'Menunggu pembayaran')) }}</dd></div>
                                 @else
                                     <div><dt>Jatuh tempo</dt><dd>{{ $order->ems_tax_due_date?->translatedFormat('d M Y') ?: 'Belum ditentukan' }}</dd></div>
                                     <div><dt>Status</dt><dd>{{ $order->ems_tax_status_label }}</dd></div>
@@ -87,7 +90,7 @@
                             </footer>
                         </article>
                     @empty
-                        <div class="billing-empty"><x-public-icon :name="$tab === 'history' ? 'history' : 'check-circle'" :size="24" /><strong>{{ $tab === 'history' ? 'Belum ada riwayat pembayaran.' : 'Tidak ada tagihan yang perlu dibayar.' }}</strong><p>{{ $tab === 'history' ? 'Pembayaran yang sudah dikirim akan tersimpan di sini.' : 'Semua pembayaranmu sudah aman untuk saat ini.' }}</p><a href="{{ route('services.index') }}">Buka layanan</a></div>
+                        <div class="billing-empty"><x-public-icon name="card" :size="24" /><strong>Tidak ada transaksi di kategori ini.</strong><p>Data pembayaran akan otomatis tampil ketika tersedia.</p><a href="{{ route('orders.index') }}">Kembali ke Pesanan</a></div>
                     @endforelse
                 @endif
             </section>
