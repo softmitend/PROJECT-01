@@ -8,6 +8,48 @@ use Illuminate\Support\Facades\URL;
 
 class CustomerPortalController extends Controller
 {
+    public function orders(Request $request)
+    {
+        $user = $request->user();
+        $member = $user?->member;
+
+        if (! $user) {
+            return redirect()->route('line-auth.redirect');
+        }
+
+        if (! $member) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        $orders = $member->orders()->with(['batch', 'paymentStatus'])->latest()->get();
+        $unpaidCount = $orders
+            ->filter(fn ($order) => in_array($order->paymentStatus?->code, ['menunggu-dp', 'menunggu-pelunasan'], true))
+            ->count();
+        $refundCount = $orders->filter(fn ($order) => $order->is_refunded)->count();
+
+        return view('portal.overview', [
+            'type' => 'orders',
+            'title' => 'Pusat Pesanan',
+            'description' => 'Semua riwayat pesanan dan pembayaranmu tersusun dalam satu tempat.',
+            'items' => [
+                [
+                    'icon' => 'bag',
+                    'title' => 'Pesananku',
+                    'description' => 'Lihat seluruh riwayat, status proses, dan perjalanan paket pesananmu.',
+                    'note' => $orders->count().' pesanan tersimpan',
+                    'url' => route('orders.history'),
+                ],
+                [
+                    'icon' => 'card',
+                    'title' => 'Tagihan',
+                    'description' => 'Periksa transaksi yang belum dibayar, berhasil, maupun direfund.',
+                    'note' => $unpaidCount.' perlu dibayar · '.$refundCount.' refund',
+                    'url' => route('billing.orders'),
+                ],
+            ],
+        ]);
+    }
+
     public function billing(Request $request)
     {
         $member = $request->user()?->member;
@@ -240,21 +282,32 @@ class CustomerPortalController extends Controller
             });
         }
 
-        $tab = $request->string('tab')->toString() === 'history' ? 'history' : 'unpaid';
+        $requestedTab = $request->string('tab')->toString();
+        $tab = in_array($requestedTab, ['unpaid', 'paid', 'refund'], true) ? $requestedTab : 'unpaid';
 
         if ($scope === 'ems') {
             $unpaidOrders = $orders->filter(fn ($order) => $order->ems_tax_is_published && $order->ems_tax_status === 'unpaid')->values();
-            $historyOrders = $orders->filter(fn ($order) => $order->ems_tax_is_published && $order->ems_tax_status === 'paid')->values();
+            $paidOrders = $orders->filter(fn ($order) => $order->ems_tax_is_published && $order->ems_tax_status === 'paid')->values();
+            $refundOrders = collect();
             $title = 'Tagihan EMS & Pajak';
-            $description = 'Rincian ongkir internasional dan pajak impor dipisahkan dari riwayat pesananmu.';
+            $description = 'Rincian ongkir internasional dan pajak impor untuk setiap pesananmu.';
         } else {
             $unpaidOrders = $orders
-                ->filter(fn ($order) => in_array($order->paymentStatus?->code, ['menunggu-dp', 'menunggu-pelunasan'], true))
+                ->filter(fn ($order) => ! $order->is_refunded && in_array($order->paymentStatus?->code, ['menunggu-dp', 'menunggu-pelunasan'], true))
                 ->values();
-            $historyOrders = $orders->filter(fn ($order) => $order->payment_submitted_at !== null)->values();
-            $title = 'Tagihan Pesanan';
-            $description = 'Cek pembayaran yang masih perlu diselesaikan dan bukti pembayaran yang pernah kamu kirim.';
+            $paidOrders = $orders
+                ->filter(fn ($order) => ! $order->is_refunded && ($order->paymentStatus?->code === 'lunas' || $order->payment_submitted_at !== null))
+                ->values();
+            $refundOrders = $orders->filter(fn ($order) => $order->is_refunded)->values();
+            $title = 'Tagihan';
+            $description = 'Semua transaksi yang belum dibayar, berhasil, dan direfund tersusun di sini.';
         }
+
+        $visibleOrders = match ($tab) {
+            'paid' => $paidOrders,
+            'refund' => $refundOrders,
+            default => $unpaidOrders,
+        };
 
         return view('portal.billing-list', [
             'user' => $user,
@@ -263,9 +316,10 @@ class CustomerPortalController extends Controller
             'tab' => $tab,
             'title' => $title,
             'description' => $description,
-            'orders' => $tab === 'history' ? $historyOrders : $unpaidOrders,
+            'orders' => $visibleOrders,
             'unpaidCount' => $unpaidOrders->count(),
-            'historyCount' => $historyOrders->count(),
+            'paidCount' => $paidOrders->count(),
+            'refundCount' => $refundOrders->count(),
         ]);
     }
 }
