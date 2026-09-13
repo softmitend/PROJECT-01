@@ -318,13 +318,13 @@
   overflow: hidden;
   color: #2b85bd;
   border-radius: 10px;
-  background: #e5f3ff;
+  background: transparent;
 }
 
 .art-note-image {
   display: block;
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   max-width: none;
   object-fit: contain;
 }
