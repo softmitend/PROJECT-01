@@ -2305,6 +2305,8 @@ html[data-customer-theme="dark"] .nav-item.active {
 /* Dedicated customer billing lists */
 .billing-list-page {
   padding-top: 32px;
+  padding-right: 1rem;
+  padding-left: 1rem;
   background: #dceaf9;
 }
 
@@ -2774,7 +2776,7 @@ html[data-customer-theme="dark"] .nav-item.active {
   }
 
   .billing-list-page {
-    padding: 22px 14px 104px;
+    padding: 22px 1rem 104px;
   }
 
   .billing-back {
