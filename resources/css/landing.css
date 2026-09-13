@@ -2077,8 +2077,13 @@
   }
 
   .landing-page.ocean-editorial .hero-title {
-    font-size: clamp(35px, 10.5vw, 42px);
-    line-height: 1.08;
+    font-size: clamp(28px, 8.3vw, 40px);
+    line-height: 1.12;
+  }
+
+  .landing-page.ocean-editorial .hero-title .accent {
+    display: inline-block;
+    white-space: nowrap;
   }
 
   .landing-page.ocean-editorial .hero-copy {
