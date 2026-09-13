@@ -897,8 +897,7 @@
   font-weight: 800;
 }
 
-.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;
-  letter-spacing: .02em;
+.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;
 }
 
 .ocean-editorial .testi-dots {
@@ -1797,8 +1796,7 @@
   }
   .ocean-editorial .hero-title {    font-size: 35px;
   }
-  .ocean-editorial .editorial-header-cta svg {
-    display: none;
+  .ocean-editorial .editorial-header-cta svg {    display: none;
   }
 }
 
@@ -2697,8 +2695,7 @@
   color: var(--matcha-deep);
 }
 .tracking-lookup-hero h1 {
-  max-width: 760px;
-  margin-top: 20px;
+  max-width: 760px;  margin-top: 20px;
   color: var(--matcha-deep);
   font-size: clamp(3.8rem,6.5vw,6rem);
 }
@@ -3267,4 +3264,13 @@
     margin: 0;
     padding-left: 10px;
   }
+}
+
+/* Double strawberry shadow hierarchy */
+.landing-page.ocean-editorial .landing-hero-actions {
+  box-shadow: 8px 8px 0 rgba(190, 67, 98, .22);
+}
+
+.landing-page.ocean-editorial .landing-primary-link {
+  box-shadow: 7px 7px 0 var(--berry-strong);
 }
