@@ -3378,3 +3378,13 @@
 .landing-page.ocean-editorial .landing-catalog-link:focus-visible {
   background: transparent;
 }
+
+
+/* Abril Fatface landing hero title */
+.landing-page.ocean-editorial .hero-title,
+.landing-page.ocean-editorial .hero-title .wish-highlight,
+.landing-page.ocean-editorial .hero-title .accent {
+  font-family: "Abril Fatface", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.025em;
+}
