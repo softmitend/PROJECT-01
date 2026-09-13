@@ -2389,3 +2389,36 @@
     padding-left: 1.125rem;
   }
 }
+
+
+/* Simplified section separators */
+.landing-page.ocean-editorial .editorial-opening::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  height: 4px;
+  background: var(--berry);
+  pointer-events: none;
+}
+
+.landing-page.ocean-editorial .editorial-categories {
+  border-bottom: 4px solid var(--berry);
+  padding-block: 18px;
+}
+
+.landing-page.ocean-editorial .testi-section {
+  padding-top: 48px;
+}
+
+.landing-page.ocean-editorial .testi-section::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: var(--matcha);
+  transform: none;
+  pointer-events: none;
+}
