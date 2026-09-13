@@ -3380,20 +3380,12 @@
 }
 
 
-/* Dream Avenue exact webfont landing hero title */
-@font-face {
-  font-family: "Dream Avenue Exact";
-  src: url("/fonts/dream-avenue-regular.woff2?v=20260913-2") format("woff2");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
+/* Gloock landing hero title */
 .landing-page.ocean-editorial .hero-title,
 .landing-page.ocean-editorial .hero-title .wish-highlight,
 .landing-page.ocean-editorial .hero-title .accent {
-  font-family: "Dream Avenue Exact", serif;
+  font-family: "Gloock", Georgia, serif;
   font-weight: 400;
   font-synthesis: none;
-  letter-spacing: 0;
+  letter-spacing: -.015em;
 }
