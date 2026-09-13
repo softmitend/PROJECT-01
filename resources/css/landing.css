@@ -897,8 +897,7 @@
   font-weight: 800;
 }
 
-.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}.ocean-editorial .testi-dots {  margin-top: 17px;  gap: 6px;}.ocean-editorial .testi-dots span {
-  width: 7px;
+.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}.ocean-editorial .testi-dots {  margin-top: 17px;  gap: 6px;}.ocean-editorial .testi-dots span {  width: 7px;
   height: 7px;
   background: #b4d4e9;
   transition: width .25s ease, background .25s ease;
@@ -1797,8 +1796,7 @@
   .tracking-result-banner,
   .tracking-result-layout {    grid-template-columns: 1fr;
   }
-  .tracking-result-side {
-    border-top: 1px solid #e1edf6;
+  .tracking-result-side {    border-top: 1px solid #e1edf6;
     border-left: 0;
   }
 }
@@ -2698,7 +2696,6 @@
   border-radius: 22px;  padding: 8px;
   box-shadow: 7px 7px 0 var(--berry), 0 20px 42px rgba(79,96,53,.11);
 }
-
 .tracking-lookup-form:focus-within {
   border-color: var(--matcha);
   box-shadow: 7px 7px 0 var(--berry), 0 0 0 4px rgba(131,143,88,.12);
@@ -3362,4 +3359,9 @@
 .landing-page.ocean-editorial .landing-catalog-link:hover,
 .landing-page.ocean-editorial .landing-catalog-link:focus-visible {
   background: #FBDDE3;
+}
+
+/* Berry bottom border for split CTA */
+.landing-page.ocean-editorial .landing-hero-actions {
+  border-bottom-color: var(--berry);
 }
