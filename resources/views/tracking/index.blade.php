@@ -5,7 +5,7 @@
                 <div class="landing-hero">
                     <div class="landing-hero-copy">
                         <p class="editorial-eyebrow"><span></span> OCEANPAWS, SINCE 2025</p>
-                        <h1 class="hero-title">Where every <span class="wish-highlight">WISH</span><br><span class="accent">comes a little closer.</span>
+                        <h1 class="hero-title">Where every<br><span class="wish-highlight">WISH</span> <span class="accent">comes</span><br><span class="accent">a little closer.</span>
                         </h1>
                         <p class="hero-copy">Shop your <span class="hero-copy-highlight">NCT WISH</span> favorites with us and make every WISH a little more
                             special <svg class="hero-copy-heart" viewBox="0 0 24 24" aria-hidden="true">
