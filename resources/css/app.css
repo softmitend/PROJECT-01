@@ -5038,7 +5038,7 @@ details[open] > summary .ocean-chevron {
 
     .status-folder-tabs {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: calc((100% - .65rem) / 2 + 5px) minmax(0, 1fr);
         gap: .35rem;
         overflow: visible;
         padding: .6rem .75rem 0 !important;
@@ -5397,6 +5397,13 @@ canvas {
     .landing-primary-link {
         padding-right: .85rem !important;
         padding-left: .85rem !important;
+    }
+
+    .landing-primary-link .public-icon {
+        flex: 0 0 auto;
+        color: #fff !important;
+        opacity: 1 !important;
+        stroke: #fff !important;
     }
 
     .landing-catalog-link {
