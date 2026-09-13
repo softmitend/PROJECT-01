@@ -897,8 +897,7 @@
   font-weight: 800;
 }
 
-.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}.ocean-editorial .testi-dots {  margin-top: 17px;  gap: 6px;
-}
+.ocean-editorial .testi-user span {  margin-top: 2px;  color: #7290a8;  font-size: 8px;  font-weight: 700;  letter-spacing: .02em;}.ocean-editorial .testi-dots {  margin-top: 17px;  gap: 6px;}
 
 .ocean-editorial .testi-dots span {
   width: 7px;
@@ -1797,7 +1796,6 @@
   .editorial-marquee-track {    animation-duration: 60s;
   }}
 @media (max-width:900px) {
-
   .tracking-result-banner,
   .tracking-result-layout {
     grid-template-columns: 1fr;
@@ -2697,8 +2695,7 @@
   font-size: 14px;
   line-height: 1.75;}
 
-.tracking-lookup-form {
-  width: 100%;
+.tracking-lookup-form {  width: 100%;
   max-width: 760px;
   min-height: 72px;
   margin-top: 30px;
@@ -3322,4 +3319,15 @@
   line-height: 1.15;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+
+/* Match tracking CTA to rendered strawberry stripe */
+.landing-page.ocean-editorial .landing-hero-actions,
+.landing-page.ocean-editorial .landing-catalog-link {
+  background: #F9D1D9;
+}
+
+.landing-page.ocean-editorial .landing-catalog-link:hover,
+.landing-page.ocean-editorial .landing-catalog-link:focus-visible {
+  background: #F9D1D9;
 }
