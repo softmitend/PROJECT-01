@@ -141,8 +141,6 @@
   padding: .02em .16em .06em;
   color: #fff;
   line-height: .94;
-  transform: rotate(-2deg);
-  transform-origin: center;
 }
 
 .ocean-editorial .hero-title .wish-highlight::before {
@@ -152,7 +150,8 @@
   z-index: -1;
   border-radius: .08em;
   background: #174a73;
-  transform: skewX(-3deg);
+  transform: rotate(-2deg) skewX(-3deg);
+  transform-origin: center;
 }
 
 .ocean-editorial .hero-copy {
