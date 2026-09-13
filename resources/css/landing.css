@@ -2097,8 +2097,12 @@
 /* Compact 360px hero title fix. */
 @media (max-width: 360px) {
   .landing-page.ocean-editorial .hero-title {
-    font-size: 31px;
-    line-height: 1.2;
+    font-size: clamp(26px, 7.8vw, 28px);
+    line-height: 1.18;
+  }
+
+  .landing-page.ocean-editorial .hero-title .accent {
+    white-space: nowrap;
   }
 
   .landing-page.ocean-editorial .hero-title .wish-highlight {
