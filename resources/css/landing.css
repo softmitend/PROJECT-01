@@ -3390,10 +3390,10 @@
 }
 
 
-/* Dream Avenue semi-bold landing hero title */
+/* Dream Avenue exact webfont landing hero title */
 @font-face {
   font-family: "Dream Avenue";
-  src: url("/fonts/dream-avenue-regular.woff") format("woff");
+  src: url("/fonts/dream-avenue-regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -3403,6 +3403,6 @@
 .landing-page.ocean-editorial .hero-title .wish-highlight,
 .landing-page.ocean-editorial .hero-title .accent {
   font-family: "Dream Avenue", Georgia, serif;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: -.02em;
 }
