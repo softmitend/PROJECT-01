@@ -364,6 +364,8 @@
   display: block;
   object-fit: contain;
   object-position: center;
+  transform: scale(1.08);
+  transform-origin: center;
 }
 
 /* .art-photo-sky span {
