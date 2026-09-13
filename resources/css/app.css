@@ -5856,3 +5856,104 @@ body.customer-theme,
         font-size: 8px !important;
     }
 }
+
+
+/* Strawberry Matcha supporting customer pages */
+.customer-theme :is(.tracking-search-page,.customer-detail-page,.order-detail-page,.testimonial-page,.catalog-listing-page,.catalog-index-page) {
+    background:
+        radial-gradient(circle at 92% 7%, rgba(249,209,217,.78), transparent 24rem),
+        radial-gradient(circle at 5% 90%, rgba(223,229,189,.7), transparent 25rem),
+        var(--cream) !important;
+    color: var(--ink);
+}
+
+.customer-theme :is(.tracking-lookup-hero,.tracking-result-card,.customer-tracking-card,.detail-record-card,.order-detail-panel,.order-detail-stats article,.testimonial-empty-card,.testimonial-product-card,.testimonial-form-card,.testimonial-selected-product,.catalog-listing-card,.go-batch-card) {
+    border-color: rgba(79,96,53,.16) !important;
+    background: rgba(255,253,247,.94) !important;
+    box-shadow: var(--berry-shadow) !important;
+}
+
+.customer-theme :is(.tracking-lookup-kicker,.customer-detail-heading>span,.order-detail-hero-copy>span,.order-detail-section-heading span,.testimonial-kicker,.testimonial-top-label,.testimonial-order-code) {
+    color: var(--berry-deep) !important;
+}
+
+.customer-theme :is(.tracking-lookup-hero h1,.customer-detail-heading h1,.detail-record-title,.detail-record-section-heading h3,.order-detail-hero h1,.order-detail-section-heading h2,.testimonial-list-hero h1,.testimonial-form-heading h1,.testimonial-section-heading h2,.testimonial-product-copy h3,.testimonial-selected-product h2) {
+    color: var(--matcha-deep) !important;
+}
+
+.customer-theme :is(.tracking-lookup-hero p,.customer-detail-heading p,.detail-record-description,.order-detail-hero p,.testimonial-list-hero p,.testimonial-form-heading p,.testimonial-product-copy p,.testimonial-selected-product p) {
+    color: var(--muted) !important;
+}
+
+.customer-theme :is(.tracking-lookup-form,.testimonial-field textarea,.testimonial-upload) {
+    border-color: rgba(79,96,53,.22) !important;
+    background: #fff !important;
+}
+
+.customer-theme :is(.tracking-lookup-form button,.testimonial-primary-button,.order-table-action) {
+    border-color: var(--matcha-deep) !important;
+    background: var(--matcha) !important;
+    color: #fff !important;
+    box-shadow: 4px 4px 0 var(--berry) !important;
+}
+
+.customer-theme :is(.tracking-lookup-form button,.testimonial-primary-button,.order-table-action):hover {
+    background: var(--matcha-deep) !important;
+}
+
+.customer-theme :is(.detail-record-field,.detail-record-note,.order-detail-item,.testimonial-upload,.testimonial-rating-options label) {
+    border-color: rgba(79,96,53,.13) !important;
+    background: rgba(223,229,189,.35) !important;
+}
+
+.customer-theme :is(.detail-record-timeline-dot,.order-detail-stat-icon,.order-detail-item-icon,.testimonial-empty-icon,.testimonial-upload-icon) {
+    background: var(--matcha) !important;
+    color: #fff !important;
+}
+
+.customer-theme .detail-record-timeline::before {
+    background: var(--berry) !important;
+}
+
+.customer-theme .detail-record-card > footer {
+    background: var(--matcha-deep) !important;
+}
+
+.customer-theme .order-detail-hero {
+    border-color: rgba(79,96,53,.18) !important;
+    background: linear-gradient(120deg, var(--matcha-soft), rgba(249,209,217,.72)) !important;
+}
+
+.customer-theme .order-detail-cover {
+    border-color: rgba(255,255,255,.8) !important;
+    background: var(--berry) !important;
+}
+
+.customer-theme .testimonial-rating-options input:checked + label {
+    border-color: var(--berry-strong) !important;
+    background: var(--berry) !important;
+    color: var(--berry-deep) !important;
+}
+
+.customer-theme .testimonial-product-meta a,
+.customer-theme .testimonial-secondary-button,
+.customer-theme .testimonial-back {
+    color: var(--berry-deep) !important;
+}
+
+.customer-theme .catalog-index-hero h1,
+.customer-theme .go-batch-catalog-heading h2 {
+    color: var(--matcha-deep) !important;
+}
+
+.customer-theme .go-batch-card-state.is-open {
+    background: var(--matcha-soft) !important;
+    color: var(--matcha-deep) !important;
+}
+
+@media (max-width: 720px) {
+    .customer-theme :is(.tracking-search-page,.customer-detail-page,.order-detail-page,.testimonial-page,.catalog-listing-page,.catalog-index-page) {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+}
