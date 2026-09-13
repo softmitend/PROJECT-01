@@ -86,18 +86,15 @@
 
             <section class="section-card orders-card">
                 <h2 class="text-[12px] font-black" data-i18n-id="Pesanan Saya" data-i18n-en="My Orders">Pesanan Saya</h2>
-                <div class="orders-icons">
-                    @foreach([
-                        ['wallet', 'Belum Bayar', 'Unpaid', $stats['unpaid'], 'unpaid', 'orders.unpaid'],
-                        ['document', 'EMS', 'EMS & Tax', $stats['ems'], 'ems', 'billing.ems'],
-                        ['history', 'History Jajanan', 'Order History', $stats['history'], 'history', 'orders.history'],
-                        ['truck', 'Pengiriman', 'Shipping', $stats['shipping'], 'shipping', 'orders.shipping'],
-                        ['swap', 'Refund', 'Refund', $stats['refund'], 'refund', 'orders.refunds'],
-                    ] as [$icon, $label, $englishLabel, $count, $filter, $routeName])
-                        <a class="order-link" href="{{ $isMember ? route($routeName) : $profileActionUrl }}" data-profile-filter="{{ $filter }}">
-                            <span class="order-bubble"><x-public-icon :name="$icon" :size="18" />@if($count)<b>{{ $count }}</b>@endif</span><small data-i18n-id="{{ $label }}" data-i18n-en="{{ $englishLabel }}">{{ $label }}</small>
-                        </a>
-                    @endforeach
+                <div class="orders-icons profile-order-hub">
+                    <a class="order-link" href="{{ $isMember ? route('orders.history') : $profileActionUrl }}">
+                        <span class="order-bubble"><x-public-icon name="bag" :size="19" />@if($summary['orders'])<b>{{ $summary['orders'] }}</b>@endif</span>
+                        <small data-i18n-id="Pesananku" data-i18n-en="My Orders">Pesananku</small>
+                    </a>
+                    <a class="order-link" href="{{ $isMember ? route('billing.orders') : $profileActionUrl }}">
+                        <span class="order-bubble"><x-public-icon name="card" :size="19" />@if($stats['unpaid'])<b>{{ $stats['unpaid'] }}</b>@endif</span>
+                        <small data-i18n-id="Tagihan" data-i18n-en="Billing">Tagihan</small>
+                    </a>
                 </div>
             </section>
 
