@@ -3422,13 +3422,13 @@
 /* Larger Gloock headline for phone viewports */
 @media (max-width: 480px) {
   .landing-page.ocean-editorial .hero-title {
-    font-size: clamp(38px, 10.8vw, 46px) !important;
+    font-size: clamp(42px, 12vw, 52px) !important;
     letter-spacing: 1px;
   }
 }
 
 @media (max-width: 380px) {
   .landing-page.ocean-editorial .hero-title {
-    font-size: 38px !important;
+    font-size: 42px !important;
   }
 }
