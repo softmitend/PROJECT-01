@@ -298,8 +298,8 @@
   top: 60px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 13px 16px;
+  gap: 8px;
+  padding: 8px 14px;
   border: 1px solid #fff;
   border-radius: 13px;
   background: #ffffffed;
@@ -327,6 +327,8 @@
   height: 38px;
   max-width: none;
   object-fit: contain;
+  transform: scale(1.35);
+  transform-origin: center;
 }
 
 .art-note strong {
