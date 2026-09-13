@@ -5465,3 +5465,394 @@ canvas {
         font-size: .46rem !important;
     }
 }
+
+
+/* Strawberry Matcha customer design system — v1 */
+:root {
+    --berry: #f9d1d9;
+    --berry-strong: #e9899c;
+    --berry-deep: #b94f68;
+    --matcha: #838f58;
+    --matcha-deep: #4f6035;
+    --matcha-soft: #dfe5bd;
+    --cream: #fff9ed;
+    --paper: #fffdf7;
+    --ink: #354126;
+    --muted: #768064;
+    --line: rgba(79, 96, 53, .18);
+    --berry-shadow: 0 18px 42px rgba(119, 86, 72, .13);
+}
+
+body.customer-theme,
+.customer-public-shell,
+.customer-theme .public-landing-main {
+    background:
+        linear-gradient(rgba(131,143,88,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(131,143,88,.045) 1px, transparent 1px),
+        var(--cream);
+    background-size: 42px 42px;
+    color: var(--ink);
+}
+
+.public-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    border-bottom: 1px solid rgba(79,96,53,.16);
+    background: rgba(255,249,237,.9);
+    backdrop-filter: blur(18px);
+}
+
+.public-topbar-inner {
+    display: flex;
+    width: min(100% - 3rem, 1180px);
+    min-height: 74px;
+    margin-inline: auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.public-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--matcha-deep);
+}
+
+.public-brand img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.public-brand span,
+.public-brand strong,
+.public-brand small {
+    display: block;
+}
+
+.public-brand strong {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.public-brand small {
+    margin-top: 5px;
+    color: var(--berry-deep);
+    font-size: 7px;
+    font-weight: 900;
+    letter-spacing: .16em;
+}
+
+.public-desktop-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255,255,255,.72);
+    padding: 5px;
+    box-shadow: 0 8px 24px rgba(79,96,53,.08);
+}
+
+.public-desktop-nav a {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    gap: 7px;
+    border-radius: 999px;
+    padding: 8px 17px;
+    color: var(--matcha-deep);
+    font-size: 11px;
+    font-weight: 900;
+    transition: .2s ease;
+}
+
+.public-desktop-nav a:hover,
+.public-desktop-nav a.active {
+    background: var(--matcha);
+    color: #fffdf7;
+}
+
+.public-account-chip {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    overflow: hidden;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: var(--berry);
+    color: var(--matcha-deep);
+    box-shadow: 0 0 0 1px var(--matcha), 0 8px 18px rgba(79,96,53,.14);
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.public-account-chip img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.customer-theme :is(.portal-overview-page,.billing-list-page,.page:not(.catalog-listing-page)) {
+    color: var(--ink);
+}
+
+.customer-theme :is(.portal-overview-page,.billing-list-page) {
+    background:
+        radial-gradient(circle at 92% 8%, rgba(249,209,217,.82), transparent 24rem),
+        radial-gradient(circle at 4% 92%, rgba(223,229,189,.8), transparent 24rem),
+        var(--cream);
+}
+
+.portal-overview-page,
+.billing-list-page {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+}
+
+.portal-overview-header > span,
+.billing-list-header > span {
+    color: var(--berry-deep) !important;
+}
+
+.portal-overview-header h1,
+.billing-list-header h1 {
+    color: var(--matcha-deep) !important;
+    font-family: "Bricolage Grotesque", sans-serif;
+}
+
+.portal-overview-header p,
+.billing-list-header p {
+    color: var(--muted) !important;
+}
+
+.portal-overview-card,
+.billing-order-card,
+.billing-summary,
+.billing-tabs,
+.billing-empty,
+.customer-theme .section-card,
+.customer-theme .profile-main {
+    border-color: rgba(79,96,53,.16) !important;
+    background: rgba(255,253,247,.94) !important;
+    box-shadow: var(--berry-shadow) !important;
+}
+
+.portal-overview-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.portal-overview-card::after {
+    content: "✦";
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    color: var(--berry-strong);
+    font-size: 19px;
+    transform: rotate(12deg);
+}
+
+.portal-overview-card:nth-child(even) {
+    background: linear-gradient(145deg, rgba(249,209,217,.78), rgba(255,253,247,.96)) !important;
+}
+
+.portal-overview-card:nth-child(odd) {
+    background: linear-gradient(145deg, rgba(223,229,189,.78), rgba(255,253,247,.96)) !important;
+}
+
+.portal-overview-card .icon-chip,
+.billing-summary-icon,
+.billing-order-thumb,
+.customer-theme .icon-chip,
+.customer-theme .order-bubble,
+.customer-theme .tiny-icon {
+    background: var(--matcha) !important;
+    color: #fff !important;
+    box-shadow: 0 9px 20px rgba(79,96,53,.2) !important;
+}
+
+.portal-overview-card h2,
+.billing-order-title h2,
+.customer-theme .section-card h2,
+.customer-theme .activity-head strong {
+    color: var(--matcha-deep) !important;
+}
+
+.portal-overview-card p,
+.portal-overview-card .overview-card-foot > span,
+.billing-order-title p,
+.billing-order-meta dt,
+.customer-theme .section-card {
+    color: var(--muted);
+}
+
+.portal-overview-card .open,
+.billing-order-card footer a,
+.billing-empty a {
+    color: var(--berry-deep) !important;
+}
+
+.portal-overview-card .open:hover,
+.billing-order-card footer a:hover {
+    color: var(--matcha-deep) !important;
+}
+
+.billing-summary {
+    background: linear-gradient(100deg, var(--matcha-soft), rgba(255,253,247,.96)) !important;
+}
+
+.billing-summary small,
+.billing-order-title small,
+.billing-order-amount span {
+    color: var(--berry-deep) !important;
+}
+
+.billing-summary strong,
+.billing-order-amount strong,
+.billing-order-meta dd {
+    color: var(--matcha-deep) !important;
+}
+
+.billing-tabs {
+    grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+}
+
+.billing-tabs a {
+    color: var(--matcha-deep) !important;
+}
+
+.billing-tabs a.active {
+    background: var(--matcha) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 18px rgba(79,96,53,.2);
+}
+
+.billing-tabs a b {
+    background: var(--berry) !important;
+    color: var(--berry-deep) !important;
+}
+
+.customer-theme :is(.btn-primary,.profile-logout-button) {
+    background: var(--matcha) !important;
+    color: #fff !important;
+    box-shadow: 0 10px 22px rgba(79,96,53,.2) !important;
+}
+
+.customer-theme :is(.btn-primary,.profile-logout-button):hover {
+    background: var(--matcha-deep) !important;
+}
+
+.customer-theme .profile-main {
+    background: linear-gradient(145deg, rgba(249,209,217,.76), rgba(255,253,247,.96)) !important;
+}
+
+.customer-theme .profile-photo,
+.customer-theme .settings-btn {
+    border-color: rgba(79,96,53,.18) !important;
+    background: var(--paper) !important;
+    color: var(--matcha-deep) !important;
+}
+
+.customer-theme .member-pill,
+.customer-theme .profile-login-label,
+.customer-theme .micro {
+    color: var(--berry-deep) !important;
+}
+
+.customer-theme .coin-row,
+.customer-theme .metric-card,
+.customer-theme .chart-area,
+.customer-theme .calendar-card {
+    border-color: rgba(79,96,53,.12) !important;
+    background: rgba(255,253,247,.72) !important;
+}
+
+.customer-theme .chart-bar {
+    background: linear-gradient(180deg, var(--berry-strong), var(--matcha)) !important;
+}
+
+.profile-order-hub {
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    max-width: 360px;
+    margin-inline: auto;
+}
+
+.profile-order-hub .order-link {
+    min-height: 108pxpx;
+    border: 1px solid rgba(79,96,53,.13);
+    border-radius: 18px;
+    background: var(--paper);
+    padding: 16px;
+}
+
+.bottom-nav {
+    border: 1px solid rgba(79,96,53,.18) !important;
+    background: rgba(255,249,237,.94) !important;
+    box-shadow: 0 16px 45px rgba(79,96,53,.2) !important;
+    backdrop-filter: blur(18px);
+}
+
+.bottom-nav .nav-item {
+    color: var(--muted) !important;
+}
+
+.bottom-nav .nav-item.active {
+    background: var(--matcha) !important;
+    color: #fff !important;
+}
+
+@media (max-width: 720px) {
+    .public-topbar-inner {
+        width: calc(100% - 2rem);
+        min-height: 64px;
+    }
+
+    .public-brand img {
+        width: 38px;
+        height: 38px;
+    }
+
+    .public-desktop-nav {
+        display: none;
+    }
+
+    .public-account-chip {
+        margin-left: auto;
+    }
+
+    .portal-overview-page,
+    .billing-list-page {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+
+    .portal-overview-card {
+        min-height: 180px;
+    }
+
+    .billing-tabs {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 380px) {
+    .portal-overview-page,
+    .billing-list-page {
+        padding-right: 1.125rem !important;
+        padding-left: 1.125rem !important;
+    }
+
+    .public-topbar-inner {
+        width: calc(100% - 1.5rem);
+    }
+
+    .billing-tabs a {
+        padding-inline: 7px !important;
+        font-size: 8px !important;
+    }
+}
