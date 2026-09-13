@@ -3400,12 +3400,20 @@
 
 @media (min-width: 1024px) {
   .landing-page.ocean-editorial .hero-title {
-    font-size: 92px !important;
+    font-size: 108px !important;
   }
 }
 
 @media (min-width: 821px) and (max-width: 1023px) {
   .landing-page.ocean-editorial .hero-title {
-    font-size: 86px !important;
+    font-size: 94px !important;
+  }
+}
+
+
+/* Give the larger desktop headline more room */
+@media (min-width: 1024px) {
+  .landing-page.ocean-editorial .landing-hero {
+    grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr);
   }
 }
