@@ -537,8 +537,8 @@
 }
 
 .ocean-editorial .section-copy {
-  max-width: 720px;
-  font-size: 20px;
+  max-width: 1000px;
+  font-size: 15px;
   line-height: 1.8;
 }
 
@@ -1546,7 +1546,7 @@
 
   .ocean-editorial .landing-hero-actions {
     gap: 15px;
-    margin-top: 30px;
+    margin-top: 20px;
   }
 
   .ocean-editorial .landing-primary-link {
@@ -1656,7 +1656,7 @@
   }
 
   .ocean-editorial .section-copy {
-    font-size: 20px;
+    font-size: 12px;
   }
 
   .ocean-editorial .about-info-rail {
