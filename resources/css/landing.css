@@ -3380,20 +3380,10 @@
 }
 
 
-/* Abril Fatface landing hero title */
-.landing-page.ocean-editorial .hero-title,
-.landing-page.ocean-editorial .hero-title .wish-highlight,
-.landing-page.ocean-editorial .hero-title .accent {
-  font-family: "Abril Fatface", Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -.025em;
-}
-
-
 /* Dream Avenue exact webfont landing hero title */
 @font-face {
-  font-family: "Dream Avenue";
-  src: url("/fonts/dream-avenue-regular.woff2") format("woff2");
+  font-family: "Dream Avenue Exact";
+  src: url("/fonts/dream-avenue-regular.woff2?v=20260913-2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -3402,7 +3392,8 @@
 .landing-page.ocean-editorial .hero-title,
 .landing-page.ocean-editorial .hero-title .wish-highlight,
 .landing-page.ocean-editorial .hero-title .accent {
-  font-family: "Dream Avenue", Georgia, serif;
+  font-family: "Dream Avenue Exact", serif;
   font-weight: 400;
-  letter-spacing: -.02em;
+  font-synthesis: none;
+  letter-spacing: 0;
 }
