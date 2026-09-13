@@ -59,19 +59,19 @@
                     <div class="about-stat-grid" aria-label="Statistik Ocean Paws">
                         <div class="about-stat">
                             <span class="about-stat-icon"><x-public-icon name="box" :size="16" /></span>
-                            <div class="about-stat-copy"><strong>6.000+</strong><span>Pesanan selesai</span></div>
+                            <div class="about-stat-copy"><strong>6.000+</strong><span>Orders completed</span></div>
                         </div>
                         <div class="about-stat">
                             <span class="about-stat-icon"><x-public-icon name="message" :size="16" /></span>
-                            <div class="about-stat-copy"><strong>4.500+</strong><span>Testimoni pembeli</span></div>
+                            <div class="about-stat-copy"><strong>4.500+</strong><span>Buyer testimonials</span></div>
                         </div>
                         <div class="about-stat">
                             <span class="about-stat-icon"><x-public-icon name="calendar" :size="16" /></span>
-                            <div class="about-stat-copy"><strong>2023</strong><span>Berdiri sejak</span></div>
+                            <div class="about-stat-copy"><strong>2025</strong><span>Established since</span></div>
                         </div>
                         <div class="about-stat">
                             <span class="about-stat-icon"><x-public-icon name="sparkle" :size="16" /></span>
-                            <div class="about-stat-copy"><strong>5.0</strong><span>Rating pembeli</span></div>
+                            <div class="about-stat-copy"><strong>5.0</strong><span>Buyer rating</span></div>
                         </div>
                     </div>
                 </div>
@@ -79,9 +79,9 @@
 
             <section class="testi-section" data-testimonial-carousel>
                 <div class="testi-heading">
-                    <div class="section-kicker">Testimoni</div>
-                    <h2 class="section-title">Kata mereka yang sudah<br>jajan.</h2>
-                    <p class="section-copy !mt-2">Foto asli dari pembeli, dikirim langsung begitu paketnya sampai.</p>
+                    <div class="section-kicker">Testimonials</div>
+                    <h2 class="section-title">Listen to what they<br>have to say about us</h2>
+                    <p class="section-copy !mt-2">Check out reviews from happy buyers who just got their orders delivered.</p>
                 </div>
                 <div class="testi-track" data-testimonial-track aria-label="Testimoni pembeli">
                     @foreach($testimonialSlides as $testimonial)
