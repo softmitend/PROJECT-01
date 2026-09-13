@@ -18,6 +18,9 @@ Route::get('/billing', [CustomerPortalController::class, 'billing'])->name('bill
 Route::get('/billing/orders', [CustomerPortalController::class, 'billingOrders'])->name('billing.orders');
 Route::get('/billing/ems', [CustomerPortalController::class, 'billingEms'])->name('billing.ems');
 Route::get('/services', [CustomerPortalController::class, 'services'])->name('services.index');
+Route::get('/orders/unpaid', [CustomerPortalController::class, 'unpaid'])->name('orders.unpaid');
+Route::get('/orders/shipping', [CustomerPortalController::class, 'shipping'])->name('orders.shipping');
+Route::get('/orders/refunds', [CustomerPortalController::class, 'refunds'])->name('orders.refunds');
 Route::get('/order-history', [CustomerPortalController::class, 'history'])->name('orders.history');
 Route::get('/tracking', [MemberTrackingController::class, 'index'])->name('tracking.index');
 Route::post('/search', [MemberTrackingController::class, 'smartLookup'])->middleware('throttle:10,1')->name('tracking.search');
