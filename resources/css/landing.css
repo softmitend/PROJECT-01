@@ -897,8 +897,7 @@
   font-weight: 800;
 }
 
-.ocean-editorial .testi-user span {
-  margin-top: 2px;
+.ocean-editorial .testi-user span {  margin-top: 2px;
   color: #7290a8;
   font-size: 8px;
   font-weight: 700;
@@ -1797,8 +1796,7 @@
 
 @media (max-width:360px) {
   .editorial-art {
-    transform: scale(.74);
-    height: 340px;
+    transform: scale(.74);    height: 340px;
   }
 
   .ocean-editorial .hero-title {
@@ -2698,7 +2696,6 @@
 .tracking-lookup-copy {
   min-width: 0;
 }
-
 .tracking-lookup-kicker {
   display: inline-flex;
   border: 1px solid rgba(79,96,53,.18);
@@ -3128,5 +3125,72 @@
   .tracking-search-page .tracking-search-shell,
   .tracking-search-page .tracking-lookup-hero {
     min-height: calc(100svh - 92px);
+  }
+}
+
+/* Layered strawberry tracking button */
+.landing-page.ocean-editorial .landing-hero-actions {
+  display: inline-flex;
+  position: relative;
+  align-items: stretch;
+  gap: 0;
+  isolation: isolate;
+}
+
+.landing-page.ocean-editorial .landing-primary-link {
+  position: relative;
+  z-index: 2;
+  min-width: 228px;
+  justify-content: center;
+}
+
+.landing-page.ocean-editorial .landing-catalog-link {
+  display: inline-flex;
+  position: relative;
+  z-index: 1;
+  min-width: 218px;
+  min-height: 43px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-left: -20px;
+  border: 1px solid rgba(190, 67, 98, .2);
+  border-radius: 12px;
+  background: var(--berry);
+  padding: 11px 18px 11px 34px;
+  color: var(--matcha-deep);
+  box-shadow: 6px 6px 0 rgba(131, 143, 88, .22);
+  font-size: 12px;
+  font-weight: 900;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.landing-page.ocean-editorial .landing-catalog-link:hover {
+  background: var(--berry-strong);
+  color: var(--matcha-deep);
+  transform: translateX(2px);
+}
+
+@media (max-width: 480px) {
+  .landing-page.ocean-editorial .landing-hero-actions {
+    display: flex;
+    width: 100%;
+  }
+
+  .landing-page.ocean-editorial .landing-primary-link,
+  .landing-page.ocean-editorial .landing-catalog-link {
+    min-width: 0;
+    min-height: 46px;
+  }
+
+  .landing-page.ocean-editorial .landing-primary-link {
+    flex: 1.08 1 0;
+    padding-inline: 12px;
+  }
+
+  .landing-page.ocean-editorial .landing-catalog-link {
+    flex: 1 1 0;
+    margin-left: -14px;
+    padding: 11px 10px 11px 24px;
   }
 }
