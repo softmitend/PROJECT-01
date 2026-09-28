@@ -134,12 +134,314 @@
         </section>
     </main>
 
-    <footer class="op-footer">
-        <div class="op-footer-inner">
-            <a class="op-footer-brand" href="#home" aria-label="Ocean Paws — kembali ke atas">
-                <img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws">
-            </a>
-            <p class="op-footer-credit">© {{ now()->year }} OCEANPAWS. All rights reserved.</p>
+    <style>
+        .op-footer-reference{
+            position:relative;
+            isolation:isolate;
+            min-height:330px;
+            overflow:hidden;
+            background:#f7f3e9;
+            color:#315d48;
+            font-family:"Nunito Sans",sans-serif;
+        }
+        .op-footer-reference::before{
+            content:"";
+            position:absolute;
+            z-index:1;
+            top:0;
+            left:-2%;
+            width:104%;
+            height:38px;
+            border-top:3px solid #74a884;
+            border-radius:50% 50% 0 0/100% 100% 0 0;
+            transform:translateY(8px) rotate(-.35deg);
+            pointer-events:none;
+        }
+        .op-footer-reference .op-footer-reference-shell{
+            position:relative;
+            z-index:4;
+            display:grid;
+            width:min(100% - 80px,1240px);
+            margin:0 auto;
+            grid-template-columns:minmax(235px,1.05fr) auto minmax(230px,.95fr);
+            align-items:start;
+            gap:34px;
+            padding:54px 0 145px;
+        }
+        .op-footer-reference .op-footer-brand-block{
+            min-width:0;
+        }
+        .op-footer-reference .op-footer-brand-block img{
+            display:block;
+            width:220px;
+            max-width:100%;
+            height:auto;
+            margin-left:-5px;
+        }
+        .op-footer-reference .op-footer-brand-block p{
+            margin:3px 0 0;
+            color:#3f7058;
+            font-size:13px;
+            font-weight:600;
+            letter-spacing:.01em;
+        }
+        .op-footer-reference .op-footer-center{
+            display:flex;
+            align-items:flex-start;
+            gap:30px;
+            padding-top:29px;
+        }
+        .op-footer-reference .op-footer-links,
+        .op-footer-reference .op-footer-socials{
+            display:flex;
+            align-items:center;
+            gap:22px;
+        }
+        .op-footer-reference .op-footer-links{
+            padding:0 29px;
+            border-right:1px solid rgba(49,93,72,.48);
+            border-left:1px solid rgba(49,93,72,.48);
+        }
+        .op-footer-reference .op-footer-links a,
+        .op-footer-reference .op-footer-socials a{
+            color:#315d48;
+            text-decoration:none;
+            transition:transform .18s ease,opacity .18s ease;
+        }
+        .op-footer-reference .op-footer-links a{
+            font-size:13px;
+            font-weight:700;
+            white-space:nowrap;
+        }
+        .op-footer-reference .op-footer-socials a{
+            display:grid;
+            width:24px;
+            height:24px;
+            place-items:center;
+            font-size:18px;
+        }
+        .op-footer-reference .op-footer-links a:hover,
+        .op-footer-reference .op-footer-socials a:hover{
+            opacity:.72;
+            transform:translateY(-2px);
+        }
+        .op-footer-reference .op-footer-message{
+            position:relative;
+            display:flex;
+            min-width:0;
+            justify-self:end;
+            align-items:flex-start;
+            gap:22px;
+            padding-top:24px;
+        }
+        .op-footer-reference .op-footer-message strong{
+            display:block;
+            color:#315d48;
+            font-family:"Nunito Sans",sans-serif;
+            font-size:18px;
+            font-weight:800;
+            line-height:1.35;
+            letter-spacing:-.02em;
+            white-space:nowrap;
+        }
+        .op-footer-reference .op-footer-message strong span{
+            display:block;
+        }
+        .op-footer-reference .op-footer-shell-icon{
+            width:62px;
+            height:56px;
+            flex:none;
+            transform:rotate(7deg);
+            filter:drop-shadow(0 3px 0 rgba(137,73,94,.08));
+        }
+        .op-footer-reference .op-footer-waves{
+            position:absolute;
+            z-index:2;
+            right:0;
+            bottom:0;
+            left:0;
+            height:185px;
+            pointer-events:none;
+        }
+        .op-footer-reference .op-footer-waves svg{
+            position:absolute;
+            inset:auto 0 0;
+            width:100%;
+            height:100%;
+            display:block;
+        }
+        .op-footer-reference .op-footer-cloud{
+            position:absolute;
+            z-index:3;
+            bottom:83px;
+            width:160px;
+            height:68px;
+            opacity:.92;
+            pointer-events:none;
+        }
+        .op-footer-reference .op-footer-cloud.is-left{left:-20px}
+        .op-footer-reference .op-footer-cloud.is-right{right:-26px;transform:scaleX(-1)}
+        .op-footer-reference .op-footer-bottomline{
+            position:absolute;
+            z-index:5;
+            right:max(26px,calc((100% - 1240px)/2));
+            bottom:25px;
+            left:max(26px,calc((100% - 1240px)/2));
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:20px;
+            color:#f4fbf4;
+            font-size:11px;
+            font-weight:700;
+            letter-spacing:.01em;
+            text-shadow:0 1px 1px rgba(44,83,56,.18);
+        }
+        @media(max-width:980px){
+            .op-footer-reference{min-height:405px}
+            .op-footer-reference .op-footer-reference-shell{
+                width:min(100% - 48px,900px);
+                grid-template-columns:1fr 1fr;
+                gap:20px 34px;
+                padding-top:50px;
+            }
+            .op-footer-reference .op-footer-center{
+                grid-column:1/-1;
+                grid-row:2;
+                justify-content:flex-start;
+                padding-top:0;
+            }
+            .op-footer-reference .op-footer-message{
+                grid-column:2;
+                grid-row:1;
+            }
+        }
+        @media(max-width:680px){
+            .op-footer-reference{min-height:510px}
+            .op-footer-reference .op-footer-reference-shell{
+                width:min(100% - 36px,560px);
+                grid-template-columns:1fr;
+                gap:20px;
+                padding:44px 0 175px;
+            }
+            .op-footer-reference .op-footer-brand-block img{width:190px}
+            .op-footer-reference .op-footer-center,
+            .op-footer-reference .op-footer-message{
+                grid-column:1;
+                grid-row:auto;
+                justify-self:start;
+            }
+            .op-footer-reference .op-footer-center{
+                flex-wrap:wrap;
+                gap:18px;
+            }
+            .op-footer-reference .op-footer-links{
+                gap:16px;
+                padding:0 18px;
+                border-left:0;
+            }
+            .op-footer-reference .op-footer-socials{gap:16px}
+            .op-footer-reference .op-footer-message{
+                padding-top:4px;
+            }
+            .op-footer-reference .op-footer-message strong{
+                font-size:16px;
+            }
+            .op-footer-reference .op-footer-waves{height:180px}
+            .op-footer-reference .op-footer-bottomline{
+                right:18px;
+                bottom:20px;
+                left:18px;
+                align-items:flex-start;
+                flex-direction:column;
+                gap:4px;
+                font-size:10px;
+            }
+        }
+        @media(max-width:430px){
+            .op-footer-reference{min-height:535px}
+            .op-footer-reference .op-footer-reference-shell{padding-top:38px}
+            .op-footer-reference .op-footer-center{display:block}
+            .op-footer-reference .op-footer-links{
+                width:100%;
+                justify-content:space-between;
+                gap:10px;
+                padding:0 0 15px;
+                border:0;
+                border-bottom:1px solid rgba(49,93,72,.35);
+            }
+            .op-footer-reference .op-footer-links a{font-size:12px}
+            .op-footer-reference .op-footer-socials{
+                margin-top:15px;
+                justify-content:flex-start;
+            }
+            .op-footer-reference .op-footer-shell-icon{width:54px;height:48px}
+        }
+    </style>
+
+    <footer class="op-footer op-footer-reference">
+        <div class="op-footer-reference-shell">
+            <div class="op-footer-brand-block">
+                <a href="#home" aria-label="Ocean Paws — kembali ke atas">
+                    <img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws">
+                </a>
+                <p>Bringing your favorites closer</p>
+            </div>
+
+            <div class="op-footer-center">
+                <nav class="op-footer-links" aria-label="Navigasi footer">
+                    <a href="#home">Home</a>
+                    <a href="#about">Layanan</a>
+                    <a href="{{ route('tracking.index') }}">Tracking</a>
+                    <a href="#about">FAQ</a>
+                </nav>
+                <div class="op-footer-socials" aria-label="Media sosial Ocean Paws">
+                    <a href="#" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="bi bi-tiktok" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <div class="op-footer-message">
+                <strong><span>Small Orders</span><span>Bigger Happiness ♡</span></strong>
+                <svg class="op-footer-shell-icon" viewBox="0 0 96 82" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="footerShellPink" x1="20" y1="8" x2="72" y2="72" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#ffdce7"/>
+                            <stop offset="1" stop-color="#eda2ba"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M48 73C26 73 10 64 10 50c0-8 7-13 14-14-2-10 5-19 15-19 4-8 15-12 23-6 10-1 19 8 18 18 7 3 11 9 11 17 0 17-17 27-43 27Z" fill="url(#footerShellPink)" stroke="#9c5b72" stroke-width="3" stroke-linejoin="round"/>
+                    <path d="M48 69V25M48 27 29 64M50 27l17 37M40 28 21 56M56 29l20 27M32 34l-13 13M64 35l13 12" fill="none" stroke="#c77c96" stroke-width="2.7" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <svg class="op-footer-cloud is-left" viewBox="0 0 180 72" aria-hidden="true">
+            <path d="M0 57h172c4-13-5-23-19-23-3-17-24-22-36-10-8-20-36-21-45-2-13-9-33 1-31 17C21 35 3 44 0 57Z" fill="#fffaf2"/>
+        </svg>
+        <svg class="op-footer-cloud is-right" viewBox="0 0 180 72" aria-hidden="true">
+            <path d="M0 57h172c4-13-5-23-19-23-3-17-24-22-36-10-8-20-36-21-45-2-13-9-33 1-31 17C21 35 3 44 0 57Z" fill="#fffaf2"/>
+        </svg>
+
+        <div class="op-footer-waves" aria-hidden="true">
+            <svg viewBox="0 0 1440 230" preserveAspectRatio="none">
+                <path d="M0 83C173 35 297 105 457 82c170-24 255-86 421-53 178 35 242 107 562 56V230H0V83Z" fill="#c8e1cb"/>
+                <path d="M0 123c176 30 302-59 475-28 175 31 229 93 399 65 192-31 326-52 566 9v61H0V123Z" fill="#9fc7a7"/>
+                <path d="M0 171c219-48 307 20 502 8 211-12 252-65 454-37 182 25 284 58 484 37v51H0v-59Z" fill="#78ab83"/>
+                <path d="M87 158c41-15 87-14 126 3M337 185c52-24 107-24 163-4M720 155c61-22 124-18 178 3M1090 184c51-21 105-22 161-5" fill="none" stroke="#dcebdc" stroke-width="8" stroke-linecap="round" opacity=".7"/>
+                <g fill="#dcebdc" opacity=".75">
+                    <ellipse cx="250" cy="137" rx="13" ry="5"/><ellipse cx="271" cy="132" rx="8" ry="3"/>
+                    <ellipse cx="622" cy="187" rx="15" ry="5"/><ellipse cx="649" cy="181" rx="9" ry="3"/>
+                    <ellipse cx="1002" cy="142" rx="12" ry="4"/><ellipse cx="1023" cy="137" rx="7" ry="3"/>
+                </g>
+            </svg>
+        </div>
+
+        <div class="op-footer-bottomline">
+            <span>© {{ now()->year }} OCEANPAWS. All rights reserved.</span>
+            <span>For NCT WISH. Always. ♡</span>
         </div>
     </footer>
 </div>
