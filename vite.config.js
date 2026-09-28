@@ -4,6 +4,12 @@ import { bunny } from 'laravel-vite-plugin/fonts';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
+    build: {
+        // Windows may keep public/build/assets open while Laravel or a browser
+        // is serving the site. Do not remove the whole directory before every
+        // build; Vite still writes a fresh manifest and content-hashed assets.
+        emptyOutDir: false,
+    },
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
@@ -19,7 +25,7 @@ export default defineConfig({
                     weights: [700],
                 }),
                 bunny('Nunito Sans', {
-                    weights: [400, 600, 700, 800, 900],
+                    weights: [400, 500, 600, 700, 800, 900],
                 }),
             ],
         }),

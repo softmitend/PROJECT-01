@@ -649,18 +649,49 @@ document.querySelectorAll('[data-mobile-dock]').forEach((dock) => {
     window.addEventListener('hashchange', () => setActiveLink(targetFromHash()));
 });
 
-document.querySelectorAll('[data-count]').forEach((counter) => {
-    const target = Number(counter.dataset.count || 0);
-    if (!target || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const startedAt = performance.now();
-    const tick = (now) => {
-        const progress = Math.min(1, (now - startedAt) / 850);
-        const eased = 1 - ((1 - progress) ** 3);
-        counter.textContent = `${Math.round(target * eased).toLocaleString('id-ID')}+`;
-        if (progress < 1) window.requestAnimationFrame(tick);
+const statCounters = [...document.querySelectorAll('[data-count]')];
+if (statCounters.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const formatter = new Intl.NumberFormat('en-US');
+    const easeIntoSteady = (progress) => {
+        const rampEnd = 0.3;
+        const steadySpeed = 2 / (2 - rampEnd);
+        return progress < rampEnd
+            ? (steadySpeed * progress * progress) / (2 * rampEnd)
+            : 1 - steadySpeed * (1 - progress);
     };
-    window.requestAnimationFrame(tick);
-});
+    const animateCounter = (counter) => {
+        const target = Number(counter.dataset.count);
+        const suffix = counter.dataset.countSuffix || '';
+        if (!Number.isFinite(target) || target < 0) return;
+
+        let startedAt;
+        const tick = (now) => {
+            startedAt ??= now;
+            const progress = Math.min(1, (now - startedAt) / 1800);
+            const eased = easeIntoSteady(progress);
+            counter.textContent = `${formatter.format(Math.round(target * eased))}${suffix}`;
+            if (progress < 1) window.requestAnimationFrame(tick);
+        };
+        window.requestAnimationFrame(tick);
+    };
+
+    statCounters.forEach((counter) => {
+        counter.textContent = `0${counter.dataset.countSuffix || ''}`;
+    });
+
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                observer.unobserve(entry.target);
+                animateCounter(entry.target);
+            });
+        }, { threshold: 0.5 });
+        statCounters.forEach((counter) => observer.observe(counter));
+    } else {
+        statCounters.forEach(animateCounter);
+    }
+}
 
 document.querySelectorAll('[data-testimonial-carousel]').forEach((carousel) => {
     if (carousel.dataset.carouselReady === 'true') return;

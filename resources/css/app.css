@@ -6064,3 +6064,198 @@ body.customer-theme,
         display: none;
     }
 }
+
+/* Tracking follows the landing page's postcard/browser visual language. */
+.ocean-tracking {
+    --track-ink: #425a4e;
+    --track-green: #427c51;
+    --track-pink: #dc4772;
+    --track-outline: #815767;
+    background: #fffaf1;
+    color: var(--track-ink);
+    font-family: "Nunito Sans", sans-serif;
+}
+.ocean-tracking *, .ocean-tracking *::before, .ocean-tracking *::after { box-sizing: border-box; }
+.ocean-tracking .public-landing-main { padding: 0; }
+.tracking-site-header {
+    position: relative;
+    z-index: 20;
+    padding: 17px max(22px, 4.5vw) 0;
+    background: #fbd7e2;
+}
+.tracking-site-browser { width: min(100%, 1240px); height: 110px; margin: 0 auto; background: #fffefa; box-shadow: -6px 6px 0 #9bc8a4; }
+.tracking-site-header .op-browserbar { height: 27px; }
+.tracking-site-header .op-navrow { height: 81px; grid-template-columns: minmax(190px, 1fr) auto; padding-inline: 28px; }
+.tracking-site-header .op-brand img { width: 260px; max-width: 100%; height: 82px; }
+.tracking-site-header .op-nav { justify-content: flex-end; gap: clamp(6px, 1.2vw, 20px); }
+.tracking-site-header .op-nav a { font: 700 14px/1 "Nunito Sans", sans-serif; }
+.tracking-site-header .op-nav a.is-active { color: var(--track-pink); }
+.tracking-site-header .op-nav a:focus-visible, .tracking-site-footer a:focus-visible { outline: 3px solid var(--track-pink); outline-offset: 3px; }
+
+.ocean-tracking .tracking-search-page.ocean-home.ocean-editorial,
+.ocean-tracking .tracking-search-page .tracking-search-shell {
+    min-height: 0;
+    background: #fffaf1 !important;
+}
+.ocean-tracking .tracking-search-page.ocean-home.ocean-editorial { padding: 0 !important; }
+.ocean-tracking .tracking-search-page .tracking-lookup-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 560px;
+    overflow: hidden;
+    padding: 48px max(22px, 4.5vw) 85px;
+    background: linear-gradient(180deg, #fbd7e2 0%, #f9dee5 66%, #d5efdc 66%, #b9e3d1 100%) !important;
+}
+.ocean-tracking .tracking-search-page .tracking-lookup-hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 auto;
+    height: 72%;
+    background: url('/assets/oceanpaws-cta-clouds.svg') center top/100% 100% no-repeat;
+    pointer-events: none;
+}
+.ocean-tracking .tracking-search-page .tracking-lookup-hero::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: auto 0 -55px;
+    height: 180px;
+    background: url('/assets/pastel_mint_ocean_wave_banner.png') center bottom/100% 100% no-repeat;
+    opacity: .55;
+    pointer-events: none;
+}
+.tracking-lookup-frame {
+    width: min(100%, 1180px);
+    margin: 0 auto;
+    overflow: hidden;
+    border: 2px solid var(--track-outline);
+    border-radius: 20px;
+    background: #ffe0e9;
+    box-shadow: -8px 8px 0 #6eab80;
+}
+.tracking-lookup-frame > .op-browserbar { height: 38px; padding-inline: 18px; border-bottom: 1.5px solid var(--track-outline); font: 700 11px/1 monospace; }
+.ocean-tracking .tracking-lookup-hero-inner {
+    display: grid;
+    width: auto;
+    min-height: 382px;
+    align-items: center;
+    gap: 24px;
+    grid-template-columns: minmax(0, 1.35fr) minmax(270px, .65fr);
+    margin: 10px;
+    border: 1.5px solid var(--track-outline);
+    border-radius: 12px;
+    background: #fffefa;
+    padding: clamp(25px, 4vw, 55px);
+}
+.tracking-lookup-copy { position: relative; z-index: 2; }
+.ocean-tracking .tracking-lookup-kicker { border: 0; border-radius: 0; background: none; padding: 0; color: var(--track-green) !important; font: 700 12px/1.3 monospace; letter-spacing: .03em; }
+.ocean-tracking .tracking-lookup-hero h1 { margin: 13px 0 0; color: var(--track-pink) !important; font: 800 clamp(36px, 4.6vw, 63px)/.99 "Bricolage Grotesque", "Nunito Sans", sans-serif; letter-spacing: -.045em; }
+.ocean-tracking .tracking-lookup-hero h1 > span { color: var(--track-green); }
+.ocean-tracking .tracking-lookup-copy > p { max-width: 590px; margin-top: 18px; color: #586e66 !important; font: 500 clamp(14px, 1.35vw, 18px)/1.48 "Nunito Sans", sans-serif; }
+.ocean-tracking .tracking-lookup-form {
+    max-width: 650px;
+    min-height: 66px;
+    margin-top: 28px;
+    border: 2px solid #557861 !important;
+    border-radius: 14px;
+    background: #fff !important;
+    box-shadow: -4px 4px 0 #d0a0af;
+}
+.ocean-tracking .tracking-lookup-form:focus-within { outline: 3px solid #f3a7be; outline-offset: 3px; }
+.ocean-tracking .tracking-lookup-search-icon { color: var(--track-green); }
+.ocean-tracking .tracking-lookup-form input { color: var(--track-ink); font: 600 15px/1.4 "Nunito Sans", sans-serif; }
+.ocean-tracking .tracking-lookup-form input::placeholder { color: #82918a; }
+.ocean-tracking .tracking-lookup-form button {
+    min-height: 48px;
+    border: 1.5px solid #386744 !important;
+    border-radius: 10px;
+    background: linear-gradient(#69aa6e, #438951) !important;
+    color: #fff !important;
+    box-shadow: -3px 3px 0 #355d40 !important;
+    font: 800 13px/1 "Nunito Sans", sans-serif;
+}
+.ocean-tracking .tracking-lookup-form button:hover { background: #3e814b !important; transform: translate(1px, -1px); }
+.ocean-tracking .tracking-lookup-hint { margin-top: 14px; color: #6f817a !important; font: 600 12px/1.4 "Nunito Sans", sans-serif; }
+.ocean-tracking .tracking-lookup-error { border: 1px solid #d96c8b; background: #fff0f4; color: #a43257; font-size: 13px; }
+.tracking-lookup-art { position: relative; min-height: 300px; align-self: stretch; }
+.tracking-lookup-art img { position: absolute; right: -7%; bottom: -13%; width: min(115%, 390px); max-height: 365px; object-fit: contain; }
+.tracking-art-note { position: absolute; z-index: 2; top: -4%; left: 4%; display: grid; width: 106px; height: 91px; place-content: center; border-radius: 49% 51% 45% 55%; background: #fbdce6; color: #576c60; font: 700 10px/1.35 monospace; text-align: center; transform: rotate(-10deg); }
+.tracking-art-star { position: absolute; z-index: 3; color: var(--track-pink); font-size: 29px; }
+.tracking-art-star-one { top: 9%; right: 2%; }.tracking-art-star-two { bottom: 16%; left: 1%; color: var(--track-green); font-size: 18px; }
+.ocean-tracking .tracking-search-page.has-result .tracking-lookup-hero { min-height: 0; padding-bottom: 55px; }
+
+.ocean-tracking .tracking-result-section { padding: 42px max(22px, 4.5vw) 75px; background: #fffaf1; }
+.ocean-tracking .tracking-result-card {
+    border: 2px solid var(--track-outline) !important;
+    border-radius: 17px;
+    background: #ffe0e9 !important;
+    box-shadow: -7px 7px 0 #87b999 !important;
+}
+.tracking-result-titlebar { display: flex; height: 35px; align-items: center; justify-content: space-between; border-bottom: 1.5px solid var(--track-outline); padding: 0 18px; color: #8d3e5b; font: 700 10px/1 monospace; }
+.tracking-history-card .tracking-result-titlebar { background: #d6eadb; color: #38694a; }
+.ocean-tracking .tracking-result-banner { margin: 10px 10px 0; border: 1.5px solid var(--track-outline); border-radius: 10px 10px 0 0; background: #fffefa; color: var(--track-ink); }
+.ocean-tracking .tracking-result-banner h2 { color: var(--track-pink); }
+.ocean-tracking .tracking-result-kicker, .ocean-tracking .tracking-result-heading span, .ocean-tracking .tracking-order-summary > span { color: var(--track-green); }
+.ocean-tracking .tracking-result-layout, .ocean-tracking .tracking-history-list { margin: 0 10px 10px; border: 1.5px solid var(--track-outline); border-top: 0; border-radius: 0 0 10px 10px; background: #fffefa; }
+.ocean-tracking .tracking-result-side { border-color: #cadfce; background: #f2f8f1; }
+.ocean-tracking .tracking-current-status, .ocean-tracking .tracking-admin-note, .ocean-tracking .tracking-history-detail { border: 1px solid #b7d4bd; background: #e5f2e7; }
+.ocean-tracking .tracking-result-item, .ocean-tracking .tracking-history-list details, .ocean-tracking .tracking-order-summary > div { border-color: #dce9dd; }
+.ocean-tracking .tracking-result-item-icon, .ocean-tracking .tracking-history-icon { border: 1px solid #ca7894; background: #ffe1ea; color: var(--track-pink); }
+.ocean-tracking .tracking-result-item strong, .ocean-tracking .tracking-history-list summary strong, .ocean-tracking .tracking-result-heading h3 { color: var(--track-ink); }
+.ocean-tracking .tracking-search-page .tracking-result-action { border: 1.5px solid #386744; background: #4d9158; color: #fff; box-shadow: -3px 3px 0 #355d40; }
+.ocean-tracking .tracking-search-page .tracking-result-action:hover { background: #3b7848; color: #fff; }
+
+.ocean-tracking :is(.customer-detail-page, .order-detail-page) { background: #fffaf1 !important; color: var(--track-ink); }
+.ocean-tracking :is(.detail-topbar, .order-detail-topbar) { color: var(--track-green); }
+.ocean-tracking :is(.customer-detail-heading, .order-detail-hero-copy) h1 { color: var(--track-pink) !important; }
+.ocean-tracking :is(.detail-record-card, .order-table-card, .order-detail-panel, .order-detail-stats article) { border: 2px solid #815767 !important; border-radius: 16px; background: #fffefa !important; box-shadow: -6px 6px 0 #e6a5b9 !important; }
+.ocean-tracking .detail-record-hero { background: #ffe1e9; }
+.ocean-tracking .detail-record-card > footer { background: #4b8756 !important; }
+.ocean-tracking .detail-record-summary .detail-record-field { border: 1px solid #83ad8b !important; background: #e7f3e8 !important; }
+.ocean-tracking .order-detail-hero { border: 2px solid #815767 !important; border-radius: 16px; background: linear-gradient(110deg, #ffe0e9, #e2f1e4) !important; box-shadow: -6px 6px 0 #87b999; }
+.ocean-tracking .order-detail-stats article:nth-child(even) { box-shadow: -6px 6px 0 #87b999 !important; }
+.ocean-tracking .order-detail-item { border-color: #d8e9db !important; background: #f0f8f0 !important; }
+.ocean-tracking :is(.order-table-action, .order-detail-topbar > a) { border-radius: 9px; }
+
+.tracking-site-footer { min-height: 112px; border-top: 2px solid #6d9b78; background: #f3f8ee; }
+.tracking-site-footer-inner { display: flex; width: min(calc(100% - 64px), 1240px); min-height: 110px; align-items: center; justify-content: space-between; gap: 24px; margin: 0 auto; padding-block: 16px; }
+.tracking-site-footer-brand { display: inline-flex; flex: none; align-items: center; }
+.tracking-site-footer-brand img { display: block; width: 185px; height: auto; max-width: 100%; }
+.tracking-site-footer-credit { margin: 0; color: #466452; font: 700 11px/1.4 "Nunito Sans", sans-serif; letter-spacing: .025em; text-align: right; }
+
+@media (max-width: 900px) {
+    .ocean-tracking .tracking-lookup-hero-inner { grid-template-columns: minmax(0, 1fr) minmax(200px, .55fr); padding: 32px; }
+    .tracking-site-header .op-navrow { grid-template-columns: 200px 1fr; padding-inline: 15px; }
+    .tracking-site-header .op-brand img { width: 190px; }
+    .tracking-site-header .op-nav a { padding-inline: 6px; font-size: 12px; }
+}
+@media (max-width: 700px) {
+    .tracking-site-header { padding: 12px 12px 0; }
+    .tracking-site-browser { height: auto; min-height: 120px; }
+    .tracking-site-header .op-navrow { height: 96px; grid-template-columns: 1fr; grid-template-rows: 48px 45px; padding-inline: 10px; }
+    .tracking-site-header .op-brand { justify-content: center; }
+    .tracking-site-header .op-brand img { width: 175px; height: 63px; }
+    .tracking-site-header .op-nav { grid-column: 1; grid-row: 2; justify-content: space-around; }
+    .tracking-site-header .op-nav a { gap: 5px; padding: 0 4px; font-size: 11px; }
+    .tracking-site-header .op-nav a i { font-size: 14px; }
+    .ocean-tracking .tracking-search-page .tracking-lookup-hero { min-height: 0; padding: 30px 18px 58px; }
+    .tracking-lookup-frame { border-radius: 14px; box-shadow: -5px 5px 0 #6eab80; }
+    .ocean-tracking .tracking-lookup-hero-inner { display: flex; flex-direction: column; gap: 0; min-height: 0; align-items: stretch; margin: 7px; padding: 24px 17px 4px; }
+    .ocean-tracking .tracking-lookup-hero h1 { font-size: clamp(28px, 8vw, 50px); }
+    .ocean-tracking .tracking-lookup-copy > p { font-size: 14px; }
+    .ocean-tracking .tracking-lookup-form { margin-top: 23px; }
+    .ocean-tracking .tracking-lookup-form input { font-size: 16px; }
+    .ocean-tracking .tracking-lookup-form button { width: 50px; padding: 0; }
+    .tracking-lookup-art { width: 100%; height: 210px; min-height: 210px; }
+    .tracking-lookup-art img { right: 1%; bottom: -20%; width: 235px; max-height: 250px; }
+    .tracking-art-note { top: 5%; left: 3%; }
+    .ocean-tracking .tracking-result-section { padding: 28px 18px 55px; }
+    .ocean-tracking .tracking-result-banner { padding: 20px 17px; }
+    .ocean-tracking .tracking-result-layout, .ocean-tracking .tracking-history-list { margin-inline: 7px; }
+}
+@media (max-width: 620px) {
+    .tracking-site-footer-inner { width: calc(100% - 36px); min-height: 0; flex-direction: column; align-items: stretch; gap: 2px; padding-block: 18px; }
+    .tracking-site-footer-brand img { width: 160px; }
+    .tracking-site-footer-credit { align-self: flex-end; font-size: 10px; }
+}
