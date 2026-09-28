@@ -1,4 +1,6 @@
 <section class="tracking-lookup-hero" aria-labelledby="order-search-title">
+    <div class="tracking-lookup-frame">
+        <div class="op-browserbar"><strong>TRACKING.EXE</strong><span class="op-window-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
     <div class="tracking-lookup-hero-inner">
         <div class="tracking-lookup-copy">
             <span class="tracking-lookup-kicker">TRACK YOUR ORDER · TANPA LOGIN</span>
@@ -10,7 +12,7 @@
                 <label for="tracking-query" class="sr-only">Kode pesanan atau username LINE</label>
                 <span class="tracking-lookup-search-icon"><x-public-icon name="search" :size="20" /></span>
                 <input id="tracking-query" type="search" name="query" value="{{ old('query', $searchQuery ?? '') }}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="255" placeholder="Contoh: ORD-001 atau @username" aria-describedby="tracking-query-hint{{ $errors->has('query') ? ' tracking-query-error' : '' }}" @if($errors->has('query')) aria-invalid="true" autofocus @endif required>
-                <button type="submit"><span>Lacak pesanan</span><x-public-icon name="arrow-right" :size="16" /></button>
+                <button type="submit" aria-label="Lacak pesanan"><span>Lacak pesanan</span><x-public-icon name="arrow-right" :size="16" /></button>
             </form>
             <p id="tracking-query-hint" class="tracking-lookup-hint"><x-public-icon name="sparkle" :size="13" /> Data mengikuti pembaruan terakhir dari admin.</p>
 
@@ -18,8 +20,12 @@
                 <div id="tracking-query-error" class="tracking-lookup-error" role="alert"><x-public-icon name="search" :size="18" /><span>{{ $message }}</span></div>
             @enderror
         </div>
-
-
+        <div class="tracking-lookup-art" aria-hidden="true">
+            <span class="tracking-art-note">YOUR WISH<br>IS ON ITS WAY ♡</span>
+            <img src="{{ asset('assets/kawaii_beach_cat_delivery_sticker.png') }}" alt="">
+            <span class="tracking-art-star tracking-art-star-one">✦</span><span class="tracking-art-star tracking-art-star-two">✦</span>
+        </div>
+    </div>
     </div>
 </section>
 
@@ -28,6 +34,7 @@
     <div class="tracking-result-shell">
         @isset($orderResult)
             <article class="tracking-result-card" data-smart-search-result="tracking">
+                <div class="tracking-result-titlebar"><strong>ORDER STATUS.EXE</strong><span class="op-window-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
                 <header class="tracking-result-banner">
                     <div>
                         <span class="tracking-result-kicker"><x-public-icon name="box" :size="14" /> {{ $orderResult->batch->batch_number }}</span>
@@ -81,6 +88,7 @@
 
         @isset($memberResult)
             <article class="tracking-result-card tracking-history-card" data-smart-search-result="history">
+                <div class="tracking-result-titlebar"><strong>ORDER HISTORY.EXE</strong><span class="op-window-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
                 <header class="tracking-result-banner">
                     <div>
                         <span class="tracking-result-kicker"><x-public-icon name="history" :size="14" /> RIWAYAT PEMBELIAN</span>
