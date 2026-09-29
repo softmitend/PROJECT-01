@@ -5527,10 +5527,10 @@
   .op-page .op-palm{
     top:auto;
     right:-13%;
-    bottom:-3%;
+    bottom:calc(-3% + 3px);
     display:block;
     z-index:11;
-    width:70%;
+    width:calc(70% + 4px);
     height:60%;
     object-fit:contain;
     object-position:bottom;
@@ -5556,7 +5556,7 @@
   /* Low foreground bush hides the palm trunk and sign post cut-offs. */
   .op-page .op-hero-grass{
     right:-3%;
-    bottom:-1%;
+    bottom:calc(-1% + 3px);
     display:block;
     z-index:15;
     width:60%;
