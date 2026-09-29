@@ -5526,7 +5526,7 @@
   }
   .op-page .op-palm{
     top:auto;
-    right:-13%;
+    right:calc(-13% - 10px);
     bottom:calc(-3% + 41px);
     display:block;
     z-index:11;
@@ -5556,11 +5556,11 @@
   /* Low foreground bush hides the palm trunk and sign post cut-offs. */
   .op-page .op-hero-grass{
     right:-3%;
-    bottom:calc(-1% + 5px);
+    bottom:calc(-1% - 3px);
     display:block;
     z-index:15;
     width:60%;
-    height:clamp(76px,13vw + 28px,94px);
+    height:clamp(91px,13vw + 43px,109px);
     object-fit:fill;
   }
   .op-page .op-starfish{right:auto;left:2%;bottom:2%;width:clamp(38px,10vw,54px);height:auto;z-index:14}
