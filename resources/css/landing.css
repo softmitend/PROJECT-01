@@ -5458,10 +5458,11 @@
 .op-category-icon.is-poster{background-position:50% 100%}
 .op-category-icon.is-pob{background-position:100% 100%}
 
-/* Mobile hero mascot entrance: fade in while sliding from the right into place. */
+/* Mobile hero mascot entrance: fade in while sliding from the right into place, then hold before repeating. */
 @keyframes op-mascot-in{
-  from{opacity:0;transform:translateX(20px)}
-  to{opacity:1;transform:translateX(0)}
+  0%{opacity:0;transform:translateX(20px)}
+  14%{opacity:1;transform:translateX(0)}
+  100%{opacity:1;transform:translateX(0)}
 }
 
 @media(max-width:760px){
@@ -5529,7 +5530,7 @@
     height:calc(37% + 4px);
     object-fit:contain;
     filter:none;
-    animation:op-mascot-in .7s ease-out both;
+    animation:op-mascot-in 5s ease-out infinite both;
   }
   @media(prefers-reduced-motion:reduce){
     .op-page .op-hero-mascot{animation:none}
