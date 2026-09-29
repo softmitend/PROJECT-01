@@ -5593,7 +5593,7 @@
 
   .op-page .op-cta{
     width:calc(100% + 32px);
-    height:clamp(270px,74vw,350px);
+    height:calc(clamp(270px,74vw,350px) - 20px);
     margin:27px -16px 0;
     border-right:0;
     border-left:0;
@@ -5603,12 +5603,13 @@
     box-shadow:none;
   }
   .op-page .op-cta::after{display:none}
+  .op-page .op-cta::before{background-size:100% auto}
   .op-page .op-cta-wave{bottom:-12%;height:62%;opacity:.6}
   .op-page .op-cta-mascot{left:-4%;bottom:-4%;width:61%;height:93%;object-fit:contain}
   .op-page .op-cta-copy{top:27%;right:3%;left:auto;width:49%;align-items:center;transform:none}
   .op-page .op-cta-copy h2{font-size:clamp(19px,5vw,27px)}
   .op-page .op-cta-copy .op-line{width:100%;height:clamp(40px,11vw,48px);font-size:clamp(10px,2.7vw,13px)}
-  .op-page .op-cta-palm{top:auto;right:0;bottom:-3%;display:block;width:28%;height:39%;object-fit:contain}
+  .op-page .op-cta-palm{display:none}
   .op-page .op-cta-sign,.op-page .op-cta-sand,.op-page .op-cta-starfish{display:none}
 
   .op-page .op-mobile-popular{display:block;padding-top:27px}
