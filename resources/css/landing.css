@@ -5527,15 +5527,16 @@
   .op-page .op-palm{
     top:auto;
     right:-13%;
-    bottom:0;
+    bottom:-3%;
     display:block;
     z-index:11;
-    width:66%;
-    height:55%;
+    width:70%;
+    height:60%;
     object-fit:contain;
+    object-position:bottom;
   }
   .op-page .op-sign{
-    right:1%;
+    right:6%;
     bottom:2%;
     display:block;
     z-index:14;
