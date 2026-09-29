@@ -5555,7 +5555,7 @@
   .op-page .op-sign span:nth-of-type(3){top:59%}
   /* Low foreground bush hides the palm trunk and sign post cut-offs. */
   .op-page .op-hero-grass{
-    right:-3%;
+    right:calc(-3% - 26px);
     bottom:calc(-1% - 3px);
     display:block;
     z-index:15;
