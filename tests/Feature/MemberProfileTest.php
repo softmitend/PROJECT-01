@@ -27,7 +27,7 @@ class MemberProfileTest extends TestCase
             ->assertSee(route('line-auth.redirect'), false);
     }
 
-    public function test_order_list_is_removed_from_profile_and_available_on_the_private_history_page(): void
+    public function test_full_order_history_stays_private_while_profile_shows_this_months_snacks(): void
     {
         $member = Member::factory()->create(['display_name' => 'Caca Member']);
         $otherMember = Member::factory()->create(['display_name' => 'Member Lain']);
@@ -76,7 +76,7 @@ class MemberProfileTest extends TestCase
             ->assertSee(route('orders.history'), false)
             ->assertDontSee('DATA MILIKMU')
             ->assertDontSee('OWN-ORDER-1')
-            ->assertDontSee('Album Caca 6');
+            ->assertSee('Album Caca 6');
 
         $this->actingAs($user)
             ->get(route('orders.history'))
@@ -88,6 +88,48 @@ class MemberProfileTest extends TestCase
             ->assertSee('Versi 6')
             ->assertDontSee('OTHER-PRIVATE-ORDER')
             ->assertDontSee('Batch Rahasia Member Lain');
+    }
+
+    public function test_calendar_month_changes_the_snack_list_without_showing_another_members_items(): void
+    {
+        $member = Member::factory()->create();
+        $otherMember = Member::factory()->create();
+        $user = User::factory()->create(['role' => 'member', 'member_id' => $member->id]);
+        $thisMonth = now()->startOfMonth();
+        $lastMonth = $thisMonth->copy()->subMonth();
+
+        $thisMonthOrder = MemberOrder::factory()->create([
+            'member_id' => $member->id,
+            'created_at' => $thisMonth->copy()->addDays(4),
+        ]);
+        $lastMonthOrder = MemberOrder::factory()->create([
+            'member_id' => $member->id,
+            'created_at' => $lastMonth->copy()->addDays(6),
+        ]);
+        $otherOrder = MemberOrder::factory()->create([
+            'member_id' => $otherMember->id,
+            'created_at' => $lastMonth->copy()->addDays(6),
+        ]);
+
+        OrderItem::factory()->create(['member_order_id' => $thisMonthOrder->id, 'item_name' => 'Album Mint September', 'quantity' => 2]);
+        OrderItem::factory()->create(['member_order_id' => $lastMonthOrder->id, 'item_name' => 'Photocard Peach August', 'quantity' => 3]);
+        OrderItem::factory()->create(['member_order_id' => $otherOrder->id, 'item_name' => 'Jajanan Rahasia Member Lain']);
+
+        $this->actingAs($user)
+            ->get(route('profile.show', ['month' => $thisMonth->format('Y-m')]))
+            ->assertOk()
+            ->assertSee('Album Mint September')
+            ->assertDontSee('Photocard Peach August')
+            ->assertDontSee('Jajanan Rahasia Member Lain')
+            ->assertSee('class="chart-line-plot"', false)
+            ->assertSee(route('profile.show', ['month' => $lastMonth->format('Y-m')]), false);
+
+        $this->actingAs($user)
+            ->get(route('profile.show', ['month' => $lastMonth->format('Y-m')]))
+            ->assertOk()
+            ->assertSee('Photocard Peach August')
+            ->assertDontSee('Album Mint September')
+            ->assertDontSee('Jajanan Rahasia Member Lain');
     }
 
     public function test_member_can_only_open_their_own_payment_proof(): void

@@ -7,19 +7,29 @@
     $months = collect(range(5, 0))->map(fn ($offset) => now()->subMonths($offset));
     $monthlyOrders = $months->map(fn ($month) => $orders->filter(fn ($order) => $order->created_at->isSameMonth($month))->count());
     $maxMonthlyOrders = max(1, (int) $monthlyOrders->max());
-    $monthStartOffset = now()->startOfMonth()->dayOfWeek;
+    $chartPoints = $monthlyOrders->map(fn ($count, $index) => [
+        'x' => $index * 120,
+        'y' => 145 - ($count / $maxMonthlyOrders) * 120,
+    ]);
+    $chartLinePoints = $chartPoints->map(fn ($point) => $point['x'].','.$point['y'])->implode(' ');
+    $chartDescription = $months->map(fn ($month, $index) => $month->translatedFormat('M Y').': '.$monthlyOrders[$index].' pesanan')->implode(', ');
+    $monthStartOffset = $calendarMonth->dayOfWeek;
+    $monthItemCount = $calendarItems->sum('quantity');
     $daysTogether = $member
         ? max(0, (int) floor($member->created_at->copy()->startOfDay()->diffInDays(now()->startOfDay())))
         : 0;
 @endphp
 
 <x-layouts.app title="Profil Member — Ocean Paws">
-    <main class="page">
-        <div class="page-narrow profile-stack">
+    <div class="page profile-page">
+        <div class="profile-shell profile-stack">
+            <h1 class="sr-only">Profil Ocean Paws</h1>
+
             @error('line')
                 <div class="profile-login-notice" role="alert">{{ $message }}</div>
             @enderror
 
+            <div class="profile-dashboard">
             <section class="profile-main">
                 <div class="profile-top">
                     <div class="profile-person">
@@ -35,7 +45,7 @@
                             </a>
                         @else
                             <a href="{{ $loginUrl }}" class="profile-person">
-                                <div class="profile-photo is-empty"><span aria-hidden="true"></span></div>
+                                <div class="profile-photo is-empty"><span aria-hidden="true"><x-public-icon name="user" :size="23" /></span></div>
                                 <div><strong class="block text-[14px]" data-i18n-id="Login" data-i18n-en="Login">Login</strong><span class="profile-login-label"><span data-i18n-id="MASUK DENGAN LINE" data-i18n-en="LOGIN WITH LINE">MASUK DENGAN LINE</span> <x-public-icon name="chevron-right" :size="10" /></span></div>
                             </a>
                         @endif
@@ -74,29 +84,24 @@
                     </section>
                 @endif
 
-                <div class="coin-row">
-                    <div class="coin-left"><span class="coin-icon"><x-public-icon name="link" :size="16" /></span><div><strong class="block text-[10px]">Ocean Coin</strong><span class="block text-[10px] text-[#5680aa]" data-i18n-id="Kumpulkan 500 untuk ditukar" data-i18n-en="Collect 500 to redeem">Kumpulkan 500 untuk ditukar</span></div></div>
-                    <div class="flex items-center gap-1 font-extrabold">0 <x-public-icon name="chevron-right" :size="13" /></div>
-                </div>
+                <section class="profile-orders-section" aria-labelledby="profile-orders-title">
+                    <h2 id="profile-orders-title" data-i18n-id="Pesanan Saya" data-i18n-en="My Orders">Pesanan Saya</h2>
+                    <div class="orders-icons profile-order-hub">
+                        <a class="order-link" href="{{ $isMember ? route('orders.history') : $profileActionUrl }}">
+                            <span class="order-bubble"><x-public-icon name="bag" :size="19" />@if($summary['orders'])<b>{{ $summary['orders'] }}</b>@endif</span>
+                            <small data-i18n-id="Pesananku" data-i18n-en="My Orders">Pesananku</small>
+                        </a>
+                        <a class="order-link" href="{{ $isMember ? route('billing.orders') : $profileActionUrl }}">
+                            <span class="order-bubble"><x-public-icon name="card" :size="19" />@if($stats['unpaid'])<b>{{ $stats['unpaid'] }}</b>@endif</span>
+                            <small data-i18n-id="Tagihan" data-i18n-en="Billing">Tagihan</small>
+                        </a>
+                    </div>
+                </section>
             </section>
 
             @if(!$user && !$lineConfigured)
                 <p class="profile-line-config"><x-public-icon name="link" :size="14" /> LINE Login belum dikonfigurasi oleh admin.</p>
             @endif
-
-            <section class="section-card orders-card">
-                <h2 class="text-[12px] font-black" data-i18n-id="Pesanan Saya" data-i18n-en="My Orders">Pesanan Saya</h2>
-                <div class="orders-icons profile-order-hub">
-                    <a class="order-link" href="{{ $isMember ? route('orders.history') : $profileActionUrl }}">
-                        <span class="order-bubble"><x-public-icon name="bag" :size="19" />@if($summary['orders'])<b>{{ $summary['orders'] }}</b>@endif</span>
-                        <small data-i18n-id="Pesananku" data-i18n-en="My Orders">Pesananku</small>
-                    </a>
-                    <a class="order-link" href="{{ $isMember ? route('billing.orders') : $profileActionUrl }}">
-                        <span class="order-bubble"><x-public-icon name="card" :size="19" />@if($stats['unpaid'])<b>{{ $stats['unpaid'] }}</b>@endif</span>
-                        <small data-i18n-id="Tagihan" data-i18n-en="Billing">Tagihan</small>
-                    </a>
-                </div>
-            </section>
 
             <section class="section-card activity-card">
                 <div class="activity-head"><span class="icon-chip"><x-public-icon name="sparkle" :size="20" /></span><div><strong class="block text-[12px]" data-i18n-id="Rekap aktivitas kamu" data-i18n-en="Your activity recap">Rekap aktivitas kamu</strong><span class="block text-[10px] text-[#5a7fa4]" data-i18n-id="{{ $isMember ? 'Semua aktivitas akun LINE kamu.' : 'Login untuk melihat aktivitasmu.' }}" data-i18n-en="{{ $isMember ? 'All activity from your LINE account.' : 'Login to view your activity.' }}">{{ $isMember ? 'Semua aktivitas akun LINE kamu.' : 'Login untuk melihat aktivitasmu.' }}</span></div></div>
@@ -108,26 +113,53 @@
                 </div>
                 <div class="chart-area">
                     <div class="chart-head"><span class="micro !text-[9px]" data-i18n-id="6 BULAN TERAKHIR" data-i18n-en="LAST 6 MONTHS">6 BULAN TERAKHIR</span><span class="chart-profile-total" data-i18n-id="{{ $monthlyOrders->sum() }} pesanan" data-i18n-en="{{ $monthlyOrders->sum() }} orders">{{ $monthlyOrders->sum() }} pesanan</span></div>
-                    <div class="chart-grid">
-                        <div class="chart-y"><span>{{ $maxMonthlyOrders }}</span><span>{{ (int) ceil($maxMonthlyOrders / 2) }}</span><span>0</span></div>
-                        @foreach($months as $index => $month)
-                            @php($barHeight = $monthlyOrders[$index] ? max(12, ($monthlyOrders[$index] / $maxMonthlyOrders) * 100) : 5)
-                            <div class="bar-wrap"><div class="chart-bar" style="height:{{ $barHeight }}%; animation-delay:{{ $index * .07 }}s"></div><span class="bar-label">{{ $month->translatedFormat('M') }}</span></div>
-                        @endforeach
+                    <div class="profile-line-chart" role="img" aria-label="{{ $chartDescription }}">
+                        <div class="chart-y"><span>{{ $maxMonthlyOrders }}</span><span>{{ rtrim(rtrim(number_format($maxMonthlyOrders / 2, 1, ',', '.'), '0'), ',') }}</span><span>0</span></div>
+                        <div class="chart-line-body">
+                            <div class="chart-line-plot">
+                                <svg viewBox="0 0 600 160" preserveAspectRatio="none" aria-hidden="true">
+                                    <defs><linearGradient id="profile-chart-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#f3adc3" stop-opacity=".42" /><stop offset="100%" stop-color="#f3adc3" stop-opacity="0" /></linearGradient></defs>
+                                    <polygon points="0,160 {{ $chartLinePoints }} 600,160" fill="url(#profile-chart-fill)" />
+                                    <polyline points="{{ $chartLinePoints }}" fill="none" stroke="#d44974" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+                                </svg>
+                                @foreach($chartPoints as $index => $point)
+                                    <span class="chart-line-point" style="left:{{ $index * 20 }}%;top:{{ $point['y'] / 160 * 100 }}%" title="{{ $months[$index]->translatedFormat('F Y') }}: {{ $monthlyOrders[$index] }} pesanan" aria-hidden="true"></span>
+                                @endforeach
+                            </div>
+                            <div class="chart-month-labels">@foreach($months as $month)<span>{{ $month->translatedFormat('M') }}</span>@endforeach</div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section class="section-card calendar-card">
-                @php($monthItemCount = $orders->filter(fn ($order) => $order->created_at->isSameMonth(now()))->sum(fn ($order) => $order->items->sum('quantity')))
-                <div class="calendar-head"><span class="cal-arrow"><x-public-icon name="arrow-left" :size="14" /></span><div class="calendar-title"><strong>{{ now()->translatedFormat('F Y') }}</strong><small data-i18n-id="{{ $monthItemCount }} Item Jajanan Bulan Ini" data-i18n-en="{{ $monthItemCount }} Items This Month">{{ $monthItemCount }} Item Jajanan Bulan Ini</small></div><span class="cal-arrow"><x-public-icon name="arrow-right" :size="14" /></span></div>
-                <div class="weekdays">@foreach([['Min','Sun'],['Sen','Mon'],['Sel','Tue'],['Rab','Wed'],['Kam','Thu'],['Jum','Fri'],['Sab','Sat']] as [$day, $englishDay])<span data-i18n-id="{{ $day }}" data-i18n-en="{{ $englishDay }}">{{ $day }}</span>@endforeach</div>
-                <div class="calendar-grid">
-                    @for($blank = 0; $blank < $monthStartOffset; $blank++)<span class="calendar-day"></span>@endfor
-                    @for($day = 1; $day <= now()->daysInMonth; $day++)<span class="calendar-day">{{ $day }}</span>@endfor
-                </div>
-            </section>
+            <div class="profile-calendar-row" id="profile-calendar">
+                <section class="section-card calendar-card">
+                        <div class="calendar-head">
+                            <a class="cal-arrow" href="{{ route('profile.show', ['month' => $calendarMonth->copy()->subMonth()->format('Y-m')]) }}#profile-calendar" aria-label="Bulan sebelumnya"><x-public-icon name="arrow-left" :size="14" /></a>
+                            <div class="calendar-title"><strong>{{ $calendarMonth->translatedFormat('F Y') }}</strong><small data-i18n-id="{{ $monthItemCount }} item jajanan" data-i18n-en="{{ $monthItemCount }} snack items">{{ $monthItemCount }} item jajanan</small></div>
+                            <a class="cal-arrow" href="{{ route('profile.show', ['month' => $calendarMonth->copy()->addMonth()->format('Y-m')]) }}#profile-calendar" aria-label="Bulan berikutnya"><x-public-icon name="arrow-right" :size="14" /></a>
+                        </div>
+                        <div class="weekdays">@foreach([['Min','Sun'],['Sen','Mon'],['Sel','Tue'],['Rab','Wed'],['Kam','Thu'],['Jum','Fri'],['Sab','Sat']] as [$day, $englishDay])<span data-i18n-id="{{ $day }}" data-i18n-en="{{ $englishDay }}">{{ $day }}</span>@endforeach</div>
+                        <div class="calendar-grid">
+                            @for($blank = 0; $blank < $monthStartOffset; $blank++)<span class="calendar-day"></span>@endfor
+                            @for($day = 1; $day <= $calendarMonth->daysInMonth; $day++)<span class="calendar-day{{ $calendarMonth->isSameMonth(now()) && $day === now()->day ? ' is-today' : '' }}{{ in_array($day, $calendarOrderDays, true) ? ' has-order' : '' }}">{{ $day }}</span>@endfor
+                        </div>
+                </section>
+                <section class="section-card profile-snack-card" aria-labelledby="profile-snack-title">
+                        <div class="profile-snack-heading"><div><span class="micro" data-i18n-id="CATATAN JAJAN" data-i18n-en="SNACK LIST">CATATAN JAJAN</span><h2 id="profile-snack-title" data-i18n-id="Daftar jajanan" data-i18n-en="Your snack list">Daftar jajanan</h2></div><span class="profile-snack-count">{{ $monthItemCount }} item</span></div>
+                        @if($calendarItems->isEmpty())
+                            <p class="profile-snack-empty" data-i18n-id="Belum ada jajanan pada bulan ini." data-i18n-en="No snacks recorded this month.">Belum ada jajanan pada bulan ini.</p>
+                        @else
+                            <ul class="profile-snack-list">
+                                @foreach($calendarItems as $item)
+                                    <li><span class="profile-snack-name">{{ $item['name'] }}</span><span class="profile-snack-date">{{ $item['date']->translatedFormat('d M') }}</span><strong class="profile-snack-quantity">×{{ $item['quantity'] }}</strong></li>
+                                @endforeach
+                            </ul>
+                        @endif
+                </section>
+            </div>
+            </div>
 
         </div>
-    </main>
+    </div>
 </x-layouts.app>

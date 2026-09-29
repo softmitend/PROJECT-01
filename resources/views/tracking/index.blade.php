@@ -1,61 +1,3 @@
-<<<<<<< Updated upstream
-<x-layouts.app title="Ocean Paws — Group Order K-pop">
-    <div class="landing-page ocean-home ocean-editorial">
-        <div class="landing-wrap">
-            <section class="editorial-opening">
-                <div class="landing-hero">
-                    <div class="landing-hero-copy">
-                        <p class="editorial-eyebrow"><span></span> OCEANPAWS, SINCE 2025</p>
-                        <h1 class="hero-title">Where every<br><span class="wish-highlight">WISH</span> <span class="accent">comes</span><br><span class="accent">a little closer.</span>
-                        </h1>
-                        <p class="hero-copy">Shop your <span class="hero-copy-highlight">NCT WISH</span> favorites with us and make every WISH a little more
-                            special <svg class="hero-copy-heart" viewBox="0 0 24 24" aria-hidden="true">
-                                <path
-                                    d="M12 21s-7.2-4.6-9.5-8.8C.5 8.6 2.4 4 6.7 4c2.2 0 4.1 1.3 5.3 3 1.2-1.7 3.1-3 5.3-3 4.3 0 6.2 4.6 4.2 8.2C19.2 16.4 12 21 12 21Z" />
-                            </svg></p>
-                        <div class="landing-hero-actions">
-                            <a href="{{ auth()->user()?->member ? route('orders.index') : route('line-auth.redirect') }}" class="landing-primary-link">{{ auth()->user()?->member ? 'Buka pesanan' : 'Login dengan LINE' }}
-                                <x-public-icon name="arrow-right" :size="17" /></a>
-                            <a href="{{ route('tracking.index') }}" class="landing-catalog-link">Lacak pesanan
-                                <x-public-icon name="arrow-right" :size="17" /></a>
-                        </div>
-                    </div>
-                    <div class="editorial-art" role="img"
-                        aria-label="Ilustrasi koleksi album dan photocard bernuansa biru">
-                        <div class="art-orbit"></div>
-                        <div class="art-record"><span></span></div>
-                        <div class="art-album">
-                            <div class="art-album-top"><span>THE COLLECTION</span><span>VOL. 01</span></div>
-                            <svg class="art-flower" viewBox="0 0 240 240" fill="none" aria-hidden="true">
-                                <g fill="#b5e5ff">
-                                    <ellipse cx="120" cy="68" rx="25" ry="58" />
-                                    <ellipse cx="120" cy="68" rx="25" ry="58" transform="rotate(45 120 120)" />
-                                    <ellipse cx="120" cy="68" rx="25" ry="58" transform="rotate(90 120 120)" />
-                                    <ellipse cx="120" cy="68" rx="25" ry="58" transform="rotate(135 120 120)" />
-                                    <ellipse cx="120" cy="68" rx="25" ry="58" transform="rotate(180 120 120)" />
-                                    <ellipse cx="120" cy="68" rx="25" ry="58" transform="rotate(225 120 120)" />
-                                    <ellipse cx="120" cy="68" rx="25" ry="58" transform="rotate(270 120 120)" />
-                                    <ellipse cx="120" cy="68" rx="25" ry="58" transform="rotate(315 120 120)" />
-                                </g>
-                                <circle cx="120" cy="120" r="29" fill="#f5fbff" />
-                                <circle cx="120" cy="120" r="8" fill="#2d8dc9" />
-                            </svg>
-                            <strong>on<br>repeat.</strong>
-                            <div class="art-album-bottom"><span>YOUR NEXT FAVORITE</span><span>♡</span></div>
-                        </div>
-                        <div class="art-note">
-                            <span>
-                                <svg class="art-note-heart" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M12 21s-8.5-5.1-8.5-11.2A4.8 4.8 0 0 1 12 6.7a4.8 4.8 0 0 1 8.5 3.1C20.5 15.9 12 21 12 21Z"/>
-                                </svg>
-                            </span>
-                            <div>Little things.<br><strong>Big happiness.</strong></div>
-                        </div>
-                        <div class="art-photocard">
-                            <div class="art-photo-sky">
-                                <img src="{{ asset('img/photocard.PNG') }}" alt="Ocean Paws" class="art-photo-image">
-                            </div>
-=======
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -70,8 +12,15 @@
 @php
     $lineDestination = auth()->user()?->member ? route('orders.index') : route('line-auth.redirect');
     $tickerItems = ['ALBUM', 'LIGHTSTICK', 'KEYCHAIN', 'PHOTOCARD', 'POSTER', 'POB', 'PLUSHIE', 'TRADING CARD', 'FAN KIT', "SEASON'S GREETINGS"];
+    $mobileCategories = [
+        ['name' => 'Album', 'icon' => 'album'],
+        ['name' => 'Lightstick', 'icon' => 'lightstick'],
+        ['name' => 'Keychain', 'icon' => 'keychain'],
+        ['name' => 'Photocard', 'icon' => 'photocard'],
+        ['name' => 'Poster', 'icon' => 'poster'],
+        ['name' => 'POB', 'icon' => 'pob'],
+    ];
 @endphp
->>>>>>> Stashed changes
 
 <div class="op-page">
     <section class="op-hero" id="home">
@@ -83,7 +32,7 @@
                 <span class="op-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
             <div class="op-navrow">
-                <a class="op-brand" href="#home" aria-label="Ocean Paws home"><img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws — Bringing your favorites closer"></a>
+                <a class="op-brand" href="#home" aria-label="Ocean Paws home"><span class="op-brand-logo"><img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws — Bringing your favorites closer"></span></a>
                 <nav class="op-nav" aria-label="Navigasi utama">
                     <a class="is-active" href="#home"><i class="bi bi-house-heart-fill"></i><span>Home</span></a>
                     <a href="{{ route('tracking.index') }}"><i class="bi bi-truck-front-fill"></i><span>Tracking</span></a>
@@ -91,6 +40,15 @@
                         <a href="{{ route('profile.show') }}"><i class="bi bi-person-circle"></i><span>Profile</span></a>
                     @endauth
                 </nav>
+                <details class="op-mobile-menu">
+                    <summary aria-label="Buka menu navigasi"><span></span><span></span><span></span></summary>
+                    <nav aria-label="Navigasi utama seluler">
+                        <a href="#home">Home</a>
+                        <a href="#about">About Us</a>
+                        <a href="{{ route('tracking.index') }}">Tracking</a>
+                        @auth<a href="{{ route('profile.show') }}">Profile</a>@endauth
+                    </nav>
+                </details>
             </div>
         </header>
 
@@ -102,11 +60,11 @@
                 <div class="op-browserbar"><strong>OCEANPAWS.EXE</strong><span class="op-window-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
                 <div class="op-copy-inner">
                     <small>OCEANPAWS, since 2025</small>
-                    <h1>Where every <em>WISH</em><br>comes a little closer
+                    <h1>Where every <em>WISH</em> <br>comes a little closer
                         <svg class="op-heading-star op-heading-star-pink" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><path d="M195 100c-87.305 4.275-90.725 7.695-95 95-4.275-87.305-7.695-90.725-95-95 87.305-4.275 90.725-7.695 95-95 4.275 87.305 7.695 90.725 95 95" /></svg>
                         <svg class="op-heading-star op-heading-star-green" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><path d="M195 100c-87.305 4.275-90.725 7.695-95 95-4.275-87.305-7.695-90.725-95-95 87.305-4.275 90.725-7.695 95-95 4.275 87.305 7.695 90.725 95 95" /></svg>
                     </h1>
-                    <p>Shop your NCT WISH favorites with us and<br>make every WISH a little more special ♡</p>
+                    <p>Shop your NCT WISH favorites with us and <br>make every WISH a little more special <svg class="op-inline-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" /></svg></p>
                     <div class="op-actions">
                         <a class="op-line" href="{{ $lineDestination }}"><b>LINE</b><span>{{ auth()->user()?->member ? 'Buka Pesanan' : 'Login via LINE' }}</span><i class="bi bi-arrow-right"></i></a>
                         <a class="op-search" href="{{ route('tracking.index') }}"><i class="bi bi-search"></i><span>Lacak Pesanan</span></a>
@@ -117,399 +75,6 @@
                         <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" /></svg>
                     </div>
                 </div>
-<<<<<<< Updated upstream
-            </section>
-
-            <footer class="ocean-reference-footer">
-                <div class="ocean-footer-top-wave" aria-hidden="true">
-                    <svg viewBox="0 0 1440 56" preserveAspectRatio="none">
-                        <path d="M0 33C78 6 147 39 226 23s151-7 225 3 120-10 194-8c79 2 102 24 186 17 91-7 112-30 210-27 82 3 120 25 206 20 85-5 116-24 193-12v40H0Z" fill="#eef8ed"/>
-                        <path d="M0 29C78 2 147 35 226 19s151-7 225 3 120-10 194-8c79 2 102 24 186 17 91-7 112-30 210-27 82 3 120 25 206 20 85-5 116-24 193-12" fill="none" stroke="#a6dcb4" stroke-width="3"/>
-                    </svg>
-                </div>
-
-                <div class="ocean-footer-cloud ocean-footer-cloud-left" aria-hidden="true">
-                    <span></span><span></span><span></span>
-                </div>
-                <div class="ocean-footer-cloud ocean-footer-cloud-right" aria-hidden="true">
-                    <span></span><span></span><span></span>
-                </div>
-
-                <div class="ocean-footer-main">
-                    <div class="ocean-footer-brand">
-                        <a href="{{ route('home') }}" aria-label="Ocean Paws home" class="ocean-footer-wordmark">
-                            <span class="ocean-word-ocean">OCEA</span><span class="ocean-word-paws">PAWS</span><b>✿</b>
-                        </a>
-                        <p>Bringing your favorites closer</p>
-                    </div>
-
-                    <span class="ocean-footer-divider" aria-hidden="true"></span>
-
-                    <nav class="ocean-footer-nav" aria-label="Footer navigation">
-                        <a href="{{ route('home') }}">Home</a>
-                        <a href="{{ route('services.index') }}">Layanan</a>
-                        <a href="{{ route('tracking.index') }}">Tracking</a>
-                        <a href="#faq">FAQ</a>
-                    </nav>
-
-                    <span class="ocean-footer-divider" aria-hidden="true"></span>
-
-                    <div class="ocean-footer-social" aria-label="Media sosial Ocean Paws">
-                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" aria-label="X"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                    </div>
-
-                    <span class="ocean-footer-divider" aria-hidden="true"></span>
-
-                    <div class="ocean-footer-slogan">
-                        <span>Small Orders</span>
-                        <strong>Bigger Happiness ♡</strong>
-                    </div>
-
-                    <svg class="ocean-footer-shell" viewBox="0 0 100 100" aria-hidden="true">
-                        <g fill="#ffd6df" stroke="#ef6487" stroke-width="5" stroke-linejoin="round">
-                            <path d="M50 72C28 70 13 57 14 39c1-12 8-20 17-17 2-11 10-18 19-10 8-8 16-1 19 10 9-3 16 5 17 17 2 18-14 31-36 33Z"/>
-                            <path d="M50 16v51M31 24l12 44M69 24 57 68M18 39l20 32M82 39 62 71" fill="none"/>
-                            <path d="M38 70c2 11 7 16 12 16s10-5 12-16Z"/>
-                        </g>
-                    </svg>
-                </div>
-
-                <div class="ocean-footer-sea" aria-hidden="true">
-                    <svg viewBox="0 0 1440 150" preserveAspectRatio="none">
-                        <path d="M0 47c105 39 174-9 276 7 111 18 134 54 259 29 107-21 154-39 259-11 111 30 160 33 267 1 106-31 199-34 379-3v80H0Z" fill="#7fb88a"/>
-                        <path d="M0 74c105 39 174-9 276 7 111 18 134 54 259 29 107-21 154-39 259-11 111 30 160 33 267 1 106-31 199-34 379-3v53H0Z" fill="#8fc49a" opacity=".88"/>
-                        <path d="M0 87c106 34 174-8 269 7 118 18 156 53 263 31 116-23 162-42 268-13 112 31 161 30 269 2 120-31 211-29 371 0" fill="none" stroke="#acd5b2" stroke-width="3" opacity=".7"/>
-                        <path d="M87 114c58-27 112-26 170-7M553 126c89-33 174-35 263-6M1081 123c62-24 125-25 188-6" fill="none" stroke="#a8d2ae" stroke-width="2" opacity=".58"/>
-                        <g fill="#b9dbbc" opacity=".75">
-                            <ellipse cx="370" cy="85" rx="7" ry="4"/><ellipse cx="541" cy="116" rx="5" ry="3"/><ellipse cx="946" cy="109" rx="8" ry="4"/><ellipse cx="1003" cy="84" rx="5" ry="3"/><ellipse cx="1283" cy="124" rx="6" ry="3"/>
-                        </g>
-                    </svg>
-                </div>
-
-                <div class="ocean-footer-bottom">
-                    <span>© 2025 OCEANPAWS. All rights reserved.</span>
-                    <span>For NCT WISH. Always. ♡</span>
-                </div>
-            </footer>
-        </div>
-    </div>
-
-    <style>
-        .ocean-reference-footer {
-            position: relative;
-            width: 100%;
-            min-height: 260px;
-            margin-top: 84px;
-            overflow: hidden;
-            background: linear-gradient(180deg, #fbf6e9 0%, #eef8ed 46%, #e6f3e5 100%);
-            color: #183d2d;
-            isolation: isolate;
-        }
-
-        .ocean-footer-top-wave {
-            position: absolute;
-            z-index: 1;
-            inset: -2px 0 auto;
-            height: 58px;
-            pointer-events: none;
-        }
-
-        .ocean-footer-top-wave svg,
-        .ocean-footer-sea svg {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        .ocean-footer-main {
-            position: relative;
-            z-index: 4;
-            display: grid;
-            grid-template-columns: minmax(170px, 1.15fr) 1px minmax(300px, 1.55fr) 1px minmax(180px, .9fr) 1px minmax(185px, 1fr) 82px;
-            align-items: center;
-            gap: clamp(18px, 2vw, 34px);
-            width: min(90%, 1240px);
-            margin: 0 auto;
-            padding: 72px 0 102px;
-        }
-
-        .ocean-footer-brand {
-            min-width: 0;
-        }
-
-        .ocean-footer-wordmark {
-            position: relative;
-            display: inline-flex;
-            align-items: flex-end;
-            text-decoration: none;
-            filter: drop-shadow(0 2px 0 rgba(22, 59, 43, .12));
-        }
-
-        .ocean-footer-wordmark span {
-            display: inline-block;
-            font-family: "Bricolage Grotesque", "Nunito Sans", sans-serif;
-            font-size: clamp(27px, 2.75vw, 42px);
-            font-weight: 900;
-            line-height: .9;
-            letter-spacing: -.09em;
-            -webkit-text-stroke: 1.7px #173b2b;
-            paint-order: stroke fill;
-            text-shadow: 0 2px 0 #fff8ef;
-        }
-
-        .ocean-word-ocean {
-            color: #f6a5b7;
-        }
-
-        .ocean-word-paws {
-            color: #8fd09e;
-        }
-
-        .ocean-footer-wordmark b {
-            position: absolute;
-            right: -17px;
-            top: -11px;
-            color: #ff7296;
-            font-size: 20px;
-            font-weight: 700;
-            -webkit-text-stroke: 0;
-        }
-
-        .ocean-footer-brand p {
-            margin: 7px 0 0;
-            color: #36594b;
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: -.015em;
-            white-space: nowrap;
-        }
-
-        .ocean-footer-divider {
-            width: 1px;
-            height: 34px;
-            background: rgba(31, 72, 52, .62);
-        }
-
-        .ocean-footer-nav,
-        .ocean-footer-social {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .ocean-footer-nav {
-            gap: clamp(18px, 2.5vw, 34px);
-        }
-
-        .ocean-footer-nav a {
-            color: #214838;
-            font-size: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: opacity .2s ease, transform .2s ease;
-        }
-
-        .ocean-footer-nav a:hover,
-        .ocean-footer-social a:hover {
-            opacity: .68;
-            transform: translateY(-2px);
-        }
-
-        .ocean-footer-social {
-            gap: 21px;
-        }
-
-        .ocean-footer-social a {
-            display: grid;
-            place-items: center;
-            color: #195334;
-            font-size: 22px;
-            line-height: 1;
-            text-decoration: none;
-            transition: opacity .2s ease, transform .2s ease;
-        }
-
-        .ocean-footer-slogan {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            color: #23483a;
-            font-size: 12px;
-            line-height: 1.3;
-            white-space: nowrap;
-        }
-
-        .ocean-footer-slogan strong {
-            font-weight: 600;
-        }
-
-        .ocean-footer-shell {
-            width: 62px;
-            height: 62px;
-            transform: rotate(4deg);
-            filter: drop-shadow(0 3px 0 rgba(239, 100, 135, .12));
-        }
-
-        .ocean-footer-cloud {
-            position: absolute;
-            z-index: 2;
-            width: 128px;
-            height: 80px;
-            bottom: 75px;
-            pointer-events: none;
-        }
-
-        .ocean-footer-cloud-left {
-            left: -38px;
-        }
-
-        .ocean-footer-cloud-right {
-            right: -32px;
-        }
-
-        .ocean-footer-cloud span {
-            position: absolute;
-            bottom: 0;
-            border-radius: 999px 999px 18px 18px;
-            background: rgba(255, 255, 255, .62);
-        }
-
-        .ocean-footer-cloud span:nth-child(1) {
-            left: 0;
-            width: 76px;
-            height: 50px;
-        }
-
-        .ocean-footer-cloud span:nth-child(2) {
-            left: 45px;
-            width: 70px;
-            height: 68px;
-        }
-
-        .ocean-footer-cloud span:nth-child(3) {
-            left: 88px;
-            width: 54px;
-            height: 43px;
-        }
-
-        .ocean-footer-sea {
-            position: absolute;
-            z-index: 3;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 140px;
-            pointer-events: none;
-        }
-
-        .ocean-footer-bottom {
-            position: absolute;
-            z-index: 5;
-            left: 5%;
-            right: 5%;
-            bottom: 19px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #f5fff5;
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: .01em;
-        }
-
-        @media (max-width: 1050px) {
-            .ocean-reference-footer {
-                min-height: 350px;
-            }
-
-            .ocean-footer-main {
-                grid-template-columns: 1fr 1fr;
-                grid-template-areas:
-                    "brand slogan"
-                    "nav social";
-                gap: 24px 48px;
-                padding-top: 76px;
-                padding-bottom: 135px;
-            }
-
-            .ocean-footer-brand { grid-area: brand; }
-            .ocean-footer-nav { grid-area: nav; justify-content: flex-start; }
-            .ocean-footer-social { grid-area: social; justify-content: flex-start; }
-            .ocean-footer-slogan { grid-area: slogan; }
-            .ocean-footer-divider { display: none; }
-            .ocean-footer-shell { position: absolute; right: 0; top: 70px; }
-            .ocean-footer-sea { height: 155px; }
-        }
-
-        @media (max-width: 640px) {
-            .ocean-reference-footer {
-                min-height: 485px;
-                margin-top: 64px;
-            }
-
-            .ocean-footer-main {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: calc(100% - 40px);
-                padding: 72px 0 160px;
-                gap: 22px;
-                text-align: center;
-            }
-
-            .ocean-footer-wordmark span {
-                font-size: 36px;
-            }
-
-            .ocean-footer-brand p {
-                font-size: 10px;
-            }
-
-            .ocean-footer-nav {
-                flex-wrap: wrap;
-                gap: 12px 23px;
-                justify-content: center;
-            }
-
-            .ocean-footer-nav a {
-                font-size: 11px;
-            }
-
-            .ocean-footer-social {
-                justify-content: center;
-            }
-
-            .ocean-footer-slogan {
-                font-size: 11px;
-                text-align: center;
-            }
-
-            .ocean-footer-shell {
-                position: static;
-                width: 52px;
-                height: 52px;
-            }
-
-            .ocean-footer-sea {
-                height: 148px;
-            }
-
-            .ocean-footer-bottom {
-                left: 20px;
-                right: 20px;
-                bottom: 17px;
-                flex-direction: column;
-                gap: 5px;
-                font-size: 9px;
-                text-align: center;
-            }
-        }
-    </style>
-</x-layouts.app>
-=======
             </div>
 
             <img class="op-hero-mascot" src="{{ asset('assets/oceanpaws-hero-mascot-reference.png') }}" alt="Maskot Ocean Paws berselancar di ombak">
@@ -524,6 +89,19 @@
             <img class="op-sign-grass" src="{{ asset('assets/oceanpaws-hero-background-v3.png') }}" alt="" aria-hidden="true">
             <img class="op-starfish" src="{{ asset('assets/glossy_pink_starfish_sticker.png') }}" alt="" aria-hidden="true">
         </div>
+    </section>
+
+    <section class="op-mobile-merch-strip" aria-label="Kategori merchandise">
+        <div class="op-mobile-merch-track" data-op-category-track>
+            @foreach ($mobileCategories as $category)
+                <div class="op-mobile-merch-card">
+                    <span class="op-category-icon is-{{ $category['icon'] }}" aria-hidden="true"></span>
+                    <span>{{ $category['name'] }}</span>
+                </div>
+            @endforeach
+        </div>
+        <button class="op-mobile-merch-next" type="button" aria-label="Lihat kategori berikutnya" data-op-category-next><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+        <div class="op-mobile-merch-dots" aria-hidden="true"><i class="is-active"></i><i></i><i></i></div>
     </section>
 
     <div class="op-ticker" role="marquee" aria-label="K-pop merchandise: album, lightstick, keychain, photocard, poster, POB, plushie, trading card, fan kit, season's greetings">
@@ -551,7 +129,7 @@
                     </div>
                 </div>
                 <div class="op-about-content">
-                    <h2 id="about-title">Made for every <em>WISH</em>, since 2025. ♡</h2>
+                    <h2 id="about-title">Made for every <em>WISH</em>, since 2025. <svg class="op-inline-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" /></svg></h2>
                     <p>Founded in June 2025, GO Oceanpaws is a group order dedicated to NCT WISH. Since then, we've grown into a little community of 2,000+ members and successfully handled thousands of batches together. From albums and photocards to merch and all the little WISH things you love, we're here to make every GO experience easier, clearer, and more enjoyable. ♡</p>
                     <div class="op-about-merch">
                         <img src="{{ asset('assets/oceanpaws-about-merch-collage-v1.png') }}" alt="" aria-hidden="true">
@@ -584,17 +162,541 @@
             <img class="op-cta-sand" src="{{ asset('assets/oceanpaws-cta-sand-only-v2.png') }}" alt="" aria-hidden="true">
             <img class="op-cta-starfish" src="{{ asset('assets/oceanpaws-cta-starfish-3d-v1.png') }}" alt="" aria-hidden="true">
         </section>
+
+        <section class="op-mobile-popular" aria-labelledby="op-mobile-popular-title">
+            <h2 id="op-mobile-popular-title"><span aria-hidden="true">✿</span> Popular Categories</h2>
+            <div class="op-mobile-category-grid">
+                @foreach ($mobileCategories as $category)
+                    <article class="op-mobile-category-card">
+                        <span class="op-category-icon is-{{ $category['icon'] }}" aria-hidden="true"></span>
+                        <h3>{{ $category['name'] }}</h3>
+                    </article>
+                @endforeach
+            </div>
+            <a class="op-mobile-tracking" href="{{ route('tracking.index') }}">
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <span><strong>Still looking for your order?</strong><small>Track it here!</small></span>
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            </a>
+        </section>
     </main>
 
-    <footer class="op-footer">
-        <div class="op-footer-inner">
-            <a class="op-footer-brand" href="#home" aria-label="Ocean Paws — kembali ke atas">
-                <img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws">
-            </a>
-            <p class="op-footer-credit">© {{ now()->year }} OCEANPAWS. All rights reserved.</p>
+    <style>
+        .op-footer-reference{
+            position:relative;
+            isolation:isolate;
+            min-height:330px;
+            overflow:hidden;
+            background:#f7f3e9;
+            color:#315d48;
+            font-family:"Nunito Sans",sans-serif;
+        }
+        .op-footer-reference::before{
+            content:"";
+            position:absolute;
+            z-index:1;
+            top:0;
+            left:-2%;
+            width:104%;
+            height:38px;
+            border-top:3px solid #74a884;
+            border-radius:50% 50% 0 0/100% 100% 0 0;
+            transform:translateY(8px) rotate(-.35deg);
+            pointer-events:none;
+        }
+        .op-footer-reference .op-footer-reference-shell{
+            position:relative;
+            z-index:4;
+            display:grid;
+            width:min(100% - 80px,1240px);
+            margin:0 auto;
+            grid-template-columns:minmax(235px,1.05fr) auto minmax(230px,.95fr);
+            align-items:start;
+            gap:34px;
+            padding:54px 0 145px;
+        }
+        .op-footer-reference .op-footer-brand-block{
+            min-width:0;
+        }
+        .op-footer-reference .op-footer-brand-block img{
+            display:block;
+            width:220px;
+            max-width:100%;
+            height:auto;
+            margin-left:-5px;
+        }
+        .op-footer-reference .op-footer-brand-block p{
+            margin:3px 0 0;
+            color:#3f7058;
+            font-size:13px;
+            font-weight:600;
+            letter-spacing:.01em;
+        }
+        .op-footer-reference .op-footer-center{
+            display:flex;
+            align-items:flex-start;
+            gap:30px;
+            padding-top:29px;
+        }
+        .op-footer-reference .op-footer-links,
+        .op-footer-reference .op-footer-socials{
+            display:flex;
+            align-items:center;
+            gap:22px;
+        }
+        .op-footer-reference .op-footer-links{
+            padding:0 29px;
+            border-right:1px solid rgba(49,93,72,.48);
+            border-left:1px solid rgba(49,93,72,.48);
+        }
+        .op-footer-reference .op-footer-links a,
+        .op-footer-reference .op-footer-socials a{
+            color:#315d48;
+            text-decoration:none;
+            transition:transform .18s ease,opacity .18s ease;
+        }
+        .op-footer-reference .op-footer-links a{
+            font-size:13px;
+            font-weight:700;
+            white-space:nowrap;
+        }
+        .op-footer-reference .op-footer-socials a{
+            display:grid;
+            width:24px;
+            height:24px;
+            place-items:center;
+            font-size:18px;
+        }
+        .op-footer-reference .op-footer-links a:hover,
+        .op-footer-reference .op-footer-socials a:hover{
+            opacity:.72;
+            transform:translateY(-2px);
+        }
+        .op-footer-reference .op-footer-message{
+            position:relative;
+            display:flex;
+            min-width:0;
+            justify-self:end;
+            align-items:flex-start;
+            gap:22px;
+            padding-top:24px;
+        }
+        .op-footer-reference .op-footer-message strong{
+            display:block;
+            color:#315d48;
+            font-family:"Nunito Sans",sans-serif;
+            font-size:18px;
+            font-weight:800;
+            line-height:1.35;
+            letter-spacing:-.02em;
+            white-space:nowrap;
+        }
+        .op-footer-reference .op-footer-message strong span{
+            display:block;
+        }
+        .op-footer-reference .op-footer-shell-icon{
+            width:62px;
+            height:56px;
+            flex:none;
+            transform:rotate(7deg);
+            filter:drop-shadow(0 3px 0 rgba(137,73,94,.08));
+        }
+        .op-footer-reference .op-footer-waves{
+            position:absolute;
+            z-index:2;
+            right:0;
+            bottom:0;
+            left:0;
+            height:185px;
+            pointer-events:none;
+        }
+        .op-footer-reference .op-footer-waves svg{
+            position:absolute;
+            inset:auto 0 0;
+            width:100%;
+            height:100%;
+            display:block;
+        }
+        .op-footer-reference .op-footer-cloud{
+            position:absolute;
+            z-index:3;
+            bottom:83px;
+            width:160px;
+            height:68px;
+            opacity:.92;
+            pointer-events:none;
+        }
+        .op-footer-reference .op-footer-cloud.is-left{left:-20px}
+        .op-footer-reference .op-footer-cloud.is-right{right:-26px;transform:scaleX(-1)}
+        .op-footer-reference .op-footer-bottomline{
+            position:absolute;
+            z-index:5;
+            right:max(26px,calc((100% - 1240px)/2));
+            bottom:25px;
+            left:max(26px,calc((100% - 1240px)/2));
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:20px;
+            color:#f4fbf4;
+            font-size:11px;
+            font-weight:700;
+            letter-spacing:.01em;
+            text-shadow:0 1px 1px rgba(44,83,56,.18);
+        }
+        @media(max-width:980px){
+            .op-footer-reference{min-height:405px}
+            .op-footer-reference .op-footer-reference-shell{
+                width:min(100% - 48px,900px);
+                grid-template-columns:1fr 1fr;
+                gap:20px 34px;
+                padding-top:50px;
+            }
+            .op-footer-reference .op-footer-center{
+                grid-column:1/-1;
+                grid-row:2;
+                justify-content:flex-start;
+                padding-top:0;
+            }
+            .op-footer-reference .op-footer-message{
+                grid-column:2;
+                grid-row:1;
+            }
+        }
+        @media(max-width:680px){
+            .op-footer-reference{min-height:510px}
+            .op-footer-reference .op-footer-reference-shell{
+                width:min(100% - 36px,560px);
+                grid-template-columns:1fr;
+                gap:20px;
+                padding:44px 0 175px;
+            }
+            .op-footer-reference .op-footer-brand-block img{width:190px}
+            .op-footer-reference .op-footer-center,
+            .op-footer-reference .op-footer-message{
+                grid-column:1;
+                grid-row:auto;
+                justify-self:start;
+            }
+            .op-footer-reference .op-footer-center{
+                flex-wrap:wrap;
+                gap:18px;
+            }
+            .op-footer-reference .op-footer-links{
+                gap:16px;
+                padding:0 18px;
+                border-left:0;
+            }
+            .op-footer-reference .op-footer-socials{gap:16px}
+            .op-footer-reference .op-footer-message{
+                padding-top:4px;
+            }
+            .op-footer-reference .op-footer-message strong{
+                font-size:16px;
+            }
+            .op-footer-reference .op-footer-waves{height:180px}
+            .op-footer-reference .op-footer-bottomline{
+                right:18px;
+                bottom:20px;
+                left:18px;
+                align-items:flex-start;
+                flex-direction:column;
+                gap:4px;
+                font-size:10px;
+            }
+        }
+        @media(max-width:430px){
+            .op-footer-reference{min-height:535px}
+            .op-footer-reference .op-footer-reference-shell{padding-top:38px}
+            .op-footer-reference .op-footer-center{display:block}
+            .op-footer-reference .op-footer-links{
+                width:100%;
+                justify-content:space-between;
+                gap:10px;
+                padding:0 0 15px;
+                border:0;
+                border-bottom:1px solid rgba(49,93,72,.35);
+            }
+            .op-footer-reference .op-footer-links a{font-size:12px}
+            .op-footer-reference .op-footer-socials{
+                margin-top:15px;
+                justify-content:flex-start;
+            }
+            .op-footer-reference .op-footer-shell-icon{width:54px;height:48px}
+        }
+
+        /* Match the supplied 1352 × 183 footer; keep its text and links live. */
+        .op-footer-reference{
+            display:block;
+            height:183px;
+            min-height:183px;
+            border:0;
+            background:#f7f3e9 url('{{ asset('assets/oceanpaws-footer-reference-bg-v1.png') }}') center 40%/100% 136% no-repeat;
+        }
+        .op-footer-reference::before{content:none}
+        .op-footer-reference .op-footer-reference-shell{
+            position:absolute;
+            top:39px;
+            left:50%;
+            display:grid;
+            width:min(calc(100% - 136px),1216px);
+            height:78px;
+            grid-template-columns:202px 288px 200px minmax(0,1fr);
+            align-items:center;
+            gap:0;
+            margin:0;
+            padding:0;
+            transform:translateX(-50%);
+        }
+        .op-footer-reference .op-footer-brand-block img{width:180px;margin:0 0 0 -7px}
+        .op-footer-reference .op-footer-center{
+            display:grid;
+            width:auto;
+            height:26px;
+            grid-column:2 / span 2;
+            grid-template-columns:288px 200px;
+            align-items:center;
+            gap:0;
+            padding:0;
+        }
+        .op-footer-reference .op-footer-links,
+        .op-footer-reference .op-footer-socials{
+            height:24px;
+            justify-content:space-between;
+            gap:0;
+        }
+        .op-footer-reference .op-footer-links{
+            padding:0 29px;
+            border-right:1px solid #52765f;
+            border-left:1px solid #52765f;
+        }
+        .op-footer-reference .op-footer-socials{
+            padding:0 30px;
+            border-right:1px solid #52765f;
+        }
+        .op-footer-reference .op-footer-links a{
+            font:500 11px/24px "Nunito Sans",sans-serif;
+        }
+        .op-footer-reference .op-footer-socials a{
+            width:24px;
+            height:24px;
+            font-size:19px;
+        }
+        .op-footer-reference .op-footer-message{
+            display:flex;
+            height:72px;
+            grid-column:4;
+            align-items:center;
+            justify-self:end;
+            gap:15px;
+            padding:0;
+        }
+        .op-footer-reference .op-footer-message strong{
+            font:400 11px/1.35 ui-monospace,"Courier New",monospace;
+            letter-spacing:0;
+        }
+        .op-footer-reference .op-footer-shell-icon{
+            display:block;
+            width:65px;
+            height:65px;
+            object-fit:contain;
+            transform:rotate(-4deg);
+            filter:none;
+        }
+        .op-footer-reference .op-footer-bottomline{
+            right:auto;
+            bottom:14px;
+            left:0;
+            width:100%;
+            align-items:center;
+            justify-content:center;
+            flex-direction:row;
+            text-align:center;
+            font:400 10px/1.2 ui-monospace,"Courier New",monospace;
+            letter-spacing:0;
+            text-shadow:none;
+        }
+        @media(max-width:1160px){
+            .op-footer-reference{height:265px;min-height:265px;background-size:100% 115%}
+            .op-footer-reference .op-footer-reference-shell{
+                top:39px;
+                width:calc(100% - 64px);
+                height:auto;
+                grid-template-columns:1fr auto;
+                grid-template-rows:72px 38px;
+                row-gap:7px;
+            }
+            .op-footer-reference .op-footer-brand-block{grid-column:1;grid-row:1}
+            .op-footer-reference .op-footer-center{
+                width:max-content;
+                grid-column:1 / -1;
+                grid-row:2;
+            }
+            .op-footer-reference .op-footer-message{
+                grid-column:2;
+                grid-row:1;
+                padding-left:0;
+            }
+            .op-footer-reference .op-footer-bottomline{left:0;width:100%}
+        }
+        @media(max-width:620px){
+            .op-footer-reference{height:340px;min-height:340px;background-size:auto 100%;background-position:center}
+            .op-footer-reference .op-footer-reference-shell{
+                top:34px;
+                width:calc(100% - 36px);
+                display:flex;
+                height:auto;
+                flex-direction:column;
+                align-items:flex-start;
+                gap:16px;
+            }
+            .op-footer-reference .op-footer-brand-block img{width:165px;margin-left:0}
+            .op-footer-reference .op-footer-center{
+                display:flex;
+                width:100%;
+                height:auto;
+                flex-wrap:wrap;
+                gap:12px;
+            }
+            .op-footer-reference .op-footer-links{
+                display:grid;
+                width:100%;
+                height:28px;
+                grid-template-columns:repeat(4,minmax(0,1fr));
+                padding:0 12px;
+                border-right:0;
+                border-bottom:1px solid #52765f;
+                border-left:0;
+            }
+            .op-footer-reference .op-footer-links a{font-size:10px;text-align:center}
+            .op-footer-reference .op-footer-socials{
+                width:100%;
+                max-width:190px;
+                padding:0;
+                border:0;
+            }
+            .op-footer-reference .op-footer-message{height:48px;gap:8px;padding:0}
+            .op-footer-reference .op-footer-message strong{font-size:11px}
+            .op-footer-reference .op-footer-shell-icon{width:48px;height:48px}
+            .op-footer-reference .op-footer-bottomline{
+                bottom:12px;
+                left:0;
+                width:100%;
+                align-items:center;
+                flex-direction:row;
+                font-size:9px;
+            }
+        }
+        .op-footer-mobile-links{display:none}
+        @media(max-width:760px){
+            .op-footer-reference{
+                height:415px;
+                min-height:415px;
+                background-size:auto 100%;
+                background-position:center bottom;
+            }
+            .op-footer-reference .op-footer-reference-shell{
+                top:36px;
+                left:20px;
+                display:block;
+                width:calc(100% - 40px);
+                height:auto;
+                padding:0;
+                transform:none;
+            }
+            .op-footer-reference .op-footer-brand-block img{width:172px;margin:0}
+            .op-footer-reference .op-footer-center{display:block;width:100%;height:auto;margin-top:13px}
+            .op-footer-reference .op-footer-links{display:none}
+            .op-footer-reference .op-footer-mobile-links{display:grid;width:100%;gap:0}
+            .op-footer-reference .op-footer-mobile-links a{
+                display:grid;
+                min-height:31px;
+                grid-template-columns:22px 1fr 18px;
+                align-items:center;
+                gap:7px;
+                border-bottom:1px solid rgba(80,121,93,.16);
+                color:#345e47;
+                font:600 12px/1.2 "Nunito Sans",sans-serif;
+                text-decoration:none;
+            }
+            .op-footer-reference .op-footer-mobile-links a i:first-child{font-size:14px}
+            .op-footer-reference .op-footer-mobile-links a i:last-child{font-size:11px;text-align:right}
+            .op-footer-reference .op-footer-socials{
+                display:flex;
+                width:180px;
+                max-width:none;
+                height:28px;
+                justify-content:space-between;
+                margin-top:17px;
+                padding:0;
+                border:0;
+            }
+            .op-footer-reference .op-footer-socials a{font-size:20px}
+            .op-footer-reference .op-footer-message{
+                position:absolute;
+                top:247px;
+                right:0;
+                display:flex;
+                width:43%;
+                height:32px;
+                justify-content:flex-start;
+                padding:0;
+            }
+            .op-footer-reference .op-footer-message strong{font-size:10px;line-height:1.3}
+            .op-footer-reference .op-footer-shell-icon{display:none}
+            .op-footer-reference .op-footer-bottomline{
+                right:0;
+                bottom:16px;
+                left:0;
+                width:100%;
+                align-items:center;
+                justify-content:center;
+                color:#f8fff8;
+                font-size:9px;
+                text-align:center;
+            }
+        }
+    </style>
+
+    <footer class="op-footer op-footer-reference" id="footer">
+        <div class="op-footer-reference-shell">
+            <div class="op-footer-brand-block">
+                <a href="#home" aria-label="Ocean Paws — kembali ke atas">
+                    <img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws">
+                </a>
+            </div>
+
+            <div class="op-footer-center">
+                <nav class="op-footer-links" aria-label="Navigasi footer">
+                    <a href="#home">Home</a>
+                    <a href="#about">Layanan</a>
+                    <a href="{{ route('tracking.index') }}">Tracking</a>
+                    <a href="#about">FAQ</a>
+                </nav>
+                <nav class="op-footer-mobile-links" aria-label="Navigasi footer seluler">
+                    <a href="#home"><i class="bi bi-house-door-fill" aria-hidden="true"></i><span>Home</span><i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    <a href="#about"><i class="bi bi-grid-fill" aria-hidden="true"></i><span>Layanan</span><i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    <a href="{{ route('tracking.index') }}"><i class="bi bi-truck-front-fill" aria-hidden="true"></i><span>Tracking</span><i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    <a href="#about"><i class="bi bi-chat-square-dots-fill" aria-hidden="true"></i><span>FAQ</span><i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                </nav>
+                <div class="op-footer-socials" aria-label="Media sosial Ocean Paws">
+                    <a href="#" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="bi bi-tiktok" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <div class="op-footer-message">
+                <strong><span>Small Orders</span><span>Bigger Happiness ♡</span></strong>
+                <img class="op-footer-shell-icon" src="{{ asset('assets/oceanpaws-footer-shell-v1.png') }}" alt="" aria-hidden="true">
+            </div>
+        </div>
+
+        <div class="op-footer-bottomline">
+            <span>© 2025 OCEANPAWS. All rights reserved.</span>
         </div>
     </footer>
 </div>
 </body>
 </html>
->>>>>>> Stashed changes

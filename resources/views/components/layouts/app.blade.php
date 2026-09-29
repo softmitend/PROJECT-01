@@ -15,10 +15,14 @@
         </script>
         @fonts
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @if(request()->routeIs('profile.*'))
+            @vite('resources/css/profile.css')
+        @endif
     </head>
     @php
         $isAdmin = auth()->check() && request()->routeIs('admin.*');
         $isOceanTracking = request()->routeIs('tracking.*');
+        $isOceanProfile = request()->routeIs('profile.*');
         $isTrackingLanding = request()->routeIs(['home', 'tracking.*', 'profile.*', 'billing.*', 'services.*', 'testimonials.*', 'orders.*']);
         $hasPublicDock = request()->routeIs(['home', 'tracking.index', 'tracking.search', 'profile.*', 'billing.*', 'services.*', 'testimonials.*', 'orders.*']);
         $adminNav = [
@@ -41,7 +45,7 @@
             session()->put('login_at', $loginAt);
         }
     @endphp
-    <body class="{{ $isAdmin ? 'bg-[#f6f7fb]' : 'customer-theme' }}{{ $isOceanTracking ? ' ocean-tracking' : '' }} text-zinc-950 antialiased">
+    <body class="{{ $isAdmin ? 'bg-[#f6f7fb]' : 'customer-theme' }}{{ $isOceanTracking ? ' ocean-tracking' : '' }}{{ $isOceanProfile ? ' ocean-profile' : '' }} text-zinc-950 antialiased">
         @if ($isAdmin)
             <div class="admin-shell min-h-screen">
                 <aside class="admin-sidebar border-b border-zinc-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:flex lg:w-72 lg:flex-col lg:border-b-0 lg:border-r">
@@ -137,6 +141,8 @@
             <div class="min-h-screen customer-public-shell">
                 @if($isOceanTracking)
                     @include('tracking.partials.site-header')
+                @elseif($isOceanProfile)
+                    @include('profile.partials.site-header')
                 @elseif($hasPublicDock)
                     <x-public-navbar />
                 @endif
