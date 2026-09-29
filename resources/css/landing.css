@@ -4568,14 +4568,14 @@
   }
   .op-copy-window .op-browserbar{height:3.4cqw;padding-left:1.8cqw;font-size:1.55cqw}
   .op-copy-inner{height:calc(100% - 3.4cqw);padding:1.45cqw 3.2cqw 1cqw}
-  .op-copy-inner>small{font-size:1.23cqw}
+  .op-copy-main>small{font-size:1.23cqw}
   .op-copy-inner h1{
     position:relative;
     margin:.7cqw 0 1cqw;
     font-family:"Nunito Sans","Arial Rounded MT Bold",sans-serif;
     font-size:3.62cqw;font-weight:900;line-height:1;letter-spacing:-.035em;
   }
-  .op-copy-inner p{margin:1.1cqw 0 1.4cqw;font-size:1.65cqw;line-height:1.3}
+  .op-copy-main p{margin:1.1cqw 0 1.4cqw;font-size:1.65cqw;line-height:1.3}
   .op-actions{gap:1.55cqw}
   .op-actions .op-line,.op-search{min-width:0;height:4.7cqw;min-height:4.7cqw;border-radius:1.2cqw;font-size:1.52cqw}
   .op-actions .op-line{width:20cqw;padding:0 1.1cqw}
@@ -4785,6 +4785,7 @@
   border-radius:8px;
   background:#fff;
 }
+.op-copy-main>small{font:700 10px/1.2 monospace;color:#506661}
 .op-window-dots i{
   border:2px solid #784759;
   background:linear-gradient(145deg,#fff8fa 0%,#ffb7cd 35%,#f17499 100%);
@@ -4877,7 +4878,7 @@
 }
 
 /* Softer hero description typography. */
-.op-copy-inner > p{font-family:"Trebuchet MS",sans-serif;font-weight:500}
+.op-copy-main > p{font-family:"Trebuchet MS",sans-serif;font-weight:500}
 
 /* Seamless, neobrutalist K-pop merchandise ribbon. */
 .op-ticker{
@@ -5465,7 +5466,7 @@
     top:clamp(112px,30vw,150px);
     left:21px;
     width:calc(100% - 37px);
-    height:clamp(442px,117vw,585px);
+    height:clamp(425px,106vw,530px);
     max-width:none;
   }
   .op-page .op-copy-window-back{top:calc(clamp(112px,30vw,150px) + 5px);left:22px;width:calc(100% - 38px);animation:op-rear-tab-hop 3.6s ease-in-out infinite}
@@ -5480,7 +5481,8 @@
     margin:0 7px 7px;
     padding:15px 15px 13px;
   }
-  .op-page .op-copy-inner>small{font-size:clamp(10px,2.4vw,12px)}
+  .op-page .op-copy-main{margin-block:auto}
+  .op-page .op-copy-main>small{font-size:clamp(10px,2.4vw,12px)}
   .op-page .op-copy-inner h1{
     max-width:100%;
     margin:10px 0 0;
@@ -5490,11 +5492,11 @@
   .op-page .op-copy-inner h1 br{display:none}
   .op-page .op-heading-star-pink{top:3px;right:2px}
   .op-page .op-heading-star-green{top:34px;right:0}
-  .op-page .op-copy-inner>p{
+  .op-page .op-copy-main>p{
     margin:14px 0 0;
     font:500 clamp(14px,3.6vw,18px)/1.4 "Trebuchet MS",sans-serif;
   }
-  .op-page .op-copy-inner>p br{display:none}
+  .op-page .op-copy-main>p br{display:none}
   .op-page .op-actions{display:flex;flex-direction:column;gap:11px;margin-top:17px}
   .op-page .op-actions .op-line,.op-page .op-actions .op-search{
     width:100%;
@@ -5507,7 +5509,7 @@
   }
   .op-page .op-actions .op-line b{width:35px;height:29px}
   .op-page .op-actions .op-search i{font-size:24px}
-  .op-page .op-copy-hearts{margin-top:auto;padding-top:12px}
+  .op-page .op-copy-hearts{margin-top:0;padding-top:12px}
   .op-page .op-copy-hearts svg{width:22px;height:22px}
   .op-page .op-hero-wave,.op-page .op-hero-sand,.op-page .op-sign-grass{display:none}
   .op-page .op-hero-mascot{
@@ -5523,12 +5525,12 @@
   }
   .op-page .op-palm{
     top:auto;
-    right:-5%;
+    right:-13%;
     bottom:0;
     display:block;
     z-index:11;
-    width:52%;
-    height:43%;
+    width:66%;
+    height:55%;
     object-fit:contain;
   }
   .op-page .op-sign{
@@ -5540,7 +5542,15 @@
     height:23%;
     transform:none;
   }
-  .op-page .op-sign span,.op-page .op-sign span:nth-child(1),.op-page .op-sign span:nth-child(2),.op-page .op-sign span:nth-child(3){height:20%;font-size:clamp(7px,1.8vw,9px)}
+  .op-page .op-sign span,.op-page .op-sign span:nth-child(1),.op-page .op-sign span:nth-child(2),.op-page .op-sign span:nth-child(3){
+    height:20%;
+    color:#6f4a2c;
+    font-size:clamp(9px,2.6vw,14px);
+  }
+  /* Center each line on its wooden plank so the lettering reads as painted on. */
+  .op-page .op-sign span:nth-of-type(1){top:16.5%}
+  .op-page .op-sign span:nth-of-type(2){top:38.5%}
+  .op-page .op-sign span:nth-of-type(3){top:59%}
   .op-page .op-starfish{right:13%;bottom:4%;width:clamp(38px,10vw,54px);height:auto}
 
   .op-page .op-ticker{display:flex}
@@ -5620,7 +5630,7 @@
   .op-page .op-header .op-navrow{padding-right:16px}
   .op-page .op-header .op-brand img{width:112px}
   .op-page .op-copy-inner h1{font-size:30px}
-  .op-page .op-copy-inner>p{font-size:13px}
+  .op-page .op-copy-main>p{font-size:13px}
   .op-page .op-copy-inner{padding-inline:12px}
 }
 @media(min-width:761px) and (max-width:900px){
