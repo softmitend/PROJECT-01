@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MemberOrder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -54,12 +55,35 @@ class ProfileController extends Controller
                 ->sum(fn ($order) => (float) ($order->ems_tax_amount ?? 0)),
         ];
 
+        $calendarMonth = now()->startOfMonth();
+        $requestedMonth = $request->query('month');
+
+        if (is_string($requestedMonth)
+            && preg_match('/^(\d{4})-(0[1-9]|1[0-2])$/', $requestedMonth, $parts)
+            && (int) $parts[1] >= 1) {
+            $calendarMonth = Carbon::create((int) $parts[1], (int) $parts[2], 1)->startOfDay();
+        }
+
+        $calendarOrders = $orders->filter(
+            fn ($order) => $order->created_at->format('Y-m') === $calendarMonth->format('Y-m')
+        );
+        $calendarItems = $calendarOrders->flatMap(
+            fn ($order) => $order->items->map(fn ($item) => [
+                'name' => $item->item_name,
+                'quantity' => $item->quantity,
+                'date' => $order->created_at,
+            ])
+        );
+
         return view('profile.show', [
             'user' => $user,
             'member' => $member,
             'orders' => $orders,
             'stats' => $stats,
             'summary' => $summary,
+            'calendarMonth' => $calendarMonth,
+            'calendarItems' => $calendarItems,
+            'calendarOrderDays' => $calendarOrders->pluck('created_at')->map(fn ($date) => $date->day)->unique()->all(),
             'lineConfigured' => filled(config('services.line.channel_id')) && filled(config('services.line.channel_secret')),
         ]);
     }

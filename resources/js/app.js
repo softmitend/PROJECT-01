@@ -813,3 +813,23 @@ document.querySelectorAll('[data-profile-settings-button]').forEach((button) => 
         applyOceanTheme(theme);
     });
 });
+
+document.querySelectorAll('[data-op-category-next]').forEach((button) => {
+    const track = button.parentElement.querySelector('[data-op-category-track]');
+    const dots = [...button.parentElement.querySelectorAll('.op-mobile-merch-dots i')];
+    if (!track) return;
+
+    const updateDots = () => {
+        const maxScroll = Math.max(1, track.scrollWidth - track.clientWidth);
+        const activeIndex = Math.round((track.scrollLeft / maxScroll) * (dots.length - 1));
+        dots.forEach((dot, index) => dot.classList.toggle('is-active', index === activeIndex));
+    };
+
+    button.addEventListener('click', () => {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        const nextScroll = track.scrollLeft + track.clientWidth * .55;
+        track.scrollTo({ left: nextScroll >= maxScroll - 2 ? 0 : nextScroll, behavior: 'smooth' });
+    });
+    track.addEventListener('scroll', updateDots, { passive: true });
+    updateDots();
+});
