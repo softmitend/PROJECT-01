@@ -5603,7 +5603,7 @@
     box-shadow:none;
   }
   .op-page .op-cta::after{display:none}
-  .op-page .op-cta::before{background-size:100% auto}
+  .op-page .op-cta::before{top:0;bottom:auto;height:17vw;background-size:100% 100%}
   .op-page .op-cta-wave{bottom:-12%;height:62%;opacity:.6}
   .op-page .op-cta-mascot{left:-4%;bottom:-4%;width:61%;height:93%;object-fit:contain}
   .op-page .op-cta-copy{top:27%;right:3%;left:auto;width:49%;align-items:center;transform:none}
