@@ -7,10 +7,24 @@
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.8.0",
-            "maxDuration": 60
+            "maxDuration": 60,
+            "excludeFiles": [
+                "node_modules/**",
+                "now.json",
+                ".nowignore",
+                "vercel.json",
+                ".vercelignore",
+                "public/assets/**",
+                "public/build/assets/**",
+                "public/img/**"
+            ]
         }
     },
     "routes": [
+        {
+            "src": "/assets/(.*)",
+            "dest": "/assets/$1"
+        },
         {
             "src": "/build/(.*)",
             "dest": "/build/$1"
