@@ -5593,7 +5593,7 @@
 
   .op-page .op-cta{
     width:calc(100% + 32px);
-    height:calc(clamp(270px,74vw,350px) - 40px);
+    height:calc(clamp(270px,74vw,350px) - 60px);
     margin:27px -16px 0;
     border-right:0;
     border-left:0;
