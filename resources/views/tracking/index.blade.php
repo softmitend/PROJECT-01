@@ -80,6 +80,7 @@
                 <span>HAPPIER<br>TOGETHER ♡</span>
             </div>
             <img class="op-sign-grass" src="{{ asset('assets/oceanpaws-hero-background-v3.png') }}" alt="" aria-hidden="true">
+            <img class="op-hero-grass" src="{{ asset('assets/oceanpaws-sign-grass-v1.png') }}" alt="" aria-hidden="true">
             <img class="op-starfish" src="{{ asset('assets/glossy_pink_starfish_sticker.png') }}" alt="" aria-hidden="true">
         </div>
     </section>

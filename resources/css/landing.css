@@ -4625,6 +4625,7 @@
 }
 .op-sign-grass{z-index:12}
 .op-starfish{z-index:13}
+.op-hero-grass{position:absolute;display:none;pointer-events:none;user-select:none}
 
 @media(min-width:761px){
   .op-palm{top:12.2cqw;right:-2%;width:23%;height:40cqw;object-fit:fill}
@@ -5551,7 +5552,17 @@
   .op-page .op-sign span:nth-of-type(1){top:16.5%}
   .op-page .op-sign span:nth-of-type(2){top:38.5%}
   .op-page .op-sign span:nth-of-type(3){top:59%}
-  .op-page .op-starfish{right:13%;bottom:4%;width:clamp(38px,10vw,54px);height:auto}
+  /* Low foreground bush hides the palm trunk and sign post cut-offs. */
+  .op-page .op-hero-grass{
+    right:-3%;
+    bottom:-1%;
+    display:block;
+    z-index:15;
+    width:60%;
+    height:clamp(40px,11vw,56px);
+    object-fit:fill;
+  }
+  .op-page .op-starfish{right:auto;left:2%;bottom:2%;width:clamp(38px,10vw,54px);height:auto;z-index:14}
 
   .op-page .op-ticker{display:flex}
 
