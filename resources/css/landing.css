@@ -5527,10 +5527,10 @@
   .op-page .op-palm{
     top:auto;
     right:calc(-13% - 10px);
-    bottom:calc(-3% + 41px);
+    bottom:calc(-3% + 46px);
     display:block;
     z-index:11;
-    width:calc(70% + 4px);
+    width:calc(70% + 12px);
     height:60%;
     object-fit:contain;
     object-position:bottom;
