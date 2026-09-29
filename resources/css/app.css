@@ -6254,6 +6254,9 @@ body.customer-theme,
 
 /* One compact browser navbar across the landing, tracking, and profile pages. */
 @media (max-width: 760px) {
+    :is(.op-page, .tracking-site-header, .profile-site-header) {
+        --op-mobile-card-shadow: -2px 3px 0 #79a486;
+    }
     .op-page .op-header.op-mobile-navbar,
     .profile-site-header .op-header.op-mobile-navbar {
         top: 12px;
@@ -6273,7 +6276,7 @@ body.customer-theme,
         border: 2px solid #815767;
         border-radius: 15px;
         background: #fffefa;
-        box-shadow: -5px 5px 0 #9bc8a4;
+        box-shadow: var(--op-mobile-card-shadow);
     }
     :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar > .op-browserbar {
         display: flex;
