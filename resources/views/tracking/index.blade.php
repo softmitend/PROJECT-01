@@ -91,19 +91,6 @@
         </div>
     </section>
 
-    <section class="op-mobile-merch-strip" aria-label="Kategori merchandise">
-        <div class="op-mobile-merch-track" data-op-category-track>
-            @foreach ($mobileCategories as $category)
-                <div class="op-mobile-merch-card">
-                    <span class="op-category-icon is-{{ $category['icon'] }}" aria-hidden="true"></span>
-                    <span>{{ $category['name'] }}</span>
-                </div>
-            @endforeach
-        </div>
-        <button class="op-mobile-merch-next" type="button" aria-label="Lihat kategori berikutnya" data-op-category-next><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-        <div class="op-mobile-merch-dots" aria-hidden="true"><i class="is-active"></i><i></i><i></i></div>
-    </section>
-
     <div class="op-ticker" role="marquee" aria-label="K-pop merchandise: album, lightstick, keychain, photocard, poster, POB, plushie, trading card, fan kit, season's greetings">
         <div class="op-ticker-track" aria-hidden="true">
             @foreach ([1, 2] as $copy)
