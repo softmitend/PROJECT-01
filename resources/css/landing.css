@@ -5536,7 +5536,7 @@
     object-position:bottom;
   }
   .op-page .op-sign{
-    right:calc(6% + 8px);
+    right:calc(6% + 17px);
     bottom:2%;
     display:block;
     z-index:14;
