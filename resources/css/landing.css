@@ -5440,8 +5440,8 @@
 /* Active navigation keeps its pink icon and text without an underline. */
 .op-nav a.is-active::after{content:none}
 
-/* Mobile landing composition: portrait hero, illustrated merch, compact cards. */
-.op-mobile-menu,.op-mobile-popular{display:none}
+/* Mobile landing composition: portrait hero and compact cards. */
+.op-mobile-popular{display:none}
 .op-category-icon{
   display:block;
   flex:none;
@@ -5461,61 +5461,6 @@
     height:clamp(830px,225vw,1125px);
     background:#fbdce5 url('/assets/oceanpaws-hero-background-v4.png') center top/auto 100% no-repeat;
   }
-  .op-page .op-header{
-    top:16px;
-    left:0;
-    width:100%;
-    height:74px;
-    overflow:visible;
-    border:0;
-    border-radius:0;
-    background:transparent;
-    box-shadow:none;
-    transform:none;
-  }
-  .op-page .op-header>.op-browserbar{display:none}
-  .op-page .op-header .op-navrow{
-    display:flex;
-    height:74px;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
-    padding:0 16px;
-  }
-  .op-page .op-header .op-brand{height:74px;margin:0}
-  .op-page .op-header .op-brand-logo{margin:0}
-  .op-page .op-header .op-brand img{width:clamp(112px,30vw,136px);height:auto;max-width:none;margin:0}
-  .op-page .op-header .op-nav{display:none}
-  .op-page .op-mobile-menu{position:relative;z-index:40;display:block;flex:none}
-  .op-page .op-mobile-menu summary{
-    display:flex;
-    width:42px;
-    height:42px;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:5px;
-    cursor:pointer;
-    list-style:none;
-  }
-  .op-page .op-mobile-menu summary::-webkit-details-marker{display:none}
-  .op-page .op-mobile-menu summary span{display:block;width:24px;height:2.5px;border-radius:2px;background:#3f554b}
-  .op-page .op-mobile-menu nav{
-    position:absolute;
-    top:49px;
-    right:0;
-    display:grid;
-    min-width:170px;
-    gap:2px;
-    padding:8px;
-    border:2px solid #6f5060;
-    border-radius:11px;
-    background:#fffdf8;
-    box-shadow:-4px 4px 0 #a6ccb0;
-  }
-  .op-page .op-mobile-menu nav a{padding:9px 11px;border-radius:6px;color:#345b45;font:800 13px/1.2 "Nunito Sans",sans-serif}
-  .op-page .op-mobile-menu nav a:hover,.op-page .op-mobile-menu nav a:focus-visible{background:#fce1e9;color:#b12f5b}
-
   .op-page .op-copy-window,.op-page .op-copy-window-back{
     top:clamp(112px,30vw,150px);
     left:21px;
@@ -5523,9 +5468,9 @@
     height:clamp(442px,117vw,585px);
     max-width:none;
   }
-  .op-page .op-copy-window-back{left:16px;width:calc(100% - 32px);animation:op-rear-tab-hop 3.6s ease-in-out infinite}
-  .op-page .op-copy-window-back::before{top:7px;left:-6px;box-shadow:-2px 2px 0 #789b82}
-  .op-page .op-copy-window-back::after{left:0}
+  .op-page .op-copy-window-back{top:calc(clamp(112px,30vw,150px) + 5px);left:22px;width:calc(100% - 38px);animation:op-rear-tab-hop 3.6s ease-in-out infinite}
+  .op-page .op-copy-window-back::before{top:7px;left:-7px;box-shadow:-2px 2px 0 #789b82}
+  .op-page .op-copy-window-back::after{display:none}
   .op-page .op-copy-window{border-width:2px;border-radius:13px;box-shadow:-2px 3px 0 #79a486;animation:op-front-tab-hop 3.6s ease-in-out infinite}
   .op-page .op-copy-window .op-browserbar{height:29px;padding:0 13px}
   .op-page .op-copy-inner{

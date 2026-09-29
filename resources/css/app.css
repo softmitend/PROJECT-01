@@ -6231,14 +6231,6 @@ body.customer-theme,
     .tracking-site-header .op-nav a { padding-inline: 6px; font-size: 12px; }
 }
 @media (max-width: 700px) {
-    .tracking-site-header { padding: 12px 12px 0; }
-    .tracking-site-browser { height: auto; min-height: 120px; }
-    .tracking-site-header .op-navrow { height: 96px; grid-template-columns: 1fr; grid-template-rows: 48px 45px; padding-inline: 10px; }
-    .tracking-site-header .op-brand { justify-content: center; }
-    .tracking-site-header .op-brand img { width: 175px; height: 63px; }
-    .tracking-site-header .op-nav { grid-column: 1; grid-row: 2; justify-content: space-around; }
-    .tracking-site-header .op-nav a { gap: 5px; padding: 0 4px; font-size: 11px; }
-    .tracking-site-header .op-nav a i { font-size: 14px; }
     .ocean-tracking .tracking-search-page .tracking-lookup-hero { min-height: 0; padding: 30px 18px 58px; }
     .tracking-lookup-frame { border-radius: 14px; box-shadow: -5px 5px 0 #6eab80; }
     .ocean-tracking .tracking-lookup-hero-inner { display: flex; flex-direction: column; gap: 0; min-height: 0; align-items: stretch; margin: 7px; padding: 24px 17px 4px; }
@@ -6258,4 +6250,73 @@ body.customer-theme,
     .tracking-site-footer-inner { width: calc(100% - 36px); min-height: 0; flex-direction: column; align-items: stretch; gap: 2px; padding-block: 18px; }
     .tracking-site-footer-brand img { width: 160px; }
     .tracking-site-footer-credit { align-self: flex-end; font-size: 10px; }
+}
+
+/* One compact browser navbar across the landing, tracking, and profile pages. */
+@media (max-width: 760px) {
+    .op-page .op-header.op-mobile-navbar,
+    .profile-site-header .op-header.op-mobile-navbar {
+        top: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: 84px;
+        transform: none;
+    }
+    .tracking-site-header { padding: 12px 12px 0; }
+    .tracking-site-header .tracking-site-browser.op-mobile-navbar {
+        width: 100%;
+        min-height: 0;
+        height: 84px;
+    }
+    :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar {
+        overflow: hidden;
+        border: 2px solid #815767;
+        border-radius: 15px;
+        background: #fffefa;
+        box-shadow: -5px 5px 0 #9bc8a4;
+    }
+    :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar > .op-browserbar {
+        display: flex;
+        height: 21px;
+        padding-inline: 10px;
+    }
+    :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar .op-navrow {
+        display: flex;
+        height: calc(100% - 21px);
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px;
+        padding: 0 9px;
+    }
+    :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar .op-brand {
+        height: 100%;
+        flex: 0 0 auto;
+        justify-content: flex-start;
+        margin: 0;
+    }
+    :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar .op-brand-logo { margin: 0; }
+    :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar .op-brand img {
+        width: clamp(92px, 27vw, 120px);
+        max-width: none;
+        height: auto;
+        margin: 0;
+    }
+    :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar .op-nav {
+        display: flex;
+        min-width: 0;
+        height: 100%;
+        flex: 0 1 auto;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0;
+    }
+    :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar .op-nav a {
+        gap: 3px;
+        padding: 0 clamp(2px, .8vw, 5px);
+        font: 800 clamp(9px, 2.5vw, 11px)/1 "Nunito Sans", sans-serif;
+        white-space: nowrap;
+    }
+    :is(.op-page, .tracking-site-header, .profile-site-header) .op-mobile-navbar .op-nav a i {
+        font-size: clamp(11px, 3vw, 14px);
+    }
 }

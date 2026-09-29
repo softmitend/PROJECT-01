@@ -27,7 +27,7 @@
         <img class="op-sky-cloud op-sky-cloud-a" src="{{ asset('assets/glossy_pastel_pink_cloud.png') }}" alt="" aria-hidden="true">
         <img class="op-sky-cloud op-sky-cloud-b" src="{{ asset('assets/pastel_pink_cloud_with_soft_highlights.png') }}" alt="" aria-hidden="true">
 
-        <header class="op-browser op-header">
+        <header class="op-browser op-header op-mobile-navbar">
             <div class="op-browserbar">
                 <span class="op-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
@@ -40,15 +40,6 @@
                         <a href="{{ route('profile.show') }}"><i class="bi bi-person-circle"></i><span>Profile</span></a>
                     @endauth
                 </nav>
-                <details class="op-mobile-menu">
-                    <summary aria-label="Buka menu navigasi"><span></span><span></span><span></span></summary>
-                    <nav aria-label="Navigasi utama seluler">
-                        <a href="#home">Home</a>
-                        <a href="#about">About Us</a>
-                        <a href="{{ route('tracking.index') }}">Tracking</a>
-                        @auth<a href="{{ route('profile.show') }}">Profile</a>@endauth
-                    </nav>
-                </details>
             </div>
         </header>
 

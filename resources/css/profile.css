@@ -312,7 +312,7 @@ body.ocean-profile {
   .profile-calendar-row { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
-  .profile-site-header { height: 150px; }
+  .profile-site-header { height: 110px; }
   .ocean-profile .profile-page { padding-inline: 12px; }
   .ocean-profile .profile-shell { width: 100%; margin-left: 0; }
   .ocean-profile .activity-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -1,5 +1,5 @@
 <div class="profile-site-header">
-    <header class="op-browser op-header">
+    <header class="op-browser op-header op-mobile-navbar">
         <div class="op-browserbar">
             <span class="op-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
         </div>
