@@ -5513,28 +5513,31 @@
   .op-page .op-hero-mascot{
     top:auto;
     right:auto;
-    bottom:1%;
+    bottom:0;
     left:0;
-    width:78%;
-    height:33%;
+    z-index:13;
+    width:84%;
+    height:37%;
     object-fit:contain;
     filter:none;
   }
   .op-page .op-palm{
     top:auto;
-    right:0;
-    bottom:7%;
+    right:-5%;
+    bottom:0;
     display:block;
-    width:36%;
-    height:30%;
+    z-index:11;
+    width:52%;
+    height:43%;
     object-fit:contain;
   }
   .op-page .op-sign{
-    right:0;
-    bottom:8%;
+    right:1%;
+    bottom:2%;
     display:block;
-    width:27%;
-    height:21%;
+    z-index:14;
+    width:29%;
+    height:23%;
     transform:none;
   }
   .op-page .op-sign span,.op-page .op-sign span:nth-child(1),.op-page .op-sign span:nth-child(2),.op-page .op-sign span:nth-child(3){height:20%;font-size:clamp(7px,1.8vw,9px)}
