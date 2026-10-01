@@ -6,7 +6,6 @@ use App\Http\Requests\MemberHistoryLookupRequest;
 use App\Http\Requests\TrackingLookupRequest;
 use App\Models\Member;
 use App\Models\MemberOrder;
-use App\Models\Testimonial;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -15,51 +14,9 @@ class MemberTrackingController extends Controller
 {
     public function home()
     {
-        $testimonialSlides = Testimonial::query()
-            ->where('is_published', true)
-            ->with(['member', 'orderItem.order.batch'])
-            ->latest()
-            ->take(9)
-            ->get()
-            ->map(fn (Testimonial $testimonial) => [
-                'image' => $testimonial->photo_url
-                    ?: $testimonial->orderItem?->order?->batch?->catalog_image_url
-                    ?: '/assets/testimonial-1.png',
-                'content' => $testimonial->content,
-                'name' => $testimonial->member?->display_name ?: 'Customer Ocean Paws',
-                'rating' => $testimonial->rating,
-            ]);
-
-        if ($testimonialSlides->isEmpty()) {
-            $testimonialSlides = collect([
-                [
-                    'image' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80',
-                    'content' => 'Album datang dengan aman dan packing-nya rapi banget. Update selama proses GO juga jelas, jadi nggak perlu khawatir menunggu.',
-                    'name' => 'Alya',
-                    'rating' => 5,
-                ],
-                [
-                    'image' => 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
-                    'content' => 'Photocard sampai tanpa lecet dan kondisinya sesuai deskripsi. Bakal ikut group order di Ocean Paws lagi!',
-                    'name' => 'Nadira',
-                    'rating' => 5,
-                ],
-                [
-                    'image' => 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80',
-                    'content' => 'Prosesnya transparan dari pembayaran sampai pengiriman. Barang juga tiba lebih cepat dari perkiraanku.',
-                    'name' => 'Keisha',
-                    'rating' => 5,
-                ],
-                [
-                    'image' => 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80',
-                    'content' => 'Prosesnya transparan dari pembayaran sampai pengiriman. Barang juga tiba lebih cepat dari perkiraanku.',
-                    'name' => 'Adeline',
-                    'rating' => 5,
-                ],
-            ]);
-        }
-
-        return view('tracking.index', compact('testimonialSlides'));
+        return view('tracking.index', [
+            'testimonialSlides' => collect(),
+        ]);
     }
 
     public function index()
