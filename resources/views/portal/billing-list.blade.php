@@ -52,7 +52,7 @@
     </style>
     <div class="portal-v2 portal-billing-v2">
         <div class="portal-v2-shell">
-            <a class="portal-v2-back" href="{{ route('orders.index') }}" aria-label="Kembali ke pusat pesanan">
+            <a class="portal-v2-back" href="{{ route('profile.show') }}" aria-label="Kembali ke profil">
                 <x-public-icon name="arrow-left" :size="18" />
                 <span>Kembali</span>
             </a>
@@ -189,7 +189,7 @@
                                     <small>KOSONG</small>
                                     <h2>Tidak ada transaksi di kategori ini.</h2>
                                     <p>Data pembayaran akan otomatis tampil ketika tersedia.</p>
-                                    <a href="{{ route('orders.index') }}">Kembali ke Pesanan</a>
+                                    <a href="{{ route('profile.show') }}">Kembali ke Profil</a>
                                 </div>
                             @endforelse
                         </div>
