@@ -10,7 +10,7 @@
     <header aria-label="Akun customer" style="position:absolute;z-index:60;top:clamp(22px,2.5vw,34px);left:0;right:0;pointer-events:none;">
         <div style="width:min(calc(100% - clamp(28px,3.2vw,44px)),1180px);margin:0 auto;display:flex;justify-content:flex-end;align-items:center;">
             @if($member)
-                <a href="{{ route('profile.show') }}" class="public-account-chip" style="pointer-events:auto;">
+                <a href="{{ route('profile.show') }}" class="public-account-chip portal-v2-account-chip" style="pointer-events:auto;">
                     @if($member->avatar_url)
                         <img src="{{ $member->avatar_url }}" alt="Foto profil {{ $member->display_name }}">
                     @else
