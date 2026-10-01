@@ -52,7 +52,7 @@
     </style>
     <div class="portal-v2 portal-orders-v2">
         <div class="portal-v2-shell">
-            <a class="portal-v2-back" href="{{ route('orders.index') }}" aria-label="Kembali ke pusat pesanan">
+            <a class="portal-v2-back" href="{{ route('profile.show') }}" aria-label="Kembali ke profil">
                 <x-public-icon name="arrow-left" :size="18" />
                 <span>Kembali</span>
             </a>
@@ -167,8 +167,8 @@
                                     <span class="portal-v2-empty-icon"><x-public-icon name="bag" :size="32" /></span>
                                     <small>KOSONG</small>
                                     <h2>Tidak ada pesanan di kategori ini.</h2>
-                                    <p>Coba kategori lain atau kembali ke pusat pesanan.</p>
-                                    <a href="{{ route('orders.index') }}">Kembali ke Pesanan</a>
+                                    <p>Coba kategori lain atau kembali ke profil.</p>
+                                    <a href="{{ route('profile.show') }}">Kembali ke Profil</a>
                                 </div>
                             @endforelse
                         </div>
