@@ -1,6 +1,6 @@
 <x-layouts.app :title="$title.' — Ocean Paws'">
-    <main class="page portal-overview-page">
-        <div class="page-wide portal-overview-shell">
+    <div class="page portal-overview-page">
+        <div class="portal-overview-shell">
             <header class="portal-overview-header">
                 <span>{{ $type === 'billing' ? 'TAGIHAN OCEAN PAWS' : 'LAYANAN OCEAN PAWS' }}</span>
                 <h1>{{ $title }}</h1>
@@ -21,5 +21,5 @@
                 @endforeach
             </section>
         </div>
-    </main>
+    </div>
 </x-layouts.app>
