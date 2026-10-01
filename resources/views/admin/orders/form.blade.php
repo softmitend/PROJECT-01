@@ -2,15 +2,14 @@
     $selectedBatchId = (int) old('batch_id', $order->batch_id ?: request('batch_id'));
     $itemsAreLocked = $order->exists && ($order->batch?->orders_locked || $order->is_refunded);
     $rows = old('items', $order->items?->toArray() ?: [['item_name' => '', 'quantity' => 1]]);
-    $customerName = old('customer_name', $order->member?->display_name);
-    $customerUsername = old('customer_username', $order->member?->username);
+    $selectedMemberId = old('member_id', $order->member_id);
 @endphp
 
 <x-layouts.app title="{{ $order->exists ? 'Edit Pesanan' : 'Tambah Pesanan' }}">
     <x-admin-form-shell
         title="{{ $order->exists ? 'Edit Pesanan' : 'Tambah Pesanan' }}"
         eyebrow="Pesanan dalam Batch"
-        description="Catat pelanggan dan seluruh item langsung di dalam pesanan. Data pelanggan cukup nama dan username LINE."
+        description="Pilih member yang sudah LINE-connected dan aktif. Member baru harus login via LINE terlebih dahulu."
         max-width="max-w-6xl"
     >
         <form method="POST" action="{{ $order->exists ? route('admin.member-orders.update', $order, false) : route('admin.member-orders.store', [], false) }}">
@@ -20,7 +19,7 @@
             <div class="admin-form-body">
                 <x-admin-form-intro
                     title="Satu Form untuk Satu Pesanan"
-                    description="Kode pesanan dibuat otomatis. Pelanggan dikenali dari username LINE agar riwayatnya tetap tersambung tanpa menu pelanggan terpisah."
+                    description="Kode pesanan dibuat otomatis. Member dipilih dari daftar yang sudah terverifikasi LINE (eligible untuk order baru)."
                 />
 
                 <x-admin-form-section title="Identitas Pesanan">
@@ -30,9 +29,22 @@
                             <strong>{{ $order->exists ? $order->order_code : 'ORD-'.now()->format('ym').'-XXXXXX' }}</strong>
                             <small class="admin-form-help">Kode ini menjadi kunci tracking status dan tagihan Pajak/EMS.</small>
                         </div>
-                        <div class="grid gap-4 md:grid-cols-2">
-                            <x-text-input label="Nama pelanggan" name="customer_name" :value="$customerName" placeholder="Contoh: Athen" required />
-                            <x-text-input label="Username LINE" name="customer_username" :value="$customerUsername" placeholder="Contoh: athen.go" required />
+                        <div>
+                            <label class="block">
+                                <span>Pilih Member <span class="text-red-500" aria-hidden="true">*</span></span>
+                                <select name="member_id" required class="w-full rounded border border-zinc-300 bg-white px-3 py-2 text-zinc-900 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20">
+                                    <option value="">Pilih member...</option>
+                                    @foreach($eligibleMembers as $member)
+                                        <option value="{{ $member->id }}" @selected($selectedMemberId == $member->id)>
+                                            {{ $member->display_name }} ({{ $member->member_code }}) — {{ $member->username }} — {{ $member->eligibility_status_label }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <small class="admin-form-help">
+                                    Hanya member yang sudah <strong>LINE-connected</strong> dan <strong>aktif</strong> yang dapat dipilih untuk order baru.
+                                    Member legacy (belum konek LINE) ditampilkan dengan label "LINE belum terhubung" dan tidak eligible.
+                                </small>
+                            </label>
                         </div>
                     </div>
                 </x-admin-form-section>

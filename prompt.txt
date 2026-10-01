@@ -1,0 +1,760 @@
+Kerjakan refactor pada repository `softmitend/PROJECT-01` untuk memperbaiki alur admin terkait:
+
+1. form Tambah Batch;
+2. pengaturan QRIS/payment method;
+3. struktur navigasi admin terkait menu Pesanan.
+
+Jangan melakukan redesign besar di luar scope ini.
+
+Gunakan struktur, naming, style Laravel, Blade, CSS, dan pola UI existing sebanyak mungkin.
+
+Sebelum mengubah kode, audit terlebih dahulu:
+
+- routes admin;
+- `BatchController`;
+- model `Batch`;
+- model `MemberOrder`;
+- model `Member`;
+- form create/edit Batch;
+- halaman list/detail Batch;
+- admin navigation/sidebar;
+- current QRIS storage;
+- current payment-related fields;
+- current order/member order routes;
+- current migrations;
+- tests existing.
+
+Tujuan utamanya adalah membuat admin workflow lebih sesuai dengan sistem Group Order berbasis Batch.
+
+---
+
+# A. Business flow yang harus dipahami
+
+PROJECT-01 menggunakan konsep:
+
+```text
+Batch
+→ memiliki banyak buyer
+→ setiap buyer memiliki MemberOrder
+→ setiap MemberOrder memiliki item/payment/status/tracking masing-masing
+```
+
+Admin bekerja terutama berdasarkan Batch.
+
+Flow utama:
+
+```text
+Admin membuat Batch
+→ membuka Batch
+→ menambahkan buyer ke Batch
+→ menentukan item/variant/qty
+→ MemberOrder dibuat
+→ seluruh buyer mengikuti progress utama Batch
+→ individual MemberOrder hanya menyimpan kondisi individual seperti pembayaran, shipment, exception, override, dll.
+```
+
+Karena itu:
+
+- Batch adalah pusat operasional utama;
+- MemberOrder tetap penting sebagai entity transaksi individual;
+- tetapi MemberOrder/Pesanan tidak perlu menjadi primary navigation terpisah.
+
+---
+
+# B. Hapus upload QRIS dari form Tambah/Edit Batch
+
+Saat ini form Tambah Batch memiliki upload QRIS.
+
+Ini tidak efisien karena QRIS OceanPaws digunakan berulang pada banyak Batch.
+
+QRIS bukan properti unik suatu Batch.
+
+QRIS adalah global payment method milik bisnis.
+
+Hapus requirement dan UI:
+
+```text
+Upload QRIS pembayaran
+```
+
+dari create/edit Batch.
+
+Jangan meminta admin upload QRIS setiap membuat Batch.
+
+Form Batch baru harus fokus hanya pada data yang benar-benar milik Batch.
+
+Contoh struktur form:
+
+```text
+IDENTITAS BATCH
+- nomor batch otomatis
+- nama batch
+
+KATALOG
+- foto katalog
+- batas pemesanan
+- tampilkan di katalog
+
+VARIASI BARANG
+- tambah variant
+- harga
+- DP/full price jika digunakan
+
+PEMBAYARAN
+- skema pembayaran:
+  - Full
+  - DP
+
+Jika DP:
+- nominal/default DP bila memang digunakan
+
+Metode pembayaran:
+QRIS OceanPaws
+status: Aktif
+
+[Kelola metode pembayaran]
+
+PROGRESS
+- status awal
+- tanggal mulai
+- tanggal selesai
+
+INFORMASI
+- deskripsi
+- catatan admin
+```
+
+Jangan tampilkan file input QRIS pada Batch.
+
+---
+
+# C. Buat pengaturan payment method / QRIS global
+
+Tambahkan pengelolaan payment method yang dapat digunakan berulang oleh seluruh Batch dan invoice.
+
+Prefer struktur domain seperti:
+
+```text
+PaymentMethod
+```
+
+atau naming lain yang konsisten dengan project.
+
+Contoh tabel:
+
+```text
+payment_methods
+
+id
+name
+type
+image_path
+account_name nullable
+instructions nullable
+is_active
+created_at
+updated_at
+```
+
+Contoh:
+
+```text
+name:
+QRIS OceanPaws
+
+type:
+qris
+
+image_path:
+...
+
+is_active:
+true
+```
+
+Saat ini cukup mendukung QRIS, tetapi jangan membuat struktur yang hanya bisa bekerja untuk satu file QR secara hard-coded jika mudah dibuat generic.
+
+Di masa depan payment method dapat berkembang menjadi:
+
+```text
+QRIS
+Bank Transfer
+dll.
+```
+
+Namun jangan membuat fitur tambahan yang belum dibutuhkan.
+
+---
+
+# D. QRIS aktif
+
+Sistem harus dapat menentukan QRIS/payment method yang sedang aktif.
+
+Untuk sekarang business rule-nya:
+
+- satu QRIS utama dapat digunakan berulang;
+- admin dapat mengganti QRIS aktif;
+- QRIS lama jangan dihapus secara destruktif jika pernah dipakai;
+- QRIS lama dapat dibuat inactive;
+- payment method baru dapat dijadikan active.
+
+Jika perlu, enforce hanya satu payment method aktif per type `qris`.
+
+Contoh:
+
+```text
+QRIS Lama
+Inactive
+
+QRIS OceanPaws Baru
+Active
+```
+
+Jangan overwrite file QR lama jika hal tersebut membuat histori transaksi kehilangan referensi lama.
+
+---
+
+# E. Lokasi pengaturan QRIS
+
+Jangan menambahkan menu sidebar terpisah bernama:
+
+```text
+QRIS
+```
+
+Gunakan modul Batch yang sudah ada.
+
+Halaman utama Batch sebaiknya mempunyai navigation internal seperti:
+
+```text
+Batch
+
+[ Daftar Batch ] [ Pengaturan ]
+```
+
+## Daftar Batch
+
+Tetap menampilkan batch existing.
+
+## Pengaturan
+
+Berisi pengaturan reusable terkait operasional Batch.
+
+Minimal:
+
+```text
+Pembayaran
+```
+
+dan di dalamnya:
+
+```text
+QRIS / Payment Method aktif
+preview QR
+status
+nama payment method
+instruksi pembayaran
+
+[Ganti / Tambah Payment Method]
+```
+
+Jika memang ada setting Batch global lain yang sudah relevan dan existing, boleh dikelompokkan di halaman ini.
+
+Jangan membuat terlalu banyak konfigurasi baru yang belum dibutuhkan.
+
+---
+
+# F. Form Batch harus menggunakan Payment Method aktif
+
+Ketika admin membuat Batch:
+
+jangan menyimpan duplicate QR image baru ke Batch.
+
+Jika ada satu payment method aktif, tampilkan informasi seperti:
+
+```text
+Metode pembayaran
+
+QRIS OceanPaws
+Aktif
+
+Pembayaran untuk Batch ini akan menggunakan payment method aktif.
+[Kelola]
+```
+
+Jika belum ada payment method aktif:
+
+tampilkan warning yang jelas.
+
+Contoh:
+
+```text
+Belum ada metode pembayaran aktif.
+Atur QRIS terlebih dahulu di Pengaturan Batch.
+```
+
+Jangan silently gagal.
+
+Tentukan secara aman apakah Batch perlu:
+
+- reference ke `payment_method_id`, atau
+- menggunakan payment method global saat invoice dibuat.
+
+Pilih desain yang paling sesuai dengan struktur project existing.
+
+Prinsip penting:
+
+historical payment records tidak boleh berubah secara salah hanya karena admin mengganti QRIS aktif kemudian.
+
+Jika Invoice domain sudah tersedia setelah audit, prefer Invoice menyimpan `payment_method_id`.
+
+Jika Invoice domain belum tersedia dan implementasinya di luar scope task ini, siapkan struktur PaymentMethod dengan bersih tanpa melakukan refactor Invoice besar yang tidak diminta.
+
+---
+
+# G. Legacy QRIS data
+
+Jangan merusak Batch lama yang mungkin sudah memiliki QRIS image sendiri.
+
+Audit field existing seperti:
+
+```text
+qris_image
+qris_path
+atau field serupa
+```
+
+Untuk legacy Batch:
+
+- jangan delete file/data lama secara destruktif;
+- pastikan halaman lama tidak error;
+- jika masih diperlukan untuk histori, pertahankan sebagai legacy fallback.
+
+Untuk NEW Batch:
+
+- jangan lagi meminta upload QRIS per Batch;
+- gunakan global PaymentMethod.
+
+Jika perlu migration, buat migration baru.
+
+Jangan edit migration lama secara destruktif.
+
+---
+
+# H. Ubah posisi menu Pesanan pada admin
+
+Saat ini sidebar memiliki menu seperti:
+
+```text
+Dashboard
+Batch
+Pesanan
+Status
+```
+
+Untuk business flow terbaru, `Pesanan` tidak perlu lagi menjadi primary top-level navigation.
+
+Alasannya:
+
+satu Batch memiliki banyak buyer dan tiap buyer memiliki MemberOrder.
+
+Admin seharusnya bekerja melalui:
+
+```text
+Batch
+→ detail Batch
+→ daftar Buyer/Pesanan
+→ detail MemberOrder buyer
+```
+
+Bukan:
+
+```text
+Pesanan
+→ pilih order
+→ baru mengetahui Batch
+```
+
+Karena itu:
+
+hapus menu `Pesanan` dari primary sidebar navigation.
+
+PENTING:
+
+jangan menghapus:
+
+- model `MemberOrder`;
+- tabel member_orders;
+- controller logic yang masih diperlukan;
+- routes yang masih digunakan untuk detail/update order;
+- relationships;
+- payment data;
+- tracking;
+- shipment;
+- override status;
+- history.
+
+Yang dihapus hanya posisi `Pesanan` sebagai menu utama admin.
+
+---
+
+# I. MemberOrder tetap hidup sebagai detail transaksi buyer
+
+MemberOrder tetap merupakan transaksi individual buyer dalam suatu Batch.
+
+Struktur konseptual:
+
+```text
+Batch
+└── MemberOrder
+    ├── Member
+    ├── Items
+    ├── Payment
+    ├── Invoice
+    ├── Tracking
+    ├── Shipment
+    ├── Override
+    └── Status
+```
+
+Jangan menghapus atau menggabungkan MemberOrder ke Batch.
+
+Batch dan MemberOrder memiliki tanggung jawab berbeda.
+
+Batch:
+- progress utama Group Order;
+- katalog/variant;
+- periode;
+- buyer list;
+- overall operational context.
+
+MemberOrder:
+- buyer tertentu;
+- item buyer;
+- payment buyer;
+- invoice buyer;
+- tracking code;
+- shipment buyer;
+- exception/override individual.
+
+---
+
+# J. Detail Batch menjadi pusat pengelolaan buyer
+
+Pastikan Detail Batch dapat menjadi entry point utama untuk mengelola transaksi buyer.
+
+Ideal structure:
+
+```text
+Detail Batch
+
+Overview
+Buyer / Pesanan
+Progress
+Pembayaran
+QC
+Distribusi
+Aktivitas
+```
+
+Tidak wajib membuat seluruh tab tersebut jika belum tersedia dan di luar scope, tetapi desain dan routing baru jangan menghambat struktur tersebut.
+
+Minimal, Detail Batch harus memiliki area:
+
+```text
+Buyer / Pesanan
+```
+
+yang menampilkan MemberOrder di Batch tersebut.
+
+Contoh:
+
+```text
+Vina
+2 item
+DP Lunas
+Progress: Warehouse Korea
+[Detail]
+
+Nadia
+1 item
+Belum Bayar
+Progress: Warehouse Korea
+[Detail]
+
+Rani
+3 item
+Refund
+[Detail]
+```
+
+Admin dapat membuka detail individual buyer/order dari sini.
+
+---
+
+# K. Detail MemberOrder
+
+Detail MemberOrder tetap tersedia.
+
+Contoh informasi:
+
+```text
+Buyer
+Member Code
+
+Order Code
+Tracking Code
+
+Batch
+
+Items
+
+Status pesanan
+
+Status pembayaran
+
+Invoice / tagihan
+
+Shipment
+
+Override / exception
+
+History
+```
+
+Jangan membuat duplicate data jika already available.
+
+Gunakan existing data source.
+
+---
+
+# L. Global lookup order
+
+Karena menu Pesanan dikeluarkan dari sidebar, jangan membuat order menjadi sulit ditemukan.
+
+Audit apakah admin sudah memiliki global search.
+
+Jika global search existing:
+
+pastikan order dapat dicari berdasarkan:
+
+- order code;
+- tracking code;
+- buyer/member;
+- batch.
+
+Jika global search belum tersedia dan implementasinya kecil serta sesuai pola UI existing, boleh tambahkan global admin search sederhana.
+
+Namun jangan membuat search system besar atau dependency baru hanya demi task ini.
+
+Prioritas utama tetap:
+
+```text
+Batch
+→ Buyer
+→ Detail MemberOrder
+```
+
+---
+
+# M. Sidebar target
+
+Jangan melakukan redesign keseluruhan sidebar.
+
+Untuk scope ini cukup ubah struktur yang relevan.
+
+Dari:
+
+```text
+Dashboard
+Batch
+Pesanan
+Status
+```
+
+menjadi minimal:
+
+```text
+Dashboard
+Batch
+Status
+```
+
+Jika menu Buyer, Pembayaran, atau Pengiriman sudah benar-benar ada di codebase dan aktif, pertahankan sesuai business flow existing.
+
+Jangan membuat menu dummy yang belum memiliki implementasi.
+
+Jangan menghapus Status pada task ini.
+
+---
+
+# N. UX requirements
+
+Gunakan visual style admin existing.
+
+Jangan membuat desain yang terasa berasal dari aplikasi lain.
+
+Pertahankan:
+
+- typography;
+- spacing;
+- border radius;
+- card style;
+- button style;
+- purple accent;
+- sidebar appearance;
+- responsive behavior.
+
+Form Tambah Batch harus menjadi lebih sederhana setelah QRIS dipindahkan.
+
+Jangan mengganti keseluruhan layout.
+
+---
+
+# O. Authorization
+
+Semua pengaturan payment method/QRIS hanya dapat diakses admin yang memang memiliki akses admin existing.
+
+Gunakan middleware/policy existing.
+
+Jangan membuka QR management ke public/member area.
+
+---
+
+# P. Validation
+
+Tambahkan validation:
+
+Payment Method:
+
+- name required;
+- type valid;
+- image required untuk QRIS baru;
+- supported image types;
+- file size reasonable;
+- `is_active` boolean.
+
+Gunakan storage mechanism Laravel existing.
+
+Jangan menyimpan raw file di lokasi yang tidak konsisten dengan project.
+
+---
+
+# Q. Tests
+
+Tambahkan atau perbarui tests minimal untuk:
+
+1. Admin dapat membuat Batch tanpa upload QRIS.
+2. Form Batch tidak lagi mewajibkan QRIS.
+3. Admin dapat membuat PaymentMethod QRIS.
+4. Admin dapat mengaktifkan QRIS.
+5. Sistem dapat mengetahui QRIS aktif.
+6. Mengganti QRIS aktif tidak menghapus QRIS lama.
+7. New Batch tidak membuat duplicate QR file.
+8. Legacy Batch dengan QR data lama tetap dapat dibuka.
+9. MemberOrder tidak terhapus setelah menu Pesanan dikeluarkan dari sidebar.
+10. MemberOrder tetap dapat dibuka melalui Detail Batch.
+11. Detail Batch hanya menampilkan MemberOrder milik Batch tersebut.
+12. Admin dapat membuka detail buyer/order dari Batch.
+13. Existing order/payment/tracking relationships tetap bekerja.
+14. Admin sidebar tidak lagi menampilkan top-level `Pesanan`.
+15. Existing routes yang masih dibutuhkan oleh internal links tidak menghasilkan 404.
+16. Authorization PaymentMethod hanya untuk admin.
+
+---
+
+# R. Audit regresi
+
+Setelah perubahan, audit:
+
+- Batch create;
+- Batch edit;
+- Batch show;
+- Batch list;
+- MemberOrder;
+- admin sidebar;
+- payment QR rendering;
+- storage QRIS;
+- public/customer pages yang mungkin masih membaca QRIS dari Batch;
+- Billing;
+- Invoice jika sudah tersedia;
+- Tracking;
+- old Batch;
+- tests.
+
+Jangan hanya mengganti Blade dan berhenti.
+
+Pastikan backend dan data model ikut konsisten.
+
+---
+
+# S. Build dan test
+
+Setelah implementasi:
+
+```bash
+php artisan test
+npm run build
+```
+
+Perbaiki regression yang muncul.
+
+Jangan menganggap pekerjaan selesai hanya karena halaman bisa dibuka.
+
+Verifikasi end-to-end:
+
+```text
+Admin
+→ Pengaturan Batch
+→ set QRIS aktif
+
+Admin
+→ Tambah Batch
+→ tidak perlu upload QR
+→ simpan Batch
+
+Admin
+→ buka Detail Batch
+→ lihat daftar buyer/order
+→ buka Detail MemberOrder
+
+Admin sidebar
+→ tidak ada lagi menu Pesanan top-level
+
+Data MemberOrder existing
+→ tetap aman
+
+Legacy Batch
+→ tetap dapat dibuka
+```
+
+---
+
+# T. Batas scope
+
+Jangan:
+
+- menghapus MemberOrder;
+- menghapus tracking;
+- menghapus payment status;
+- menghapus Invoice jika sudah ada;
+- menghapus EMS/pajak;
+- menghapus refund;
+- mengubah Profile buyer;
+- redesign landing page;
+- redesign customer portal;
+- membuat pending/unregistered buyer flow;
+- melakukan refactor besar di luar Batch/QRIS/admin navigation;
+- menghapus data production secara destruktif.
+
+Fokus task ini hanya pada:
+
+```text
+1. QRIS global / PaymentMethod
+2. membersihkan form Tambah/Edit Batch
+3. menambahkan Pengaturan di modul Batch
+4. menjadikan Detail Batch pusat transaksi buyer
+5. menghapus Pesanan sebagai primary sidebar menu tanpa menghapus MemberOrder
+```
+
+Sebelum menulis kode, jelaskan secara singkat file/model/migration yang akan diubah dan alasan masing-masing. Setelah itu implementasikan perubahan secara bertahap dan jangan berhenti di tahap planning.

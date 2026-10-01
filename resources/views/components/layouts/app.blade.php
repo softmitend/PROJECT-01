@@ -28,7 +28,6 @@
         $adminNav = [
             ['route' => 'admin.dashboard', 'match' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
             ['route' => 'admin.batches.index', 'match' => 'admin.batches.*', 'label' => 'Batch', 'icon' => 'layers'],
-            ['route' => 'admin.member-orders.index', 'match' => 'admin.member-orders.*', 'label' => 'Pesanan', 'icon' => 'bag'],
             ['route' => 'admin.order-statuses.index', 'match' => 'admin.order-statuses.*', 'label' => 'Status', 'icon' => 'route'],
         ];
         $isAdminFormRoute = request()->routeIs([

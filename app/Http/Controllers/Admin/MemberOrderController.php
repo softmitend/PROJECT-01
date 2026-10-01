@@ -60,9 +60,11 @@ class MemberOrderController extends Controller
     public function store(StoreMemberOrderRequest $request, StatusTransitionService $statuses)
     {
         $order = DB::transaction(function () use ($request, $statuses) {
-            $member = $this->resolveMember($request);
+            // member_id sudah divalidasi oleh StoreMemberOrderRequest (required, exists, eligible)
+            $member = Member::findOrFail($request->integer('member_id'));
+
             $order = MemberOrder::create($request->safe()->except([
-                'order_code', 'override_status_id', 'items', 'member_id', 'customer_name', 'customer_username',
+                'order_code', 'override_status_id', 'items',
             ]) + [
                 'member_id' => $member->id,
                 'order_code' => 'TMP-'.Str::uuid(),
@@ -119,9 +121,12 @@ class MemberOrderController extends Controller
         DB::transaction(function () use ($request, $memberOrder, $statuses) {
             $memberOrder->loadMissing(['batch.currentStatus', 'overrideStatus', 'paymentStatus']);
             $itemsAreLocked = $memberOrder->batch->orders_locked || $memberOrder->is_refunded;
-            $member = $this->resolveMember($request, $memberOrder);
+
+            // member_id sudah divalidasi - untuk update tetap memerlukan member_id yang valid
+            $member = Member::findOrFail($request->integer('member_id'));
+
             $memberOrder->update($request->safe()->except([
-                'order_code', 'override_status_id', 'items', 'member_id', 'customer_name', 'customer_username',
+                'order_code', 'override_status_id', 'items',
             ]) + ['member_id' => $member->id]);
 
             if (! $itemsAreLocked) {
@@ -216,6 +221,17 @@ class MemberOrderController extends Controller
     private function formData(MemberOrder $order): array
     {
         $order->loadMissing(['member', 'items', 'batch.currentStatus', 'overrideStatus', 'paymentStatus']);
+
+        // Ambil member yang eligible untuk NEW order (LINE-connected + active)
+        // Untuk edit, include member yang sedang dipakai meskipun legacy
+        $eligibleMembers = Member::eligibleForNewOrder()->get();
+        if ($order->exists && $order->member_id) {
+            $currentMember = Member::find($order->member_id);
+            if ($currentMember && ! $eligibleMembers->contains('id', $currentMember->id)) {
+                $eligibleMembers = $eligibleMembers->push($currentMember);
+            }
+        }
+
         $batches = Batch::query()
             ->with('currentStatus')
             ->where(fn ($query) => $query
@@ -227,6 +243,7 @@ class MemberOrderController extends Controller
         return [
             'order' => $order,
             'batches' => $batches,
+            'eligibleMembers' => $eligibleMembers,
             'itemStatuses' => OrderStatus::activeFor('order_item')->get(),
             'paymentStatuses' => OrderStatus::query()
                 ->where('scope', 'payment')
@@ -272,34 +289,5 @@ class MemberOrderController extends Controller
     private function generateOrderCode(MemberOrder $order): string
     {
         return 'ORD-'.now()->format('ym').'-'.str_pad((string) $order->getKey(), 6, '0', STR_PAD_LEFT);
-    }
-
-    private function resolveMember(StoreMemberOrderRequest $request, ?MemberOrder $order = null): Member
-    {
-        if (! $request->filled('customer_username') && $request->filled('member_id')) {
-            return Member::findOrFail($request->integer('member_id'));
-        }
-
-        $username = mb_strtolower(trim((string) $request->validated('customer_username')));
-        $member = Member::query()->where('username', $username)->first();
-
-        if (! $member && $order?->member?->username === $username) {
-            $member = $order->member;
-        }
-
-        if (! $member) {
-            $member = new Member([
-                'member_code' => 'CUS-'.Str::upper(Str::random(12)),
-                'username' => $username,
-            ]);
-        }
-
-        $member->fill([
-            'display_name' => trim((string) $request->validated('customer_name')),
-            'username' => $username,
-            'is_active' => true,
-        ])->save();
-
-        return $member;
     }
 }

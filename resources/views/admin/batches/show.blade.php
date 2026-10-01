@@ -66,9 +66,17 @@
                     <small>{{ $batch->catalog_is_open ? 'Katalog masih menerima pesanan' : 'Katalog belum dibuka atau sudah ditutup' }}</small>
                 </div>
                 <div class="detail-record-field detail-record-field-cyan">
-                    <span>QRIS pembayaran</span>
-                    <strong>{{ $batch->qris_image_path ? 'Sudah tersedia' : 'Belum diunggah' }}</strong>
-                    <small>{{ $batch->qris_image_path ? 'Checkout pelanggan dapat digunakan' : 'Pembayaran katalog akan dinonaktifkan' }}</small>
+                    <span>Metode Pembayaran</span>
+                    @if($batch->getEffectivePaymentMethod())
+                        <strong>{{ $batch->getEffectivePaymentMethod()->name }}</strong>
+                        <small>{{ $batch->getEffectivePaymentMethod()->type === 'qris' ? 'QRIS' : ucfirst($batch->getEffectivePaymentMethod()->type) }} · Global</small>
+                    @elseif($batch->qris_image_path)
+                        <strong>Legacy QRIS</strong>
+                        <small>Menggunakan QRIS lama per batch</small>
+                    @else
+                        <strong>Belum diatur</strong>
+                        <small>Checkout pelanggan tidak dapat digunakan</small>
+                    @endif
                 </div>
             </div>
 

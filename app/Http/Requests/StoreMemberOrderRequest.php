@@ -38,10 +38,6 @@ class StoreMemberOrderRequest extends FormRequest
 
         $this->merge(['items' => $items]);
 
-        if ($this->filled('customer_username')) {
-            $this->merge(['customer_username' => mb_strtolower(trim((string) $this->input('customer_username')))]);
-        }
-
         if ($this->filled('ems_tax_amount') && $this->input('ems_tax_status', 'not_billed') === 'not_billed') {
             $this->merge(['ems_tax_status' => 'unpaid']);
         }
@@ -72,9 +68,11 @@ class StoreMemberOrderRequest extends FormRequest
 
         return [
             'order_code' => ['prohibited'],
-            'member_id' => ['nullable', 'exists:members,id'],
-            'customer_name' => ['required_without:member_id', 'nullable', 'string', 'max:255'],
-            'customer_username' => ['required_without:member_id', 'nullable', 'string', 'max:100'],
+            // member_id wajib untuk NEW order, harus merujuk ke Member yang LINE-connected + active
+            'member_id' => ['required', 'exists:members,id'],
+            // customer_name dan customer_username tidak lagi digunakan untuk pembuatan buyer baru
+            'customer_name' => ['prohibited'],
+            'customer_username' => ['prohibited'],
             'batch_id' => $itemsAreLocked
                 ? ['required', Rule::in([$order->batch_id])]
                 : ['required', 'exists:batches,id'],
@@ -112,6 +110,16 @@ class StoreMemberOrderRequest extends FormRequest
 
     public function after(): array
     {
-        return [];
+        return [
+            function ($validator) {
+                // Validasi tambahan: member harus LINE-connected dan active untuk NEW order
+                if ($this->filled('member_id') && ! $this->route('member_order')) {
+                    $member = \App\Models\Member::find($this->integer('member_id'));
+                    if ($member && ! $member->isEligibleForNewOrder()) {
+                        $validator->errors()->add('member_id', 'Member tidak eligible untuk order baru. Member harus LINE-connected dan aktif.');
+                    }
+                }
+            },
+        ];
     }
 }

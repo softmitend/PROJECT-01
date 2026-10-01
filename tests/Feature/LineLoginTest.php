@@ -27,7 +27,7 @@ class LineLoginTest extends TestCase
     {
         $this->get(route('profile.show'))
             ->assertOk()
-            ->assertSee('Login dengan LINE')
+            ->assertSee('MASUK DENGAN LINE')
             ->assertSee(route('line-auth.redirect'), false)
             ->assertSee('Profil');
     }

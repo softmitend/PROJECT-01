@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Database\Seeders\CustomerCatalogSeeder;
+use Database\Seeders\CustomerDemoBatchSeeder;
 use Database\Seeders\CustomerMemberSeeder;
 use Database\Seeders\CustomerOrderSeeder;
 use Database\Seeders\OrderStatusSeeder;
@@ -21,7 +21,7 @@ class CustomerDemoSeederTest extends TestCase
 
         $seeders = [
             OrderStatusSeeder::class,
-            CustomerCatalogSeeder::class,
+            CustomerDemoBatchSeeder::class,
             CustomerMemberSeeder::class,
             CustomerOrderSeeder::class,
         ];
@@ -46,10 +46,6 @@ class CustomerDemoSeederTest extends TestCase
         $this->assertDatabaseHas('member_orders', [
             'order_code' => 'ORD-DEMO-006',
         ]);
-
-        $this->get(route('catalog.index'))
-            ->assertOk()
-            ->assertSee('LE SSERAFIM — Made My Night');
 
         $this->post(route('tracking.search'), ['query' => 'ORD-DEMO-003'])
             ->assertOk()

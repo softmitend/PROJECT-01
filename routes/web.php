@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\MemberOrderController;
 use App\Http\Controllers\Admin\OrderStatusController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\StatusHistoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\LineAuthController;
@@ -52,9 +54,20 @@ Route::prefix('admin')
     ->middleware(['auth', 'can:access-admin'])
     ->group(function () {
         Route::get('/', DashboardController::class)->name('dashboard');
-        Route::resource('batches', BatchController::class);
+        
+        // Specific batch routes MUST come before resource route to avoid conflicts
+        Route::get('batches/settings', [BatchController::class, 'settings'])->name('batches.settings');
+        Route::post('batches/settings/payment-methods', [BatchController::class, 'storePaymentMethod'])->name('batches.payment-methods.store');
+        Route::put('batches/settings/payment-methods/{paymentMethod}', [BatchController::class, 'updatePaymentMethod'])->name('batches.payment-methods.update');
+        Route::post('batches/settings/payment-methods/{paymentMethod}/toggle', [BatchController::class, 'togglePaymentMethod'])->name('batches.payment-methods.toggle');
+        Route::delete('batches/settings/payment-methods/{paymentMethod}', [BatchController::class, 'destroyPaymentMethod'])->name('batches.payment-methods.destroy');
         Route::post('batches/{batch}/status', [BatchController::class, 'transition'])->name('batches.status');
+        
+        Route::resource('batches', BatchController::class);
         Route::resource('order-statuses', OrderStatusController::class);
+        Route::resource('members', MemberController::class);
+        Route::resource('products', ProductController::class);
+        Route::patch('products/{product}/status', [ProductController::class, 'updateStatus'])->name('products.status');
         Route::resource('member-orders', MemberOrderController::class);
         Route::get('member-orders/{member_order}/payment-proof', [MemberOrderController::class, 'paymentProof'])->name('member-orders.payment-proof');
         Route::post('member-orders/{member_order}/status', [MemberOrderController::class, 'transition'])->name('member-orders.status');

@@ -38,7 +38,7 @@ class CacaCustomerOrderSeeder extends Seeder
         $products = Product::query()->get()->keyBy(fn (Product $product) => $product->name.'|'.$product->variant);
 
         if ($batches->count() !== $batchNumbers->unique()->count()) {
-            throw new RuntimeException('Jalankan CustomerCatalogSeeder sebelum CacaCustomerOrderSeeder.');
+            throw new RuntimeException('Jalankan CustomerDemoBatchSeeder sebelum CacaCustomerOrderSeeder.');
         }
 
         foreach ($this->orders() as $data) {

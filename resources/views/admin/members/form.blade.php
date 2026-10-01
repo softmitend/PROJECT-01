@@ -6,7 +6,7 @@
     <x-admin-form-shell
         :title="$formTitle"
         eyebrow="Data Pelanggan"
-        description="Kelola identitas dan alamat pelanggan yang akan dipilih saat membuat pesanan."
+        description="Kelola identitas pelanggan. <strong>Member baru harus login via LINE terlebih dahulu</strong> untuk mendapatkan line_user_id, baru kemudian dapat dipilih untuk order baru. Admin tidak membuat member baru dari form order."
         max-width="max-w-4xl"
     >
         <form method="POST" action="{{ $member->exists ? route('admin.members.update', $member, false) : route('admin.members.store', [], false) }}">
@@ -16,7 +16,7 @@
             <div class="admin-form-body">
                 <x-admin-form-intro
                     title="Panduan Data Pelanggan"
-                    description="Pastikan username LINE dan nomor telepon benar karena username LINE menjadi identitas pencarian riwayat customer."
+                    description="Member yang eligible untuk order baru: harus LINE-connected (memiliki line_user_id) DAN aktif. Member legacy (belum konek LINE) tetap bisa dilihat riwayatnya tapi tidak bisa dipakai untuk order baru."
                 />
 
                 <x-admin-form-section title="Identitas Pelanggan">
@@ -28,6 +28,21 @@
                             <label class="block">
                                 <span class="text-sm font-semibold text-zinc-800">Kode pelanggan</span>
                                 <input type="text" value="{{ $member->member_code }}" readonly aria-readonly="true" class="mt-2 w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-600 shadow-sm outline-none">
+                            </label>
+                            <label class="block">
+                                <span class="text-sm font-semibold text-zinc-800">Status LINE</span>
+                                @if ($member->line_user_id)
+                                    <div class="mt-2 flex items-center gap-2 text-emerald-700 bg-emerald-50 rounded-lg px-3 py-2 border border-emerald-200">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                        <span class="font-medium">LINE Connected</span>
+                                        <span class="text-xs text-emerald-600">({{ Str::limit($member->line_user_id, 20) }})</span>
+                                    </div>
+                                @else
+                                    <div class="mt-2 flex items-center gap-2 text-amber-700 bg-amber-50 rounded-lg px-3 py-2 border border-amber-200">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                                        <span class="font-medium">LINE belum terhubung (Legacy)</span>
+                                    </div>
+                                @endif
                             </label>
                         @endif
                     </div>
@@ -53,7 +68,7 @@
                         <label class="admin-form-choice">
                             <input type="hidden" name="is_active" value="0">
                             <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $member->is_active))>
-                            <span><strong>Pelanggan aktif</strong><small>Pelanggan tersedia pada dropdown form penambahan pesanan.</small></span>
+                            <span><strong>Pelanggan aktif</strong><small>Pelanggan tersedia pada dropdown form penambahan pesanan (jika juga LINE-connected).</small></span>
                         </label>
                     </x-admin-form-section>
                 @endif

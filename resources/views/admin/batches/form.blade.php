@@ -8,6 +8,10 @@
         'full_price' => $product->pivot->full_price ?: $product->default_price,
         'is_available' => $product->pivot->is_available,
     ])->values()->all());
+
+    // Determine payment method for this batch
+    $batchPaymentMethod = $batch->getEffectivePaymentMethod();
+    $hasPaymentMethod = $batch->getHasPaymentMethodAttribute();
 @endphp
 
 <x-layouts.app :title="$formTitle">
@@ -74,17 +78,6 @@
                             <small class="admin-form-help">JPG/JPEG, PNG, atau WEBP. Maksimal 4 MB. Foto lama tetap aman sampai perubahan disimpan.</small>
                             @error('catalog_image')<p class="admin-photo-server-error">{{ $message }}</p>@enderror
                         </div>
-
-                        <label class="admin-upload-card">
-                            <span>QRIS pembayaran</span>
-                            @if($batch->qris_image_path)
-                                <img src="{{ $batch->qris_image_url }}" alt="QRIS {{ $batch->batch_name }}">
-                            @else
-                                <span class="admin-upload-placeholder"><i class="bi bi-qr-code" aria-hidden="true"></i> Upload sebelum menerima pembayaran</span>
-                            @endif
-                            <input type="file" name="qris_image" accept="image/*">
-                            <small class="admin-form-help">QRIS tampil pada halaman checkout katalog.</small>
-                        </label>
                     </div>
 
                     <div class="mt-4 grid items-start gap-4 sm:grid-cols-2">
@@ -95,6 +88,48 @@
                             <span><strong>Tampilkan di katalog</strong><small>Batch akan muncul pada landing page meskipun gambar masih belum ditambahkan.</small></span>
                         </label>
                     </div>
+                </x-admin-form-section>
+
+                <x-admin-form-section title="Pembayaran">
+                    @if($batchPaymentMethod)
+                        <div class="admin-payment-method-card">
+                            <div class="admin-payment-method-header">
+                                <div class="admin-payment-method-icon">
+                                    @if($batchPaymentMethod->type === 'qris')
+                                        <i class="bi bi-qr-code" aria-hidden="true"></i>
+                                    @else
+                                        <i class="bi bi-credit-card" aria-hidden="true"></i>
+                                    @endif
+                                </div>
+                                <div>
+                                    <strong>{{ $batchPaymentMethod->name }}</strong>
+                                    <span class="admin-payment-method-badge admin-payment-method-badge-success">Aktif</span>
+                                </div>
+                            </div>
+                            @if($batchPaymentMethod->image_path)
+                                <div class="admin-payment-method-preview">
+                                    <img src="{{ $batchPaymentMethod->image_url }}" alt="{{ $batchPaymentMethod->name }}" style="max-width: 200px; max-height: 200px;">
+                                </div>
+                            @endif
+                            @if($batchPaymentMethod->instructions)
+                                <p class="admin-payment-method-instructions">{{ $batchPaymentMethod->instructions }}</p>
+                            @endif
+                            <small class="admin-form-help">
+                                Pembayaran untuk batch ini akan menggunakan payment method aktif.
+                                <a href="{{ route('admin.batches.settings') }}" class="text-violet-600 hover:underline">[Kelola]</a>
+                            </small>
+                        </div>
+                    @else
+                        <div class="admin-payment-method-warning">
+                            <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+                            <div>
+                                <strong>Belum ada metode pembayaran aktif.</strong>
+                                <p>Atur QRIS terlebih dahulu di <a href="{{ route('admin.batches.settings') }}" class="text-violet-600 hover:underline">Pengaturan Batch</a>.</p>
+                            </div>
+                        </div>
+                    @endif
+
+                    <input type="hidden" name="payment_method_id" value="{{ old('payment_method_id', $batch->payment_method_id) }}">
                 </x-admin-form-section>
 
                 <x-admin-form-section title="Variasi Barang">

@@ -1,17 +1,21 @@
 <x-layouts.app :title="$title.' — Ocean Paws'">
-    <main class="page billing-list-page">
-        <div class="billing-list-shell">
+    <div class="page billing-list-page profile-page">
+        <div class="billing-list-shell profile-shell profile-stack">
             <div class="detail-topbar">
-                <a class="top-back" href="{{ route('profile.show') }}" aria-label="Kembali ke profil"><x-public-icon name="arrow-left" :size="18" /></a>
+                <a class="top-back" href="{{ route('profile.show') }}" aria-label="Kembali ke profil">
+                    <span class="back-btn" aria-label="Kembali">
+                        <x-public-icon name="arrow-left" :size="18" />
+                    </span>
+                </a>
             </div>
 
-            <header class="billing-list-header">
+            <header class="billing-list-header profile-main">
                 <span>{{ $eyebrow }}</span>
                 <h1>{{ $title }}</h1>
                 <p>{{ $description }}</p>
             </header>
 
-            <section class="billing-summary" aria-label="Ringkasan {{ strtolower($title) }}">
+            <section class="billing-summary section-card" aria-label="Ringkasan {{ strtolower($title) }}">
                 <span class="billing-summary-icon"><x-public-icon :name="$icon" :size="23" /></span>
                 <div>
                     <small>TOTAL DATA</small>
@@ -21,14 +25,14 @@
 
             <section class="billing-order-grid">
                 @if($user && !$member)
-                    <div class="billing-empty">
+                    <div class="billing-empty profile-snack-empty">
                         <x-public-icon name="grid" :size="24" />
                         <strong>Ini adalah akun admin.</strong>
                         <p>Gunakan akun LINE customer untuk membuka data pesanan pribadi.</p>
                         <a href="{{ route('admin.dashboard') }}">Buka dashboard</a>
                     </div>
                 @elseif(!$member)
-                    <div class="billing-empty">
+                    <div class="billing-empty profile-snack-empty">
                         <x-public-icon :name="$icon" :size="24" />
                         <strong>Login untuk melihat data pesananmu.</strong>
                         <p>Halaman ini hanya menampilkan pesanan yang terhubung dengan akun LINE milikmu.</p>
@@ -44,7 +48,7 @@
                             $itemCount = (int) $order->items->sum('quantity');
                         @endphp
 
-                        <article class="billing-order-card">
+                        <article class="billing-order-card section-card">
                             <header>
                                 <span class="billing-order-thumb">
                                     @if($order->batch->catalog_image_path)
@@ -95,7 +99,7 @@
                             </footer>
                         </article>
                     @empty
-                        <div class="billing-empty">
+                        <div class="billing-empty profile-snack-empty">
                             <x-public-icon :name="$icon" :size="24" />
                             <strong>{{ $emptyTitle }}</strong>
                             <p>{{ $emptyDescription }}</p>

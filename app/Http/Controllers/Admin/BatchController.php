@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBatchRequest;
 use App\Models\Batch;
 use App\Models\OrderStatus;
+use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Services\StatusTransitionService;
 use Illuminate\Http\RedirectResponse;
@@ -75,15 +76,20 @@ class BatchController extends Controller
         try {
             $batch = DB::transaction(function () use ($request, $statuses, $newCatalogImagePath, $catalogImageDisk) {
                 $data = $request->safe()->except([
-                    'current_status_id', 'status_note', 'is_archived', 'catalog_image', 'remove_catalog_image', 'qris_image', 'variants',
+                    'current_status_id', 'status_note', 'is_archived', 'catalog_image', 'remove_catalog_image', 'variants',
                 ]);
 
                 if ($newCatalogImagePath) {
                     $data['catalog_image_path'] = $newCatalogImagePath;
                     $data['catalog_image_disk'] = $catalogImageDisk;
                 }
-                if ($request->hasFile('qris_image')) {
-                    $data['qris_image_path'] = $request->file('qris_image')->store('catalog/qris', 'public');
+
+                // Use global payment method if not explicitly set
+                if (! isset($data['payment_method_id'])) {
+                    $activeQris = PaymentMethod::getActiveQris();
+                    if ($activeQris) {
+                        $data['payment_method_id'] = $activeQris->id;
+                    }
                 }
 
                 $batch = Batch::create($data + [
@@ -120,6 +126,7 @@ class BatchController extends Controller
     {
         $batch->load([
             'currentStatus',
+            'paymentMethod',
             'orders.member',
             'orders.overrideStatus',
             'orders.paymentStatus',
@@ -178,7 +185,7 @@ class BatchController extends Controller
         try {
             DB::transaction(function () use ($request, $batch, $statuses, $oldStatusId, $newCatalogImagePath, $removeCatalogImage, $catalogImageDisk) {
                 $data = $request->safe()->except([
-                    'current_status_id', 'status_note', 'catalog_image', 'remove_catalog_image', 'qris_image', 'variants',
+                    'current_status_id', 'status_note', 'catalog_image', 'remove_catalog_image', 'variants',
                 ]);
 
                 if ($newCatalogImagePath) {
@@ -187,9 +194,6 @@ class BatchController extends Controller
                 } elseif ($removeCatalogImage) {
                     $data['catalog_image_path'] = null;
                     $data['catalog_image_disk'] = null;
-                }
-                if ($request->hasFile('qris_image')) {
-                    $data['qris_image_path'] = $request->file('qris_image')->store('catalog/qris', 'public');
                 }
 
                 $batch->update($data + [
@@ -257,6 +261,117 @@ class BatchController extends Controller
         return back()->with('status', 'Status batch diperbarui.');
     }
 
+    /**
+     * Show batch settings page (Pengaturan Batch)
+     */
+    public function settings()
+    {
+        $paymentMethods = PaymentMethod::latest()->get();
+        $activeQris = PaymentMethod::getActiveQris();
+
+        return view('admin.batches.settings', compact('paymentMethods', 'activeQris'));
+    }
+
+    /**
+     * Store new payment method
+     */
+    public function storePaymentMethod(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:50'],
+            'image' => ['required_if:type,qris', 'nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'account_name' => ['nullable', 'string', 'max:255'],
+            'instructions' => ['nullable', 'string', 'max:2000'],
+            'is_active' => ['sometimes', 'boolean'],
+        ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image_path'] = $request->file('image')->store('payment-methods', 'public');
+        }
+
+        // If setting as active, deactivate others of same type
+        if ($validated['is_active'] ?? false) {
+            PaymentMethod::where('type', $validated['type'])->update(['is_active' => false]);
+        }
+
+        PaymentMethod::create($validated);
+
+        return back()->with('status', 'Payment method berhasil ditambahkan.');
+    }
+
+    /**
+     * Update payment method
+     */
+    public function updatePaymentMethod(Request $request, PaymentMethod $paymentMethod)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:50'],
+            'image' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'account_name' => ['nullable', 'string', 'max:255'],
+            'instructions' => ['nullable', 'string', 'max:2000'],
+            'is_active' => ['sometimes', 'boolean'],
+        ]);
+
+        if ($request->hasFile('image')) {
+            // Don't delete old image - keep for historical reference
+            $validated['image_path'] = $request->file('image')->store('payment-methods', 'public');
+        }
+
+        // If setting as active, deactivate others of same type
+        if ($validated['is_active'] ?? false) {
+            PaymentMethod::where('type', $paymentMethod->type)
+                ->where('id', '!=', $paymentMethod->id)
+                ->update(['is_active' => false]);
+        }
+
+        $paymentMethod->update($validated);
+
+        return back()->with('status', 'Payment method berhasil diperbarui.');
+    }
+
+    /**
+     * Toggle payment method active status
+     */
+    public function togglePaymentMethod(Request $request, PaymentMethod $paymentMethod)
+    {
+        if ($request->boolean('is_active')) {
+            // Deactivate others of same type
+            PaymentMethod::where('type', $paymentMethod->type)
+                ->where('id', '!=', $paymentMethod->id)
+                ->update(['is_active' => false]);
+        }
+
+        $paymentMethod->update(['is_active' => $request->boolean('is_active')]);
+
+        return back()->with('status', 'Status payment method diperbarui.');
+    }
+
+    /**
+     * Delete payment method (soft - only if not used)
+     */
+    public function destroyPaymentMethod(PaymentMethod $paymentMethod)
+    {
+        // Check if used by any batch
+        $usedByBatches = Batch::where('payment_method_id', $paymentMethod->id)->count();
+
+        if ($usedByBatches > 0) {
+            return back()->withErrors([
+                'payment_method' => "Payment method ini digunakan oleh {$usedByBatches} batch. Nonaktifkan saja jika tidak ingin dipakai lagi.",
+            ]);
+        }
+
+        // Delete image file if exists
+        if ($paymentMethod->image_path) {
+            Storage::disk('public')->delete($paymentMethod->image_path);
+        }
+
+        $paymentMethod->delete();
+
+        return back()->with('status', 'Payment method dihapus.');
+    }
+
     private function generateBatchNumber(): string
     {
         $prefix = 'BTH-'.now()->format('ym').'-';
@@ -283,6 +398,7 @@ class BatchController extends Controller
         return [
             'batch' => $batch,
             'statuses' => OrderStatus::activeFor('batch')->get(),
+            'activeQris' => PaymentMethod::getActiveQris(),
         ];
     }
 

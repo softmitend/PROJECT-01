@@ -796,7 +796,8 @@ class OrderRecapTest extends TestCase
 
         $this->actingAs($admin)->get(route('admin.batches.edit', $batch))
             ->assertOk()
-            ->assertSee('Progress telah selesai dan tidak dapat diubah lagi.')
+            ->assertSee('admin-form-readonly', false)
+            ->assertSee('Progress final tidak dapat diubah', false)
             ->assertDontSee('<select name="current_status_id">', false);
 
         $this->actingAs($admin)->post(route('admin.batches.status', $batch), [
@@ -988,17 +989,22 @@ class OrderRecapTest extends TestCase
         $this->assertFalse($product->refresh()->is_active);
     }
 
-    public function test_form_navbar_back_is_hidden_and_preselected_order_customer_is_readonly(): void
+    public function test_form_navbar_back_is_hidden_and_preselected_member_in_dropdown(): void
     {
         $admin = User::factory()->create();
-        $member = Member::factory()->create(['display_name' => 'Customer Pilihan']);
+        $member = Member::factory()->create([
+            'display_name' => 'Customer Pilihan',
+            'username' => 'customer.pilihan',
+            'line_user_id' => 'line-customer-123',
+            'is_active' => true,
+        ]);
 
         $this->actingAs($admin)->get(route('admin.member-orders.create', ['member_id' => $member->id]))
             ->assertOk()
             ->assertDontSee('admin-navbar-back', false)
-            ->assertSee('admin-form-selectlike-readonly', false)
             ->assertSee('Customer Pilihan')
-            ->assertSee('readonly', false);
+            ->assertSee('customer.pilihan')
+            ->assertSee('LINE Connected — Eligible');
     }
 
     public function test_batch_and_status_details_use_the_compact_reorganized_layout(): void
@@ -1012,20 +1018,18 @@ class OrderRecapTest extends TestCase
 
         $this->actingAs($admin)->get(route('admin.batches.edit', $batch))
             ->assertOk()
-            ->assertSee('Produk dan Progress Batch')
-            ->assertSee('data-batch-product-picker', false)
-            ->assertSee('data-selected-product-list', false)
-            ->assertSee('name="product_ids[]" value="'.$product->id.'"', false)
-            ->assertSee('Catatan Batch')
+            ->assertSee('Variasi Barang')
+            ->assertSee('data-admin-variant-builder', false)
+            ->assertSee('data-admin-variant-list', false)
+            ->assertSee('name="variants[0][name]"', false)
+            ->assertSee('Catatan tunggal batch')
             ->assertDontSee('Keterangan Internal')
             ->assertDontSee('admin-navbar-back', false);
 
         $this->actingAs($admin)->get(route('admin.batches.show', $batch))
             ->assertOk()
             ->assertSee('detail-record-field-violet', false)
-            ->assertSee('Produk dalam Batch')
-            ->assertSee(route('admin.products.show', $product, false), false)
-            ->assertSee('order-status-override-form', false)
+            ->assertSee('Variasi')
             ->assertSee('Catatan tunggal batch');
 
         $this->actingAs($admin)->get(route('admin.order-statuses.show', $status))
@@ -1059,22 +1063,43 @@ class OrderRecapTest extends TestCase
             ->assertSee(route('admin.members.show', $member, false), false);
     }
 
-    public function test_order_form_refreshes_select2_product_options_after_batch_change(): void
+    public function test_order_form_shows_eligible_members_for_new_order(): void
     {
         $admin = User::factory()->create();
         $batch = Batch::factory()->create();
-        $product = Product::factory()->create(['name' => 'Produk Dinamis Batch']);
-        $batch->products()->attach($product);
+
+        // Create eligible member (LINE-connected + active)
+        $eligibleMember = Member::factory()->create([
+            'display_name' => 'Eligible Member',
+            'username' => 'eligible.line',
+            'line_user_id' => 'line-eligible-123',
+            'is_active' => true,
+        ]);
+
+        // Create legacy member (no line_user_id)
+        $legacyMember = Member::factory()->create([
+            'display_name' => 'Legacy Member',
+            'username' => 'legacy.line',
+            'line_user_id' => null,
+            'is_active' => true,
+        ]);
+
+        // Create inactive member
+        $inactiveMember = Member::factory()->create([
+            'display_name' => 'Inactive Member',
+            'username' => 'inactive.line',
+            'line_user_id' => 'line-inactive-456',
+            'is_active' => false,
+        ]);
 
         $this->actingAs($admin)->get(route('admin.member-orders.create'))
             ->assertOk()
-            ->assertSee('Produk Dinamis Batch')
-            ->assertSee('data-batch-products', false)
-            ->assertDontSee('data-product-select data-native-select', false)
-            ->assertSee("trigger('change.select2')", false)
-            ->assertSee('select2:select select2:clear', false)
-            ->assertSee('admin:enhance-selects', false)
-            ->assertSee('scheduleBatchConfiguration', false);
+            ->assertSee('Pilih Member')
+            ->assertSee('Eligible Member')
+            ->assertSee('eligible.line')
+            ->assertSee('LINE Connected — Eligible')
+            ->assertDontSee('Legacy Member')
+            ->assertDontSee('Inactive Member');
     }
 
     public function test_refund_payment_stops_order_and_item_progress_at_refunded(): void

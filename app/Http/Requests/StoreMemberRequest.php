@@ -38,6 +38,7 @@ class StoreMemberRequest extends FormRequest
             'phone' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:2000'],
             'notes' => ['nullable', 'string'],
+            'line_user_id' => ['prohibited'], // Admin tidak boleh mengisi line_user_id secara manual
             'is_active' => $this->route('member') ? ['sometimes', 'boolean'] : ['prohibited'],
         ];
     }

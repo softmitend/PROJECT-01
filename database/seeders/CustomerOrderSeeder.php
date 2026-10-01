@@ -31,7 +31,7 @@ class CustomerOrderSeeder extends Seeder
         $products = Product::query()->get()->keyBy(fn (Product $product) => $product->name.'|'.$product->variant);
         $batches = Batch::query()->whereIn('batch_number', collect($this->orders())->pluck('batch'))->get()->keyBy('batch_number');
         if ($batches->count() !== count($this->orders())) {
-            throw new RuntimeException('Jalankan CustomerCatalogSeeder sebelum CustomerOrderSeeder.');
+            throw new RuntimeException('Jalankan CustomerDemoBatchSeeder sebelum CustomerOrderSeeder.');
         }
 
         foreach ($this->orders() as $index => $data) {

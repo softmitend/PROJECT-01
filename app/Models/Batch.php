@@ -25,12 +25,13 @@ class Batch extends Model
         'notes',
         'catalog_image_path',
         'catalog_image_disk',
-        'qris_image_path',
+        'qris_image_path', // legacy - for old batches
         'ordering_deadline',
         'is_catalog_visible',
         'started_at',
         'completed_at',
         'is_archived',
+        'payment_method_id', // global payment method reference
     ];
 
     protected function casts(): array
@@ -61,6 +62,55 @@ class Batch extends Model
             ->orderByPivot('sort_order');
     }
 
+    public function paymentMethod(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
+    /**
+     * Get the effective payment method for this batch.
+     * Priority: batch's own payment_method_id > global active QRIS > legacy qris_image_path
+     */
+    public function getEffectivePaymentMethod(): ?PaymentMethod
+    {
+        // If batch has its own payment method reference, use it
+        if ($this->payment_method_id) {
+            return $this->paymentMethod;
+        }
+
+        // Otherwise use the globally active QRIS
+        return PaymentMethod::getActiveQris();
+    }
+
+    /**
+     * Get the payment method image URL.
+     * Falls back to legacy qris_image_path for old batches.
+     */
+    public function getPaymentMethodImageUrlAttribute(): ?string
+    {
+        $paymentMethod = $this->getEffectivePaymentMethod();
+
+        if ($paymentMethod?->image_path) {
+            return $paymentMethod->image_url;
+        }
+
+        // Legacy fallback for old batches
+        if ($this->qris_image_path) {
+            return '/storage/'.ltrim($this->qris_image_path, '/');
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if batch has a payment method configured (global or legacy).
+     */
+    public function getHasPaymentMethodAttribute(): bool
+    {
+        return $this->getEffectivePaymentMethod() !== null
+            || $this->qris_image_path !== null;
+    }
+
     public function getCatalogIsOpenAttribute(): bool
     {
         return $this->is_catalog_visible
@@ -85,11 +135,12 @@ class Batch extends Model
             : Storage::disk($disk)->url($this->catalog_image_path);
     }
 
+    /**
+     * @deprecated Use getPaymentMethodImageUrlAttribute instead
+     */
     public function getQrisImageUrlAttribute(): ?string
     {
-        return $this->qris_image_path
-            ? '/storage/'.ltrim($this->qris_image_path, '/')
-            : null;
+        return $this->payment_method_image_url;
     }
 
     public function statusHistories(): MorphMany
