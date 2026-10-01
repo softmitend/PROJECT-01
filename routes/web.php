@@ -12,7 +12,6 @@ use App\Http\Controllers\Auth\LineAuthController;
 use App\Http\Controllers\CustomerPortalController;
 use App\Http\Controllers\MemberTrackingController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MemberTrackingController::class, 'home'])->name('home');
@@ -33,9 +32,6 @@ Route::post('/history', [MemberTrackingController::class, 'historyLookup'])->mid
 Route::get('/history/{memberCode}', [MemberTrackingController::class, 'member'])->middleware(['signed', 'throttle:30,1'])->name('tracking.member');
 Route::get('/history/{memberCode}/orders/{memberOrder}', [MemberTrackingController::class, 'order'])->middleware(['signed', 'throttle:30,1'])->name('tracking.order');
 Route::get('/profile', ProfileController::class)->name('profile.show');
-Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
-Route::get('/testimonials/{orderItem}/create', [TestimonialController::class, 'create'])->name('testimonials.create');
-Route::post('/testimonials/{orderItem}', [TestimonialController::class, 'store'])->middleware('throttle:5,1')->name('testimonials.store');
 Route::get('/profile/orders/{memberOrder}/payment-proof', [ProfileController::class, 'paymentProof'])
     ->middleware('auth')
     ->name('profile.orders.payment-proof');
