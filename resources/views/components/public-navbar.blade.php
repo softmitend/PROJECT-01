@@ -2,7 +2,7 @@
     $member = auth()->user()?->member;
     $homeActive = request()->routeIs(['home', 'tracking.*']);
     $ordersActive = request()->routeIs(['orders.*', 'billing.*', 'services.*']);
-    $profileActive = request()->routeIs(['profile.*', 'testimonials.*']);
+    $profileActive = request()->routeIs('profile.*');
     $isPortalDetail = request()->routeIs('billing.*') || (request()->routeIs('orders.*') && ! request()->routeIs('orders.index'));
 @endphp
 
