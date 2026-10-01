@@ -1,4 +1,55 @@
 <x-layouts.app title="Riwayat Pesanan — Ocean Paws">
+    <style>
+        .portal-orders-v2 .portal-v2-section-head{
+            display:flex;
+            min-height:86px;
+            align-items:center;
+            justify-content:space-between;
+            gap:18px;
+            margin-bottom:20px;
+            border:2px solid var(--pv2-ink);
+            border-radius:16px;
+            padding:14px 16px;
+            background:linear-gradient(120deg,#fffdf8 0 72%,#f8e7a7 72%);
+            box-shadow:4px 4px 0 var(--pv2-ink);
+        }
+        .portal-orders-v2 .portal-v2-section-head-main{display:flex;min-width:0;align-items:center;gap:13px}
+        .portal-orders-v2 .portal-v2-section-head-icon{
+            display:grid;
+            width:46px;
+            height:46px;
+            flex:0 0 auto;
+            place-items:center;
+            border:2px solid var(--pv2-ink);
+            border-radius:12px;
+            background:var(--pv2-pink);
+            box-shadow:3px 3px 0 var(--pv2-ink);
+        }
+        .portal-orders-v2 .portal-v2-section-copy{min-width:0}
+        .portal-orders-v2 .portal-v2-section-copy>span{display:block;color:var(--pv2-pink-strong);font-size:9px;font-weight:900;letter-spacing:.13em}
+        .portal-orders-v2 .portal-v2-section-copy h2{margin:4px 0 0;font-family:var(--pv2-heading);font-size:24px;line-height:1.05;letter-spacing:-.035em}
+        .portal-orders-v2 .portal-v2-section-count{
+            display:flex;
+            min-width:72px;
+            align-items:baseline;
+            justify-content:center;
+            gap:4px;
+            border:2px solid var(--pv2-ink);
+            border-radius:12px;
+            padding:9px 11px;
+            background:var(--pv2-paper);
+            box-shadow:3px 3px 0 var(--pv2-ink);
+        }
+        .portal-orders-v2 .portal-v2-section-count strong{font-family:var(--pv2-heading);font-size:20px;line-height:1}
+        .portal-orders-v2 .portal-v2-section-count span{color:var(--pv2-text);font-size:9px;font-weight:900;letter-spacing:.04em}
+        @media(max-width:700px){
+            .portal-orders-v2 .portal-v2-section-head{min-height:72px;border-radius:14px;padding:11px 12px;background:var(--pv2-paper);box-shadow:3px 3px 0 var(--pv2-ink)}
+            .portal-orders-v2 .portal-v2-section-head-icon{width:40px;height:40px}
+            .portal-orders-v2 .portal-v2-section-copy h2{font-size:19px}
+            .portal-orders-v2 .portal-v2-section-count{min-width:58px;padding:8px 9px}
+            .portal-orders-v2 .portal-v2-section-count strong{font-size:17px}
+        }
+    </style>
     <div class="portal-v2 portal-orders-v2">
         <div class="portal-v2-shell">
             <a class="portal-v2-back" href="{{ route('orders.index') }}" aria-label="Kembali ke pusat pesanan">
