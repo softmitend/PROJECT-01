@@ -16,8 +16,8 @@ use App\Http\Controllers\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MemberTrackingController::class, 'home'])->name('home');
-Route::get('/orders', [CustomerPortalController::class, 'orders'])->name('orders.index');
-Route::get('/billing', [CustomerPortalController::class, 'billing'])->name('billing.index');
+Route::redirect('/orders', '/profile')->name('orders.index');
+Route::redirect('/billing', '/profile')->name('billing.index');
 Route::get('/billing/orders', [CustomerPortalController::class, 'billingOrders'])->name('billing.orders');
 Route::get('/billing/ems', [CustomerPortalController::class, 'billingEms'])->name('billing.ems');
 Route::get('/services', [CustomerPortalController::class, 'services'])->name('services.index');
