@@ -21,6 +21,17 @@
 @endphp
 
 <x-layouts.app title="Profil Member — Ocean Paws">
+    <style>
+        .ocean-profile .profile-page {
+            padding-top: 24px;
+        }
+
+        @media (max-width: 720px) {
+            .ocean-profile .profile-page {
+                padding-top: 20px;
+            }
+        }
+    </style>
     <div class="page profile-page">
         <div class="profile-shell profile-stack">
             <h1 class="sr-only">Profil Ocean Paws</h1>
