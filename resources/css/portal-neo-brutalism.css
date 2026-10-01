@@ -1,623 +1,772 @@
-/* Neo-Brutalism Portal Styles - Matching Landing Page Style */
-/* Based on https://www.neobrutalism.dev/ and Ocean Paws landing page */
-
+/* Customer order + billing portal: Ocean Paws profile x neo-brutalism. */
 :root {
-  /* Neo-brutalism color palette - matching landing page */
-  --nb-ink: #355a45;
-  --nb-outline: #496d54;
-  --nb-pink: #fbd7e3;
-  --nb-pink-strong: #e64675;
-  --nb-mint: #d7ebdb;
-  --nb-mint-strong: #4d8a5e;
-  --nb-paper: #fffdfa;
-  --nb-yellow: #fef08a;
-  --nb-orange: #fb923c;
-  --nb-red: #fb2c36;
-  --nb-blue: #3b82f6;
-  --nb-purple: #a855f7;
-  --nb-white: #ffffff;
-  --nb-black: #1a1a1a;
-  
-  /* Neo-brutalism shadows */
-  --nb-shadow: 4px 4px 0 0 var(--nb-outline);
-  --nb-shadow-hover: 2px 2px 0 0 var(--nb-outline);
-  --nb-shadow-pressed: 0 0 0 0 var(--nb-outline);
-  --nb-shadow-large: 8px 8px 0 0 var(--nb-outline);
-  
-  /* Border radius */
-  --nb-radius-sm: 8px;
-  --nb-radius: 12px;
-  --nb-radius-lg: 16px;
-  --nb-radius-xl: 24px;
-  
-  /* Border width */
-  --nb-border: 2px solid var(--nb-outline);
-  --nb-border-thick: 3px solid var(--nb-outline);
-  --nb-border-thicker: 4px solid var(--nb-outline);
-  
-  /* Spacing */
-  --nb-space-1: 4px;
-  --nb-space-2: 8px;
-  --nb-space-3: 12px;
-  --nb-space-4: 16px;
-  --nb-space-5: 20px;
-  --nb-space-6: 24px;
-  --nb-space-8: 32px;
-  
-  /* Typography */
-  --nb-font-heading: "Bricolage Grotesque", "Nunito Sans", sans-serif;
-  --nb-font-body: "Nunito Sans", "Instrument Sans", sans-serif;
-  --nb-font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --op-portal-ink: #355a45;
+  --op-portal-ink-deep: #294737;
+  --op-portal-text: #4f665b;
+  --op-portal-muted: #788b81;
+  --op-portal-paper: #fffdf8;
+  --op-portal-bg: #fbfaf4;
+  --op-portal-pink: #f8d4df;
+  --op-portal-pink-strong: #df5277;
+  --op-portal-green: #d4e7d2;
+  --op-portal-green-strong: #4f855d;
+  --op-portal-yellow: #fff0b8;
+  --op-portal-blue: #dcecf4;
+  --op-portal-line: #4f6f59;
+  --op-portal-shadow: 5px 5px 0 rgba(62, 93, 70, .95);
+  --op-portal-shadow-sm: 3px 3px 0 rgba(62, 93, 70, .95);
+  --op-portal-font: "Arial Rounded MT Bold", "Trebuchet MS", ui-rounded, system-ui, sans-serif;
+  --op-portal-copy: "Trebuchet MS", system-ui, sans-serif;
 }
 
-/* Base portal styles */
-.portal-page {
-  min-height: 100vh;
-  background: var(--nb-paper);
-  color: var(--nb-ink);
-  font-family: var(--nb-font-body);
+.portal-orders-page,
+.portal-overview-page {
+  min-height: calc(100vh - 72px);
+  background:
+    radial-gradient(circle at 8% 4%, rgba(248, 212, 223, .48), transparent 21rem),
+    radial-gradient(circle at 92% 16%, rgba(212, 231, 210, .72), transparent 24rem),
+    linear-gradient(180deg, #fffdf8 0%, #fbfaf4 100%);
+  color: var(--op-portal-ink);
+  font-family: var(--op-portal-font);
 }
 
-.portal-page * {
-  box-sizing: border-box;
+.portal-orders-page {
+  padding: 34px 24px 120px;
 }
 
-/* Page container */
-.portal-container {
-  width: 100%;
-  max-width: 1200px;
+.portal-orders-shell,
+.portal-overview-shell {
+  width: min(100%, 1180px);
   margin: 0 auto;
-  padding: var(--nb-space-4) var(--nb-space-4);
 }
 
-/* Page header */
-.portal-header {
-  margin-bottom: var(--nb-space-6);
+.portal-orders-page .detail-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
 }
 
-.portal-header .top-back {
+.portal-orders-page .top-back {
+  display: inline-grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 12px;
+  background: var(--op-portal-paper);
+  box-shadow: var(--op-portal-shadow-sm);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.portal-orders-page .top-back:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--op-portal-line);
+}
+
+.portal-orders-page .top-back:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--op-portal-line);
+}
+
+.portal-orders-page .back-btn {
+  display: grid;
+  place-items: center;
+}
+
+.portal-orders-page .portal-hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(250px, .75fr);
+  gap: 32px;
+  align-items: end;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 22px;
+  padding: 34px 36px;
+  background: linear-gradient(135deg, #fffdf8 0 68%, #f7d7e1 68% 100%);
+  box-shadow: var(--op-portal-shadow);
+}
+
+.portal-orders-page .portal-hero::after {
+  content: "✦";
+  position: absolute;
+  right: 24px;
+  top: 17px;
+  color: var(--op-portal-pink-strong);
+  font-size: 42px;
+  transform: rotate(12deg);
+}
+
+.portal-orders-page .billing-list-header {
+  min-width: 0;
+}
+
+.portal-orders-page .billing-list-header > span,
+.portal-orders-page .billing-list-header > .micro,
+.portal-overview-header > span {
   display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 8px;
+  padding: 4px 10px;
+  background: var(--op-portal-yellow);
+  color: var(--op-portal-ink-deep);
+  box-shadow: 2px 2px 0 var(--op-portal-line);
+  font-family: var(--op-portal-copy);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.portal-orders-page .billing-list-header h1,
+.portal-overview-header h1 {
+  margin: 13px 0 8px;
+  color: var(--op-portal-ink-deep);
+  font-family: var(--op-portal-font);
+  font-size: clamp(34px, 5vw, 58px);
+  font-weight: 800;
+  letter-spacing: -.055em;
+  line-height: .96;
+}
+
+.portal-orders-page .billing-list-header p,
+.portal-overview-header p {
+  max-width: 650px;
+  margin: 0;
+  color: var(--op-portal-text);
+  font-family: var(--op-portal-copy);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.portal-orders-page .billing-summary {
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 15px;
+  align-items: center;
+  min-height: 118px;
+  margin: 0;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 16px;
+  padding: 17px;
+  background: var(--op-portal-green);
+  box-shadow: var(--op-portal-shadow-sm);
+}
+
+.portal-orders-page .billing-summary-icon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 12px;
+  background: var(--op-portal-paper);
+  color: var(--op-portal-green-strong);
+  box-shadow: 3px 3px 0 var(--op-portal-line);
+}
+
+.portal-orders-page .billing-summary small,
+.portal-orders-page .billing-summary strong {
+  display: block;
+}
+
+.portal-orders-page .billing-summary small {
+  color: var(--op-portal-text);
+  font-family: var(--op-portal-copy);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+
+.portal-orders-page .billing-summary strong {
+  margin-top: 5px;
+  color: var(--op-portal-ink-deep);
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.portal-orders-page .billing-tabs,
+.portal-orders-page .order-history-filters {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  margin: 22px 0 0;
+  border: 0;
+  border-radius: 0;
+  padding: 4px 4px 8px;
+  background: transparent;
+  box-shadow: none;
+  scrollbar-width: thin;
+}
+
+.portal-orders-page .billing-tabs a,
+.portal-orders-page .order-history-filters a {
+  display: inline-flex;
+  min-height: 40px;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border: var(--nb-border);
-  border-radius: var(--nb-radius);
-  background: var(--nb-white);
-  color: var(--nb-ink);
-  font-size: 18px;
-  box-shadow: var(--nb-shadow);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.portal-header .top-back:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--nb-shadow-large);
-}
-
-.portal-header .top-back:active {
-  transform: translate(2px, 2px);
-  box-shadow: var(--nb-shadow-pressed);
-}
-
-.portal-header .billing-list-header {
-  margin-top: var(--nb-space-4);
-}
-
-.portal-header .billing-list-header span {
-  display: inline-block;
-  padding: var(--nb-space-1) var(--nb-space-3);
-  border: var(--nb-border);
-  border-radius: var(--nb-radius-sm);
-  background: var(--nb-yellow);
-  color: var(--nb-ink);
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  box-shadow: var(--nb-shadow);
-}
-
-.portal-header .billing-list-header h1 {
-  margin: var(--nb-space-3) 0 var(--nb-space-2);
-  color: var(--nb-ink);
-  font-family: var(--nb-font-heading);
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.portal-header .billing-list-header p {
-  max-width: 480px;
-  color: var(--nb-muted);
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* Summary card */
-.billing-summary {
-  display: flex;
-  align-items: center;
-  gap: var(--nb-space-4);
-  margin: var(--nb-space-5) 0;
-  padding: var(--nb-space-4) var(--nb-space-5);
-  border: var(--nb-border-thick);
-  border-radius: var(--nb-radius-lg);
-  background: var(--nb-white);
-  box-shadow: var(--nb-shadow);
-}
-
-.billing-summary-icon {
-  flex: 0 0 auto;
-  display: grid;
-  width: 56px;
-  height: 56px;
-  place-items: center;
-  border: var(--nb-border);
-  border-radius: var(--nb-radius);
-  background: var(--nb-pink);
-  color: var(--nb-pink-strong);
-  box-shadow: var(--nb-shadow);
-}
-
-.billing-summary-icon .public-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.billing-summary div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.billing-summary small {
-  color: var(--nb-muted);
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.billing-summary strong {
-  color: var(--nb-ink);
-  font-family: var(--nb-font-heading);
-  font-size: 20px;
-  font-weight: 900;
-  line-height: 1.2;
-}
-
-/* Tabs */
-.billing-tabs,
-.order-history-filters,
-.billing-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--nb-space-2);
-  margin: var(--nb-space-4) 0;
-  padding: var(--nb-space-2);
-  border: var(--nb-border);
-  border-radius: var(--nb-radius-lg);
-  background: var(--nb-white);
-  box-shadow: var(--nb-shadow);
-}
-
-.billing-tabs a,
-.order-history-filters a,
-.billing-tabs a {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--nb-space-2);
-  padding: var(--nb-space-2) var(--nb-space-4);
-  border: var(--nb-border);
-  border-radius: var(--nb-radius);
-  background: var(--nb-white);
-  color: var(--nb-ink);
-  font-size: 13px;
+  gap: 8px;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 10px;
+  padding: 8px 15px;
+  background: var(--op-portal-paper);
+  color: var(--op-portal-ink-deep);
+  box-shadow: 3px 3px 0 var(--op-portal-line);
+  font-family: var(--op-portal-copy);
+  font-size: 12px;
   font-weight: 800;
   white-space: nowrap;
-  box-shadow: var(--nb-shadow);
-  transition: all 0.15s ease;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
 }
 
-.billing-tabs a:hover,
-.order-history-filters a:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--nb-shadow-large);
+.portal-orders-page .billing-tabs a:hover,
+.portal-orders-page .order-history-filters a:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--op-portal-line);
 }
 
-.billing-tabs a.active,
-.order-history-filters a.active {
-  background: var(--nb-ink);
-  color: var(--nb-white);
-  box-shadow: var(--nb-shadow-large);
+.portal-orders-page .billing-tabs a.active,
+.portal-orders-page .order-history-filters a.active {
+  background: var(--op-portal-pink);
+  color: #9f3151;
 }
 
-.billing-tabs a b,
-.order-history-filters a b {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 24px;
-  height: 20px;
-  padding: 0 8px;
-  border-radius: 999px;
-  background: var(--nb-pink);
-  color: var(--nb-pink-strong);
-  font-size: 11px;
-  font-weight: 900;
-}
-
-.billing-tabs a.active b,
-.order-history-filters a.active b {
-  background: var(--nb-yellow);
-  color: var(--nb-ink);
-}
-
-/* Order grid */
-.billing-order-grid,
-.billing-order-grid {
+.portal-orders-page .billing-tabs a b {
   display: grid;
-  gap: var(--nb-space-4);
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  min-width: 24px;
+  height: 22px;
+  place-items: center;
+  border: 1.5px solid currentColor;
+  border-radius: 7px;
+  padding: 0 6px;
+  background: rgba(255,255,255,.55);
+  font-size: 10px;
 }
 
-/* Order card */
-.billing-order-card,
-.billing-order-card {
+.portal-orders-page .billing-order-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.portal-orders-page .billing-order-card {
   position: relative;
   display: flex;
+  min-width: 0;
   flex-direction: column;
-  min-height: 200px;
-  padding: var(--nb-space-4);
-  border: var(--nb-border-thick);
-  border-radius: var(--nb-radius-lg);
-  background: var(--nb-white);
-  box-shadow: var(--nb-shadow);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 18px;
+  padding: 18px;
+  background: var(--op-portal-paper);
+  box-shadow: var(--op-portal-shadow);
+  transition: transform .16s ease, box-shadow .16s ease;
 }
 
-.billing-order-card:hover,
-.billing-order-card:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: var(--nb-shadow-large);
+.portal-orders-page .billing-order-card:nth-child(4n + 2) {
+  background: #fff8fa;
 }
 
-.billing-order-card header,
-.billing-order-card header {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--nb-space-3);
-  margin-bottom: var(--nb-space-3);
+.portal-orders-page .billing-order-card:nth-child(4n + 3) {
+  background: #f8fcf7;
 }
 
-.billing-order-thumb {
-  flex: 0 0 64px;
-  width: 64px;
-  height: 64px;
-  border: var(--nb-border);
-  border-radius: var(--nb-radius);
-  background: var(--nb-pale);
+.portal-orders-page .billing-order-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--op-portal-line);
+}
+
+.portal-orders-page .billing-order-card > header {
+  display: grid;
+  align-items: start;
+  gap: 13px;
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+}
+
+.portal-orders-page .billing-order-thumb {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
   overflow: hidden;
-  box-shadow: var(--nb-shadow);
+  border: 2px solid var(--op-portal-line);
+  border-radius: 12px;
+  background: var(--op-portal-blue);
+  color: var(--op-portal-ink);
+  box-shadow: 3px 3px 0 var(--op-portal-line);
 }
 
-.billing-order-thumb img {
+.portal-orders-page .billing-order-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.billing-order-thumb .public-icon {
-  width: 24px;
-  height: 24px;
-  color: var(--nb-outline);
-}
-
-.billing-order-title {
-  flex: 1;
+.portal-orders-page .billing-order-title {
   min-width: 0;
 }
 
-.billing-order-title small {
+.portal-orders-page .billing-order-title small {
   display: block;
-  color: var(--nb-muted);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.billing-order-title h2 {
-  margin: 2px 0 4px;
-  color: var(--nb-ink);
-  font-family: var(--nb-font-heading);
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 1.3;
   overflow: hidden;
+  color: var(--op-portal-muted);
+  font-family: var(--op-portal-copy);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.billing-order-title p {
-  color: var(--nb-muted);
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-/* Status badge */
-.x-status-badge,
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border: var(--nb-border);
-  border-radius: 999px;
-  font-size: 11px;
+.portal-orders-page .billing-order-title h2 {
+  overflow: hidden;
+  margin: 4px 0 3px;
+  color: var(--op-portal-ink-deep);
+  font-size: 17px;
   font-weight: 800;
+  line-height: 1.18;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  box-shadow: var(--nb-shadow);
 }
 
-.status-badge.is-paid {
-  background: var(--nb-mint);
-  color: var(--nb-mint-strong);
-  border-color: var(--nb-mint-strong);
-}
-
-.status-badge.is-unpaid {
-  background: var(--nb-yellow);
-  color: var(--nb-orange);
-  border-color: var(--nb-orange);
-}
-
-.status-badge.is-refund {
-  background: var(--nb-pink);
-  color: var(--nb-pink-strong);
-  border-color: var(--nb-pink-strong);
-}
-
-/* Order amount */
-.billing-order-amount {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin: var(--nb-space-3) 0;
-  padding: var(--nb-space-3);
-  border: var(--nb-border);
-  border-radius: var(--nb-radius);
-  background: var(--nb-pale);
-  box-shadow: inset 2px 2px 0 var(--nb-outline);
-}
-
-.billing-order-amount span {
-  color: var(--nb-muted);
+.portal-orders-page .billing-order-title p {
+  margin: 0;
+  color: var(--op-portal-muted);
+  font-family: var(--op-portal-copy);
   font-size: 11px;
+}
+
+.portal-orders-page .status-badge,
+.portal-orders-page .billing-state-pill {
+  display: inline-flex;
+  max-width: 132px;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 9px;
+  padding: 5px 9px;
+  background: var(--op-portal-yellow);
+  color: var(--op-portal-ink-deep);
+  box-shadow: 2px 2px 0 var(--op-portal-line);
+  font-family: var(--op-portal-copy);
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.portal-orders-page .billing-state-pill.is-paid {
+  background: var(--op-portal-green);
+  color: var(--op-portal-green-strong);
+}
+
+.portal-orders-page .billing-order-amount {
+  display: grid;
+  gap: 4px;
+  margin: 17px 0 0;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 13px;
+  padding: 13px 14px;
+  background: var(--op-portal-pink);
+  box-shadow: 3px 3px 0 var(--op-portal-line);
+}
+
+.portal-orders-page .billing-order-amount span {
+  color: #8b5265;
+  font-family: var(--op-portal-copy);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 
-.billing-order-amount strong {
-  color: var(--nb-ink);
-  font-family: var(--nb-font-heading);
+.portal-orders-page .billing-order-amount strong {
+  color: var(--op-portal-ink-deep);
   font-size: 22px;
-  font-weight: 900;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
-/* Meta list */
-.billing-order-meta {
+.portal-orders-page .billing-order-meta {
   display: grid;
-  gap: var(--nb-space-2);
-  margin: var(--nb-space-3) 0;
+  gap: 0;
+  margin: 16px 0 0;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 13px;
+  background: rgba(255,255,255,.54);
 }
 
-.billing-order-meta div {
+.portal-orders-page .billing-order-meta > div {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--nb-space-3);
-  padding: var(--nb-space-2) var(--nb-space-3);
-  border: var(--nb-border);
-  border-radius: var(--nb-radius);
-  background: var(--nb-white);
-  box-shadow: var(--nb-shadow);
+  grid-template-columns: minmax(100px, .8fr) minmax(0, 1.2fr);
+  gap: 14px;
+  align-items: center;
+  padding: 10px 12px;
 }
 
-.billing-order-meta dt {
-  color: var(--nb-muted);
+.portal-orders-page .billing-order-meta > div + div {
+  border-top: 2px solid var(--op-portal-line);
+}
+
+.portal-orders-page .billing-order-meta dt {
+  color: var(--op-portal-muted);
+  font-family: var(--op-portal-copy);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.portal-orders-page .billing-order-meta dd {
+  margin: 0;
+  color: var(--op-portal-ink-deep);
+  font-family: var(--op-portal-copy);
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.billing-order-meta dd {
-  color: var(--nb-ink);
-  font-size: 13px;
-  font-weight: 700;
+  text-align: right;
   word-break: break-word;
 }
 
-/* Footer */
-.billing-order-card footer,
-.billing-order-card footer {
+.portal-orders-page .billing-order-card > footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--nb-space-3);
+  gap: 10px;
   margin-top: auto;
-  padding-top: var(--nb-space-3);
-  border-top: var(--nb-border);
+  padding-top: 17px;
 }
 
-.billing-order-card footer a,
-.billing-order-card footer a {
+.portal-orders-page .billing-order-card > footer a,
+.portal-orders-page .billing-empty a {
   display: inline-flex;
-  align-items: center;
-  gap: var(--nb-space-2);
-  padding: var(--nb-space-2) var(--nb-space-4);
-  border: var(--nb-border);
-  border-radius: var(--nb-radius);
-  background: var(--nb-ink);
-  color: var(--nb-white);
-  font-size: 12px;
-  font-weight: 800;
-  box-shadow: var(--nb-shadow);
-  transition: all 0.15s ease;
-}
-
-.billing-order-card footer a:hover,
-.billing-order-card footer a:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--nb-shadow-large);
-}
-
-.billing-order-card footer a:active {
-  transform: translate(2px, 2px);
-  box-shadow: var(--nb-shadow-pressed);
-}
-
-.billing-proof-link {
-  background: var(--nb-yellow) !important;
-  color: var(--nb-ink) !important;
-}
-
-/* Empty state */
-.billing-empty {
-  display: flex;
-  flex-direction: column;
+  min-height: 38px;
   align-items: center;
   justify-content: center;
-  gap: var(--nb-space-4);
-  padding: var(--nb-space-8) var(--nb-space-6);
-  border: var(--nb-border-thick);
-  border-radius: var(--nb-radius-xl);
-  background: var(--nb-white);
+  gap: 7px;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 10px;
+  padding: 8px 13px;
+  background: var(--op-portal-green);
+  color: var(--op-portal-ink-deep);
+  box-shadow: 3px 3px 0 var(--op-portal-line);
+  font-family: var(--op-portal-copy);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.portal-orders-page .billing-order-card > footer a:hover,
+.portal-orders-page .billing-empty a:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--op-portal-line);
+}
+
+.portal-orders-page .billing-order-card > footer .billing-proof-link {
+  background: var(--op-portal-yellow);
+}
+
+.portal-orders-page .billing-empty {
+  grid-column: 1 / -1;
+  display: grid;
+  min-height: 270px;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  border: 2px dashed var(--op-portal-line);
+  border-radius: 20px;
+  padding: 30px;
+  background: rgba(255,253,248,.86);
+  color: var(--op-portal-ink);
   text-align: center;
-  box-shadow: var(--nb-shadow);
 }
 
-.billing-empty .public-icon {
-  width: 48px;
-  height: 48px;
-  color: var(--nb-outline);
+.portal-orders-page .billing-empty > .public-icon {
+  width: 42px;
+  height: 42px;
 }
 
-.billing-empty strong {
-  color: var(--nb-ink);
-  font-family: var(--nb-font-heading);
+.portal-orders-page .billing-empty strong {
   font-size: 18px;
-  font-weight: 900;
-  line-height: 1.3;
 }
 
-.billing-empty p {
-  max-width: 320px;
-  color: var(--nb-muted);
-  font-size: 14px;
+.portal-orders-page .billing-empty p {
+  max-width: 410px;
+  margin: 0;
+  color: var(--op-portal-muted);
+  font-family: var(--op-portal-copy);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* Portal overview / Pesanan and Tagihan hub */
+.portal-overview-page {
+  padding: 42px 24px 120px;
+}
+
+.portal-overview-header {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 22px;
+  padding: 34px 36px;
+  background: linear-gradient(135deg, #fffdf8 0 72%, #d6e9d4 72% 100%);
+  box-shadow: var(--op-portal-shadow);
+}
+
+.portal-overview-header::after {
+  content: "✿";
+  position: absolute;
+  right: 30px;
+  top: 17px;
+  color: var(--op-portal-pink-strong);
+  font-size: 48px;
+  transform: rotate(-11deg);
+}
+
+.portal-overview-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.portal-overview-card {
+  position: relative;
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 18px;
+  padding: 20px;
+  background: var(--op-portal-paper);
+  box-shadow: var(--op-portal-shadow);
+}
+
+.portal-overview-card:nth-child(4n + 2) { background: #fff7fa; }
+.portal-overview-card:nth-child(4n + 3) { background: #f7fbf5; }
+
+.portal-overview-card .icon-chip {
+  display: grid;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 12px;
+  background: var(--op-portal-pink);
+  box-shadow: 3px 3px 0 var(--op-portal-line);
+}
+
+.portal-overview-card h2 {
+  margin: 18px 0 6px;
+  color: var(--op-portal-ink-deep);
+  font-size: 21px;
+}
+
+.portal-overview-card p {
+  margin: 0;
+  color: var(--op-portal-text);
+  font-family: var(--op-portal-copy);
+  font-size: 12px;
   line-height: 1.6;
 }
 
-.billing-empty a {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--nb-space-2);
-  margin-top: var(--nb-space-2);
-  padding: var(--nb-space-2) var(--nb-space-4);
-  border: var(--nb-border);
-  border-radius: var(--nb-radius);
-  background: var(--nb-ink);
-  color: var(--nb-white);
-  font-size: 13px;
-  font-weight: 800;
-  box-shadow: var(--nb-shadow);
-  transition: all 0.15s ease;
+.portal-overview-card .overview-card-foot {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: auto;
+  padding-top: 20px;
 }
 
-.billing-empty a:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--nb-shadow-large);
+.portal-overview-card .overview-card-foot > span {
+  color: var(--op-portal-muted);
+  font-family: var(--op-portal-copy);
+  font-size: 10px;
 }
 
-/* Billing state pills */
-.billing-state-pill {
+.portal-overview-card .open {
   display: inline-flex;
+  min-height: 38px;
   align-items: center;
-  padding: 6px 12px;
-  border: var(--nb-border);
-  border-radius: 999px;
+  gap: 6px;
+  border: 2px solid var(--op-portal-line);
+  border-radius: 10px;
+  padding: 8px 13px;
+  background: var(--op-portal-yellow);
+  box-shadow: 3px 3px 0 var(--op-portal-line);
+  font-family: var(--op-portal-copy);
   font-size: 11px;
   font-weight: 800;
-  white-space: nowrap;
-  box-shadow: var(--nb-shadow);
 }
 
-.billing-state-pill.is-paid {
-  background: var(--nb-mint);
-  color: var(--nb-mint-strong);
-  border-color: var(--nb-mint-strong);
-}
+@media (max-width: 840px) {
+  .portal-orders-page .portal-hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .billing-order-grid {
+  .portal-orders-page .billing-summary {
+    min-height: 96px;
+  }
+
+  .portal-orders-page .billing-order-grid,
+  .portal-overview-grid {
     grid-template-columns: 1fr;
   }
-  
-  .billing-tabs,
-  .order-history-filters {
+}
+
+@media (max-width: 640px) {
+  .portal-orders-page,
+  .portal-overview-page {
+    padding: 20px 14px 104px;
+  }
+
+  .portal-orders-page .detail-topbar {
+    margin-bottom: 16px;
+  }
+
+  .portal-orders-page .top-back {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+  }
+
+  .portal-orders-page .portal-hero,
+  .portal-overview-header {
+    border-radius: 16px;
+    padding: 22px 18px;
+    box-shadow: 4px 4px 0 var(--op-portal-line);
+  }
+
+  .portal-orders-page .portal-hero::after,
+  .portal-overview-header::after {
+    right: 15px;
+    top: 12px;
+    font-size: 28px;
+  }
+
+  .portal-orders-page .billing-list-header h1,
+  .portal-overview-header h1 {
+    max-width: 88%;
+    font-size: clamp(31px, 11vw, 43px);
+  }
+
+  .portal-orders-page .billing-list-header p,
+  .portal-overview-header p {
+    font-size: 12px;
+  }
+
+  .portal-orders-page .billing-summary {
+    min-height: 0;
+    padding: 14px;
+  }
+
+  .portal-orders-page .billing-summary-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .portal-orders-page .billing-tabs,
+  .portal-orders-page .order-history-filters {
+    margin-top: 17px;
+    margin-right: -14px;
+    padding-right: 18px;
+  }
+
+  .portal-orders-page .billing-tabs a,
+  .portal-orders-page .order-history-filters a {
+    min-height: 37px;
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+
+  .portal-orders-page .billing-order-grid {
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .portal-orders-page .billing-order-card {
+    border-radius: 15px;
+    padding: 14px;
+    box-shadow: 4px 4px 0 var(--op-portal-line);
+  }
+
+  .portal-orders-page .billing-order-card > header {
+    grid-template-columns: 54px minmax(0, 1fr);
+  }
+
+  .portal-orders-page .billing-order-thumb {
+    width: 54px;
+    height: 54px;
+  }
+
+  .portal-orders-page .status-badge,
+  .portal-orders-page .billing-state-pill {
+    grid-column: 1 / -1;
+    justify-self: start;
+    max-width: 100%;
+    margin-top: 3px;
+  }
+
+  .portal-orders-page .billing-order-title h2 {
+    font-size: 15px;
+  }
+
+  .portal-orders-page .billing-order-amount strong {
+    font-size: 19px;
+  }
+
+  .portal-orders-page .billing-order-meta > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .portal-orders-page .billing-order-meta dd {
+    text-align: left;
+  }
+
+  .portal-orders-page .billing-order-card > footer {
+    align-items: stretch;
     flex-direction: column;
   }
-  
-  .billing-tabs a,
-  .order-history-filters a {
+
+  .portal-orders-page .billing-order-card > footer a {
+    width: 100%;
+  }
+
+  .portal-overview-grid {
+    gap: 14px;
+    margin-top: 17px;
+  }
+
+  .portal-overview-card {
+    min-height: 195px;
+    border-radius: 15px;
+    padding: 17px;
+    box-shadow: 4px 4px 0 var(--op-portal-line);
+  }
+
+  .portal-overview-card h2 {
+    font-size: 19px;
+  }
+
+  .portal-overview-card .overview-card-foot {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .portal-overview-card .open {
     width: 100%;
     justify-content: center;
   }
-  
-  .billing-order-card {
-    min-height: auto;
-  }
 }
 
-@media (max-width: 480px) {
-  .portal-container {
-    padding: var(--nb-space-3);
-  }
-  
-  .billing-order-card {
-    padding: var(--nb-space-3);
-  }
-  
-  .billing-order-title h2 {
-    font-size: 14px;
-  }
-  
-  .billing-order-amount strong {
-    font-size: 18px;
-  }
-}
-
-/* Focus visible */
-:focus-visible {
-  outline: 3px solid var(--nb-pink-strong);
-  outline-offset: 3px;
-}
-
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .portal-orders-page *,
+  .portal-overview-page * {
     scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
   }
 }
