@@ -32,7 +32,7 @@
                                 'all' => ['Semua','bag'],
                                 'unpaid' => ['Belum bayar','wallet'],
                                 'active' => ['Aktif','sparkle'],
-                                'history' => ['Selesai','check'],
+                                'history' => ['Selesai','check-circle'],
                                 'shipping' => ['Dikirim','truck'],
                                 'refund' => ['Refund','history'],
                             ] as $value => [$label,$icon])
@@ -65,8 +65,17 @@
                         </div>
                     @else
                         <div class="portal-v2-section-head">
-                            <div><span>DAFTAR PESANAN</span><h2>{{ $filter === 'all' ? 'Semua pesananmu' : 'Pesanan terfilter' }}</h2></div>
-                            <strong>{{ $orders->count() }} data</strong>
+                            <div class="portal-v2-section-head-main">
+                                <span class="portal-v2-section-head-icon"><x-public-icon name="bag" :size="18" /></span>
+                                <div class="portal-v2-section-copy">
+                                    <span>DAFTAR PESANAN</span>
+                                    <h2>{{ $filter === 'all' ? 'Semua pesananmu' : 'Pesanan terfilter' }}</h2>
+                                </div>
+                            </div>
+                            <div class="portal-v2-section-count">
+                                <strong>{{ $orders->count() }}</strong>
+                                <span>data</span>
+                            </div>
                         </div>
 
                         <div class="portal-v2-order-grid">
