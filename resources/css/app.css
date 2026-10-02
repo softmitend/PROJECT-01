@@ -9097,3 +9097,23 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__icon circle {
         opacity: .22;
     }
 }
+
+
+/* Continuous tracking page grid background. */
+.ocean-tracking .public-landing-main {
+    background:
+        linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px),
+        #fffaf1 !important;
+    background-size: 42px 42px !important;
+}
+
+.ocean-tracking .tracking-search-page,
+.ocean-tracking .tracking-search-shell,
+.ocean-tracking .tracking-neo-page {
+    background: transparent !important;
+}
+
+.ocean-tracking .tracking-result-section {
+    background: transparent !important;
+}
