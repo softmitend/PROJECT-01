@@ -38,11 +38,11 @@ body.ocean-profile {
 }
 .ocean-profile .profile-shell {
   display: flex;
-  width: 90.43%;
-  max-width: none;
+  width: min(90.43%, 1180px);
+  max-width: 1180px;
   flex-direction: column;
   gap: 24px;
-  margin-left: 5.37%;
+  margin-inline: auto;
 }
 .profile-dashboard {
   display: grid;
@@ -314,7 +314,7 @@ body.ocean-profile {
 @media (max-width: 760px) {
   .profile-site-header { height: 110px; }
   .ocean-profile .profile-page { padding-inline: 12px; }
-  .ocean-profile .profile-shell { width: 100%; margin-left: 0; }
+  .ocean-profile .profile-shell { width: 100%; max-width: none; margin-inline: 0; }
   .ocean-profile .activity-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 720px) {
