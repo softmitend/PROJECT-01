@@ -5678,8 +5678,8 @@
   }
 
   .op-copy-window {
-    top: calc(14.8cqw - 3px);
-    left: calc(6.84% + 3px);
+    top: calc(14.8cqw - 6px);
+    left: calc(6.84% + 6px);
     width: 51.5%;
     border-color: #355a45;
     border-width: .18cqw;
