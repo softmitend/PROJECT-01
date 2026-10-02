@@ -7126,13 +7126,21 @@ body.ocean-tracking {
 }
 
 .ocean-tracking .tracking-reference-hero .tracking-lookup-hero h1 > i {
-    display: inline-block;
+    display: inline-flex;
+    width: .44em;
+    height: .44em;
     margin-left: 9px;
+    align-items: center;
+    justify-content: center;
     color: #ef8ca8;
     font-style: normal;
-    font-size: .43em;
     letter-spacing: 0;
     transform: translateY(-4px) rotate(-10deg);
+}
+.ocean-tracking .tracking-reference-hero .tracking-headline-paw svg {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
 .ocean-tracking .tracking-reference-hero .tracking-lookup-copy > p {
