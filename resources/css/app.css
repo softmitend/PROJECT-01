@@ -8918,6 +8918,7 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
 
 .ocean-primary-navbar__link {
     --nav-icon-fill: #6aa97f;
+    --nav-icon-stroke: #355a45;
     position: relative;
     display: inline-flex;
     min-height: 50px;
@@ -9077,6 +9078,7 @@ html[data-customer-theme="dark"] .ocean-primary-navbar {
 }
 
 html[data-customer-theme="dark"] .ocean-primary-navbar__link {
+    --nav-icon-stroke: #d8e8dd;
     color: #edf6ef;
 }
 
