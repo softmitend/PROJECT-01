@@ -4675,7 +4675,7 @@
 
 @media(min-width:761px){
   .op-copy-window-back{
-    top:14.8cqw;
+    top:calc(14.8cqw + 3px);
     left:6.84%;
     width:46.88%;
     height:33.6cqw;
