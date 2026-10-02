@@ -5668,3 +5668,63 @@
 @media(prefers-reduced-motion:reduce){
   .op-page .op-copy-window,.op-page .op-copy-window-back{animation:none}
 }
+
+
+/* Hero card cohesion with shared navbar — October 2026 */
+@media (min-width: 761px) {
+  .op-copy-window,
+  .op-copy-window-back {
+    left: 6.84%;
+    width: 51.5%;
+  }
+
+  .op-copy-window {
+    border-color: #355a45;
+    border-width: .18cqw;
+    border-radius: 1.45cqw;
+    background: #fbd7e3;
+    box-shadow: -.65cqw .72cqw 0 #8aaf91;
+  }
+
+  .op-copy-window .op-browserbar {
+    height: 3.25cqw;
+    padding-left: 1.65cqw;
+    border-bottom: 0;
+    background: #fbd7e3;
+    color: #8f3658;
+    font-size: 1.08cqw;
+    font-weight: 800;
+  }
+
+  .op-copy-window .op-window-dots {
+    gap: .48cqw;
+  }
+
+  .op-copy-window .op-window-dots i {
+    width: 1.02cqw;
+    height: 1.02cqw;
+    border: .16cqw solid #355a45;
+  }
+
+  .op-copy-inner {
+    margin: 0 .78cqw .78cqw;
+    height: calc(100% - 3.25cqw - .78cqw);
+    border-color: #355a45;
+    border-width: .16cqw;
+    border-radius: .95cqw;
+    background: #fffdf9;
+  }
+
+  .op-copy-window-back::before {
+    border-color: #355a45;
+    border-radius: 1.45cqw;
+    background: #f6ccd9;
+    box-shadow: -.42cqw .46cqw 0 #769b7e;
+  }
+
+  .op-copy-window-back::after {
+    border-color: #355a45;
+    border-radius: .95cqw;
+    background: #fffdf9;
+  }
+}
