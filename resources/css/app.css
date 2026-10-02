@@ -9180,15 +9180,16 @@ body.ocean-tracking .tracking-search-page .tracking-result-section {
         overflow: visible;
     }
 
+    .ocean-primary-navbar__brand {
+        order: 1;
+        margin-right: auto;
+    }
+
     .ocean-primary-navbar__mobile-menu {
         position: relative;
         z-index: 80;
         display: block;
         flex: 0 0 auto;
-        order: 1;
-    }
-
-    .ocean-primary-navbar__brand {
         order: 2;
         margin-left: auto;
     }
@@ -9255,7 +9256,8 @@ body.ocean-tracking .tracking-search-page .tracking-result-section {
     .ocean-primary-navbar__mobile-panel {
         position: absolute;
         top: calc(100% + 12px);
-        left: 0;
+        right: 0;
+        left: auto;
         display: flex;
         width: min(210px, calc(100vw - 40px));
         flex-direction: column;
