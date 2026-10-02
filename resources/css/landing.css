@@ -5833,16 +5833,16 @@
 @media (max-width: 760px) {
   .op-page .op-copy-window {
     top: 96px;
-    left: 20px;
-    width: calc(100% - 40px);
+    left: 24px;
+    width: calc(100% - 48px);
     border-radius: 13px;
     box-shadow: -4px 5px 0 #79a486;
   }
 
   .op-page .op-copy-window-back {
-    top: 102px;
-    left: 16px;
-    width: calc(100% - 38px);
+    top: 103px;
+    left: 18px;
+    width: calc(100% - 44px);
   }
 
   .op-page .op-copy-window-back::before {
@@ -5856,13 +5856,13 @@
 @media (max-width: 460px) {
   .op-page .op-copy-window {
     top: 92px;
-    left: 20px;
-    width: calc(100% - 40px);
+    left: 24px;
+    width: calc(100% - 48px);
   }
 
   .op-page .op-copy-window-back {
-    top: 98px;
-    left: 16px;
-    width: calc(100% - 38px);
+    top: 99px;
+    left: 18px;
+    width: calc(100% - 44px);
   }
 }
