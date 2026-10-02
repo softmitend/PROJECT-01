@@ -5833,21 +5833,21 @@
 @media (max-width: 760px) {
   .op-page .op-copy-window {
     top: 96px;
-    left: 12px;
-    width: calc(100% - 24px);
+    left: 16px;
+    width: calc(100% - 32px);
     border-radius: 13px;
     box-shadow: -4px 5px 0 #79a486;
   }
 
   .op-page .op-copy-window-back {
     top: 101px;
-    left: 10px;
-    width: calc(100% - 26px);
+    left: 15px;
+    width: calc(100% - 31px);
   }
 
   .op-page .op-copy-window-back::before {
     top: 6px;
-    left: -5px;
+    left: -4px;
     border-radius: 13px;
     box-shadow: -4px 5px 0 #79a486;
   }
@@ -5856,10 +5856,13 @@
 @media (max-width: 460px) {
   .op-page .op-copy-window {
     top: 92px;
+    left: 16px;
+    width: calc(100% - 32px);
   }
 
   .op-page .op-copy-window-back {
     top: 97px;
-    left: 10px;
+    left: 15px;
+    width: calc(100% - 31px);
   }
 }
