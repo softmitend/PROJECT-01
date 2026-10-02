@@ -27,21 +27,7 @@
         <img class="op-sky-cloud op-sky-cloud-a" src="{{ asset('assets/glossy_pastel_pink_cloud.png') }}" alt="" aria-hidden="true">
         <img class="op-sky-cloud op-sky-cloud-b" src="{{ asset('assets/pastel_pink_cloud_with_soft_highlights.png') }}" alt="" aria-hidden="true">
 
-        <header class="op-browser op-header op-mobile-navbar">
-            <div class="op-browserbar">
-                <span class="op-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            </div>
-            <div class="op-navrow">
-                <a class="op-brand" href="#home" aria-label="Ocean Paws home"><span class="op-brand-logo"><img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws — Bringing your favorites closer"></span></a>
-                <nav class="op-nav" aria-label="Navigasi utama">
-                    <a class="is-active" href="#home"><i class="bi bi-house-heart-fill"></i><span>Home</span></a>
-                    <a href="{{ route('tracking.index') }}"><i class="bi bi-truck-front-fill"></i><span>Tracking</span></a>
-                    @auth
-                        <a href="{{ route('profile.show') }}"><i class="bi bi-person-circle"></i><span>Profile</span></a>
-                    @endauth
-                </nav>
-            </div>
-        </header>
+        <x-ocean-primary-navbar active="home" home-href="#home" mode="landing" />
 
         <div class="op-hero-scene">
             <img class="op-hero-wave" src="{{ asset('assets/ocean_paws_hero_ripples_wave.png') }}" alt="" aria-hidden="true">
