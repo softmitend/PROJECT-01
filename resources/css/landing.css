@@ -4842,10 +4842,10 @@
   border:2px solid #365643;
   border-radius:12px;
   box-shadow:0 5px 0 #355f43;
-  font-family:"Nunito Sans","Trebuchet MS",sans-serif;
+  font-family:"Arial Rounded MT Bold","Nunito Sans","Trebuchet MS",ui-rounded,sans-serif;
   font-size:clamp(11px,2.8vw,14px);
-  font-weight:800;
-  letter-spacing:0;
+  font-weight:900;
+  letter-spacing:-.025em;
 }
 .op-actions .op-line{background:linear-gradient(180deg,#69ac72,#4a9156);color:#fff!important}
 .op-actions .op-search{background:linear-gradient(180deg,#ffd7e3,#f3aec7);color:#923a5c!important}
@@ -4862,7 +4862,7 @@
   box-shadow:0 0 0 #355f43;
 }
 @media(min-width:761px){
-  .op-actions .op-line,.op-actions .op-search{font-size:1.52cqw}
+  .op-actions .op-line,.op-actions .op-search{font-size:1.42cqw}
 }
 
 /* Let the sign lettering pick up the warm grain beneath it, like ink on wood. */
