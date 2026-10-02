@@ -7112,7 +7112,7 @@ body.ocean-tracking {
     font-size: 12px;
 }
 
-.ocean-tracking .tracking-reference-hero .tracking-lookup-hero h1 {
+.ocean-tracking .tracking-reference-hero h1 {
     position: relative;
     max-width: 760px;
     margin: 18px 0 0;
@@ -7121,11 +7121,11 @@ body.ocean-tracking {
     letter-spacing: -.055em;
 }
 
-.ocean-tracking .tracking-reference-hero .tracking-lookup-hero h1 > span {
+.ocean-tracking .tracking-reference-hero h1 > span {
     color: #3f8856;
 }
 
-.ocean-tracking .tracking-reference-hero .tracking-lookup-hero h1 > i {
+.ocean-tracking .tracking-reference-hero h1 > i {
     display: inline-flex;
     width: .44em;
     height: .44em;
@@ -7562,7 +7562,7 @@ body.ocean-tracking {
         letter-spacing: .04em;
     }
 
-    .ocean-tracking .tracking-reference-hero .tracking-lookup-hero h1 {
+    .ocean-tracking .tracking-reference-hero h1 {
         margin-top: 15px;
         font-size: clamp(36px, 11vw, 54px);
     }
@@ -7699,4 +7699,114 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-reference-hero .track
 html[data-customer-theme="dark"] .ocean-tracking .tracking-site-header .tracking-site-browser,
 html[data-customer-theme="dark"] .ocean-tracking .tracking-site-footer {
     background-color: #1b3027;
+}
+
+
+/* Tracking composition hardening — fixes SVG intrinsic sizing and desktop balance */
+@media (min-width: 761px) {
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-hero-inner {
+        min-height: 500px;
+        max-height: 560px;
+        grid-template-columns: minmax(0, 1.18fr) minmax(340px, .82fr);
+        align-items: center;
+        padding: 42px 54px 40px 66px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-copy {
+        align-self: center;
+        padding-block: 4px;
+    }
+
+    .ocean-tracking .tracking-reference-hero h1 {
+        margin-top: 18px;
+        max-width: 690px;
+        font-size: clamp(52px, 4.9vw, 72px);
+        line-height: .93;
+    }
+
+    .ocean-tracking .tracking-reference-hero h1 > i.tracking-headline-paw {
+        display: inline-flex !important;
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px;
+        max-width: 30px;
+        min-height: 30px;
+        max-height: 30px;
+        flex: 0 0 30px;
+        margin-left: 10px;
+        vertical-align: middle;
+        overflow: hidden;
+        transform: translateY(-3px) rotate(-10deg);
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-headline-paw svg {
+        display: block !important;
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px;
+        max-width: 30px;
+        min-height: 30px;
+        max-height: 30px;
+        flex: none;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-copy > p {
+        margin-top: 20px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-form {
+        margin-top: 26px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-art {
+        min-height: 420px;
+        max-height: 440px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-art-halo {
+        width: 300px;
+        height: 300px;
+        right: 3%;
+        top: 11%;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-art-mascot {
+        right: 1%;
+        bottom: 1%;
+        width: min(94%, 395px);
+        max-height: 405px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-art-note {
+        top: 1%;
+        left: 4%;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-art-sand {
+        bottom: -7%;
+        height: 165px;
+    }
+}
+
+@media (max-width: 760px) {
+    .ocean-tracking .tracking-reference-hero h1 > i.tracking-headline-paw {
+        display: inline-flex !important;
+        width: 22px !important;
+        height: 22px !important;
+        min-width: 22px;
+        max-width: 22px;
+        min-height: 22px;
+        max-height: 22px;
+        overflow: hidden;
+        vertical-align: middle;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-headline-paw svg {
+        width: 22px !important;
+        height: 22px !important;
+        min-width: 22px;
+        max-width: 22px;
+        min-height: 22px;
+        max-height: 22px;
+    }
 }
