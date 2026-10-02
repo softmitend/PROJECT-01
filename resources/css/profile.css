@@ -414,3 +414,10 @@ html[data-customer-theme="dark"] .ocean-profile .profile-preference-card { backg
   transform: scale(1.18);
   transform-origin: center;
 }
+
+.profile-site-header .profile-nav-home-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
