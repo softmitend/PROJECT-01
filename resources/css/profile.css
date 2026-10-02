@@ -400,3 +400,9 @@ html[data-customer-theme="dark"] .ocean-profile .profile-preference-card { backg
   align-items: center;
   line-height: 1;
 }
+
+
+.profile-site-header .op-nav a:first-child i {
+  font-size: 17px;
+  transform: translateY(-0.2px);
+}
