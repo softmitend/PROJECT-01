@@ -1,59 +1,45 @@
-<section class="tracking-lookup-hero tracking-reference-hero" aria-labelledby="order-search-title">
-    <div class="tracking-lookup-frame">
-        <div class="op-browserbar tracking-lookup-titlebar">
-            <span class="tracking-titlebar-label">
-                <svg class="tracking-titlebar-paw" viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="7" cy="7" r="2.3" fill="currentColor"/>
-                    <circle cx="12" cy="5.2" r="2.3" fill="currentColor"/>
-                    <circle cx="17" cy="7" r="2.3" fill="currentColor"/>
-                    <circle cx="19.2" cy="11.5" r="2.1" fill="currentColor"/>
-                    <path d="M6.1 15.1c0-3.5 2.6-6.2 5.9-6.2s5.9 2.7 5.9 6.2c0 2.7-2.2 4.9-5 4.9h-1.8c-2.8 0-5-2.2-5-4.9Z" fill="currentColor"/>
-                </svg>
-                <strong>TRACKING.EXE</strong>
-            </span>
-            <span class="op-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-        </div>
+<section class="tracking-neo-page" aria-labelledby="order-search-title">
+    <div class="tracking-neo-shell">
+        <header class="tracking-neo-heading">
+            <span class="tracking-neo-eyebrow">TRACKING PESANAN</span>
+            <h1 id="order-search-title">Cari pesananmu.</h1>
+            <p>Masukkan kode pesanan atau username LINE untuk melihat status dan riwayat pesanan.</p>
+        </header>
 
-        <div class="tracking-lookup-hero-inner">
-            <div class="tracking-lookup-copy">
-                <span class="tracking-lookup-kicker">
-                    <span>TRACK YOUR ORDER</span>
-                    <b aria-hidden="true">♥</b>
-                    <span>TANPA LOGIN</span>
-                </span>
+        <section class="tracking-neo-search-card" aria-label="Form pencarian pesanan">
+            <div class="tracking-neo-card-head">
+                <span class="tracking-neo-card-icon"><x-public-icon name="search" :size="22" /></span>
+                <div>
+                    <span>CARI PESANAN</span>
+                    <strong>Lacak status terbaru</strong>
+                </div>
+            </div>
 
-                <h1 id="order-search-title">Pesananmu,<br><span>selalu terlacak.</span><i class="tracking-headline-paw" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2" fill="currentColor"/><circle cx="12" cy="5" r="2.2" fill="currentColor"/><circle cx="17" cy="7" r="2.2" fill="currentColor"/><path d="M6.2 15.1c0-3.3 2.5-5.9 5.8-5.9s5.8 2.6 5.8 5.9c0 2.6-2 4.7-4.7 4.7h-2.2c-2.7 0-4.7-2.1-4.7-4.7Z" fill="currentColor"/></svg></i></h1>
-                <p>Masukkan kode pesanan untuk melihat satu perjalanan,<br class="tracking-copy-break"> atau username LINE untuk membuka seluruh riwayatmu.</p>
-
-                <form method="POST" action="{{ route('tracking.search') }}" class="tracking-lookup-form" role="search" aria-label="Cari tracking dan riwayat pesanan">
-                    @csrf
-                    <label for="tracking-query" class="sr-only">Kode pesanan atau username LINE</label>
-                    <span class="tracking-lookup-search-icon"><x-public-icon name="search" :size="20" /></span>
+            <form method="POST" action="{{ route('tracking.search') }}" class="tracking-neo-form" role="search" aria-label="Cari tracking dan riwayat pesanan">
+                @csrf
+                <label for="tracking-query" class="sr-only">Kode pesanan atau username LINE</label>
+                <div class="tracking-neo-input-wrap">
+                    <span class="tracking-neo-input-icon"><x-public-icon name="search" :size="19" /></span>
                     <input id="tracking-query" type="search" name="query" value="{{ old('query', $searchQuery ?? '') }}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="255" placeholder="Contoh: ORD-001 atau @username" aria-describedby="tracking-query-hint{{ $errors->has('query') ? ' tracking-query-error' : '' }}" @if($errors->has('query')) aria-invalid="true" autofocus @endif required>
-                    <button type="submit" aria-label="Lacak pesanan"><span>Lacak pesanan</span><x-public-icon name="arrow-right" :size="16" /></button>
-                </form>
+                </div>
+                <button type="submit">
+                    <span>Lacak pesanan</span>
+                    <x-public-icon name="arrow-right" :size="16" />
+                </button>
+            </form>
 
-                <p id="tracking-query-hint" class="tracking-lookup-hint"><x-public-icon name="sparkle" :size="13" /> Data mengikuti pembaruan terakhir dari admin.</p>
-
-                @error('query')
-                    <div id="tracking-query-error" class="tracking-lookup-error" role="alert"><x-public-icon name="search" :size="18" /><span>{{ $message }}</span></div>
-                @enderror
+            <div id="tracking-query-hint" class="tracking-neo-hint">
+                <x-public-icon name="sparkle" :size="14" />
+                <span>Data mengikuti pembaruan terakhir dari admin.</span>
             </div>
 
-            <div class="tracking-lookup-art" aria-hidden="true">
-                <span class="tracking-art-halo"></span>
-                <span class="tracking-art-leaves tracking-art-leaves-left"></span>
-                <span class="tracking-art-leaves tracking-art-leaves-right"></span>
-                <span class="tracking-art-note">YOUR WISH<br>IS ON ITS WAY ♡</span>
-                <span class="tracking-art-rays">///</span>
-                <span class="tracking-art-star tracking-art-star-one">✦</span>
-                <span class="tracking-art-star tracking-art-star-two">✦</span>
-                <span class="tracking-art-flower">✿</span>
-                <img class="tracking-art-mascot" src="{{ asset('assets/kawaii_beach_cat_delivery_sticker.png') }}" alt="">
-                <img class="tracking-art-sand" src="{{ asset('assets/pastel_beach_sand_right.png') }}" alt="">
-                <img class="tracking-art-starfish" src="{{ asset('assets/glossy_pink_kawaii_starfish_sticker.png') }}" alt="">
-            </div>
-        </div>
+            @error('query')
+                <div id="tracking-query-error" class="tracking-neo-error" role="alert">
+                    <x-public-icon name="search" :size="17" />
+                    <span>{{ $message }}</span>
+                </div>
+            @enderror
+        </section>
     </div>
 </section>
 
