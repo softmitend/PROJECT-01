@@ -6867,3 +6867,828 @@ body.customer-theme,
         flex-basis: 15px;
     }
 }
+
+
+/* Tracking reference mockup match — October 2026 */
+body.ocean-tracking {
+    background: #fff8f2;
+}
+
+.ocean-tracking .tracking-site-header {
+    position: relative;
+    z-index: 30;
+    height: 188px;
+    min-height: 188px;
+    padding: 0;
+    overflow: visible;
+    background:
+        radial-gradient(circle at 48% 105%, rgba(255,255,255,.82) 0 34px, transparent 35px),
+        radial-gradient(circle at 54% 107%, rgba(255,255,255,.86) 0 29px, transparent 30px),
+        #f8d5df;
+}
+
+.ocean-tracking .tracking-site-header .tracking-site-browser {
+    top: 44px;
+    left: 50%;
+    width: min(1240px, calc(100% - 120px));
+    height: 108px;
+    border: 2px solid #815767;
+    border-radius: 18px;
+    transform: translateX(-50%);
+    background: #fffefa;
+    box-shadow: -7px 7px 0 #95bd9d;
+}
+
+.ocean-tracking .tracking-site-header .op-browserbar {
+    height: 28px;
+    border-bottom: 2px solid #815767;
+    background: #f8d6e0;
+}
+
+.ocean-tracking .tracking-site-header .op-window-dots {
+    gap: 8px;
+}
+
+.ocean-tracking .tracking-site-header .op-window-dots i {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #74505e;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.38);
+}
+
+.ocean-tracking .tracking-site-header .op-navrow {
+    height: 78px;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    align-items: center;
+    gap: 24px;
+    padding: 0 28px 0 36px;
+}
+
+.ocean-tracking .tracking-site-header .op-brand {
+    height: 76px;
+}
+
+.ocean-tracking .tracking-site-header .op-brand img {
+    width: 222px;
+    height: 88px;
+    margin: 0;
+    object-fit: contain;
+}
+
+.ocean-tracking .tracking-site-header .op-nav {
+    height: 100%;
+    display: flex;
+    justify-self: end;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.ocean-tracking .tracking-site-header .op-nav a {
+    min-height: 48px;
+    gap: 9px;
+    border-radius: 999px;
+    padding: 0 18px;
+    color: #34594a;
+    font: 800 15px/1 "Nunito Sans", sans-serif;
+    transition: transform .16s ease, background .16s ease, color .16s ease;
+}
+
+.ocean-tracking .tracking-site-header .op-nav a:hover {
+    background: #f6eee8;
+    transform: translateY(-1px);
+}
+
+.ocean-tracking .tracking-site-header .op-nav a.is-active {
+    background: #fde8ee;
+    color: #df4773;
+}
+
+.ocean-tracking .tracking-site-header .tracking-nav-icon {
+    width: 21px;
+    height: 21px;
+    flex: 0 0 21px;
+}
+
+.ocean-tracking .tracking-site-header .tracking-nav-icon-home {
+    width: 22px;
+    height: 22px;
+    flex-basis: 22px;
+}
+
+.ocean-tracking .tracking-search-page.ocean-home.ocean-editorial,
+.ocean-tracking .tracking-search-page .tracking-search-shell {
+    background: #fff8f2 !important;
+}
+
+.ocean-tracking .tracking-search-page .tracking-reference-hero {
+    position: relative;
+    min-height: 700px;
+    padding: 28px 4.6vw 92px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 3% 22%, #fffdf8 0 34px, transparent 35px),
+        radial-gradient(circle at 10% 17%, #fffdf8 0 28px, transparent 29px),
+        radial-gradient(circle at 86% 19%, #fffdf8 0 34px, transparent 35px),
+        radial-gradient(circle at 96% 28%, #fffdf8 0 29px, transparent 30px),
+        linear-gradient(180deg, #f8d5df 0 70%, #c7eadc 70% 100%) !important;
+}
+
+.ocean-tracking .tracking-search-page .tracking-reference-hero::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: auto 0 0;
+    height: 178px;
+    background:
+        url('/assets/pastel_mint_ocean_wave_banner.png') center bottom / 100% 100% no-repeat;
+    opacity: .82;
+    pointer-events: none;
+}
+
+.ocean-tracking .tracking-search-page .tracking-reference-hero::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: -2%;
+    right: -2%;
+    bottom: 6px;
+    height: 92px;
+    background:
+        url('/assets/pastel_aqua_wave_banner.png') center bottom / 104% 100% no-repeat;
+    opacity: .68;
+    pointer-events: none;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-frame {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 1240px);
+    margin: 0 auto;
+    overflow: hidden;
+    border: 2px solid #815767;
+    border-radius: 22px;
+    background: #f8d3df;
+    box-shadow: -9px 9px 0 #6fab80;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-titlebar {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #815767;
+    padding: 0 20px;
+    background: linear-gradient(180deg, #f9d7e1 0%, #f4c8d5 100%);
+    color: #a63b60;
+}
+
+.ocean-tracking .tracking-titlebar-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ocean-tracking .tracking-titlebar-paw {
+    width: 20px;
+    height: 20px;
+    color: #dc4772;
+}
+
+.ocean-tracking .tracking-titlebar-label strong {
+    font: 800 12px/1 "Nunito Sans", sans-serif;
+    letter-spacing: .16em;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-titlebar .op-window-dots {
+    gap: 8px;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-titlebar .op-window-dots i {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #74505e;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-hero-inner {
+    position: relative;
+    display: grid;
+    min-height: 520px;
+    grid-template-columns: minmax(0, 1.2fr) minmax(360px, .8fr);
+    align-items: center;
+    gap: 34px;
+    margin: 12px;
+    border: 2px solid #9b667a;
+    border-radius: 18px;
+    padding: 46px 58px 42px 70px;
+    overflow: hidden;
+    background: #fffefa;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-copy {
+    position: relative;
+    z-index: 4;
+    align-self: center;
+    min-width: 0;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-kicker {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    gap: 15px;
+    border: 0;
+    border-radius: 999px;
+    padding: 0 20px;
+    background: #fde4eb;
+    color: #df4773 !important;
+    font: 800 12px/1 "Nunito Sans", sans-serif;
+    letter-spacing: .08em;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-kicker b {
+    color: #dc4772;
+    font-size: 12px;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-hero h1 {
+    position: relative;
+    max-width: 760px;
+    margin: 18px 0 0;
+    color: #df4773 !important;
+    font: 900 clamp(50px, 5.25vw, 76px)/.92 "Bricolage Grotesque", "Nunito Sans", sans-serif;
+    letter-spacing: -.055em;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-hero h1 > span {
+    color: #3f8856;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-hero h1 > i {
+    display: inline-block;
+    margin-left: 9px;
+    color: #ef8ca8;
+    font-style: normal;
+    font-size: .43em;
+    letter-spacing: 0;
+    transform: translateY(-4px) rotate(-10deg);
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-copy > p {
+    max-width: 660px;
+    margin: 20px 0 0;
+    color: #516b60 !important;
+    font: 600 clamp(15px, 1.4vw, 19px)/1.55 "Nunito Sans", sans-serif;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-form {
+    display: grid;
+    max-width: 690px;
+    min-height: 72px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    border: 2px solid #efadc0 !important;
+    border-radius: 21px;
+    padding: 7px 7px 7px 18px;
+    background: #fff !important;
+    box-shadow:
+        0 0 0 5px #fde6ec,
+        0 8px 0 -2px #daa0b1 !important;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-form:focus-within {
+    outline: 3px solid #f4a2ba;
+    outline-offset: 5px;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-search-icon {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    color: #3d8b58;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-form input {
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: #36594c;
+    font: 600 16px/1.3 "Nunito Sans", sans-serif;
+    outline: none;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-form input::placeholder {
+    color: #81958c;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-form button {
+    min-width: 188px;
+    min-height: 54px;
+    border: 2px solid #356c46 !important;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #69ad72 0%, #438d52 100%) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.38), 0 4px 0 #2f6640 !important;
+    color: #fff !important;
+    font: 900 14px/1 "Nunito Sans", sans-serif;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-form button:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(180deg, #5fa56a, #3c824a) !important;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-hint {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 20px 0 0;
+    color: #4f6b60 !important;
+    font: 700 14px/1.4 "Nunito Sans", sans-serif;
+}
+
+.ocean-tracking .tracking-reference-hero .tracking-lookup-art {
+    position: relative;
+    min-height: 455px;
+    align-self: stretch;
+}
+
+.ocean-tracking .tracking-art-halo {
+    position: absolute;
+    z-index: 0;
+    width: 330px;
+    height: 330px;
+    right: 4%;
+    top: 10%;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d9f0e3, #bfe4d2);
+}
+
+.ocean-tracking .tracking-art-halo::after {
+    content: "";
+    position: absolute;
+    right: -34px;
+    bottom: 12px;
+    width: 190px;
+    height: 145px;
+    border-radius: 52% 48% 45% 55%;
+    background:
+        radial-gradient(ellipse at 30% 75%, #7caf86 0 9%, transparent 10%),
+        radial-gradient(ellipse at 52% 57%, #8fc297 0 10%, transparent 11%),
+        radial-gradient(ellipse at 73% 70%, #6faa7d 0 9%, transparent 10%),
+        #c5e5d0;
+    opacity: .82;
+}
+
+.ocean-tracking .tracking-art-sand {
+    position: absolute;
+    z-index: 1;
+    right: -5%;
+    bottom: -6%;
+    width: 112%;
+    max-width: none;
+    height: 180px;
+    object-fit: contain;
+    opacity: .9;
+}
+
+.ocean-tracking .tracking-art-mascot {
+    position: absolute;
+    z-index: 4;
+    right: 1%;
+    bottom: 2%;
+    width: min(96%, 420px);
+    max-height: 430px;
+    object-fit: contain;
+}
+
+.ocean-tracking .tracking-art-note {
+    position: absolute;
+    z-index: 6;
+    top: 2%;
+    left: 5%;
+    display: grid;
+    width: 150px;
+    height: 108px;
+    place-content: center;
+    border-radius: 48% 52% 45% 55%;
+    background: #fbdce6;
+    color: #36594c;
+    font: 900 11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+    text-align: center;
+    transform: rotate(-8deg);
+}
+
+.ocean-tracking .tracking-art-note::after {
+    content: "";
+    position: absolute;
+    left: 46px;
+    bottom: -12px;
+    width: 28px;
+    height: 25px;
+    background: #fbdce6;
+    clip-path: polygon(0 0, 100% 0, 30% 100%);
+}
+
+.ocean-tracking .tracking-art-rays {
+    position: absolute;
+    z-index: 5;
+    top: 15%;
+    left: -1%;
+    color: #e95d82;
+    font: 900 28px/1 "Nunito Sans", sans-serif;
+    letter-spacing: -5px;
+    transform: rotate(-38deg);
+}
+
+.ocean-tracking .tracking-art-star {
+    position: absolute;
+    z-index: 6;
+    line-height: 1;
+}
+
+.ocean-tracking .tracking-art-star-one {
+    top: 14%;
+    right: 0;
+    color: #df4773;
+    font-size: 34px;
+}
+
+.ocean-tracking .tracking-art-star-two {
+    bottom: 29%;
+    left: 2%;
+    color: #3f8856;
+    font-size: 23px;
+}
+
+.ocean-tracking .tracking-art-flower {
+    position: absolute;
+    z-index: 6;
+    left: 12%;
+    top: 48%;
+    color: #f6789a;
+    font-size: 38px;
+    text-shadow: 0 0 0 5px #fff;
+}
+
+.ocean-tracking .tracking-art-starfish {
+    position: absolute;
+    z-index: 5;
+    right: 4%;
+    bottom: 1%;
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    transform: rotate(12deg);
+}
+
+.ocean-tracking .tracking-art-leaves {
+    position: absolute;
+    z-index: 1;
+    bottom: 9%;
+    width: 90px;
+    height: 145px;
+    border-radius: 60% 40% 60% 40%;
+    background:
+        radial-gradient(ellipse at 50% 20%, #8fc59a 0 20%, transparent 21%),
+        radial-gradient(ellipse at 30% 48%, #75b386 0 19%, transparent 20%),
+        radial-gradient(ellipse at 67% 63%, #9dcea6 0 20%, transparent 21%);
+    opacity: .88;
+}
+
+.ocean-tracking .tracking-art-leaves-left {
+    left: 7%;
+    transform: rotate(-12deg);
+}
+
+.ocean-tracking .tracking-art-leaves-right {
+    right: 0;
+    transform: rotate(12deg);
+}
+
+.ocean-tracking .tracking-site-footer {
+    position: relative;
+    min-height: 152px;
+    overflow: hidden;
+    border-top: 0;
+    background: #fffdf4;
+}
+
+.ocean-tracking .tracking-site-footer::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: -38px;
+    left: -3%;
+    width: 106%;
+    height: 76px;
+    border-radius: 50% 50% 0 0;
+    background: #fffdf4;
+    transform: rotate(-.7deg);
+}
+
+.ocean-tracking .tracking-site-footer-inner {
+    position: relative;
+    z-index: 2;
+    width: min(calc(100% - 120px), 1240px);
+    min-height: 152px;
+    padding: 40px 0 24px;
+}
+
+.ocean-tracking .tracking-site-footer-brand img {
+    width: 210px;
+}
+
+.ocean-tracking .tracking-site-footer-credit {
+    color: #456051;
+    font-size: 11px;
+    letter-spacing: .015em;
+}
+
+@media (max-width: 1050px) {
+    .ocean-tracking .tracking-site-header .tracking-site-browser {
+        width: calc(100% - 54px);
+    }
+
+    .ocean-tracking .tracking-site-header .op-navrow {
+        grid-template-columns: 210px minmax(0,1fr);
+        padding-inline: 22px;
+    }
+
+    .ocean-tracking .tracking-site-header .op-brand img {
+        width: 190px;
+    }
+
+    .ocean-tracking .tracking-site-header .op-nav a {
+        min-height: 44px;
+        padding-inline: 12px;
+        font-size: 13px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-hero-inner {
+        grid-template-columns: minmax(0,1.1fr) minmax(300px,.9fr);
+        padding: 40px 36px 36px 44px;
+    }
+
+    .ocean-tracking .tracking-art-mascot {
+        width: min(103%, 380px);
+    }
+}
+
+@media (max-width: 760px) {
+    .ocean-tracking .tracking-site-header {
+        height: 110px;
+        min-height: 110px;
+        background: #f8d5df;
+    }
+
+    .ocean-tracking .tracking-site-header .tracking-site-browser.op-mobile-navbar {
+        top: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: 86px;
+        transform: none;
+        border-radius: 14px;
+        box-shadow: -4px 4px 0 #95bd9d;
+    }
+
+    .ocean-tracking .tracking-site-header .op-browserbar {
+        height: 21px;
+    }
+
+    .ocean-tracking .tracking-site-header .op-navrow {
+        height: 63px;
+        display: flex;
+        gap: 4px;
+        padding: 0 10px;
+    }
+
+    .ocean-tracking .tracking-site-header .op-brand {
+        height: 62px;
+    }
+
+    .ocean-tracking .tracking-site-header .op-brand img {
+        width: clamp(96px, 30vw, 125px);
+        height: auto;
+    }
+
+    .ocean-tracking .tracking-site-header .op-nav {
+        margin-left: auto;
+        gap: 0;
+    }
+
+    .ocean-tracking .tracking-site-header .op-nav a {
+        min-height: 38px;
+        gap: 4px;
+        padding: 0 clamp(4px,1.4vw,8px);
+        font-size: clamp(9px,2.7vw,11px);
+    }
+
+    .ocean-tracking .tracking-site-header .tracking-nav-icon {
+        width: 15px;
+        height: 15px;
+        flex-basis: 15px;
+    }
+
+    .ocean-tracking .tracking-site-header .tracking-nav-icon-home {
+        width: 16px;
+        height: 16px;
+        flex-basis: 16px;
+    }
+
+    .ocean-tracking .tracking-search-page .tracking-reference-hero {
+        min-height: 0;
+        padding: 24px 14px 76px;
+        background: linear-gradient(180deg, #f8d5df 0 77%, #c7eadc 77% 100%) !important;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-frame {
+        border-radius: 16px;
+        box-shadow: -5px 5px 0 #6fab80;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-titlebar {
+        height: 36px;
+        padding-inline: 12px;
+    }
+
+    .ocean-tracking .tracking-titlebar-label {
+        gap: 7px;
+    }
+
+    .ocean-tracking .tracking-titlebar-paw {
+        width: 16px;
+        height: 16px;
+    }
+
+    .ocean-tracking .tracking-titlebar-label strong {
+        font-size: 9px;
+        letter-spacing: .1em;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-titlebar .op-window-dots i {
+        width: 10px;
+        height: 10px;
+        border-width: 1.5px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-hero-inner {
+        display: flex;
+        min-height: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin: 7px;
+        padding: 25px 18px 7px;
+        border-radius: 12px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-kicker {
+        min-height: 30px;
+        gap: 8px;
+        padding-inline: 12px;
+        font-size: 9px;
+        letter-spacing: .04em;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-hero h1 {
+        margin-top: 15px;
+        font-size: clamp(36px, 11vw, 54px);
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-copy > p {
+        margin-top: 16px;
+        font-size: 14px;
+    }
+
+    .tracking-copy-break {
+        display: none;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-form {
+        min-height: 62px;
+        margin-top: 22px;
+        border-radius: 17px;
+        padding: 6px 6px 6px 10px;
+        box-shadow: 0 0 0 4px #fde6ec, 0 7px 0 -2px #daa0b1 !important;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-form input {
+        font-size: 16px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-form button {
+        width: 52px;
+        min-width: 52px;
+        min-height: 48px;
+        padding: 0;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-form button span {
+        display: none;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-hint {
+        margin-top: 18px;
+        font-size: 11px;
+    }
+
+    .ocean-tracking .tracking-reference-hero .tracking-lookup-art {
+        width: 100%;
+        min-height: 310px;
+    }
+
+    .ocean-tracking .tracking-art-halo {
+        width: 230px;
+        height: 230px;
+        right: 7%;
+        top: 16%;
+    }
+
+    .ocean-tracking .tracking-art-mascot {
+        right: 6%;
+        bottom: -1%;
+        width: 270px;
+        max-height: 300px;
+    }
+
+    .ocean-tracking .tracking-art-sand {
+        right: -10%;
+        bottom: -9%;
+        width: 120%;
+        height: 130px;
+    }
+
+    .ocean-tracking .tracking-art-note {
+        width: 112px;
+        height: 82px;
+        top: 8%;
+        left: 3%;
+        font-size: 8px;
+    }
+
+    .ocean-tracking .tracking-art-rays {
+        top: 21%;
+        left: -1%;
+        font-size: 20px;
+    }
+
+    .ocean-tracking .tracking-art-star-one {
+        right: 3%;
+        top: 16%;
+        font-size: 25px;
+    }
+
+    .ocean-tracking .tracking-art-star-two {
+        bottom: 32%;
+        left: 6%;
+        font-size: 17px;
+    }
+
+    .ocean-tracking .tracking-art-flower {
+        top: 48%;
+        left: 12%;
+        font-size: 26px;
+    }
+
+    .ocean-tracking .tracking-art-starfish {
+        width: 42px;
+        height: 42px;
+    }
+
+    .ocean-tracking .tracking-site-footer {
+        min-height: 126px;
+    }
+
+    .ocean-tracking .tracking-site-footer-inner {
+        width: calc(100% - 36px);
+        min-height: 126px;
+        flex-direction: row;
+        align-items: center;
+        gap: 14px;
+        padding: 28px 0 18px;
+    }
+
+    .ocean-tracking .tracking-site-footer-brand img {
+        width: 135px;
+    }
+
+    .ocean-tracking .tracking-site-footer-credit {
+        margin-left: auto;
+        font-size: 8px;
+    }
+}
+
+html[data-customer-theme="dark"] .ocean-tracking .tracking-site-header,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-search-page .tracking-reference-hero {
+    filter: saturate(.82) brightness(.78);
+}
+
+html[data-customer-theme="dark"] .ocean-tracking .tracking-reference-hero .tracking-lookup-hero-inner,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-site-header .tracking-site-browser,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-site-footer {
+    background-color: #1b3027;
+}
