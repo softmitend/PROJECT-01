@@ -5994,9 +5994,9 @@ body.customer-theme,
 
 .public-account-chip img,
 .public-account-chip > span {
-    width: 30px;
-    height: 30px;
-    flex: 0 0 30px;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
     border-radius: 50%;
 }
 
@@ -8920,15 +8920,15 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
     --nav-icon-fill: #6aa97f;
     position: relative;
     display: inline-flex;
-    min-height: 58px;
+    min-height: 50px;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 8px;
     border: 2.5px solid transparent;
-    border-radius: 12px;
-    padding: 0 18px;
+    border-radius: 11px;
+    padding: 0 14px;
     color: #355a45;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 900;
     line-height: 1;
     text-decoration: none;
@@ -8979,16 +8979,16 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
     }
 
     .ocean-primary-navbar__link {
-        min-height: 54px;
-        gap: 9px;
-        padding: 0 13px;
-        font-size: 15px;
+        min-height: 46px;
+        gap: 7px;
+        padding: 0 11px;
+        font-size: 13px;
     }
 
     .ocean-primary-navbar__icon {
-        width: 26px;
-        height: 26px;
-        flex-basis: 26px;
+        width: 22px;
+        height: 22px;
+        flex-basis: 22px;
     }
 }
 
@@ -9020,12 +9020,12 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
     }
 
     .ocean-primary-navbar__link {
-        min-height: 44px;
-        gap: 5px;
+        min-height: 42px;
+        gap: 4px;
         border-width: 2px;
-        border-radius: 10px;
-        padding: 0 clamp(5px, 1.4vw, 9px);
-        font-size: clamp(10px, 2.4vw, 12px);
+        border-radius: 9px;
+        padding: 0 clamp(4px, 1.2vw, 7px);
+        font-size: clamp(9px, 2.2vw, 11px);
     }
 
     .ocean-primary-navbar__link.is-active {
@@ -9033,9 +9033,9 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
     }
 
     .ocean-primary-navbar__icon {
-        width: clamp(18px, 4.4vw, 22px);
-        height: clamp(18px, 4.4vw, 22px);
-        flex-basis: clamp(18px, 4.4vw, 22px);
+        width: clamp(17px, 4vw, 20px);
+        height: clamp(17px, 4vw, 20px);
+        flex-basis: clamp(17px, 4vw, 20px);
     }
 }
 
