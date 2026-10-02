@@ -13,7 +13,9 @@
 <div class="{{ $hostClass }}">
     <header class="ocean-primary-navbar" aria-label="Navigasi utama Ocean Paws">
         <a class="ocean-primary-navbar__brand" href="{{ $homeUrl }}" aria-label="Ocean Paws home">
-            <img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws — Bringing your favorites closer">
+            <span class="ocean-primary-navbar__brand-logo">
+                <img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws — Bringing your favorites closer">
+            </span>
         </a>
 
         <nav class="ocean-primary-navbar__links" aria-label="Navigasi utama">
