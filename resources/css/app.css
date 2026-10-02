@@ -8901,7 +8901,7 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
 
 .ocean-primary-navbar__brand img {
     display: block;
-    width: clamp(230px, 20.5vw, 290px);
+    width: clamp(190px, 17.5vw, 235px);
     max-width: none;
     height: auto;
     object-fit: contain;
@@ -8971,7 +8971,7 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
     }
 
     .ocean-primary-navbar__brand img {
-        width: clamp(190px, 22vw, 235px);
+        width: clamp(165px, 19vw, 205px);
     }
 
     .ocean-primary-navbar__links {
@@ -9012,7 +9012,7 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
     }
 
     .ocean-primary-navbar__brand img {
-        width: clamp(112px, 28vw, 145px);
+        width: clamp(98px, 24vw, 128px);
     }
 
     .ocean-primary-navbar__links {
@@ -9046,7 +9046,7 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
     }
 
     .ocean-primary-navbar__brand img {
-        width: clamp(96px, 26vw, 112px);
+        width: clamp(88px, 23vw, 102px);
     }
 
     .ocean-primary-navbar__link {
