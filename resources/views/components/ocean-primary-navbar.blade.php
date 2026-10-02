@@ -12,6 +12,31 @@
 
 <div class="{{ $hostClass }}">
     <header class="ocean-primary-navbar" aria-label="Navigasi utama Ocean Paws">
+
+        <details class="ocean-primary-navbar__mobile-menu">
+            <summary class="ocean-primary-navbar__mobile-toggle" aria-label="Buka menu navigasi">
+                <span class="ocean-primary-navbar__mobile-toggle-lines" aria-hidden="true">
+                    <i></i><i></i><i></i>
+                </span>
+                <span class="sr-only">Menu</span>
+            </summary>
+
+            <nav class="ocean-primary-navbar__mobile-panel" aria-label="Navigasi utama mobile">
+                <a class="ocean-primary-navbar__mobile-link {{ $active === 'home' ? 'is-active' : '' }}" href="{{ $homeUrl }}" @if($active === 'home') aria-current="page" @endif>
+                    <x-public-icon name="home" :size="18" />
+                    <span>Home</span>
+                </a>
+                <a class="ocean-primary-navbar__mobile-link {{ $active === 'tracking' ? 'is-active' : '' }}" href="{{ route('tracking.index') }}" @if($active === 'tracking') aria-current="page" @endif>
+                    <x-public-icon name="truck" :size="18" />
+                    <span>Tracking</span>
+                </a>
+                <a class="ocean-primary-navbar__mobile-link {{ $active === 'profile' ? 'is-active' : '' }}" href="{{ $profileUrl }}" @if($active === 'profile') aria-current="page" @endif>
+                    <x-public-icon name="user" :size="18" />
+                    <span>Profile</span>
+                </a>
+            </nav>
+        </details>
+
         <a class="ocean-primary-navbar__brand" href="{{ $homeUrl }}" aria-label="Ocean Paws home">
             <span class="ocean-primary-navbar__brand-logo">
                 <img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws — Bringing your favorites closer">
