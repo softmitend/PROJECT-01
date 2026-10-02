@@ -5749,3 +5749,45 @@
     animation: none;
   }
 }
+
+
+/* Stable ticker shadow rail — avoid clipping by the full-width marquee. */
+.op-page .op-ticker {
+  position: relative;
+  z-index: 4;
+  margin-bottom: 6px;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.op-page .op-ticker::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  pointer-events: none;
+  background: #8aaf91;
+  transform: translateY(6px);
+}
+
+/* Reserve visible room for the shadow instead of letting the next section paint over it. */
+.op-page .op-ticker + .op-main {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+}
+
+@media (max-width: 760px) {
+  .op-page .op-ticker {
+    margin-bottom: 5px;
+  }
+
+  .op-page .op-ticker::after {
+    height: 5px;
+    background: #79a486;
+    transform: translateY(5px);
+  }
+}
