@@ -4563,7 +4563,7 @@
   .op-nav a i{font-size:1.9cqw}
   .op-nav a.is-active:after{right:.8cqw;bottom:.9cqw;left:.8cqw;height:.23cqw}
   .op-copy-window{
-    top:16.3cqw;left:6.84%;width:46.88%;height:33.6cqw;
+    top:14.8cqw;left:6.84%;width:46.88%;height:33.6cqw;
     max-width:none;border-width:.17cqw;border-radius:1.15cqw;
   }
   .op-copy-window .op-browserbar{height:3.4cqw;padding-left:1.8cqw;font-size:1.55cqw}
@@ -4675,7 +4675,7 @@
 
 @media(min-width:761px){
   .op-copy-window-back{
-    top:16.3cqw;
+    top:14.8cqw;
     left:6.84%;
     width:46.88%;
     height:33.6cqw;
