@@ -379,20 +379,11 @@ html[data-customer-theme="dark"] .ocean-profile .profile-settings-panel { backgr
 html[data-customer-theme="dark"] .ocean-profile .profile-preference-card { background: #355747; }
 
 
-/* Optical balance for the profile navbar: labels and Bootstrap icons should read at one visual scale. */
+
+/* Profile navbar icons use one SVG system so their visual scale is predictable. */
 .profile-site-header .op-nav a {
   gap: 8px;
   font-size: 14px;
-  line-height: 1;
-}
-.profile-site-header .op-nav a i {
-  display: inline-flex;
-  width: 16px;
-  height: 16px;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 16px;
-  font-size: 15px;
   line-height: 1;
 }
 .profile-site-header .op-nav a span {
@@ -400,25 +391,14 @@ html[data-customer-theme="dark"] .ocean-profile .profile-preference-card { backg
   align-items: center;
   line-height: 1;
 }
-
-
-.profile-site-header .op-nav a:first-child i {
-  font-size: 17px;
-  transform: translateY(-0.2px);
-}
-
-/* Bootstrap Icons render the visible glyph through ::before.
-   Scale the Home glyph itself so its optical mass matches Tracking/Profile. */
-.profile-site-header .op-nav .bi-house-heart-fill::before {
-  display: inline-block;
-  transform: scale(1.18);
-  transform-origin: center;
-}
-
-.profile-site-header .profile-nav-home-icon {
+.profile-site-header .profile-nav-icon {
   display: block;
   width: 20px;
   height: 20px;
   flex: 0 0 20px;
-  transform: translateY(-0.2px);
+}
+.profile-site-header .profile-nav-icon-home {
+  width: 22px;
+  height: 22px;
+  flex-basis: 22px;
 }
