@@ -406,3 +406,11 @@ html[data-customer-theme="dark"] .ocean-profile .profile-preference-card { backg
   font-size: 17px;
   transform: translateY(-0.2px);
 }
+
+/* Bootstrap Icons render the visible glyph through ::before.
+   Scale the Home glyph itself so its optical mass matches Tracking/Profile. */
+.profile-site-header .op-nav .bi-house-heart-fill::before {
+  display: inline-block;
+  transform: scale(1.18);
+  transform-origin: center;
+}
