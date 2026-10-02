@@ -5818,3 +5818,12 @@
     margin-top: 1.7cqw;
   }
 }
+
+
+/* Reduce hero CTA label size without shrinking its icons. */
+@media (min-width: 761px) {
+  .op-actions .op-line > span,
+  .op-actions .op-search > span {
+    font-size: calc(1.52cqw - 4px);
+  }
+}
