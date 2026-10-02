@@ -8816,3 +8816,233 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
         font-size: clamp(11px,3vw,14px);
     }
 }
+
+
+/* Shared Ocean Paws primary navbar — exact reference treatment */
+.ocean-primary-navbar-host {
+    position: relative;
+    z-index: 50;
+    width: 100%;
+    padding: 18px 15px 22px;
+    background: transparent;
+}
+
+.ocean-primary-navbar-host.is-landing {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 50;
+    padding-bottom: 0;
+}
+
+.ocean-primary-navbar {
+    display: flex;
+    width: 100%;
+    min-height: 114px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    border: 3px solid #111820;
+    border-radius: 17px;
+    padding: 0 38px;
+    background: #fffdf9;
+    box-shadow: 9px 10px 0 #182238;
+    color: #111820;
+    font-family: "Nunito Sans", "Trebuchet MS", sans-serif;
+}
+
+.ocean-primary-navbar__brand {
+    display: inline-flex;
+    min-width: 0;
+    flex: 0 0 auto;
+    align-items: center;
+}
+
+.ocean-primary-navbar__brand img {
+    display: block;
+    width: clamp(230px, 20.5vw, 290px);
+    max-width: none;
+    height: auto;
+    object-fit: contain;
+}
+
+.ocean-primary-navbar__links {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 17px;
+    margin-left: auto;
+}
+
+.ocean-primary-navbar__link {
+    --nav-icon-fill: #6aa97f;
+    position: relative;
+    display: inline-flex;
+    min-height: 58px;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 2.5px solid transparent;
+    border-radius: 12px;
+    padding: 0 18px;
+    color: #111820;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+}
+
+.ocean-primary-navbar__link:hover {
+    transform: translateY(-1px);
+}
+
+.ocean-primary-navbar__link.is-active {
+    --nav-icon-fill: #ef4f7d;
+    border-color: #111820;
+    background: #fbd7e3;
+    box-shadow: 6px 7px 0 #182238;
+    color: #a91949;
+}
+
+.ocean-primary-navbar__link.is-active:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 4px 5px 0 #182238;
+}
+
+.ocean-primary-navbar__icon {
+    display: block;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    color: var(--nav-icon-fill);
+    overflow: visible;
+}
+
+@media (max-width: 1050px) {
+    .ocean-primary-navbar {
+        min-height: 104px;
+        gap: 18px;
+        padding: 0 26px;
+    }
+
+    .ocean-primary-navbar__brand img {
+        width: clamp(190px, 22vw, 235px);
+    }
+
+    .ocean-primary-navbar__links {
+        gap: 8px;
+    }
+
+    .ocean-primary-navbar__link {
+        min-height: 54px;
+        gap: 9px;
+        padding: 0 13px;
+        font-size: 15px;
+    }
+
+    .ocean-primary-navbar__icon {
+        width: 26px;
+        height: 26px;
+        flex-basis: 26px;
+    }
+}
+
+@media (max-width: 760px) {
+    .ocean-primary-navbar-host {
+        padding: 12px 12px 18px;
+    }
+
+    .ocean-primary-navbar-host.is-landing {
+        padding-bottom: 0;
+    }
+
+    .ocean-primary-navbar {
+        min-height: 88px;
+        gap: 8px;
+        border-width: 2px;
+        border-radius: 14px;
+        padding: 0 15px;
+        box-shadow: 5px 6px 0 #182238;
+    }
+
+    .ocean-primary-navbar__brand img {
+        width: clamp(112px, 28vw, 145px);
+    }
+
+    .ocean-primary-navbar__links {
+        gap: 2px;
+    }
+
+    .ocean-primary-navbar__link {
+        min-height: 44px;
+        gap: 5px;
+        border-width: 2px;
+        border-radius: 10px;
+        padding: 0 clamp(5px, 1.4vw, 9px);
+        font-size: clamp(10px, 2.4vw, 12px);
+    }
+
+    .ocean-primary-navbar__link.is-active {
+        box-shadow: 4px 4px 0 #182238;
+    }
+
+    .ocean-primary-navbar__icon {
+        width: clamp(18px, 4.4vw, 22px);
+        height: clamp(18px, 4.4vw, 22px);
+        flex-basis: clamp(18px, 4.4vw, 22px);
+    }
+}
+
+@media (max-width: 460px) {
+    .ocean-primary-navbar {
+        min-height: 82px;
+        padding: 0 11px;
+    }
+
+    .ocean-primary-navbar__brand img {
+        width: clamp(96px, 26vw, 112px);
+    }
+
+    .ocean-primary-navbar__link {
+        min-height: 40px;
+        gap: 3px;
+        padding: 0 4px;
+        font-size: 9px;
+    }
+
+    .ocean-primary-navbar__icon {
+        width: 17px;
+        height: 17px;
+        flex-basis: 17px;
+    }
+}
+
+/* Dark mode keeps the same silhouette and active-state hierarchy. */
+html[data-customer-theme="dark"] .ocean-primary-navbar {
+    border-color: #8aa194;
+    background: #1b3027;
+    box-shadow: 9px 10px 0 #081810;
+    color: #edf6ef;
+}
+
+html[data-customer-theme="dark"] .ocean-primary-navbar__link {
+    color: #edf6ef;
+}
+
+html[data-customer-theme="dark"] .ocean-primary-navbar__link.is-active {
+    --nav-icon-fill: #f08aa5;
+    border-color: #8aa194;
+    background: #4d303a;
+    box-shadow: 6px 7px 0 #081810;
+    color: #f2a0b6;
+}
+
+html[data-customer-theme="dark"] .ocean-primary-navbar__icon path,
+html[data-customer-theme="dark"] .ocean-primary-navbar__icon rect,
+html[data-customer-theme="dark"] .ocean-primary-navbar__icon circle {
+    stroke: #081810;
+}
