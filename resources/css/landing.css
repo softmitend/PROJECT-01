@@ -4889,7 +4889,8 @@
   border-top:3px solid #345941;
   border-bottom:3px solid #345941;
   background:#a9caa8;
-  box-shadow:-4px 4px 0 #527e5d;
+  box-shadow:-6px 6px 0 #8aaf91;
+  margin-bottom:6px;
 }
 .op-ticker > .op-ticker-track{
   display:flex;
@@ -4931,7 +4932,11 @@
   to{transform:translateX(-50%)}
 }
 @media(max-width:760px){
-  .op-ticker{height:54px}
+  .op-ticker{
+    height:54px;
+    box-shadow:-5px 5px 0 #79a486;
+    margin-bottom:5px;
+  }
   .op-ticker-group{gap:14px;padding:0 14px}
   .op-ticker .op-ticker-item{padding:5px 9px;font-size:12px}
 }
