@@ -204,7 +204,7 @@
         <div class="op-navrow">
             <a class="op-brand" href="{{ route('home') }}" aria-label="Ocean Paws home"><span class="op-brand-logo"><img src="{{ asset('assets/oceanpaws-logo-no-sticker.png') }}" alt="Ocean Paws — Bringing your favorites closer"></span></a>
             <nav class="op-nav" aria-label="Navigasi utama">
-                <a href="{{ route('home') }}"><i class="bi bi-house-door-fill" aria-hidden="true"></i><span>Home</span></a>
+                <a href="{{ route('home') }}"><svg class="profile-nav-home-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 3.1 3.7 9.8a1 1 0 0 0-.37.78V20a1 1 0 0 0 1 1h5.1v-6.2h5.14V21h5.1a1 1 0 0 0 1-1v-9.42a1 1 0 0 0-.37-.78L12 3.1Z"/><path fill="currentColor" d="M12 1.7a1 1 0 0 1 .63.22l8.9 7.16a1 1 0 1 1-1.26 1.56L12 4 3.73 10.64a1 1 0 1 1-1.26-1.56l8.9-7.16A1 1 0 0 1 12 1.7Z"/></svg><span>Home</span></a>
                 <a href="{{ route('tracking.index') }}"><i class="bi bi-truck-front-fill" aria-hidden="true"></i><span>Tracking</span></a>
                 @auth
                     <a class="is-active" href="{{ route('profile.show') }}" aria-current="page"><i class="bi bi-person-circle" aria-hidden="true"></i><span>Profile</span></a>
