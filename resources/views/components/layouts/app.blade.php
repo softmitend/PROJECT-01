@@ -174,9 +174,6 @@
                 @if($isOceanTracking)
                     @include('tracking.partials.site-footer')
                 @endif
-                @if($hasPublicDock && !$isOceanTracking)
-                    <x-public-mobile-dock />
-                @endif
             </div>
         @endif
     </body>
