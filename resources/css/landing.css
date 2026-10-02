@@ -5841,7 +5841,7 @@
 
   .op-page .op-copy-window-back {
     top: 101px;
-    left: 14px;
+    left: 10px;
     width: calc(100% - 26px);
   }
 
@@ -5849,7 +5849,7 @@
     top: 6px;
     left: -5px;
     border-radius: 13px;
-    box-shadow: -3px 4px 0 #79a486;
+    box-shadow: -4px 5px 0 #79a486;
   }
 }
 
@@ -5860,5 +5860,6 @@
 
   .op-page .op-copy-window-back {
     top: 97px;
+    left: 10px;
   }
 }
