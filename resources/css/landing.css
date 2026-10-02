@@ -5472,7 +5472,7 @@
 
 @media(max-width:760px){
   .op-page .op-hero{
-    height:calc(clamp(830px,225vw,1125px) - 5px);
+    height:calc(clamp(830px,225vw,1125px) - 40px);
     background:#fbdce5 url('/assets/oceanpaws-hero-background-v4.png') center top/auto 100% no-repeat;
   }
   .op-page .op-copy-window,.op-page .op-copy-window-back{
