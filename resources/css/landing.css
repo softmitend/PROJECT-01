@@ -5730,3 +5730,17 @@
     background: #fffdf9;
   }
 }
+
+
+/* Desktop hero mascot uses the same entrance transition as mobile. */
+@media (min-width: 761px) {
+  .op-page .op-hero-mascot {
+    animation: op-mascot-in 5s ease-out infinite both;
+  }
+}
+
+@media (min-width: 761px) and (prefers-reduced-motion: reduce) {
+  .op-page .op-hero-mascot {
+    animation: none;
+  }
+}
