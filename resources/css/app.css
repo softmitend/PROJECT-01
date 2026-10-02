@@ -7810,3 +7810,793 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-site-footer {
         max-height: 22px;
     }
 }
+
+
+/* Tracking neo-brutalism final — profile-aligned strawberry matcha */
+body.ocean-tracking {
+    --tracking-ink: #355a45;
+    --tracking-outline: #496d54;
+    --tracking-pink: #fbd7e3;
+    --tracking-pink-strong: #e64675;
+    --tracking-mint: #d9eddd;
+    --tracking-matcha: #76b67c;
+    --tracking-paper: #fffdfa;
+    --tracking-muted: #617369;
+    background:
+        linear-gradient(rgba(91,135,102,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(91,135,102,.055) 1px, transparent 1px),
+        #fffaf1;
+    background-size: 42px 42px;
+    color: var(--tracking-ink);
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.ocean-tracking .customer-public-shell,
+.ocean-tracking .public-landing-main,
+.ocean-tracking .tracking-search-page,
+.ocean-tracking .tracking-search-shell {
+    background: transparent !important;
+}
+
+/* Match the fixed Profile / Landing navbar geometry. */
+.ocean-tracking .tracking-site-header {
+    position: relative;
+    container-type: inline-size;
+    height: 12.9cqw;
+    min-height: 118px;
+    padding: 0;
+    background: transparent;
+}
+
+.ocean-tracking .tracking-site-header .tracking-site-browser {
+    position: absolute;
+    z-index: 30;
+    top: 16px;
+    left: 50%;
+    width: min(1180px, 89.3%);
+    height: 91px;
+    margin: 0;
+    border: 2px solid var(--tracking-outline);
+    border-radius: 18px;
+    transform: translateX(-50%);
+    background: var(--tracking-paper);
+    box-shadow: -6px 6px 0 #91bd9b;
+}
+
+.ocean-tracking .tracking-site-header .op-browserbar {
+    height: 22px;
+    border-bottom: 2px solid var(--tracking-outline);
+    background: var(--tracking-pink);
+}
+
+.ocean-tracking .tracking-site-header .op-navrow {
+    height: 67px;
+    grid-template-columns: 205px minmax(0,1fr);
+    gap: 18px;
+    padding: 3px 14px 4px 25px;
+}
+
+.ocean-tracking .tracking-site-header .op-brand {
+    height: 58px;
+}
+
+.ocean-tracking .tracking-site-header .op-brand img {
+    width: 190px;
+    height: 76px;
+    max-width: none;
+    object-fit: contain;
+}
+
+.ocean-tracking .tracking-site-header .op-nav {
+    justify-self: end;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.ocean-tracking .tracking-site-header .op-nav a {
+    min-height: auto;
+    gap: 8px;
+    border-radius: 0;
+    padding: 0 12px;
+    background: transparent;
+    color: var(--tracking-ink);
+    font: 800 14px/1 "Nunito Sans", sans-serif;
+}
+
+.ocean-tracking .tracking-site-header .op-nav a:hover {
+    background: transparent;
+    color: var(--tracking-pink-strong);
+    transform: none;
+}
+
+.ocean-tracking .tracking-site-header .op-nav a.is-active {
+    background: transparent;
+    color: var(--tracking-pink-strong);
+}
+
+.ocean-tracking .tracking-site-header .tracking-nav-icon {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+}
+
+.ocean-tracking .tracking-site-header .tracking-nav-icon-home {
+    width: 22px;
+    height: 22px;
+    flex-basis: 22px;
+}
+
+/* Simple tracking page */
+.ocean-tracking .tracking-neo-page {
+    min-height: 470px;
+    padding: 24px 0 76px;
+    background: transparent;
+}
+
+.ocean-tracking .tracking-neo-shell {
+    width: min(89.3%, 1180px);
+    margin: 0 auto;
+}
+
+.ocean-tracking .tracking-neo-heading {
+    max-width: 720px;
+    margin-bottom: 24px;
+}
+
+.ocean-tracking .tracking-neo-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    border: 1.5px solid #b72f5e;
+    border-radius: 8px;
+    padding: 0 10px;
+    background: #fff4f8;
+    box-shadow: 2px 2px 0 #dd9eb3;
+    color: #ad2f59;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .08em;
+}
+
+.ocean-tracking .tracking-neo-heading h1 {
+    margin: 14px 0 0;
+    color: var(--tracking-ink) !important;
+    font: 900 clamp(38px, 5vw, 58px)/.98 "Nunito Sans", sans-serif;
+    letter-spacing: -.045em;
+}
+
+.ocean-tracking .tracking-neo-heading p {
+    max-width: 640px;
+    margin: 12px 0 0;
+    color: var(--tracking-muted) !important;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.ocean-tracking .tracking-neo-search-card {
+    overflow: hidden;
+    border: 2px solid var(--tracking-outline);
+    border-radius: 18px;
+    background: var(--tracking-paper);
+    box-shadow: -6px 6px 0 #eba4bc;
+}
+
+.ocean-tracking .tracking-neo-card-head {
+    display: flex;
+    min-height: 92px;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 2px solid var(--tracking-outline);
+    padding: 18px 22px;
+    background: var(--tracking-pink);
+}
+
+.ocean-tracking .tracking-neo-card-icon {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    place-items: center;
+    border: 2px solid var(--tracking-outline);
+    border-radius: 11px;
+    background: #fffefa;
+    box-shadow: 3px 3px 0 #90ba9b;
+    color: var(--tracking-ink);
+}
+
+.ocean-tracking .tracking-neo-card-head > div span,
+.ocean-tracking .tracking-neo-card-head > div strong {
+    display: block;
+}
+
+.ocean-tracking .tracking-neo-card-head > div span {
+    color: #ad2f59;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .1em;
+}
+
+.ocean-tracking .tracking-neo-card-head > div strong {
+    margin-top: 4px;
+    color: var(--tracking-ink);
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.ocean-tracking .tracking-neo-form {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) auto;
+    gap: 14px;
+    padding: 24px 24px 16px;
+}
+
+.ocean-tracking .tracking-neo-input-wrap {
+    display: grid;
+    min-width: 0;
+    min-height: 58px;
+    grid-template-columns: auto minmax(0,1fr);
+    align-items: center;
+    gap: 10px;
+    border: 2px solid #688771;
+    border-radius: 12px;
+    padding: 0 16px;
+    background: #fffefa;
+    box-shadow: 3px 3px 0 #a9cbae;
+}
+
+.ocean-tracking .tracking-neo-input-icon {
+    display: grid;
+    place-items: center;
+    color: #326c47;
+}
+
+.ocean-tracking .tracking-neo-input-wrap input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: var(--tracking-ink);
+    font: 700 14px/1.4 "Nunito Sans", sans-serif;
+    outline: 0;
+}
+
+.ocean-tracking .tracking-neo-input-wrap input::placeholder {
+    color: #7d9184;
+}
+
+.ocean-tracking .tracking-neo-form button {
+    display: inline-flex;
+    min-width: 176px;
+    min-height: 58px;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border: 2px solid var(--tracking-outline);
+    border-radius: 12px;
+    padding: 0 20px;
+    background: var(--tracking-matcha);
+    box-shadow: 4px 4px 0 #4d8156;
+    color: #fff;
+    font: 900 13px/1 "Nunito Sans", sans-serif;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.ocean-tracking .tracking-neo-form button:hover {
+    transform: translate(2px,2px);
+    box-shadow: 2px 2px 0 #4d8156;
+}
+
+.ocean-tracking .tracking-neo-hint,
+.ocean-tracking .tracking-neo-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 24px 22px;
+    border: 1.5px solid #8bac91;
+    border-radius: 10px;
+    padding: 11px 13px;
+    background: #f1f8f0;
+    color: #526a5b;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.ocean-tracking .tracking-neo-error {
+    margin-top: -8px;
+    border-color: #bc5375;
+    background: #fff0f5;
+    color: #a03255;
+}
+
+/* Result cards use the same card grammar as Profile. */
+.ocean-tracking .tracking-result-section {
+    padding: 0 0 82px;
+    background: transparent;
+}
+
+.ocean-tracking .tracking-result-shell {
+    width: min(89.3%, 1180px);
+    margin: 0 auto;
+}
+
+.ocean-tracking .tracking-result-card {
+    overflow: hidden;
+    border: 2px solid var(--tracking-outline) !important;
+    border-radius: 18px;
+    background: var(--tracking-paper) !important;
+    box-shadow: -6px 6px 0 #91bd9b !important;
+}
+
+.ocean-tracking .tracking-result-titlebar {
+    min-height: 42px;
+    border-bottom: 2px solid var(--tracking-outline);
+    padding: 0 16px;
+    background: var(--tracking-pink);
+    color: #ad2f59;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .08em;
+}
+
+.ocean-tracking .tracking-history-card .tracking-result-titlebar {
+    background: var(--tracking-mint);
+    color: #326c47;
+}
+
+.ocean-tracking .tracking-result-banner {
+    margin: 0 !important;
+    border: 0 !important;
+    border-bottom: 2px solid var(--tracking-outline) !important;
+    border-radius: 0 !important;
+    padding: 24px !important;
+    background: #fffdfa !important;
+}
+
+.ocean-tracking .tracking-result-banner h2 {
+    color: var(--tracking-ink) !important;
+}
+
+.ocean-tracking .tracking-current-status {
+    border: 1.5px solid #8bac91 !important;
+    border-radius: 10px;
+    background: #f1f8f0 !important;
+}
+
+.ocean-tracking .tracking-result-layout,
+.ocean-tracking .tracking-history-list {
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: var(--tracking-paper) !important;
+}
+
+.ocean-tracking .tracking-result-main,
+.ocean-tracking .tracking-result-side {
+    padding: 22px;
+}
+
+.ocean-tracking .tracking-result-side {
+    border-color: #8db29a !important;
+    background: #f1f8f0 !important;
+}
+
+.ocean-tracking .tracking-result-item,
+.ocean-tracking .tracking-history-list details,
+.ocean-tracking .tracking-order-summary > div {
+    border-color: #b6cbb9 !important;
+}
+
+.ocean-tracking .tracking-result-item-icon,
+.ocean-tracking .tracking-history-icon {
+    border: 1.5px solid #a9486a !important;
+    border-radius: 8px;
+    background: #ffe2eb !important;
+    color: #a6305c !important;
+}
+
+.ocean-tracking .tracking-admin-note,
+.ocean-tracking .tracking-history-detail {
+    border: 1.5px solid #8bac91 !important;
+    border-radius: 10px;
+    background: #f1f8f0 !important;
+}
+
+.ocean-tracking .tracking-search-page .tracking-result-action {
+    border: 2px solid var(--tracking-outline) !important;
+    border-radius: 10px;
+    background: var(--tracking-matcha) !important;
+    box-shadow: 3px 3px 0 #4d8156 !important;
+    color: #fff !important;
+    font-weight: 900;
+}
+
+/* Landing footer copied for Tracking. */
+.ocean-tracking .tracking-landing-footer.op-footer-reference {
+    position: relative;
+    display: block;
+    height: 183px;
+    min-height: 183px;
+    overflow: hidden;
+    border: 0;
+    background: #f7f3e9 url('/assets/oceanpaws-footer-reference-bg-v1.png') center 40%/100% 136% no-repeat;
+    color: #315d48;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-reference-shell {
+    position: absolute;
+    top: 39px;
+    left: 50%;
+    display: grid;
+    width: min(calc(100% - 136px),1216px);
+    height: 78px;
+    grid-template-columns: 202px 288px 200px minmax(0,1fr);
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    transform: translateX(-50%);
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-brand-block img {
+    display: block;
+    width: 180px;
+    height: auto;
+    margin-left: -7px;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-center {
+    display: grid;
+    width: auto;
+    height: 26px;
+    grid-column: 2 / span 2;
+    grid-template-columns: 288px 200px;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-links,
+.ocean-tracking .tracking-landing-footer .op-footer-socials {
+    display: flex;
+    height: 24px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-links {
+    padding: 0 29px;
+    border-right: 1px solid #52765f;
+    border-left: 1px solid #52765f;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-socials {
+    padding: 0 30px;
+    border-right: 1px solid #52765f;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-links a,
+.ocean-tracking .tracking-landing-footer .op-footer-socials a {
+    color: #315d48;
+    text-decoration: none;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-links a {
+    font: 500 11px/24px "Nunito Sans", sans-serif;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-socials a {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    font-size: 19px;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-message {
+    display: flex;
+    height: 72px;
+    grid-column: 4;
+    align-items: center;
+    justify-self: end;
+    gap: 15px;
+    padding: 0;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-message strong {
+    font: 400 11px/1.35 ui-monospace, "Courier New", monospace;
+    letter-spacing: 0;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-message strong span {
+    display: block;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-shell-icon {
+    display: block;
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    transform: rotate(-4deg);
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-bottomline {
+    position: absolute;
+    right: auto;
+    bottom: 14px;
+    left: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    color: #f4fbf4;
+    font: 400 10px/1.2 ui-monospace, "Courier New", monospace;
+    text-align: center;
+}
+
+.ocean-tracking .tracking-landing-footer .op-footer-mobile-links {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .ocean-tracking .tracking-site-header {
+        height: 108px;
+        min-height: 108px;
+    }
+
+    .ocean-tracking .tracking-site-header .tracking-site-browser.op-mobile-navbar {
+        top: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: 84px;
+        transform: none;
+    }
+
+    .ocean-tracking .tracking-site-header .op-navrow {
+        display: flex;
+        height: 63px;
+        gap: 4px;
+        padding: 0 10px;
+    }
+
+    .ocean-tracking .tracking-site-header .op-brand {
+        height: 62px;
+    }
+
+    .ocean-tracking .tracking-site-header .op-brand img {
+        width: clamp(96px,30vw,125px);
+        height: auto;
+    }
+
+    .ocean-tracking .tracking-site-header .op-nav {
+        margin-left: auto;
+        gap: 0;
+    }
+
+    .ocean-tracking .tracking-site-header .op-nav a {
+        gap: 4px;
+        padding: 0 clamp(3px,1vw,6px);
+        font-size: clamp(9px,2.6vw,11px);
+    }
+
+    .ocean-tracking .tracking-site-header .tracking-nav-icon {
+        width: 15px;
+        height: 15px;
+        flex-basis: 15px;
+    }
+
+    .ocean-tracking .tracking-site-header .tracking-nav-icon-home {
+        width: 16px;
+        height: 16px;
+        flex-basis: 16px;
+    }
+
+    .ocean-tracking .tracking-neo-page {
+        padding: 18px 0 54px;
+    }
+
+    .ocean-tracking .tracking-neo-shell,
+    .ocean-tracking .tracking-result-shell {
+        width: calc(100% - 28px);
+    }
+
+    .ocean-tracking .tracking-neo-heading {
+        margin-bottom: 18px;
+    }
+
+    .ocean-tracking .tracking-neo-heading h1 {
+        font-size: clamp(32px,10vw,44px);
+    }
+
+    .ocean-tracking .tracking-neo-heading p {
+        font-size: 13px;
+    }
+
+    .ocean-tracking .tracking-neo-card-head {
+        min-height: 82px;
+        padding: 16px;
+    }
+
+    .ocean-tracking .tracking-neo-card-icon {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+
+    .ocean-tracking .tracking-neo-card-head > div strong {
+        font-size: 17px;
+    }
+
+    .ocean-tracking .tracking-neo-form {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 18px 16px 14px;
+    }
+
+    .ocean-tracking .tracking-neo-input-wrap {
+        min-height: 54px;
+        padding-inline: 13px;
+    }
+
+    .ocean-tracking .tracking-neo-input-wrap input {
+        font-size: 16px;
+    }
+
+    .ocean-tracking .tracking-neo-form button {
+        width: 100%;
+        min-height: 52px;
+    }
+
+    .ocean-tracking .tracking-neo-hint,
+    .ocean-tracking .tracking-neo-error {
+        margin-right: 16px;
+        margin-left: 16px;
+    }
+
+    .ocean-tracking .tracking-result-section {
+        padding-bottom: 58px;
+    }
+
+    .ocean-tracking .tracking-result-banner {
+        padding: 18px !important;
+    }
+
+    .ocean-tracking .tracking-result-main,
+    .ocean-tracking .tracking-result-side {
+        padding: 16px;
+    }
+
+    .ocean-tracking .tracking-landing-footer.op-footer-reference {
+        height: 415px;
+        min-height: 415px;
+        background-size: auto 100%;
+        background-position: center bottom;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-reference-shell {
+        top: 36px;
+        left: 20px;
+        display: block;
+        width: calc(100% - 40px);
+        height: auto;
+        transform: none;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-brand-block img {
+        width: 172px;
+        margin: 0;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-center {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-top: 13px;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-links {
+        display: none;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-mobile-links {
+        display: grid;
+        width: 100%;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-mobile-links a {
+        display: grid;
+        min-height: 31px;
+        grid-template-columns: 22px 1fr 18px;
+        align-items: center;
+        gap: 7px;
+        border-bottom: 1px solid rgba(80,121,93,.16);
+        color: #345e47;
+        font: 600 12px/1.2 "Nunito Sans", sans-serif;
+        text-decoration: none;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-socials {
+        display: flex;
+        width: 180px;
+        height: 28px;
+        justify-content: space-between;
+        margin-top: 17px;
+        padding: 0;
+        border: 0;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-message {
+        position: absolute;
+        top: 247px;
+        right: 0;
+        width: 43%;
+        height: 32px;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-message strong {
+        font-size: 10px;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-shell-icon {
+        display: none;
+    }
+
+    .ocean-tracking .tracking-landing-footer .op-footer-bottomline {
+        bottom: 16px;
+        font-size: 9px;
+    }
+}
+
+/* Keep the new Tracking page coherent with the already-fixed Profile dark mode. */
+html[data-customer-theme="dark"] body.ocean-tracking {
+    --tracking-ink: #edf6ef;
+    --tracking-outline: #78977f;
+    --tracking-pink: #4d303a;
+    --tracking-pink-strong: #f08aa5;
+    --tracking-mint: #263c30;
+    --tracking-matcha: #4f7f59;
+    --tracking-paper: #1b3027;
+    --tracking-muted: #aec0b4;
+    color-scheme: dark;
+    background:
+        linear-gradient(rgba(151,181,159,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(151,181,159,.055) 1px, transparent 1px),
+        #12251e;
+    background-size: 42px 42px;
+}
+
+html[data-customer-theme="dark"] .ocean-tracking .tracking-site-header .tracking-site-browser,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-neo-search-card,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-result-card {
+    background: #1b3027 !important;
+    color: #edf6ef;
+    box-shadow: -6px 6px 0 #081810 !important;
+}
+
+html[data-customer-theme="dark"] .ocean-tracking .tracking-neo-card-head,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-result-titlebar {
+    background: #4d303a;
+}
+
+html[data-customer-theme="dark"] .ocean-tracking .tracking-neo-card-icon,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-neo-input-wrap {
+    border-color: #78977f;
+    background: #20382e;
+    color: #edf6ef;
+    box-shadow: 3px 3px 0 #081810;
+}
+
+html[data-customer-theme="dark"] .ocean-tracking .tracking-neo-input-wrap input {
+    color: #edf6ef;
+}
+
+html[data-customer-theme="dark"] .ocean-tracking .tracking-neo-hint,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-current-status,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-admin-note,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-history-detail,
+html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
+    border-color: #557863 !important;
+    background: #20382e !important;
+    color: #dce9df;
+}
