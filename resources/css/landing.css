@@ -4760,7 +4760,7 @@
 .op-heading-star{
   position:absolute;
   display:block;
-  stroke-width:14;
+  stroke-width:15;
   stroke-linejoin:round;
   paint-order:stroke fill;
   pointer-events:none;
