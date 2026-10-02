@@ -22,7 +22,7 @@
                     <span>TANPA LOGIN</span>
                 </span>
 
-                <h1 id="order-search-title">Pesananmu,<br><span>selalu terlacak.</span><i aria-hidden="true">🐾</i></h1>
+                <h1 id="order-search-title">Pesananmu,<br><span>selalu terlacak.</span><i class="tracking-headline-paw" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2" fill="currentColor"/><circle cx="12" cy="5" r="2.2" fill="currentColor"/><circle cx="17" cy="7" r="2.2" fill="currentColor"/><path d="M6.2 15.1c0-3.3 2.5-5.9 5.8-5.9s5.8 2.6 5.8 5.9c0 2.6-2 4.7-4.7 4.7h-2.2c-2.7 0-4.7-2.1-4.7-4.7Z" fill="currentColor"/></svg></i></h1>
                 <p>Masukkan kode pesanan untuk melihat satu perjalanan,<br class="tracking-copy-break"> atau username LINE untuk membuka seluruh riwayatmu.</p>
 
                 <form method="POST" action="{{ route('tracking.search') }}" class="tracking-lookup-form" role="search" aria-label="Cari tracking dan riwayat pesanan">
