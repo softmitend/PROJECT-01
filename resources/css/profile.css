@@ -377,3 +377,26 @@ html[data-customer-theme="dark"] .ocean-profile :is(.profile-person strong,.acti
 html[data-customer-theme="dark"] .ocean-profile :is(.metric-copy span,.activity-head span:last-child,.calendar-grid,.weekdays) { color: #d5e5d6 !important; }
 html[data-customer-theme="dark"] .ocean-profile .profile-settings-panel { background: #284338; color: #e6f2e6; }
 html[data-customer-theme="dark"] .ocean-profile .profile-preference-card { background: #355747; }
+
+
+/* Optical balance for the profile navbar: labels and Bootstrap icons should read at one visual scale. */
+.profile-site-header .op-nav a {
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1;
+}
+.profile-site-header .op-nav a i {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+  font-size: 15px;
+  line-height: 1;
+}
+.profile-site-header .op-nav a span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
