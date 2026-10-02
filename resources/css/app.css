@@ -8600,3 +8600,219 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
     background: #20382e !important;
     color: #dce9df;
 }
+
+
+/* Tracking navbar: exact Landing navbar, no lookalike overrides */
+.ocean-tracking .tracking-site-header {
+    position: relative;
+    container-type: inline-size;
+    width: 100%;
+    background: transparent;
+    font-family: "Arial Rounded MT Bold", "Trebuchet MS", ui-rounded, system-ui, sans-serif;
+}
+
+.ocean-tracking .tracking-site-header .op-header {
+    background: rgba(255,253,249,.96);
+    border-color: #8d4760;
+    box-shadow: -5px 5px 0 #8aaf91;
+}
+
+.ocean-tracking .tracking-site-header .op-header .op-browserbar {
+    border-bottom-color: #8d4760;
+    background: rgba(255,215,226,.82);
+    color: #8e3c59;
+}
+
+.ocean-tracking .tracking-site-header .op-window-dots i {
+    border-color: #6d5f50;
+    background: #ff7ea0;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.4);
+}
+
+.ocean-tracking .tracking-site-header .op-window-dots i:nth-child(2) { background: #71bf86; }
+.ocean-tracking .tracking-site-header .op-window-dots i:nth-child(3) { background: #ee6a96; }
+
+.ocean-tracking .tracking-site-header .op-nav a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #344f46;
+    font-family: inherit;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.ocean-tracking .tracking-site-header .op-nav a:hover {
+    background: transparent;
+    color: #344f46;
+    transform: none;
+}
+
+.ocean-tracking .tracking-site-header .op-nav a i {
+    color: #527c61;
+}
+
+.ocean-tracking .tracking-site-header .op-nav a.is-active,
+.ocean-tracking .tracking-site-header .op-nav a.is-active i {
+    color: #d6436d;
+}
+
+.ocean-tracking .tracking-site-header .op-nav a.is-active::after {
+    content: none;
+}
+
+@media (min-width: 761px) {
+    .ocean-tracking .tracking-site-header {
+        height: 12.9cqw;
+        min-height: 0;
+        padding: 0;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header {
+        position: absolute;
+        z-index: 30;
+        top: 1.85cqw;
+        left: 5.37%;
+        width: 90.43%;
+        height: 10.55cqw;
+        margin: 0;
+        border-width: .15cqw;
+        border-radius: 1.2cqw;
+        transform: none;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header .op-browserbar {
+        height: 2.73cqw;
+        padding: 0 1.35cqw;
+        font-size: .88cqw;
+    }
+
+    .ocean-tracking .tracking-site-header .op-window-dots {
+        gap: .6cqw;
+    }
+
+    .ocean-tracking .tracking-site-header .op-window-dots i {
+        width: 1.25cqw;
+        height: 1.25cqw;
+        border-width: .15cqw;
+    }
+
+    .ocean-tracking .tracking-site-header .op-navrow {
+        display: grid;
+        height: 7.8cqw;
+        grid-template-columns: 21cqw minmax(0,1fr);
+        align-items: center;
+        gap: 1cqw;
+        padding: .3cqw 1.9cqw .4cqw 1.5cqw;
+    }
+
+    .ocean-tracking .tracking-site-header .op-brand {
+        height: 6.5cqw;
+    }
+
+    .ocean-tracking .tracking-site-header .op-brand img {
+        flex: none;
+        width: 21cqw;
+        max-width: none;
+        height: 10.2cqw;
+        margin-left: 1cqw;
+        object-fit: contain;
+    }
+
+    .ocean-tracking .tracking-site-header .op-nav {
+        height: 100%;
+        gap: 1cqw;
+        justify-self: end;
+        justify-content: flex-end;
+    }
+
+    .ocean-tracking .tracking-site-header .op-nav a {
+        gap: .8cqw;
+        padding: 0 1cqw;
+        font-size: 1.33cqw;
+    }
+
+    .ocean-tracking .tracking-site-header .op-nav a i {
+        font-size: 1.9cqw;
+    }
+}
+
+@media (max-width: 760px) {
+    .ocean-tracking .tracking-site-header {
+        height: 108px;
+        min-height: 108px;
+        padding: 0;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header.op-mobile-navbar {
+        top: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: 84px;
+        margin: 0;
+        transform: none;
+        overflow: hidden;
+        border: 2px solid #815767;
+        border-radius: 15px;
+        background: #fffefa;
+        box-shadow: -2px 3px 0 #79a486;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header.op-mobile-navbar > .op-browserbar {
+        display: flex;
+        height: 21px;
+        padding-inline: 10px;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header.op-mobile-navbar .op-navrow {
+        display: flex;
+        height: calc(100% - 21px);
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px;
+        padding: 0 9px;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header.op-mobile-navbar .op-brand {
+        height: 100%;
+        flex: 0 0 auto;
+        justify-content: flex-start;
+        margin: 0;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header.op-mobile-navbar .op-brand-logo {
+        margin: 0;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header.op-mobile-navbar .op-brand img {
+        width: clamp(92px,27vw,120px);
+        max-width: none;
+        height: auto;
+        margin: 0;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header.op-mobile-navbar .op-nav {
+        display: flex;
+        min-width: 0;
+        height: 100%;
+        flex: 0 1 auto;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0;
+        margin-left: 0;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header.op-mobile-navbar .op-nav a {
+        gap: 3px;
+        padding: 0 clamp(2px,.8vw,5px);
+        font: 800 clamp(9px,2.5vw,11px)/1 "Nunito Sans", sans-serif;
+        white-space: nowrap;
+    }
+
+    .ocean-tracking .tracking-site-header .op-header.op-mobile-navbar .op-nav a i {
+        font-size: clamp(11px,3vw,14px);
+    }
+}
