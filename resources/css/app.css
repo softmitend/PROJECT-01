@@ -9117,3 +9117,20 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__icon circle {
 .ocean-tracking .tracking-result-section {
     background: transparent !important;
 }
+
+
+/* Tracking route background grid — paint on the actual /tracking page root. */
+body.ocean-tracking .public-landing-main > .tracking-search-page.ocean-home.ocean-editorial {
+    background-color: #fffaf1 !important;
+    background-image:
+        linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px) !important;
+    background-size: 42px 42px !important;
+    background-position: 0 0 !important;
+}
+
+body.ocean-tracking .tracking-search-page .tracking-search-shell,
+body.ocean-tracking .tracking-search-page .tracking-neo-page,
+body.ocean-tracking .tracking-search-page .tracking-result-section {
+    background: transparent !important;
+}
