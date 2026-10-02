@@ -5786,3 +5786,35 @@
   font-weight: 800;
   letter-spacing: 0;
 }
+
+
+/* Desktop hero copy vertical rhythm and centering. */
+@media (min-width: 761px) {
+  .op-copy-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .op-copy-main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .op-copy-inner h1 {
+    margin: 0;
+  }
+
+  .op-copy-main > p {
+    margin: 1.35cqw 0 0;
+  }
+
+  .op-actions {
+    margin-top: 1.6cqw;
+    padding-top: 0;
+  }
+
+  .op-copy-hearts {
+    margin-top: 1.7cqw;
+  }
+}
