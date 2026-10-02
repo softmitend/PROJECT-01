@@ -5672,13 +5672,15 @@
 
 /* Hero card cohesion with shared navbar — October 2026 */
 @media (min-width: 761px) {
-  .op-copy-window,
   .op-copy-window-back {
     left: 6.84%;
     width: 51.5%;
   }
 
   .op-copy-window {
+    top: calc(14.8cqw - 3px);
+    left: calc(6.84% + 3px);
+    width: 51.5%;
     border-color: #355a45;
     border-width: .18cqw;
     border-radius: 1.45cqw;
