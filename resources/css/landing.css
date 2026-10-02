@@ -5827,3 +5827,38 @@
     font-size: calc(1.52cqw - 4px);
   }
 }
+
+
+/* Mobile navbar-to-hero cohesion: shared gutter, tighter gap, matching depth. */
+@media (max-width: 760px) {
+  .op-page .op-copy-window {
+    top: 96px;
+    left: 12px;
+    width: calc(100% - 24px);
+    border-radius: 13px;
+    box-shadow: -4px 5px 0 #79a486;
+  }
+
+  .op-page .op-copy-window-back {
+    top: 101px;
+    left: 14px;
+    width: calc(100% - 26px);
+  }
+
+  .op-page .op-copy-window-back::before {
+    top: 6px;
+    left: -5px;
+    border-radius: 13px;
+    box-shadow: -3px 4px 0 #79a486;
+  }
+}
+
+@media (max-width: 460px) {
+  .op-page .op-copy-window {
+    top: 92px;
+  }
+
+  .op-page .op-copy-window-back {
+    top: 97px;
+  }
+}
