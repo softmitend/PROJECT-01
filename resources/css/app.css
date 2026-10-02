@@ -8994,7 +8994,7 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
 
 @media (max-width: 760px) {
     .ocean-primary-navbar-host {
-        padding: 12px 0 18px;
+        padding: 10px 0 16px;
     }
 
     .ocean-primary-navbar-host.is-landing {
@@ -9003,63 +9003,68 @@ html[data-customer-theme="dark"] .ocean-tracking .tracking-result-side {
 
     .ocean-primary-navbar {
         width: calc(100% - 24px);
-        min-height: 88px;
-        gap: 8px;
+        min-height: 78px;
+        gap: 6px;
         border-width: 2px;
-        border-radius: 14px;
-        padding: 0 15px;
+        border-radius: 13px;
+        padding: 0 12px;
         box-shadow: -5px 6px 0 #79a486;
     }
 
     .ocean-primary-navbar__brand img {
-        width: clamp(98px, 24vw, 128px);
+        width: clamp(92px, 22vw, 116px);
     }
 
     .ocean-primary-navbar__links {
-        gap: 2px;
+        gap: 1px;
     }
 
     .ocean-primary-navbar__link {
-        min-height: 42px;
+        min-height: 40px;
         gap: 4px;
         border-width: 2px;
         border-radius: 9px;
-        padding: 0 clamp(4px, 1.2vw, 7px);
-        font-size: clamp(9px, 2.2vw, 11px);
+        padding: 0 clamp(4px, 1vw, 6px);
+        font-size: clamp(9px, 2vw, 10.5px);
     }
 
     .ocean-primary-navbar__link.is-active {
-        box-shadow: 4px 4px 0 #79a486;
+        box-shadow: 3px 3px 0 #79a486;
     }
 
     .ocean-primary-navbar__icon {
-        width: clamp(17px, 4vw, 20px);
-        height: clamp(17px, 4vw, 20px);
-        flex-basis: clamp(17px, 4vw, 20px);
+        width: clamp(16px, 3.8vw, 19px);
+        height: clamp(16px, 3.8vw, 19px);
+        flex-basis: clamp(16px, 3.8vw, 19px);
     }
 }
 
 @media (max-width: 460px) {
     .ocean-primary-navbar {
-        min-height: 82px;
-        padding: 0 11px;
+        min-height: 74px;
+        gap: 4px;
+        padding: 0 9px;
     }
 
     .ocean-primary-navbar__brand img {
-        width: clamp(88px, 23vw, 102px);
+        width: clamp(82px, 21vw, 94px);
+    }
+
+    .ocean-primary-navbar__links {
+        gap: 0;
     }
 
     .ocean-primary-navbar__link {
-        min-height: 40px;
-        gap: 3px;
-        padding: 0 4px;
-        font-size: 9px;
+        min-height: 38px;
+        gap: 2px;
+        padding: 0 3px;
+        font-size: 8.5px;
     }
 
     .ocean-primary-navbar__icon {
-        width: 17px;
-        height: 17px;
-        flex-basis: 17px;
+        width: 16px;
+        height: 16px;
+        flex-basis: 16px;
     }
 }
 
