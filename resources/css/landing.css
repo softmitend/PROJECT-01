@@ -5866,3 +5866,16 @@
     width: calc(100% - 44px);
   }
 }
+
+
+/* Keep the mobile tracking shortcut after removing Popular Categories. */
+.op-mobile-tracking-wrap {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .op-page .op-mobile-tracking-wrap {
+    display: block;
+    padding: 22px 0 0;
+  }
+}
