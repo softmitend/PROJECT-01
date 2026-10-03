@@ -5610,7 +5610,7 @@
   .op-page .op-cta::after{display:none}
   .op-page .op-cta::before{top:0;bottom:auto;height:17vw;background-size:100% 100%}
   .op-page .op-cta-wave{bottom:-12%;height:62%;opacity:.6}
-  .op-page .op-cta-mascot{left:-4%;bottom:-4%;width:calc(61% + 10px);height:calc(93% + 10px);object-fit:contain}
+  .op-page .op-cta-mascot{left:-6%;bottom:-5%;width:calc(68% + 10px);height:calc(101% + 10px);object-fit:contain}
   .op-page .op-cta-copy{top:27%;right:3%;left:auto;width:49%;align-items:center;transform:none}
   .op-page .op-cta-copy h2{font-size:clamp(19px,5vw,27px)}
   .op-page .op-cta-copy .op-line{width:100%;height:clamp(40px,11vw,48px);font-size:clamp(10px,2.7vw,13px)}
