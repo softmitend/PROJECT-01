@@ -556,69 +556,66 @@
         .op-footer-mobile-links{display:none}
         @media(max-width:760px){
             .op-footer-reference{
-                height:415px;
-                min-height:415px;
+                height:332px;
+                min-height:332px;
                 background-size:auto 100%;
                 background-position:center bottom;
             }
             .op-footer-reference .op-footer-reference-shell{
-                top:36px;
-                left:20px;
+                top:24px;
+                left:0;
                 display:block;
-                width:calc(100% - 40px);
-                height:auto;
+                width:100%;
+                height:100%;
                 padding:0;
                 transform:none;
             }
-            .op-footer-reference .op-footer-brand-block img{width:172px;margin:0}
-            .op-footer-reference .op-footer-center{display:block;width:100%;height:auto;margin-top:13px}
-            .op-footer-reference .op-footer-links{display:none}
-            .op-footer-reference .op-footer-mobile-links{display:grid;width:100%;gap:0}
-            .op-footer-reference .op-footer-mobile-links a{
-                display:grid;
-                min-height:31px;
-                grid-template-columns:22px 1fr 18px;
-                align-items:center;
-                gap:7px;
-                border-bottom:1px solid rgba(80,121,93,.16);
-                color:#345e47;
-                font:600 12px/1.2 "Nunito Sans",sans-serif;
-                text-decoration:none;
-            }
-            .op-footer-reference .op-footer-mobile-links a i:first-child{font-size:14px}
-            .op-footer-reference .op-footer-mobile-links a i:last-child{font-size:11px;text-align:right}
-            .op-footer-reference .op-footer-socials{
+            .op-footer-reference .op-footer-brand-block{
                 display:flex;
-                width:180px;
-                max-width:none;
-                height:28px;
-                justify-content:space-between;
-                margin-top:17px;
-                padding:0;
-                border:0;
+                width:100%;
+                justify-content:center;
             }
-            .op-footer-reference .op-footer-socials a{font-size:20px}
+            .op-footer-reference .op-footer-brand-block img{
+                width:154px;
+                margin:0;
+            }
+            .op-footer-reference .op-footer-center,
+            .op-footer-reference .op-footer-links,
+            .op-footer-reference .op-footer-mobile-links,
+            .op-footer-reference .op-footer-socials{
+                display:none;
+            }
             .op-footer-reference .op-footer-message{
                 position:absolute;
-                top:247px;
-                right:0;
+                top:184px;
+                right:auto;
+                left:50%;
                 display:flex;
-                width:43%;
-                height:32px;
-                justify-content:flex-start;
+                width:auto;
+                height:auto;
+                justify-content:center;
                 padding:0;
+                transform:translateX(-50%);
+                text-align:center;
+                white-space:nowrap;
             }
-            .op-footer-reference .op-footer-message strong{font-size:10px;line-height:1.3}
+            .op-footer-reference .op-footer-message strong{
+                display:grid;
+                gap:2px;
+                font-size:10px;
+                line-height:1.25;
+                text-align:center;
+            }
             .op-footer-reference .op-footer-shell-icon{display:none}
             .op-footer-reference .op-footer-bottomline{
                 right:0;
-                bottom:16px;
+                bottom:13px;
                 left:0;
                 width:100%;
                 align-items:center;
                 justify-content:center;
                 color:#f8fff8;
-                font-size:9px;
+                font-size:8px;
                 text-align:center;
             }
         }
