@@ -5605,7 +5605,7 @@
     border-radius:10px;
     background-size:auto 120%;
     background-position:center top;
-    box-shadow:none;
+    box-shadow:-4px 5px 0 #79a486;
   }
   .op-page .op-cta::after{display:none}
   .op-page .op-cta::before{top:0;bottom:auto;height:17vw;background-size:100% 100%}
