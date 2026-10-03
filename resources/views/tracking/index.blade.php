@@ -12,14 +12,6 @@
 @php
     $lineDestination = auth()->user()?->member ? route('orders.index') : route('line-auth.redirect');
     $tickerItems = ['ALBUM', 'LIGHTSTICK', 'KEYCHAIN', 'PHOTOCARD', 'POSTER', 'POB', 'PLUSHIE', 'TRADING CARD', 'FAN KIT', "SEASON'S GREETINGS"];
-    $mobileCategories = [
-        ['name' => 'Album', 'icon' => 'album'],
-        ['name' => 'Lightstick', 'icon' => 'lightstick'],
-        ['name' => 'Keychain', 'icon' => 'keychain'],
-        ['name' => 'Photocard', 'icon' => 'photocard'],
-        ['name' => 'Poster', 'icon' => 'poster'],
-        ['name' => 'POB', 'icon' => 'pob'],
-    ];
 @endphp
 
 <div class="op-page">
@@ -129,22 +121,6 @@
             <img class="op-cta-starfish" src="{{ asset('assets/oceanpaws-cta-starfish-3d-v1.png') }}" alt="" aria-hidden="true">
         </section>
 
-        <section class="op-mobile-popular" aria-labelledby="op-mobile-popular-title">
-            <h2 id="op-mobile-popular-title"><span aria-hidden="true">✿</span> Popular Categories</h2>
-            <div class="op-mobile-category-grid">
-                @foreach ($mobileCategories as $category)
-                    <article class="op-mobile-category-card">
-                        <span class="op-category-icon is-{{ $category['icon'] }}" aria-hidden="true"></span>
-                        <h3>{{ $category['name'] }}</h3>
-                    </article>
-                @endforeach
-            </div>
-            <a class="op-mobile-tracking" href="{{ route('tracking.index') }}">
-                <i class="bi bi-search" aria-hidden="true"></i>
-                <span><strong>Still looking for your order?</strong><small>Track it here!</small></span>
-                <i class="bi bi-chevron-right" aria-hidden="true"></i>
-            </a>
-        </section>
     </main>
 
     <style>
