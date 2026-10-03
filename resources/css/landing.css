@@ -5597,12 +5597,12 @@
   .op-page .op-stats article span{font-size:clamp(9px,2.6vw,12px)}
 
   .op-page .op-cta{
-    width:calc(100% + 32px);
+    width:100%;
     height:calc(clamp(270px,74vw,350px) - 80px);
-    margin:27px -16px 0;
-    border-right:0;
-    border-left:0;
-    border-radius:0;
+    margin:27px 0 0;
+    border-right:1.5px solid #5b8569;
+    border-left:1.5px solid #5b8569;
+    border-radius:10px;
     background-size:auto 120%;
     background-position:center top;
     box-shadow:none;
