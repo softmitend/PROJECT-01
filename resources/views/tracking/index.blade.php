@@ -562,7 +562,7 @@
                 background-position:center bottom;
             }
             .op-footer-reference .op-footer-reference-shell{
-                top:43px;
+                top:63px;
                 left:18px;
                 display:grid;
                 width:calc(100% - 36px);
