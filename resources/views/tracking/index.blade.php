@@ -121,6 +121,14 @@
             <img class="op-cta-starfish" src="{{ asset('assets/oceanpaws-cta-starfish-3d-v1.png') }}" alt="" aria-hidden="true">
         </section>
 
+
+        <div class="op-mobile-tracking-wrap">
+            <a class="op-mobile-tracking" href="{{ route('tracking.index') }}">
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <span><strong>Still looking for your order?</strong><small>Track it here!</small></span>
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            </a>
+        </div>
     </main>
 
     <style>
