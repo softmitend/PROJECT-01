@@ -5503,8 +5503,8 @@
     letter-spacing:-.045em;
   }
   .op-page .op-copy-inner h1 br{display:none}
-  .op-page .op-heading-star-pink{top:-12px;right:5px;width:21px;height:21px}
-  .op-page .op-heading-star-green{top:19px;right:0;width:16px;height:16px}
+  .op-page .op-heading-star-pink{top:-12px;right:2px;width:21px;height:21px}
+  .op-page .op-heading-star-green{top:19px;right:-3px;width:16px;height:16px}
   .op-page .op-copy-main>p{
     margin:14px 0 0;
     font:500 clamp(14px,3.6vw,18px)/1.4 "Trebuchet MS",sans-serif;
