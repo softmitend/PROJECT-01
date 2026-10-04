@@ -538,7 +538,7 @@
             }
         }
         .op-footer-mobile-links{display:none}
-        @media(max-width:760px){
+        @media(max-width:1023px){
             .op-footer-reference{
                 height:292px;
                 min-height:292px;
