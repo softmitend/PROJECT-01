@@ -81,38 +81,3 @@ html[data-customer-theme="dark"] body.ocean-tracking .tracking-neo-eyebrow {
 html[data-customer-theme="dark"] body.ocean-tracking .tracking-neo-input-wrap input::placeholder {
     color: #9eb4a5;
 }
-
-/*
- * Keep the exact Landing footer geometry/artwork in light mode, but darken the
- * artwork itself when the Tracking page is dark. Content remains above the
- * overlay, so logo, slogan, shell icon, and copyright stay crisp.
- */
-html[data-customer-theme="dark"] body.ocean-tracking .op-footer-reference {
-    background-color: #162c23 !important;
-}
-
-html[data-customer-theme="dark"] body.ocean-tracking .op-footer-reference::before {
-    content: "" !important;
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    pointer-events: none;
-    background: rgba(6, 22, 16, .56);
-}
-
-html[data-customer-theme="dark"] body.ocean-tracking .op-footer-reference .op-footer-reference-shell,
-html[data-customer-theme="dark"] body.ocean-tracking .op-footer-reference .op-footer-bottomline {
-    z-index: 4;
-}
-
-html[data-customer-theme="dark"] body.ocean-tracking .op-footer-reference .op-footer-message strong {
-    color: #e8f3ea;
-}
-
-@media (max-width: 1023px) {
-    html[data-customer-theme="dark"] body.ocean-tracking .op-footer-reference::after {
-        background-image:
-            linear-gradient(rgba(189, 221, 194, .07) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(189, 221, 194, .07) 1px, transparent 1px) !important;
-    }
-}
