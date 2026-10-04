@@ -30,10 +30,12 @@
                     <x-public-icon name="truck" :size="18" />
                     <span>Tracking</span>
                 </a>
-                <a class="ocean-primary-navbar__mobile-link {{ $active === 'profile' ? 'is-active' : '' }}" href="{{ $profileUrl }}" @if($active === 'profile') aria-current="page" @endif>
-                    <x-public-icon name="user" :size="18" />
-                    <span>Profile</span>
-                </a>
+                @auth
+                    <a class="ocean-primary-navbar__mobile-link {{ $active === 'profile' ? 'is-active' : '' }}" href="{{ route('profile.show') }}" @if($active === 'profile') aria-current="page" @endif>
+                        <x-public-icon name="user" :size="18" />
+                        <span>Profile</span>
+                    </a>
+                @endauth
             </nav>
         </details>
 
