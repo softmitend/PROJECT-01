@@ -1,0 +1,39 @@
+/*
+ * Tracking canvas ownership.
+ *
+ * Keep the decorative page grid on one root only. The older tracking styles in
+ * app.css contain several historical background declarations with higher
+ * specificity; these selectors deliberately neutralize those layers so the
+ * grid does not stop or restart between the navbar, search content, and footer.
+ */
+html body.ocean-tracking {
+    background-color: #fefaf1 !important;
+    background-image:
+        linear-gradient(rgba(211, 190, 151, .075) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(211, 190, 151, .075) 1px, transparent 1px) !important;
+    background-size: 38px 38px !important;
+    background-position: 0 0 !important;
+    background-repeat: repeat !important;
+}
+
+html body.ocean-tracking .customer-public-shell,
+html body.ocean-tracking .customer-public-shell > .tracking-site-header,
+html body.ocean-tracking .customer-public-shell > main.public-landing-main,
+html body.ocean-tracking .customer-public-shell > main.public-landing-main > .tracking-search-page.ocean-home.ocean-editorial,
+html body.ocean-tracking .tracking-search-page .tracking-search-shell,
+html body.ocean-tracking .tracking-search-page .tracking-neo-page,
+html body.ocean-tracking .tracking-search-page .tracking-result-section {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+/*
+ * The footer itself stays identical to Home. Do not recolor, mask, clip, or
+ * redraw its reference artwork here. Only remove the old negative overlap that
+ * made the hand-off look like a broken seam on narrow screens.
+ */
+@media (max-width: 1023px) {
+    html body.ocean-tracking .tracking-landing-footer.op-footer-reference {
+        margin-top: 0 !important;
+    }
+}
