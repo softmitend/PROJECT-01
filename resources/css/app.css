@@ -9620,3 +9620,62 @@ body.ocean-tracking .tracking-result-section {
         z-index: 4;
     }
 }
+
+
+/* Non-desktop Tracking: one grid owner across main content and footer. */
+@media (max-width: 1023px) {
+    body.ocean-tracking {
+        background: #fffaf1 !important;
+    }
+
+    body.ocean-tracking .customer-public-shell {
+        position: relative;
+        background-color: #fffaf1 !important;
+        background-image:
+            linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px) !important;
+        background-size: 42px 42px !important;
+        background-position: 0 0 !important;
+        background-repeat: repeat !important;
+    }
+
+    body.ocean-tracking .public-landing-main,
+    body.ocean-tracking .tracking-search-page,
+    body.ocean-tracking .tracking-search-shell,
+    body.ocean-tracking .tracking-neo-page,
+    body.ocean-tracking .tracking-result-section {
+        background: transparent !important;
+        background-image: none !important;
+    }
+
+    body.ocean-tracking .tracking-landing-footer.op-footer-reference {
+        position: relative;
+        z-index: 2;
+        margin-top: 0 !important;
+        background: transparent !important;
+    }
+
+    body.ocean-tracking .tracking-landing-footer.op-footer-reference::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    body.ocean-tracking .tracking-landing-footer.op-footer-reference::before {
+        content: "" !important;
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        display: block;
+        pointer-events: none;
+        background-image: url('/assets/oceanpaws-footer-reference-bg-v1.png');
+        background-repeat: no-repeat;
+        background-position: center bottom;
+        background-size: auto 100%;
+        clip-path: inset(72% 0 0 0);
+    }
+
+    body.ocean-tracking .tracking-landing-footer .op-footer-reference-shell,
+    body.ocean-tracking .tracking-landing-footer .op-footer-bottomline {
+        z-index: 4;
+    }
+}
