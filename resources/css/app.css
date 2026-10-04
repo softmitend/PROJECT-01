@@ -7822,11 +7822,13 @@ body.ocean-tracking {
     --tracking-matcha: #76b67c;
     --tracking-paper: #fffdfa;
     --tracking-muted: #617369;
-    background:
+    background-color: #f7f3e9;
+    background-image:
         linear-gradient(rgba(91,135,102,.055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(91,135,102,.055) 1px, transparent 1px),
-        #fffaf1;
+        linear-gradient(90deg, rgba(91,135,102,.055) 1px, transparent 1px);
     background-size: 42px 42px;
+    background-position: 0 0;
+    background-repeat: repeat;
     color: var(--tracking-ink);
     font-family: "Nunito Sans", sans-serif;
 }
@@ -9107,40 +9109,17 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__icon circle {
 }
 
 
-/* Continuous tracking page grid background. */
-.ocean-tracking .public-landing-main {
-    background:
-        linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px),
-        #f7f3e9 !important;
-    background-size: 42px 42px !important;
-}
-
+/* Tracking uses a single page-level grid owned by body.ocean-tracking.
+   Every structural wrapper stays transparent so the pattern never restarts. */
+.ocean-tracking .customer-public-shell,
+.ocean-tracking .public-landing-main,
 .ocean-tracking .tracking-search-page,
 .ocean-tracking .tracking-search-shell,
-.ocean-tracking .tracking-neo-page {
-    background: transparent !important;
-}
-
-.ocean-tracking .tracking-result-section {
-    background: transparent !important;
-}
-
-
-/* Tracking route background grid — paint on the actual /tracking page root. */
+.ocean-tracking .tracking-neo-page,
+.ocean-tracking .tracking-result-section,
 body.ocean-tracking .public-landing-main > .tracking-search-page.ocean-home.ocean-editorial {
-    background-color: #f7f3e9 !important;
-    background-image:
-        linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px) !important;
-    background-size: 42px 42px !important;
-    background-position: 0 0 !important;
-}
-
-body.ocean-tracking .tracking-search-page .tracking-search-shell,
-body.ocean-tracking .tracking-search-page .tracking-neo-page,
-body.ocean-tracking .tracking-search-page .tracking-result-section {
-    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
 }
 
 
@@ -9349,6 +9328,7 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__mobile-link.is-active {
 
 /* Tracking footer parity with the current landing footer. */
 .ocean-tracking .tracking-landing-footer.op-footer-reference {
+    --tracking-footer-art-size: 100% 136%;
     position: relative;
     isolation: isolate;
     display: block;
@@ -9356,11 +9336,17 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__mobile-link.is-active {
     min-height: 183px;
     overflow: hidden;
     border: 0;
-    background: #f7f3e9 url('/assets/oceanpaws-footer-reference-bg-v1.png') center 40% / 100% 136% no-repeat;
+    background: transparent;
 }
 
 .ocean-tracking .tracking-landing-footer.op-footer-reference::before {
-    content: none;
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+    background: url('/assets/oceanpaws-footer-reference-bg-v1.png') center bottom / var(--tracking-footer-art-size) no-repeat;
+    clip-path: inset(72% 0 0 0);
 }
 
 .ocean-tracking .tracking-landing-footer .op-footer-reference-shell {
@@ -9428,9 +9414,9 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__mobile-link.is-active {
 
 @media (max-width: 1160px) {
     .ocean-tracking .tracking-landing-footer.op-footer-reference {
+        --tracking-footer-art-size: 100% 115%;
         height: 265px;
         min-height: 265px;
-        background-size: 100% 115%;
     }
 
     .ocean-tracking .tracking-landing-footer .op-footer-reference-shell {
@@ -9461,28 +9447,14 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__mobile-link.is-active {
 
 @media (max-width: 1023px) {
     .ocean-tracking .tracking-landing-footer.op-footer-reference {
+        --tracking-footer-art-size: auto 100%;
         height: 292px;
         min-height: 292px;
         margin-top: 0;
-        background-size: auto 100%;
-        background-position: center bottom;
     }
 
-    /* Same responsive paper/grid treatment used by the Home footer. */
     .ocean-tracking .tracking-landing-footer.op-footer-reference::after {
-        content: "";
-        position: absolute;
-        z-index: 2;
-        top: 0;
-        right: 0;
-        left: 0;
-        height: 72%;
-        pointer-events: none;
-        background-image:
-            linear-gradient(rgba(211, 190, 151, .075) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(211, 190, 151, .075) 1px, transparent 1px);
-        background-size: 38px 38px;
-        background-position: 0 0;
+        content: none;
     }
 
     .ocean-tracking .tracking-landing-footer .op-footer-reference-shell {
