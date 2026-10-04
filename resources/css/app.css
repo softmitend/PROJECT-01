@@ -9112,7 +9112,7 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__icon circle {
     background:
         linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
         linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px),
-        #fffaf1 !important;
+        #f7f3e9 !important;
     background-size: 42px 42px !important;
 }
 
@@ -9129,7 +9129,7 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__icon circle {
 
 /* Tracking route background grid — paint on the actual /tracking page root. */
 body.ocean-tracking .public-landing-main > .tracking-search-page.ocean-home.ocean-editorial {
-    background-color: #fffaf1 !important;
+    background-color: #f7f3e9 !important;
     background-image:
         linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
         linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px) !important;
@@ -9363,26 +9363,6 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__mobile-link.is-active {
     content: none;
 }
 
-/* The footer artwork has a warmer cream baked into the PNG. Cover its upper
-   paper area with the exact Tracking canvas at every viewport width; only the
-   lower shoreline/artwork remains visible from the image underneath. */
-.ocean-tracking .tracking-landing-footer.op-footer-reference::after {
-    content: "";
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 72%;
-    pointer-events: none;
-    background-color: #fffaf1;
-    background-image:
-        linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px);
-    background-size: 42px 42px;
-    background-position: 0 0;
-}
-
 .ocean-tracking .tracking-landing-footer .op-footer-reference-shell {
     position: absolute;
     top: 39px;
@@ -9486,6 +9466,23 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__mobile-link.is-active {
         margin-top: 0;
         background-size: auto 100%;
         background-position: center bottom;
+    }
+
+    /* Same responsive paper/grid treatment used by the Home footer. */
+    .ocean-tracking .tracking-landing-footer.op-footer-reference::after {
+        content: "";
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 72%;
+        pointer-events: none;
+        background-image:
+            linear-gradient(rgba(211, 190, 151, .075) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(211, 190, 151, .075) 1px, transparent 1px);
+        background-size: 38px 38px;
+        background-position: 0 0;
     }
 
     .ocean-tracking .tracking-landing-footer .op-footer-reference-shell {
