@@ -9363,6 +9363,26 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__mobile-link.is-active {
     content: none;
 }
 
+/* The footer artwork has a warmer cream baked into the PNG. Cover its upper
+   paper area with the exact Tracking canvas at every viewport width; only the
+   lower shoreline/artwork remains visible from the image underneath. */
+.ocean-tracking .tracking-landing-footer.op-footer-reference::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 72%;
+    pointer-events: none;
+    background-color: #fffaf1;
+    background-image:
+        linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px);
+    background-size: 42px 42px;
+    background-position: 0 0;
+}
+
 .ocean-tracking .tracking-landing-footer .op-footer-reference-shell {
     position: absolute;
     top: 39px;
@@ -9466,25 +9486,6 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__mobile-link.is-active {
         margin-top: 0;
         background-size: auto 100%;
         background-position: center bottom;
-    }
-
-    /* Mask the baked-in cream/grid at the top of the footer with the exact
-       Tracking page canvas so the join no longer changes colour or grid tone. */
-    .ocean-tracking .tracking-landing-footer.op-footer-reference::after {
-        content: "";
-        position: absolute;
-        z-index: 2;
-        top: 0;
-        right: 0;
-        left: 0;
-        height: 72%;
-        pointer-events: none;
-        background-color: #fffaf1;
-        background-image:
-            linear-gradient(rgba(91, 135, 102, .055) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(91, 135, 102, .055) 1px, transparent 1px);
-        background-size: 42px 42px;
-        background-position: 0 0;
     }
 
     .ocean-tracking .tracking-landing-footer .op-footer-reference-shell {
