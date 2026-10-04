@@ -5354,7 +5354,7 @@
   object-fit:contain;
   filter:drop-shadow(-2px 3px 1px rgba(70,90,68,.15));
 }
-@media(min-width:761px) and (max-width:1000px){
+@media(min-width:1024px) and (max-width:1180px){
   .op-about-content{padding-right:180px}
   .op-about-merch{right:20px}
 }
