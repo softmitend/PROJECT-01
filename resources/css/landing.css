@@ -5583,7 +5583,7 @@
 
   .op-page .op-ticker{display:flex}
 
-  .op-page .op-main{padding:20px 16px 28px;background:#fbfaf4}
+  .op-page .op-main{padding:20px 16px 28px;background:#fff9ed}
   .op-page .op-about-card{min-height:0}
   .op-page .op-about-card .op-polaroids{top:40px;left:50%;width:300px;height:220px;max-width:100%;transform:translateX(-50%)}
   .op-page .op-about-content{min-height:0;padding:258px 17px 20px}
