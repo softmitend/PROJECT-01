@@ -194,6 +194,54 @@
             height:30px;
         }
     }
+
+    /*
+     * Dark Tracking: only the paper area before the green footer flow becomes
+     * dark. The green/mint footer artwork, logo, slogan, shell and copyright
+     * keep their original Landing colors.
+     */
+    html[data-customer-theme="dark"] body.ocean-tracking .op-footer-reference::before{
+        content:"";
+        position:absolute;
+        z-index:3;
+        top:0;
+        right:0;
+        left:0;
+        height:29%;
+        pointer-events:none;
+        background:
+            linear-gradient(rgba(189,221,194,.07) 1px,transparent 1px),
+            linear-gradient(90deg,rgba(189,221,194,.07) 1px,transparent 1px),
+            #20382e;
+        background-size:42px 42px;
+        background-position:0 0;
+        clip-path:polygon(
+            0 0,
+            100% 0,
+            100% 79%,
+            94% 78%,
+            88% 77%,
+            82% 78%,
+            75% 81%,
+            69% 86%,
+            63% 92%,
+            56% 94%,
+            50% 92%,
+            44% 87%,
+            38% 83%,
+            31% 80%,
+            25% 80%,
+            19% 82%,
+            13% 84%,
+            6% 83%,
+            0 81%
+        );
+    }
+
+    html[data-customer-theme="dark"] body.ocean-tracking .op-footer-reference::after{
+        content:none !important;
+    }
+
 </style>
 
 <footer class="op-footer op-footer-reference" id="footer">
