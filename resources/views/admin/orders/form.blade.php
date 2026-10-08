@@ -9,7 +9,7 @@
     <x-admin-form-shell
         title="{{ $order->exists ? 'Edit Pesanan' : 'Tambah Pesanan' }}"
         eyebrow="Pesanan dalam Batch"
-        description="Pilih member yang sudah LINE-connected dan aktif. Member baru harus login via LINE terlebih dahulu."
+        description="Pilih customer yang memiliki akun login dan aktif. Customer baru dapat mendaftar menggunakan username dan password."
         max-width="max-w-6xl"
     >
         <form method="POST" action="{{ $order->exists ? route('admin.member-orders.update', $order, false) : route('admin.member-orders.store', [], false) }}">
@@ -19,7 +19,7 @@
             <div class="admin-form-body">
                 <x-admin-form-intro
                     title="Satu Form untuk Satu Pesanan"
-                    description="Kode pesanan dibuat otomatis. Member dipilih dari daftar yang sudah terverifikasi LINE (eligible untuk order baru)."
+                    description="Kode pesanan dibuat otomatis. Member dipilih dari daftar yang memiliki akun login aktif (eligible untuk order baru)."
                 />
 
                 <x-admin-form-section title="Identitas Pesanan">
@@ -41,8 +41,8 @@
                                     @endforeach
                                 </select>
                                 <small class="admin-form-help">
-                                    Hanya member yang sudah <strong>LINE-connected</strong> dan <strong>aktif</strong> yang dapat dipilih untuk order baru.
-                                    Member legacy (belum konek LINE) ditampilkan dengan label "LINE belum terhubung" dan tidak eligible.
+                                    Hanya member yang sudah <strong>memiliki akun login</strong> dan <strong>aktif</strong> yang dapat dipilih untuk order baru.
+                                    Buyer lama yang belum memiliki akun login dapat disiapkan akunnya melalui Kelola Customer.
                                 </small>
                             </label>
                         </div>
@@ -162,3 +162,4 @@
         </script>
     @endunless
 </x-layouts.app>
+

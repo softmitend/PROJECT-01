@@ -226,7 +226,7 @@
                     <strong style="color:#355a45;font-family:'Trebuchet MS',Arial,system-ui,sans-serif;font-size:10px;font-weight:900;line-height:1;">{{ $member->display_name }}</strong>
                 </a>
             @else
-                <a href="{{ route('line-auth.redirect') }}" class="public-line-login" style="pointer-events:auto;">Login LINE</a>
+                <a href="{{ route('login') }}" class="public-line-login" style="pointer-events:auto;">Login</a>
             @endif
         </div>
     </header>
@@ -257,8 +257,9 @@
                     <strong>{{ $member->display_name }}</strong>
                 </a>
             @else
-                <a href="{{ route('line-auth.redirect') }}" class="public-line-login">Login LINE</a>
+                <a href="{{ route('login') }}" class="public-line-login">Login</a>
             @endif
         </div>
     </header>
 @endif
+

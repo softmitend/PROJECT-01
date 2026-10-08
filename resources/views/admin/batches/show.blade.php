@@ -173,7 +173,7 @@
                         @forelse($batch->orders as $order)
                             <tr>
                                 <td data-label="Pesanan"><div class="order-table-primary text-violet-700">{{ $order->order_code }}</div></td>
-                                <td data-label="Pelanggan"><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">LINE: {{ $order->member->username }}</div></td>
+                                <td data-label="Pelanggan"><div class="order-table-primary">{{ $order->member->display_name }}</div><div class="order-table-secondary">Username: {{ $order->member->username }}</div></td>
                                 <td data-label="Item" class="font-semibold text-zinc-700">{{ $order->items->sum('quantity') }}</td>
                                 <td data-label="Pembayaran"><div class="order-table-primary">{{ $order->payment_type_label }}</div><div class="order-table-secondary">{{ $order->payment_amount ? 'Rp '.number_format($order->payment_amount, 0, ',', '.') : 'Belum ada pembayaran' }}</div></td>
                                 <td data-label="Status efektif"><x-status-badge :status="$order->effective_status" /></td>

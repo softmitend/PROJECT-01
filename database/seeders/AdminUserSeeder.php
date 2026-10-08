@@ -17,6 +17,9 @@ class AdminUserSeeder extends Seeder
             ['email' => 'admin@example.com'],
             [
                 'name' => 'OceanPaws Admin',
+                'username' => 'admin',
+                'role' => 'admin',
+                'password_set_at' => now(),
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
             ],

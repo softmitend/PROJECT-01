@@ -6,6 +6,7 @@ use Database\Factories\MemberFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -16,6 +17,7 @@ class Member extends Model
 
     protected $fillable = [
         'member_code',
+        'customer_group_id',
         'display_name',
         'username',
         'line_user_id',
@@ -44,20 +46,25 @@ class Member extends Model
         return $this->hasOne(User::class);
     }
 
+    public function customerGroup(): BelongsTo
+    {
+        return $this->belongsTo(CustomerGroup::class);
+    }
+
     public function scopeEligibleForNewOrder(Builder $query): Builder
     {
-        return $query->whereNotNull('line_user_id')
+        return $query->whereHas('user', fn ($user) => $user->where('role', 'customer')->whereNotNull('password_set_at'))
             ->where('is_active', true);
     }
 
     public function scopeLegacy(Builder $query): Builder
     {
-        return $query->whereNull('line_user_id');
+        return $query->whereDoesntHave('user', fn ($user) => $user->where('role', 'customer')->whereNotNull('password_set_at'));
     }
 
     public function isEligibleForNewOrder(): bool
     {
-        return $this->line_user_id !== null && $this->is_active;
+        return $this->is_active && $this->user?->role === 'customer' && $this->user?->password_set_at !== null;
     }
 
     public function getEligibilityStatusLabelAttribute(): string
@@ -66,11 +73,11 @@ class Member extends Model
             return 'Akun nonaktif - Tidak dapat digunakan untuk order baru';
         }
 
-        if ($this->line_user_id === null) {
-            return 'LINE belum terhubung - Tidak dapat digunakan untuk order baru';
+        if (! $this->isEligibleForNewOrder()) {
+            return 'Akun belum siap - Tidak dapat digunakan untuk order baru';
         }
 
-        return 'LINE Connected - Eligible';
+        return 'Akun terdaftar — Eligible';
     }
 
     public function setUsernameAttribute(?string $value): void

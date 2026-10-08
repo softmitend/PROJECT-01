@@ -22,7 +22,7 @@
                 <div class="detail-record-field detail-record-field-violet">
                     <span>Pelanggan</span>
                     <strong>{{ $order->member->display_name }}</strong>
-                    <small>LINE: {{ $order->member->username }}</small>
+                    <small>Username: {{ $order->member->username }}</small>
                 </div>
                 <a class="detail-record-field detail-record-field-link detail-record-field-blue" href="{{ route('admin.batches.show', $order->batch, false) }}">
                     <span>Batch</span>
@@ -193,3 +193,4 @@
     </div>
     @endunless
 </x-layouts.app>
+

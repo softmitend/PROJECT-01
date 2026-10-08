@@ -1,7 +1,7 @@
 @php
     $isMember = (bool) $member;
     $isAdminUser = (bool) ($user && !$member);
-    $loginUrl = route('line-auth.redirect');
+    $loginUrl = route('login');
     $profileName = $member?->display_name ?: ($isAdminUser ? $user->name : 'Login');
     $profileActionUrl = $isMember ? route('orders.history') : ($isAdminUser ? route('admin.dashboard') : $loginUrl);
     $months = collect(range(5, 0))->map(fn ($offset) => now()->subMonths($offset));
@@ -57,7 +57,7 @@
                         @else
                             <a href="{{ $loginUrl }}" class="profile-person">
                                 <div class="profile-photo is-empty"><span aria-hidden="true"><x-public-icon name="user" :size="23" /></span></div>
-                                <div><strong class="block text-[14px]" data-i18n-id="Login" data-i18n-en="Login">Login</strong><span class="profile-login-label"><span data-i18n-id="MASUK DENGAN LINE" data-i18n-en="LOGIN WITH LINE">MASUK DENGAN LINE</span> <x-public-icon name="chevron-right" :size="10" /></span></div>
+                                <div><strong class="block text-[14px]" data-i18n-id="Login" data-i18n-en="Login">Login</strong><span class="profile-login-label"><span data-i18n-id="MASUK KE AKUN" data-i18n-en="LOGIN TO ACCOUNT">MASUK KE AKUN</span> <x-public-icon name="chevron-right" :size="10" /></span></div>
                             </a>
                         @endif
                     </div>
@@ -110,12 +110,12 @@
                 </section>
             </section>
 
-            @if(!$user && !$lineConfigured)
-                <p class="profile-line-config"><x-public-icon name="link" :size="14" /> LINE Login belum dikonfigurasi oleh admin.</p>
+            @if(!$user)
+                <p class="profile-line-config">Belum punya akun? <a href="{{ route('register') }}" class="font-semibold underline">Daftar terlebih dahulu</a></p>
             @endif
 
             <section class="section-card activity-card">
-                <div class="activity-head"><span class="icon-chip"><x-public-icon name="sparkle" :size="20" /></span><div><strong class="block text-[12px]" data-i18n-id="Rekap aktivitas kamu" data-i18n-en="Your activity recap">Rekap aktivitas kamu</strong><span class="block text-[10px] text-[#5a7fa4]" data-i18n-id="{{ $isMember ? 'Semua aktivitas akun LINE kamu.' : 'Login untuk melihat aktivitasmu.' }}" data-i18n-en="{{ $isMember ? 'All activity from your LINE account.' : 'Login to view your activity.' }}">{{ $isMember ? 'Semua aktivitas akun LINE kamu.' : 'Login untuk melihat aktivitasmu.' }}</span></div></div>
+                <div class="activity-head"><span class="icon-chip"><x-public-icon name="sparkle" :size="20" /></span><div><strong class="block text-[12px]" data-i18n-id="Rekap aktivitas kamu" data-i18n-en="Your activity recap">Rekap aktivitas kamu</strong><span class="block text-[10px] text-[#5a7fa4]" data-i18n-id="{{ $isMember ? 'Semua aktivitas akun customer kamu.' : 'Login untuk melihat aktivitasmu.' }}" data-i18n-en="{{ $isMember ? 'All activity from your customer account.' : 'Login to view your activity.' }}">{{ $isMember ? 'Semua aktivitas akun customer kamu.' : 'Login untuk melihat aktivitasmu.' }}</span></div></div>
                 <div class="activity-summary">
                     <div class="metric-card"><span class="tiny-icon"><x-public-icon name="history" :size="16" /></span><div class="metric-copy"><strong>{{ $summary['orders'] }}</strong><span data-i18n-id="Total pesanan" data-i18n-en="Total orders">Total pesanan</span></div></div>
                     <div class="metric-card"><span class="tiny-icon"><x-public-icon name="box" :size="16" /></span><div class="metric-copy"><strong>{{ $summary['items'] }}</strong><span data-i18n-id="Jajanan tercatat" data-i18n-en="Recorded items">Jajanan tercatat</span></div></div>
@@ -174,3 +174,4 @@
         </div>
     </div>
 </x-layouts.app>
+

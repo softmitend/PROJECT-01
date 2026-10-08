@@ -22,9 +22,9 @@
 
             <section class="portal-v2-content is-full">
                 @if($user && !$member)
-                    <div class="portal-v2-empty"><span class="portal-v2-empty-icon"><x-public-icon name="grid" :size="32" /></span><small>AKUN ADMIN</small><h2>Data pesanan pribadi tidak tersedia.</h2><p>Gunakan akun LINE customer untuk membuka data pesanan pribadi.</p><a href="{{ route('admin.dashboard') }}">Buka dashboard</a></div>
+                    <div class="portal-v2-empty"><span class="portal-v2-empty-icon"><x-public-icon name="grid" :size="32" /></span><small>AKUN ADMIN</small><h2>Data pesanan pribadi tidak tersedia.</h2><p>Gunakan akun customer customer untuk membuka data pesanan pribadi.</p><a href="{{ route('admin.dashboard') }}">Buka dashboard</a></div>
                 @elseif(!$member)
-                    <div class="portal-v2-empty"><span class="portal-v2-empty-icon"><x-public-icon :name="$icon" :size="32" /></span><small>PESANAN PRIBADI</small><h2>Login untuk melihat data pesananmu.</h2><p>Halaman ini hanya menampilkan pesanan yang terhubung dengan akun LINE milikmu.</p><a href="{{ route('line-auth.redirect') }}">Login dengan LINE</a></div>
+                    <div class="portal-v2-empty"><span class="portal-v2-empty-icon"><x-public-icon :name="$icon" :size="32" /></span><small>PESANAN PRIBADI</small><h2>Login untuk melihat data pesananmu.</h2><p>Halaman ini hanya menampilkan pesanan yang terhubung dengan akun customer milikmu.</p><a href="{{ route('login') }}">Login</a></div>
                 @else
                     <div class="portal-v2-section-head">
                         <div><span>DAFTAR PESANAN</span><h2>{{ $title }}</h2></div>
@@ -77,3 +77,4 @@
         </div>
     </div>
 </x-layouts.app>
+

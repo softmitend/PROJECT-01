@@ -12,31 +12,38 @@ class AuthenticatedSessionController extends Controller
 {
     public function create()
     {
-        return view('auth.login');
+        return view('auth.login', ['adminLogin' => request()->routeIs('admin.login')]);
     }
 
     public function store(Request $request)
     {
+        $adminLogin = $request->routeIs('admin.login.store');
+        $field = $adminLogin ? 'email' : 'username';
+        $request->merge([$field => mb_strtolower(trim((string) $request->input($field)))]);
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            $field => ['required', 'string', 'max:255', ...($adminLogin ? ['email'] : [])],
             'password' => ['required', 'string'],
         ]);
 
-        if (! Auth::attempt($credentials + ['role' => 'admin'], $request->boolean('remember'))) {
+        if (! Auth::attemptWhen(
+            $adminLogin ? $credentials + ['role' => 'admin'] : $credentials,
+            fn ($user) => $user->isAdmin() || ($user->role === 'customer' && $user->password_set_at !== null && $user->member?->is_active),
+            $request->boolean('remember')
+        )) {
             throw ValidationException::withMessages([
-                'email' => 'Email atau password tidak sesuai.',
+                $field => 'Username/email atau password tidak sesuai, atau akun belum aktif.',
             ]);
         }
 
         $request->session()->regenerate();
         $request->session()->put('login_at', now()->timestamp);
 
-        return new RedirectResponse('/admin', 303);
+        return redirect()->intended(Auth::user()->isAdmin() ? route('admin.dashboard') : route('profile.show'));
     }
 
     public function destroy(Request $request)
     {
-        $redirectTo = $request->user()?->isAdmin() ? '/login' : '/profile';
+        $redirectTo = $request->user()?->isAdmin() ? '/admin/login' : '/login';
 
         Auth::logout();
 

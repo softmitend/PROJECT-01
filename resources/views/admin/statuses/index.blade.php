@@ -1,5 +1,5 @@
 <x-layouts.app title="Kelola Status">
-    <x-page-heading title="Kelola Status" description="Susun tahapan progress batch, pesanan pelanggan, item produk, dan pembayaran.">
+    <x-page-heading title="Kelola Status" description="Kelola status tracking perjalanan, status pembayaran, dan label group customer.">
         <x-slot:action><a class="admin-primary-action" href="{{ route('admin.order-statuses.create', [], false) }}">+ Tambah status</a></x-slot:action>
     </x-page-heading>
 
@@ -15,10 +15,14 @@
     </section>
 
     @php
-        $scopeDefinitions = \App\Models\OrderStatus::scopeDefinitions();
-        $groupedStatuses = $statuses->groupBy('scope');
+        $scopeDefinitions = [
+            'tracking' => ['label' => 'Status Tracking', 'title' => 'Tracking Perjalanan', 'description' => 'Tahapan perjalanan barang dan kondisi pesanan.', 'applies_to' => 'Batch dan pesanan customer', 'application' => 'Pesanan mengikuti status batch, kecuali memiliki status khusus.'],
+            'payment' => ['label' => 'Status Pembayaran', 'title' => 'Status Pembayaran', 'description' => 'Status pembayaran terpisah dari perjalanan barang.', 'applies_to' => 'Pembayaran pesanan', 'application' => 'Catat DP, pelunasan, dan refund melalui status pembayaran.'],
+            'groups' => ['label' => 'Label Group', 'title' => 'Label Group Customer', 'description' => 'Pilihan group untuk registrasi dan pengelolaan customer.', 'applies_to' => 'Customer / buyer', 'application' => 'Label group tidak mengubah status pesanan maupun hak akses akun.'],
+        ];
+        $groupedStatuses = collect(['tracking' => $statuses->where('scope', '!=', 'payment'), 'payment' => $statuses->where('scope', 'payment'), 'groups' => $groups]);
         $requestedScope = request('scope');
-        $activeScope = is_string($requestedScope) && array_key_exists($requestedScope, $scopeDefinitions) ? $requestedScope : 'batch';
+        $activeScope = is_string($requestedScope) && array_key_exists($requestedScope, $scopeDefinitions) ? $requestedScope : 'tracking';
     @endphp
 
     <div class="status-manager-card status-folder-map" data-status-folder-map>
@@ -79,6 +83,10 @@
                         </div>
                     </div>
 
+                    @if($scope === 'groups')
+                        <div class="mb-4 px-5"><a class="admin-primary-action" href="{{ route('admin.customer-groups.create') }}">+ Tambah group</a></div>
+                        @include('admin.groups.partials.table', ['groups' => $groups])
+                    @else
                     <div class="status-table-frame">
                         <div class="order-table-scroll">
                         <table class="order-table status-table responsive-card-table">
@@ -121,9 +129,11 @@
                         </table>
                         </div>
                     </div>
+                    @endif
                 </section>
             @endforeach
         </div>
     </div>
 
 </x-layouts.app>
+

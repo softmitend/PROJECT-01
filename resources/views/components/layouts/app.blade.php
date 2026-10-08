@@ -28,12 +28,16 @@
         $adminNav = [
             ['route' => 'admin.dashboard', 'match' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
             ['route' => 'admin.batches.index', 'match' => 'admin.batches.*', 'label' => 'Batch', 'icon' => 'layers'],
+            ['route' => 'admin.members.index', 'match' => 'admin.members.*', 'label' => 'Customer / Buyer', 'icon' => 'users'],
+            ['route' => 'admin.customer-groups.index', 'match' => 'admin.customer-groups.*', 'label' => 'Group', 'icon' => 'users'],
             ['route' => 'admin.order-statuses.index', 'match' => 'admin.order-statuses.*', 'label' => 'Status', 'icon' => 'route'],
         ];
         $isAdminFormRoute = request()->routeIs([
             'admin.batches.create', 'admin.batches.edit',
             'admin.member-orders.create', 'admin.member-orders.edit',
             'admin.order-statuses.create', 'admin.order-statuses.edit',
+            'admin.members.create', 'admin.members.edit',
+            'admin.customer-groups.create', 'admin.customer-groups.edit',
         ]);
         $adminBackItem = $isAdminFormRoute
             ? null
@@ -154,9 +158,9 @@
                         </a>
                         <nav class="flex items-center gap-1 text-sm font-medium">
                             @auth
-                                <a class="rounded-full bg-zinc-950 px-4 py-2 text-white" href="/admin">Dashboard</a>
+                                <a class="rounded-full bg-zinc-950 px-4 py-2 text-white" href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('profile.show') }}">{{ auth()->user()->isAdmin() ? 'Dashboard' : 'Profile' }}</a>
                             @else
-                                <a class="rounded-full border border-zinc-200 bg-white px-4 py-2 shadow-sm" href="/login">Admin</a>
+                                <a class="rounded-full border border-zinc-200 bg-white px-4 py-2 shadow-sm" href="{{ route('admin.login') }}">Admin</a>
                             @endauth
                         </nav>
                     </div>
@@ -178,3 +182,4 @@
         @endif
     </body>
 </html>
+

@@ -104,7 +104,7 @@
                             <span class="portal-v2-empty-icon"><x-public-icon name="grid" :size="32" /></span>
                             <small>AKUN ADMIN</small>
                             <h2>Tagihan customer tidak tersedia di akun admin.</h2>
-                            <p>Gunakan akun LINE customer untuk membuka data pembayaran pribadi.</p>
+                            <p>Gunakan akun customer customer untuk membuka data pembayaran pribadi.</p>
                             <a href="{{ route('admin.dashboard') }}">Buka dashboard</a>
                         </div>
                     @elseif(!$member)
@@ -112,8 +112,8 @@
                             <span class="portal-v2-empty-icon"><x-public-icon name="wallet" :size="32" /></span>
                             <small>TAGIHAN PRIBADI</small>
                             <h2>Login untuk melihat tagihanmu.</h2>
-                            <p>Daftar pembayaran akan otomatis tampil sesuai pesanan yang terhubung ke akun LINE.</p>
-                            <a href="{{ route('line-auth.redirect') }}">Login dengan LINE</a>
+                            <p>Daftar pembayaran akan otomatis tampil sesuai pesanan yang terhubung ke akun customer.</p>
+                            <a href="{{ route('login') }}">Login</a>
                         </div>
                     @else
                         <div class="portal-v2-section-head">
@@ -199,3 +199,4 @@
         </div>
     </div>
 </x-layouts.app>
+

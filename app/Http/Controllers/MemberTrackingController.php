@@ -29,14 +29,14 @@ class MemberTrackingController extends Controller
         $validated = $request->validate([
             'query' => ['required', 'string', 'max:255'],
         ], [
-            'query.required' => 'Masukkan kode tracking atau username LINE pelanggan.',
+            'query.required' => 'Masukkan kode tracking atau username pelanggan.',
         ]);
 
         $rawQuery = trim($validated['query']);
         $orderCode = mb_strtoupper($rawQuery);
 
         // Coba sebagai kode tracking terlebih dahulu. Ini menghindari tebakan format
-        // karena kode tracking dan username LINE sama-sama berupa teks.
+        // karena kode tracking dan username sama-sama berupa teks.
         $order = MemberOrder::query()
             ->where('order_code', $orderCode)
             ->whereHas('member', fn ($member) => $member->where('is_active', true))
@@ -84,7 +84,7 @@ class MemberTrackingController extends Controller
         }
 
         return back()
-            ->withErrors(['query' => 'Kode tracking atau username LINE tidak ditemukan. Periksa kembali data dari admin.'])
+            ->withErrors(['query' => 'Kode tracking atau username tidak ditemukan. Periksa kembali data dari admin.'])
             ->onlyInput('query');
     }
 
@@ -141,7 +141,7 @@ class MemberTrackingController extends Controller
 
         if (! $member) {
             return back()
-                ->withErrors(['username' => 'Username LINE tidak ditemukan pada data pelanggan.'])
+                ->withErrors(['username' => 'Username tidak ditemukan pada data pelanggan.'])
                 ->onlyInput('username');
         }
 

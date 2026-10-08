@@ -3,7 +3,7 @@
         <header class="tracking-neo-heading">
             <span class="tracking-neo-eyebrow">TRACKING PESANAN</span>
             <h1 id="order-search-title">Cari pesananmu.</h1>
-            <p>Masukkan kode pesanan atau username LINE untuk melihat status dan riwayat pesanan.</p>
+            <p>Masukkan kode pesanan atau username untuk melihat status dan riwayat pesanan.</p>
         </header>
 
         <section class="tracking-neo-search-card" aria-label="Form pencarian pesanan">
@@ -17,7 +17,7 @@
 
             <form method="POST" action="{{ route('tracking.search') }}" class="tracking-neo-form" role="search" aria-label="Cari tracking dan riwayat pesanan">
                 @csrf
-                <label for="tracking-query" class="sr-only">Kode pesanan atau username LINE</label>
+                <label for="tracking-query" class="sr-only">Kode pesanan atau username</label>
                 <div class="tracking-neo-input-wrap">
                     <span class="tracking-neo-input-icon"><x-public-icon name="search" :size="19" /></span>
                     <input id="tracking-query" type="search" name="query" value="{{ old('query', $searchQuery ?? '') }}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="255" placeholder="Contoh: ORD-001 atau @username" aria-describedby="tracking-query-hint{{ $errors->has('query') ? ' tracking-query-error' : '' }}" @if($errors->has('query')) aria-invalid="true" autofocus @endif required>
@@ -134,7 +134,7 @@
                             </div>
                         </details>
                     @empty
-                        <p class="tracking-result-empty-copy">Belum ada riwayat pesanan untuk username LINE ini.</p>
+                        <p class="tracking-result-empty-copy">Belum ada riwayat pesanan untuk username ini.</p>
                     @endforelse
                 </div>
             </article>
@@ -144,3 +144,4 @@
     </div>
 </section>
 @endif
+

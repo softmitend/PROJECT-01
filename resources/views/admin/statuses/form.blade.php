@@ -1,13 +1,19 @@
 @php
     $formTitle = $orderStatus->exists ? 'Edit Status' : 'Tambah Status';
-    $scopeDefinitions = \App\Models\OrderStatus::scopeDefinitions();
+    $scopeDefinitions = [
+        'all' => ['label' => 'Status Tracking', 'form_hint' => 'perjalanan batch dan pesanan'],
+        'payment' => ['label' => 'Status Pembayaran', 'form_hint' => 'pembayaran customer'],
+    ];
+    if ($orderStatus->exists && !in_array($orderStatus->scope, ['all', 'payment'], true)) {
+        $scopeDefinitions[$orderStatus->scope] = ['label' => 'Status Tracking', 'form_hint' => 'pertahankan penggunaan data lama'];
+    }
 @endphp
 
 <x-layouts.app :title="$formTitle">
     <x-admin-form-shell
         :title="$formTitle"
         eyebrow="Manajemen Status"
-        description="Susun status yang akan tampil pada progress batch, pesanan pelanggan, item, dan pembayaran."
+        description="Susun status tracking perjalanan atau status pembayaran. Label group dikelola melalui menu Group."
         max-width="max-w-4xl"
     >
         <form method="POST" action="{{ $orderStatus->exists ? route('admin.order-statuses.update', $orderStatus, false) : route('admin.order-statuses.store', [], false) }}">
@@ -41,7 +47,7 @@
                             <span>Berlaku untuk</span>
                             <select name="scope">
                                 @foreach ($scopeDefinitions as $scope => $definition)
-                                    <option value="{{ $scope }}" @selected(old('scope', $orderStatus->scope ?: 'batch') === $scope)>{{ $definition['label'] }} — {{ $definition['form_hint'] }}</option>
+                                    <option value="{{ $scope }}" @selected(old('scope', $orderStatus->scope ?: (request('scope') === 'payment' ? 'payment' : 'all')) === $scope)>{{ $definition['label'] }} — {{ $definition['form_hint'] }}</option>
                                 @endforeach
                             </select>
                             <small class="admin-form-help">Cakupan menentukan lokasi status dapat dipilih oleh admin.</small>
@@ -103,3 +109,4 @@
         });
     </script>
 </x-layouts.app>
+

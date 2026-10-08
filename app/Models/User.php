@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'member_id', 'line_user_id', 'avatar_url'])]
+#[Fillable(['name', 'username', 'email', 'password', 'member_id', 'line_user_id', 'avatar_url'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -28,6 +28,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'password_set_at' => 'datetime',
         ];
     }
 
@@ -39,5 +40,15 @@ class User extends Authenticatable
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
+    }
+
+    public function setUsernameAttribute(?string $value): void
+    {
+        $this->attributes['username'] = $value ? mb_strtolower(trim($value)) : null;
+    }
+
+    public function setEmailAttribute(?string $value): void
+    {
+        $this->attributes['email'] = $value ? mb_strtolower(trim($value)) : null;
     }
 }

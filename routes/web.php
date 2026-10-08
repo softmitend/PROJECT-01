@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BatchController;
+use App\Http\Controllers\Admin\CustomerGroupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\MemberOrderController;
@@ -8,7 +9,7 @@ use App\Http\Controllers\Admin\OrderStatusController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\StatusHistoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\LineAuthController;
+use App\Http\Controllers\Auth\RegisteredCustomerController;
 use App\Http\Controllers\CustomerPortalController;
 use App\Http\Controllers\MemberTrackingController;
 use App\Http\Controllers\ProfileController;
@@ -35,12 +36,16 @@ Route::get('/profile', ProfileController::class)->name('profile.show');
 Route::get('/profile/orders/{memberOrder}/payment-proof', [ProfileController::class, 'paymentProof'])
     ->middleware('auth')
     ->name('profile.orders.payment-proof');
-Route::get('/auth/line', [LineAuthController::class, 'redirect'])->middleware('throttle:10,1')->name('line-auth.redirect');
-Route::get('/auth/line/callback', [LineAuthController::class, 'callback'])->middleware('throttle:10,1')->name('line-auth.callback');
+Route::redirect('/auth/line', '/login');
+Route::redirect('/auth/line/callback', '/login');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:5,1');
+    Route::get('/register', [RegisteredCustomerController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredCustomerController::class, 'store'])->middleware('throttle:5,1');
+    Route::get('/admin/login', [AuthenticatedSessionController::class, 'create'])->name('admin.login');
+    Route::post('/admin/login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:5,1')->name('admin.login.store');
 });
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
@@ -50,7 +55,7 @@ Route::prefix('admin')
     ->middleware(['auth', 'can:access-admin'])
     ->group(function () {
         Route::get('/', DashboardController::class)->name('dashboard');
-        
+
         // Specific batch routes MUST come before resource route to avoid conflicts
         Route::get('batches/settings', [BatchController::class, 'settings'])->name('batches.settings');
         Route::post('batches/settings/payment-methods', [BatchController::class, 'storePaymentMethod'])->name('batches.payment-methods.store');
@@ -58,10 +63,11 @@ Route::prefix('admin')
         Route::post('batches/settings/payment-methods/{paymentMethod}/toggle', [BatchController::class, 'togglePaymentMethod'])->name('batches.payment-methods.toggle');
         Route::delete('batches/settings/payment-methods/{paymentMethod}', [BatchController::class, 'destroyPaymentMethod'])->name('batches.payment-methods.destroy');
         Route::post('batches/{batch}/status', [BatchController::class, 'transition'])->name('batches.status');
-        
+
         Route::resource('batches', BatchController::class);
         Route::resource('order-statuses', OrderStatusController::class);
         Route::resource('members', MemberController::class);
+        Route::resource('customer-groups', CustomerGroupController::class);
         Route::resource('products', ProductController::class);
         Route::patch('products/{product}/status', [ProductController::class, 'updateStatus'])->name('products.status');
         Route::resource('member-orders', MemberOrderController::class);

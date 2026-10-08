@@ -84,7 +84,6 @@ class ProfileController extends Controller
             'calendarMonth' => $calendarMonth,
             'calendarItems' => $calendarItems,
             'calendarOrderDays' => $calendarOrders->pluck('created_at')->map(fn ($date) => $date->day)->unique()->all(),
-            'lineConfigured' => filled(config('services.line.channel_id')) && filled(config('services.line.channel_secret')),
         ]);
     }
 

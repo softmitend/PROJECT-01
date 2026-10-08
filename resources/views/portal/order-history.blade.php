@@ -103,7 +103,7 @@
                             <span class="portal-v2-empty-icon"><x-public-icon name="grid" :size="32" /></span>
                             <small>AKUN ADMIN</small>
                             <h2>Riwayat customer tidak tampil di sini.</h2>
-                            <p>Gunakan akun LINE customer untuk melihat riwayat pesanan pribadi.</p>
+                            <p>Gunakan akun customer customer untuk melihat riwayat pesanan pribadi.</p>
                             <a href="{{ route('admin.dashboard') }}">Buka dashboard</a>
                         </div>
                     @elseif(!$member)
@@ -111,8 +111,8 @@
                             <span class="portal-v2-empty-icon"><x-public-icon name="bag" :size="32" /></span>
                             <small>RIWAYAT PRIBADI</small>
                             <h2>Login untuk membuka pesananmu.</h2>
-                            <p>Pesanan dari semua batch akan otomatis terkumpul setelah akun LINE terhubung.</p>
-                            <a href="{{ route('line-auth.redirect') }}">Login dengan LINE</a>
+                            <p>Pesanan dari semua batch akan otomatis terkumpul setelah akun customer terhubung.</p>
+                            <a href="{{ route('login') }}">Login</a>
                         </div>
                     @else
                         <div class="portal-v2-section-head">
@@ -178,3 +178,4 @@
         </div>
     </div>
 </x-layouts.app>
+

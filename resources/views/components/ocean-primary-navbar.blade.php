@@ -6,7 +6,7 @@
 
 @php
     $homeUrl = $homeHref ?: route('home');
-    $profileUrl = auth()->check() ? route('profile.show') : route('line-auth.redirect');
+    $profileUrl = auth()->check() ? route('profile.show') : route('login');
     $hostClass = 'ocean-primary-navbar-host'.($mode === 'landing' ? ' is-landing' : '');
 @endphp
 
@@ -75,3 +75,4 @@
         </nav>
     </header>
 </div>
+
