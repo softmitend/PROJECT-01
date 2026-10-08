@@ -188,12 +188,11 @@ class OrderRecapTest extends TestCase
             ->assertOk()
             ->assertSee('data-status-folder-tab="tracking"', false)
             ->assertSee('data-status-folder-tab="payment"', false)
-            ->assertSee('data-status-folder-tab="groups"', false)
+            ->assertDontSee('data-status-folder-tab="groups"', false)
             ->assertDontSee('data-status-folder-tab="member_order"', false)
             ->assertDontSee('data-status-folder-tab="order_item"', false)
             ->assertSee('Tracking Perjalanan')
             ->assertSee('Status Pembayaran')
-            ->assertSee('Label Group')
             ->assertSee('<th>No.</th>', false)
             ->assertSee('Status Batch Folder')
             ->assertSee('Status Payment Folder');

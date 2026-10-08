@@ -27,11 +27,11 @@ class AuthenticatedSessionController extends Controller
 
         if (! Auth::attemptWhen(
             $adminLogin ? $credentials + ['role' => 'admin'] : $credentials,
-            fn ($user) => $user->isAdmin() || ($user->role === 'customer' && $user->password_set_at !== null && $user->member?->is_active),
+            fn ($user) => $user->isAdmin() || ($user->role === 'customer' && ! $user->registration_pending && $user->password_set_at !== null && $user->member?->is_active),
             $request->boolean('remember')
         )) {
             throw ValidationException::withMessages([
-                $field => 'Username/email atau password tidak sesuai, atau akun belum aktif.',
+                $field => 'Username/email atau password tidak sesuai, atau akun belum aktif. Jika belum memilih group saat registrasi, tunggu persetujuan admin.',
             ]);
         }
 

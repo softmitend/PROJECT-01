@@ -15,7 +15,7 @@ class EnsureActiveCustomer
             abort(403);
         }
         if ($user && ! $user->isAdmin()
-            && (! $user->member?->is_active || $user->password_set_at === null)) {
+            && ($user->registration_pending || ! $user->member?->is_active || $user->password_set_at === null)) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

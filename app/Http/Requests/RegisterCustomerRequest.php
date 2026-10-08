@@ -28,12 +28,13 @@ class RegisterCustomerRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'min:3', 'max:50', 'regex:/^[a-z0-9][a-z0-9._-]*$/', 'unique:users,username', 'unique:members,username'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email', 'unique:members,email'],
-            'customer_group_id' => ['required', Rule::exists('customer_groups', 'id')->where('is_active', true)],
+            'customer_group_id' => ['nullable', Rule::exists('customer_groups', 'id')->where('is_active', true)],
             'password' => ['required', 'confirmed', Password::min(8)],
             'role' => ['prohibited'],
             'member_id' => ['prohibited'],
             'line_user_id' => ['prohibited'],
             'is_active' => ['prohibited'],
+            'registration_pending' => ['prohibited'],
         ];
     }
 }

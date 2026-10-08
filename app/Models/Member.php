@@ -53,18 +53,18 @@ class Member extends Model
 
     public function scopeEligibleForNewOrder(Builder $query): Builder
     {
-        return $query->whereHas('user', fn ($user) => $user->where('role', 'customer')->whereNotNull('password_set_at'))
+        return $query->whereHas('user', fn ($user) => $user->where('role', 'customer')->whereNotNull('password_set_at')->where('registration_pending', false))
             ->where('is_active', true);
     }
 
     public function scopeLegacy(Builder $query): Builder
     {
-        return $query->whereDoesntHave('user', fn ($user) => $user->where('role', 'customer')->whereNotNull('password_set_at'));
+        return $query->whereDoesntHave('user', fn ($user) => $user->where('role', 'customer')->whereNotNull('password_set_at')->where('registration_pending', false));
     }
 
     public function isEligibleForNewOrder(): bool
     {
-        return $this->is_active && $this->user?->role === 'customer' && $this->user?->password_set_at !== null;
+        return $this->is_active && ! $this->user?->registration_pending && $this->user?->role === 'customer' && $this->user?->password_set_at !== null;
     }
 
     public function getEligibilityStatusLabelAttribute(): string

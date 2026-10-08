@@ -50,7 +50,7 @@ class CustomerAuthTest extends TestCase
 
     public function test_inactive_or_missing_group_and_password_confirmation_are_rejected(): void
     {
-        $this->get('/register')->assertOk()->assertSee('Registrasi belum tersedia');
+        $this->get('/register')->assertOk()->assertSee('Belum memilih');
         $inactive = $this->group(false);
         $this->get('/register')->assertDontSee($inactive->name);
         $this->post('/register', $this->registration(['customer_group_id' => $inactive->id]))->assertSessionHasErrors('customer_group_id');
@@ -145,7 +145,8 @@ class CustomerAuthTest extends TestCase
         $group = $this->group();
         $this->actingAs($admin)->get(route('admin.order-statuses.index', ['scope' => 'groups']))->assertOk()
             ->assertSee('data-status-folder-tab="tracking"', false)->assertSee('data-status-folder-tab="payment"', false)
-            ->assertSee('data-status-folder-tab="groups"', false)->assertSee($group->name);
+            ->assertDontSee('data-status-folder-tab="groups"', false)->assertDontSee($group->name);
+        $this->get(route('admin.customer-groups.index'))->assertOk()->assertSee($group->name);
         $this->assertFalse($tracking->isUsableFor('payment'));
         $this->assertFalse($payment->isUsableFor('batch'));
         $this->assertSame([$payment->id], OrderStatus::activeFor('payment')->pluck('id')->all());

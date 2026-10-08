@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderStatusRequest;
-use App\Models\CustomerGroup;
 use App\Models\OrderStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
@@ -30,13 +29,7 @@ class OrderStatusController extends Controller
             ->orderBy('name')
             ->get();
 
-        $groups = CustomerGroup::withCount('members')
-            ->when(request('q'), fn ($query, $term) => $query->where('name', 'like', "%{$term}%"))
-            ->when(request('active') === '1', fn ($query) => $query->where('is_active', true))
-            ->when(request('active') === '0', fn ($query) => $query->where('is_active', false))
-            ->orderBy('name')->get();
-
-        return view('admin.statuses.index', compact('statuses', 'groups'));
+        return view('admin.statuses.index', compact('statuses'));
     }
 
     /**

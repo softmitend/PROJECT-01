@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMemberRequest;
 use App\Models\CustomerGroup;
 use App\Models\Member;
+use App\Models\User;
 use App\Services\CustomerAccountService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
@@ -31,11 +32,12 @@ class MemberController extends Controller
                 });
             })
             ->when(request('customer_group_id'), fn ($query, $id) => $query->where('customer_group_id', $id))
+            ->when(request('registration') === 'pending', fn ($query) => $query->whereHas('user', fn ($user) => $user->where('registration_pending', true)))
             ->latest()
             ->paginate(15)
             ->withQueryString();
 
-        return view('admin.members.index', ['members' => $members, 'groups' => CustomerGroup::orderBy('name')->get()]);
+        return view('admin.members.index', ['members' => $members, 'groups' => CustomerGroup::withCount('members')->orderBy('name')->get(), 'pendingCount' => User::where('registration_pending', true)->count()]);
     }
 
     /**
@@ -57,6 +59,9 @@ class MemberController extends Controller
                 'is_active' => true,
             ]);
             $accounts->sync($member, $request->input('password'));
+            if ($member->user?->registration_pending) {
+                $member->update(['is_active' => false]);
+            }
         });
 
         session()->flash('status', 'Pelanggan berhasil ditambahkan.');
@@ -71,7 +76,7 @@ class MemberController extends Controller
     {
         $member->load(['customerGroup', 'user', 'orders.batch.currentStatus', 'orders.overrideStatus', 'orders.paymentStatus', 'orders.items']);
 
-        return view('admin.members.show', compact('member'));
+        return view('admin.members.show', ['member' => $member, 'groups' => CustomerGroup::where('is_active', true)->orderBy('name')->get()]);
     }
 
     /**
@@ -91,6 +96,9 @@ class MemberController extends Controller
             $member = Member::whereKey($member->id)->lockForUpdate()->firstOrFail();
             $member->update(Arr::except($request->validated(), ['password']) + ['is_active' => $request->boolean('is_active')]);
             $accounts->sync($member, $request->input('password'));
+            if ($member->user?->registration_pending) {
+                $member->update(['is_active' => false]);
+            }
         });
 
         session()->flash('status', 'Pelanggan berhasil diperbarui.');

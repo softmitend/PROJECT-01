@@ -3,13 +3,25 @@
         <x-slot:action><a class="admin-form-secondary" href="{{ route('admin.members.edit', $member, false) }}">Edit Pelanggan</a></x-slot:action>
     </x-page-heading>
 
+    @if($member->user?->registration_pending)
+        <section class="order-table-card mb-6 p-5">
+            <h2 class="font-bold">Permintaan registrasi menunggu persetujuan</h2>
+            <p class="mt-2 text-sm">Tentukan group sebelum menerima akun. Customer belum dapat login.</p>
+            <form method="POST" action="{{ route('admin.members.approve', $member) }}" class="mt-4 flex flex-wrap gap-3">
+                @csrf
+                <label>Group <select name="customer_group_id" required class="rounded-lg border border-zinc-300 px-3 py-2"><option value="">Pilih group</option>@foreach($groups as $group)<option value="{{ $group->id }}" @selected((string) old('customer_group_id') === (string) $group->id)>{{ $group->name }}</option>@endforeach</select></label>
+                <button class="admin-primary-action" type="submit" @disabled($groups->isEmpty())>Tentukan group & setujui akun</button>
+            </form>
+            @if($groups->isEmpty())<p class="mt-3 text-sm">Buat label group aktif terlebih dahulu di <a class="underline" href="{{ route('admin.customer-groups.create') }}">Label Group</a>.</p>@endif
+        </section>
+    @endif
     <article class="detail-record-card">
         <header class="detail-record-hero">
             <div class="min-w-0">
                 <p class="detail-record-kicker">Data Pelanggan</p>
                 <div class="mt-2 flex flex-wrap items-center gap-3">
                     <h2 class="detail-record-title">{{ $member->display_name }}</h2>
-                    <span class="detail-record-state {{ $member->is_active ? 'detail-record-state-active' : 'detail-record-state-muted' }}">{{ $member->is_active ? 'Aktif' : 'Nonaktif' }}</span>
+                    <span class="detail-record-state {{ $member->is_active ? 'detail-record-state-active' : 'detail-record-state-muted' }}">{{ $member->user?->registration_pending ? 'Menunggu persetujuan' : ($member->is_active ? 'Aktif' : 'Nonaktif') }}</span>
                 </div>
                 <p class="detail-record-description">#{{ $member->member_code }}</p>
             </div>
@@ -24,7 +36,7 @@
                 <div class="member-biodata-item"><span>Username</span><p>{{ $member->username ?: 'Belum diisi' }}</p></div>
                 <div class="member-biodata-item"><span>Email</span><p>{{ $member->email ?: 'Belum diisi' }}</p></div>
                 <div class="member-biodata-item"><span>Group</span><p>@if($member->customerGroup)<a href="{{ route('admin.customer-groups.show', $member->customerGroup) }}" class="underline">{{ $member->customerGroup->name }}</a>@else Belum ada group @endif</p></div>
-                <div class="member-biodata-item"><span>Akun login</span><p>{{ $member->user?->password_set_at ? 'Siap login dengan username dan password' : 'Belum siap — isi email dan password melalui Edit Pelanggan' }}</p></div>
+                <div class="member-biodata-item"><span>Akun login</span><p>{{ $member->user?->registration_pending ? 'Menunggu persetujuan admin' : ($member->user?->password_set_at ? 'Siap login dengan username dan password' : 'Belum siap — isi email dan password melalui Edit Pelanggan') }}</p></div>
                 <div class="member-biodata-item"><span>Nomor telepon</span><p>{{ $member->phone ?: 'Belum diisi' }}</p></div>
                 <div class="member-biodata-item"><span>Terdaftar sejak</span><p>{{ $member->created_at->format('d M Y') }}</p></div>
                 <div class="member-biodata-item"><span>Alamat</span><p class="whitespace-pre-line">{{ $member->address ?: 'Belum ada alamat.' }}</p></div>

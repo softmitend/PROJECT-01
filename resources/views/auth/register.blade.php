@@ -3,9 +3,6 @@
         <span class="auth-kicker">JOIN THE PAWS</span>
         <h1 class="auth-title">Daftar Customer</h1>
         <p class="auth-description">Buat akun untuk memantau pesanan dan pembayaran.</p>
-        @if($groups->isEmpty())
-            <p class="auth-note" role="status">Registrasi belum tersedia karena belum ada group aktif. Hubungi admin.</p>
-        @else
             <form method="POST" action="{{ route('register') }}" class="auth-form auth-form-register">
                 @csrf
                 <x-text-input label="Nama" name="name" autocomplete="name" maxlength="255" required autofocus />
@@ -13,19 +10,19 @@
                 <p class="auth-hint">Gunakan huruf, angka, titik, garis bawah, atau tanda hubung. Username disimpan dalam huruf kecil.</p>
                 <x-text-input label="Email" name="email" type="email" autocomplete="email" maxlength="255" required />
                 <label class="auth-group"><span class="text-sm font-semibold">Group</span>
-                    <select name="customer_group_id" class="auth-select" required>
-                        <option value="">Pilih group</option>
+                    <select name="customer_group_id" class="auth-select">
+                        <option value="">Belum memilih</option>
                         @foreach($groups as $group)
                             <option value="{{ $group->id }}" @selected((string) old('customer_group_id') === (string) $group->id)>{{ $group->name }}</option>
                         @endforeach
                     </select>
                     @error('customer_group_id')<small class="auth-field-error">{{ $message }}</small>@enderror
                 </label>
+                <p class="auth-hint">Pilih “Belum memilih” jika belum tahu groupmu. Admin akan menentukan group dan menyetujui akun sebelum kamu bisa login.</p>
                 <x-text-input label="Password (minimal 8 karakter)" name="password" type="password" autocomplete="new-password" minlength="8" required />
                 <x-text-input label="Konfirmasi password" name="password_confirmation" type="password" autocomplete="new-password" minlength="8" required />
                 <button type="submit" class="auth-submit">Daftar akun <span aria-hidden="true">↗</span></button>
             </form>
-        @endif
         <p class="auth-switch">Sudah punya akun? <a class="auth-link" href="{{ route('login') }}">Login</a></p>
     </x-auth-shell>
 </x-layouts.app>

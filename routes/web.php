@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BatchController;
+use App\Http\Controllers\Admin\CustomerApprovalController;
 use App\Http\Controllers\Admin\CustomerGroupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MemberController;
@@ -66,6 +67,7 @@ Route::prefix('admin')
 
         Route::resource('batches', BatchController::class);
         Route::resource('order-statuses', OrderStatusController::class);
+        Route::post('members/{member}/approve', [CustomerApprovalController::class, 'store'])->name('members.approve');
         Route::resource('members', MemberController::class);
         Route::resource('customer-groups', CustomerGroupController::class);
         Route::resource('products', ProductController::class);

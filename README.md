@@ -37,7 +37,7 @@ Ganti seluruh kredensial demo sebelum digunakan di production.
 ## Login dan registrasi customer
 
 - `/login`: username dan password untuk customer; tautan **Daftar terlebih dahulu** membuka `/register`.
-- Registrasi memerlukan nama, username unik, email unik, group aktif, password minimal 8 karakter, dan konfirmasi password. Registrasi tidak menggabungkan data buyer lama otomatis.
+- Registrasi memerlukan nama, username unik, email unik, pilihan group aktif atau “Belum memilih”, password minimal 8 karakter, dan konfirmasi password. Registrasi tidak menggabungkan data buyer lama otomatis.
 - `/admin/login`: email dan password admin tetap dapat digunakan. Akun admin juga dapat login menggunakan username di `/login`.
 - Admin mengelola **Customer / Buyer** (identitas, akun login, detail dan riwayat pesanan) serta **Group** (label, daftar customer, aktif/nonaktif).
 - **Kelola Status** memiliki tiga tab: Status Tracking, Status Pembayaran, dan Label Group. Scope lama tetap tersimpan untuk menjaga relasi batch, pesanan, item, dan histori; status tracking baru dapat dipakai lintas perjalanan pesanan. Group disimpan terpisah dari status pesanan.
@@ -165,3 +165,9 @@ Setelah environment variables tersimpan, jalankan deploy. Setiap push berikutnya
 - Upload file permanen harus memakai object storage seperti S3; `/tmp` tidak persisten.
 - Migrasi tidak dijalankan otomatis saat build untuk menghindari perubahan database dari Preview Deployment.
 
+
+### Persetujuan registrasi tanpa group
+
+Registrasi “Belum memilih” tersimpan sebagai permintaan tertunda. Akun belum dapat login atau dipilih untuk pesanan baru. Admin membuka **Customer dan Group → Permintaan registrasi → Detail**, memilih label group aktif, lalu menekan **Tentukan group & setujui akun**. Edit customer biasa tidak menyetujui permintaan. Registrasi dengan group aktif langsung diterima.
+
+Jumlah anggota pada tab Customer dan Label Group menghitung seluruh record customer/buyer yang tergabung, termasuk yang nonaktif. Permintaan tanpa group tidak dihitung dalam group mana pun. Kelola Status hanya memuat tracking dan pembayaran; label dibuat melalui **Customer dan Group → Label Group**. Jalankan `php artisan migrate` setelah memperbarui kode.

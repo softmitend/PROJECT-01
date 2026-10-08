@@ -29,11 +29,11 @@
         $isOceanProfile = request()->routeIs('profile.*');
         $isTrackingLanding = request()->routeIs(['home', 'tracking.*', 'profile.*', 'billing.*', 'services.*', 'testimonials.*', 'orders.*']);
         $hasPublicDock = request()->routeIs(['home', 'tracking.index', 'tracking.search', 'profile.*', 'billing.*', 'services.*', 'testimonials.*', 'orders.*']);
+        $registrationRequests = $isAdmin ? \App\Models\User::where('registration_pending', true)->count() : 0;
         $adminNav = [
             ['route' => 'admin.dashboard', 'match' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
             ['route' => 'admin.batches.index', 'match' => 'admin.batches.*', 'label' => 'Batch', 'icon' => 'layers'],
-            ['route' => 'admin.members.index', 'match' => 'admin.members.*', 'label' => 'Customer / Buyer', 'icon' => 'users'],
-            ['route' => 'admin.customer-groups.index', 'match' => 'admin.customer-groups.*', 'label' => 'Group', 'icon' => 'users'],
+            ['route' => 'admin.members.index', 'match' => ['admin.members.*', 'admin.customer-groups.*'], 'label' => 'Customer dan Group'.($registrationRequests ? ' ('.$registrationRequests.')' : ''), 'icon' => 'users'],
             ['route' => 'admin.order-statuses.index', 'match' => 'admin.order-statuses.*', 'label' => 'Status', 'icon' => 'route'],
         ];
         $isAdminFormRoute = request()->routeIs([

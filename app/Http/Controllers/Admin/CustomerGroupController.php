@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomerGroupRequest;
 use App\Models\CustomerGroup;
+use App\Models\User;
 
 class CustomerGroupController extends Controller
 {
     public function index()
     {
         return view('admin.groups.index', [
+            'pendingCount' => User::where('registration_pending', true)->count(),
             'groups' => CustomerGroup::withCount('members')->orderBy('name')->paginate(15),
         ]);
     }
