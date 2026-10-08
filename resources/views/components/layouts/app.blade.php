@@ -143,14 +143,16 @@
             </div>
         @else
             <div class="min-h-screen customer-public-shell">
-                @if($isOceanTracking)
+                @if($isAuthPage)
+                    <x-ocean-primary-navbar active="profile" />
+                @elseif($isOceanTracking)
                     @include('tracking.partials.site-header')
                 @elseif($isOceanProfile)
                     @include('profile.partials.site-header')
                 @elseif($hasPublicDock)
                     <x-public-navbar />
                 @endif
-                @unless($isTrackingLanding)
+                @unless($isTrackingLanding || $isAuthPage)
                 <header class="sticky top-0 z-50 border-b border-zinc-200/70 bg-white/80 backdrop-blur-xl">
                     <div class="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
                         <a href="/" class="group flex items-center gap-2.5 font-bold tracking-tight text-[#123c5a]">
