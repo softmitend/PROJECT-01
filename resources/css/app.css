@@ -4,6 +4,7 @@
 @import './customer.css';
 @import './landing.css';
 @import './portal-neo-brutalism.css';
+@import './auth.css';
 
 @source '../views/**/*.blade.php';
 @source '../js/**/*.js';
@@ -9344,3 +9345,4 @@ html[data-customer-theme="dark"] .ocean-primary-navbar__mobile-link.is-active {
     box-shadow: 3px 3px 0 #081810;
     color: #f2a0b6;
 }
+

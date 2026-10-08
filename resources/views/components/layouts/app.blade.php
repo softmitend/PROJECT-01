@@ -15,9 +15,6 @@
         </script>
         @fonts
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @if(request()->routeIs(['login', 'register', 'admin.login']))
-            @vite('resources/css/auth.css')
-        @endif
         @if(request()->routeIs('profile.*'))
             @vite('resources/css/profile.css')
         @endif
